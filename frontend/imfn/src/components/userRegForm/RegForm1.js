@@ -1,4 +1,4 @@
-// user registration form
+// user reg form
 
 import React, { useState } from 'react';
 import './RegForm1.css';
