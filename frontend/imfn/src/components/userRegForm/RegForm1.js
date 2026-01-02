@@ -1,3 +1,5 @@
+// user registration form
+
 import React, { useState } from 'react';
 import './RegForm1.css';
 
