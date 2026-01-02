@@ -13,8 +13,7 @@ const RegForm1 = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({...formData, [e.target.name]: e.target.value});
   };
 
   const handleSubmit = (e) => {
