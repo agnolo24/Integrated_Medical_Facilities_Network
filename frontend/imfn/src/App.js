@@ -5,15 +5,17 @@ import AmbulanceForm from './components/forms/AmbulanceForm/AmbulanceForm'
 
 import DoctorRegForm from './components/forms/doctorRegForm/DoctorRegForm'
 import PharmacyForm from './components/forms/pharmacyRegForm/PharmacyForm'
+import LandingHome from './components/landingPage/LandingHome'
 
 function App() {
   return (
     <div>
-      <RegForm1 />
+      {/* <RegForm1 />
       <HospitalRegForm />
       <AmbulanceForm />
       <DoctorRegForm />
-      <PharmacyForm />
+      <PharmacyForm /> */}
+      <LandingHome/>
     </div>
   )
 }
