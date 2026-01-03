@@ -4,7 +4,7 @@ import HospitalRegForm from './components/forms/hospitalRegForm/HospitalRegForm'
 import AmbulanceForm from './components/forms/AmbulanceForm/AmbulanceForm'
 
 import DoctorRegForm from './components/forms/doctorRegForm/DoctorRegForm'
-import PharmacyForm from './components/forms/pharmacyForm/PharmacyForm'
+import PharmacyForm from './components/forms/pharmacyRegForm/PharmacyForm'
 
 function App() {
   return (
