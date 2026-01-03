@@ -64,3 +64,28 @@ We have tested the performance of our proposed network on two-class (pneumonia a
 - Confirmation  
 - Status updating  
 - Availability updating  
+
+
+
+name
+gender
+specialization
+dob
+hos name
+codification
+exp
+contact number
+email
+password
+
+
+
+category
+type
+vec num
+hospital
+con num
+name
+email
+password
+

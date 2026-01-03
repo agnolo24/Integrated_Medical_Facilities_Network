@@ -1,6 +1,6 @@
 import React from 'react'
-import RegForm1 from './components/userRegForm/RegForm1'
-import HospitalRegForm from './components/hospitalRegForm/HospitalRegForm'
+import RegForm1 from './components/forms/userRegForm/RegForm1'
+import HospitalRegForm from './components/forms/hospitalRegForm/HospitalRegForm'
 function App() {
   return (
     <div>
