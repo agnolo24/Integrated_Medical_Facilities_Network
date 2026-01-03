@@ -64,6 +64,7 @@ We have tested the performance of our proposed network on two-class (pneumonia a
 - Confirmation  
 - Status updating  
 - Availability updating  
+<<<<<<< HEAD
 
 
 
@@ -89,3 +90,5 @@ name
 email
 password
 
+=======
+>>>>>>> a6769ae0abb9098e45234bfc32df2c78025b962b
