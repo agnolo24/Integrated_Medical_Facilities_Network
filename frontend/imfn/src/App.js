@@ -6,6 +6,7 @@ import AmbulanceForm from './components/forms/AmbulanceForm/AmbulanceForm'
 import DoctorRegForm from './components/forms/doctorRegForm/DoctorRegForm'
 import PharmacyForm from './components/forms/pharmacyRegForm/PharmacyForm'
 import LandingHome from './components/landingPage/LandingHome'
+import LoginPage from './components/loginPage/LoginPage'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <DoctorRegForm />
       <PharmacyForm /> */}
       <LandingHome/>
+      <LoginPage/>
     </div>
   )
 }
