@@ -70,7 +70,7 @@ const DoctorRegForm = () => {
         <div className="col-md-6">
           <div className="card shadow-sm">
             <div className="card-header bg-primary text-white text-center">
-              <h4>Register Account</h4>
+              <h4>Doctor Registration</h4>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
