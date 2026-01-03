@@ -72,7 +72,7 @@ gender
 specialization
 dob
 hos name
-codification
+qualification
 exp
 contact number
 email
