@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { NavLink } from 'react-router';
 
 // CSS Imports
 import '../../asset/user_assets/css/bootstrap.min.css';
@@ -11,114 +12,13 @@ import '../../asset/user_assets/css/default.css';
 import '../../asset/user_assets/css/meanmenu.css';
 import '../../asset/user_assets/css/style.css';
 import '../../asset/user_assets/css/responsive.css';
+import LandingPageHeader from '../LandingPageHeader/LandingPageHeader';
+import LandingPageFooter from '../LandingPageFooter/LandingPageFooter';
 
 function LandingHome() {
     return (
         <div>
-            {/* header */}
-            <header className="header-area">
-                <div className="header-top second-header d-none d-md-block">
-                    <div className="container">
-                        <div className="row align-items-center">
-                            <div className="col-lg-3 col-md-3 d-none d-lg-block">
-                            </div>
-                            <div className="col-lg-4 col-md-8 d-none d-md-block">
-                                <div className="header-cta">
-                                    <ul>
-                                        <li>
-                                            <i className="icon dripicons-mail"></i>
-                                            <span>info@example.com</span>
-                                        </li>
-                                        <li>
-                                            <i className="icon dripicons-phone"></i>
-                                            <span>+8 12 3456897</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="col-lg-5 col-md-3 d-none d-lg-block">
-                                <div className="header-social text-right">
-                                    <span>
-                                        <a href="#" title="Facebook"><i className="fab fa-facebook"></i></a>
-                                        <a href="#" title="Twitter"><i className="fab fa-twitter"></i></a>
-                                        <a href="#" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                                    </span>
-                                    {/*  /social media icon redux */}
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div id="header-sticky" className="menu-area">
-                    <div className="container">
-                        <div className="second-menu">
-                            <div className="row align-items-center">
-                                <div className="col-xl-2 col-lg-2">
-                                    <div className="logo">
-                                        <a href="index.html"><img src={require('../../asset/user_assets/img/logo/logo.png')} alt="logo" /></a>
-                                    </div>
-                                </div>
-                                <div className="col-xl-8 col-lg-8">
-                                    <div className="main-menu text-right pr-15">
-                                        <nav id="mobile-menu">
-                                            <ul>
-                                                <li className="has-sub">
-                                                    <a href="index.html">Home</a>
-                                                    <ul>
-                                                        <li><a href="index.html">Home Page 01</a></li>
-                                                        <li><a href="index-2.html">Home Page 02</a></li>
-                                                        <li><a href="index-3.html">Home Page 03</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="about.html">About Us</a></li>
-                                                <li className="has-sub">
-                                                    <a href="services.html">Services</a>
-                                                    <ul>
-                                                        <li><a href="services.html">Services</a></li>
-                                                        <li><a href="services-detail.html">Services Details</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li className="has-sub"><a href="#">Other Page</a>
-                                                    <ul>
-                                                        <li><a href="pricing.html">Pricing</a></li>
-                                                        <li><a href="team.html">Team</a></li>
-                                                        <li><a href="shop.html">Shop</a></li>
-                                                        <li><a href="shop-details.html">Shop Details</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li className="has-sub">
-                                                    <a href="departments.html">Departments</a>
-                                                    <ul>
-                                                        <li><a href="departments.html">Departments</a></li>
-                                                        <li><a href="departments-detail.html">Departments Details</a></li>
-                                                    </ul>
-                                                </li>
-
-                                                <li className="has-sub">
-                                                    <a href="blog.html">Blog</a>
-                                                    <ul>
-                                                        <li><a href="blog.html">Blog</a></li>
-                                                        <li><a href="blog-details.html">Blog Details</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                                <div className="col-xl-2 col-lg-2 d-none d-lg-block">
-                                    <a href="contact.html" className="top-btn">Get A Quote <i className="fas fa-chevron-right"></i></a>
-
-                                </div>
-                                <div className="col-12">
-                                    <div className="mobile-menu"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            {/* header-end */}
+            <LandingPageHeader/>
 
             {/* main-area */}
             <main>
@@ -1025,110 +925,7 @@ function LandingHome() {
             </main>
             {/* main-area-end */}
 
-            {/* footer */}
-            <footer className="footer-bg footer-p" >
-                <div className="overly"><img src={require('../../asset/user_assets/img/an-bg/footer-bg.png')} alt="rest" /></div>
-                <div className="footer-top pb-30" style={{ backgroundColor: '#ECF1FA' }}>
-                    <div className="container">
-                        <div className="row justify-content-between">
-
-                            <div className="col-xl-3 col-lg-3 col-sm-6">
-                                <div className="footer-widget mb-30">
-                                    <div className="flog mb-35">
-                                        <a href="#"><img src={require('../../asset/user_assets/img/logo/logo.png')} alt="logo" /></a>
-                                    </div>
-                                    <div className="footer-text mb-20">
-                                        <p>Sed ut perspiciatis unde om is nerror sit voluptatem accustium dolorem tium totam rem aperam eaque ipsa quae ab illose
-                                            inntore veritatis</p>
-                                    </div>
-                                    <div className="footer-social">
-                                        <a href="#"><i className="fab fa-facebook-f"></i></a>
-                                        <a href="#"><i className="fab fa-twitter"></i></a>
-                                        <a href="#"><i className="fab fa-instagram"></i></a>
-                                        <a href="#"><i className="fab fa-google-plus-g"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div className="col-xl-2 col-lg-2 col-sm-6">
-                                <div className="footer-widget mb-30">
-                                    <div className="f-widget-title">
-                                        <h5>Our Links</h5>
-                                    </div>
-                                    <div className="footer-link">
-                                        <ul>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Partners</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> About Us</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Career</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Reviews</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Terms & Conditions</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Help</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-xl-2 col-lg-2 col-sm-6">
-                                <div className="footer-widget mb-30">
-                                    <div className="f-widget-title">
-                                        <h5>Other Links</h5>
-                                    </div>
-                                    <div className="footer-link">
-                                        <ul>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Home</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> About Us</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Services</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Project</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Our Team</a></li>
-                                            <li><a href="#"><i className="fas fa-chevron-right"></i> Latest Blog</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-xl-3 col-lg-3 col-sm-6">
-                                <div className="footer-widget mb-30">
-                                    <div className="f-widget-title">
-                                        <h5>Contact Us</h5>
-                                    </div>
-                                    <div className="footer-link">
-                                        <div className="f-contact">
-                                            <ul>
-                                                <li>
-                                                    <i className="icon dripicons-phone"></i>
-                                                    <span>1800-121-3637<br />+91 555 234-8765</span>
-                                                </li>
-                                                <li>
-                                                    <i className="icon dripicons-mail"></i>
-                                                    <span><a href="mailto:info@example.com">info@example.com</a><br /><a href="mailto:sale@example.com">sale@example.com</a></span>
-                                                </li>
-                                                <li>
-                                                    <i className="fal fa-map-marker-alt"></i>
-                                                    <span>380 St Kilda Road, Melbourne<br />VIC 3004, Australia</span>
-                                                </li>
-                                            </ul>
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div className="copyright-wrap">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="copyright-text text-center">
-                                    <p>&copy; 2020 Mecare  All design Zcube.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <LandingPageFooter/>
         </div>
     )
 }
