@@ -8,6 +8,8 @@ import PharmacyForm from './components/forms/pharmacyRegForm/PharmacyForm'
 import LandingHome from './components/landingPage/LandingHome'
 import LoginPage from './components/loginPage/LoginPage'
 import AdminHomePage from './components/adminHomePage/AdminHomePage'
+import HospitalTable from './components/tables/hospitalTable/HospitalTable'
+
 
 function App() {
   return (
@@ -19,7 +21,8 @@ function App() {
       <PharmacyForm /> */}
       {/* <LandingHome/>
       <LoginPage/> */}
-      <AdminHomePage />
+      {/* <AdminHomePage /> */}
+      <HospitalTable />
     </div>
   )
 }

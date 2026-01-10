@@ -1,0 +1,75 @@
+.box {
+    margin: 20px;
+    padding: 20px;
+}
+
+.table-container {
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    font-size: 16px; /* Increased font size */
+}
+
+.table th {
+    background-color: #1e4e95;
+    color: white;
+    padding: 15px 20px; /* Increased padding */
+    font-weight: 500;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.table td {
+    padding: 12px 20px; /* Increased padding */
+    vertical-align: middle;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-bordered {
+    border: 1px solid #ddd;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: #f5f5f5;
+}
+
+.btn-sm {
+    padding: 8px 16px; /* Increased button size */
+    font-size: 14px;
+}
+
+.search-container {
+    margin-bottom: 20px;
+}
+
+.input-group .form-control {
+    border-radius: 4px 0 0 4px;
+    border-right: 0;
+}
+
+.input-group-btn .btn {
+    border-radius: 0 4px 4px 0;
+    background: #1e4e95;
+    color: white;
+}
+
+.input-group-btn .btn:hover {
+    background: #163c75;
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        float: none !important;
+        margin-top: 15px;
+    }
+    
+    .input-group {
+        width: 100% !important;
+    }
+}
