@@ -7,6 +7,7 @@ import DoctorRegForm from './components/forms/doctorRegForm/DoctorRegForm'
 import PharmacyForm from './components/forms/pharmacyRegForm/PharmacyForm'
 import LandingHome from './components/landingPage/LandingHome'
 import LoginPage from './components/loginPage/LoginPage'
+import AdminHomePage from './components/adminHomePage/AdminHomePage'
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
       <AmbulanceForm />
       <DoctorRegForm />
       <PharmacyForm /> */}
-      <LandingHome/>
-      <LoginPage/>
+      {/* <LandingHome/>
+      <LoginPage/> */}
+      <AdminHomePage />
     </div>
   )
 }
