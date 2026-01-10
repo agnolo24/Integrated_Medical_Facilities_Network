@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import './AmbulanceForm.css';
+import LandingPageHeader from '../../LandingPageHeader/LandingPageHeader';
+import LandingPageFooter from '../../LandingPageFooter/LandingPageFooter';
 
 const AmbulanceForm = () => {
     const [formData, setFormData] = useState({
@@ -25,6 +27,8 @@ const AmbulanceForm = () => {
     };
 
     return (
+        <div>
+            <LandingPageHeader/>
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6">
@@ -122,7 +126,9 @@ const AmbulanceForm = () => {
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+            <LandingPageFooter/>
+            </div>
     );
 };
 

@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import './RegForm1.css';
+import LandingPageHeader from '../../LandingPageHeader/LandingPageHeader';
+import LandingPageFooter from '../../LandingPageFooter/LandingPageFooter';
 
 const RegForm1 = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +26,8 @@ const RegForm1 = () => {
   };
 
   return (
+    <div>
+      <LandingPageHeader/>
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-6">
@@ -95,7 +99,9 @@ const RegForm1 = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      <LandingPageFooter/>
+      </div>
   );
 };
 
