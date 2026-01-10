@@ -4,7 +4,9 @@ login collection: email, password, usertype
 
 patient collection: name, gender, age, contact, login_id (foreign-key style reference to login._id)
 
-// Django REST + PyMongo backend
+
+# Django REST + PyMongo backend
+
 
 pip install django djangorestframework pymongo dnspython django-cors-headers
 
@@ -14,7 +16,7 @@ cd hospital
 
 python manage.py startapp api
 
-// hospital/settings.py
+# hospital/settings.py
 
 INSTALLED_APPS = [
     # ...
@@ -38,7 +40,7 @@ MONGO_DB_NAME = "hospital_db"
 
 
 
-// api/mongo.py (PyMongo connection)
+# api/mongo.py (PyMongo connection)
 
 
 from pymongo import MongoClient
@@ -54,7 +56,7 @@ def get_db():
 
 
 
-// api/serializers.py (validation)
+# api/serializers.py (validation)
 
 
 from rest_framework import serializers
@@ -69,7 +71,7 @@ class PatientRegisterSerializer(serializers.Serializer):
     password = serializers.CharField(min_length=4, write_only=True)
 
 
-// api/views.py
+# api/views.py
 
 
 from rest_framework.views import APIView
