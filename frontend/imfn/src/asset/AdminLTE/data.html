@@ -1,0 +1,185 @@
+{% extends 'web_admin/header_footer.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Police Stations
+            <small>Registration Management</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'admin_home' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Police Stations</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Police Station Registration Details</h3>
+            </div>
+            <section class="content">
+              <div class="box">
+                  <div class="box-header">
+                      <h3 class="box-title">Police Station Registration Details</h3>
+                      <div class="search-container" style="float: right;">
+                          <div class="input-group" style="width: 300px;">
+                              <input type="text" id="searchInput" class="form-control" placeholder="Search stations...">
+                              <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">
+                                      <i class="fa fa-search"></i>
+                                  </button>
+                              </span>
+                          </div>
+                      </div>
+                  </div>
+            <div class="table-responsive">
+    <table id="example1" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Station ID</th>
+                <th>Address Line 1</th>
+                <!-- <th>Address Line 2</th> -->
+                <!-- <th>District</th>
+                <th>City</th> -->
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data1 %}
+            <tr>
+                <td>{{data.station_id}}</td>
+                <td>{{data.address_line_1}}</td>
+                <!-- <td>{{data.address_line_2}}</td> -->
+                <!-- <td>{{data.district}}</td> -->
+                <!-- <td>{{data.city}}</td> -->
+                <td>{{data.contact}}</td>
+                <td>{{data.login_id.email}}</td>
+                <td class="text-center">
+                    {% if data.login_id.varification_status != 'varified' %}
+                    <a href="../accept_s/{{data.login_id.id}}" class="btn btn-success btn-sm">
+                        <i class="fa fa-check"></i> Accept
+                    </a>
+                    {% else %}
+                    <a href="../reject_s/{{data.login_id.id}}" class="btn btn-danger btn-sm">
+                        <i class="fa fa-times"></i> Reject
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+          </div>
+        </section>
+        </div>
+    </section>
+</div>
+<script>
+  document.getElementById('searchInput').addEventListener('keyup', function() {
+      let searchText = this.value.toLowerCase();
+      let table = document.getElementById('example1');
+      let rows = table.getElementsByTagName('tr');
+  
+      for (let i = 1; i < rows.length; i++) {
+          let show = false;
+          let cells = rows[i].getElementsByTagName('td');
+          
+          for (let j = 0; j < cells.length - 1; j++) {
+              let cellText = cells[j].textContent || cells[j].innerText;
+              if (cellText.toLowerCase().indexOf(searchText) > -1) {
+                  show = true;
+                  break;
+              }
+          }
+          
+          rows[i].style.display = show ? '' : 'none';
+      }
+  });
+  </script>
+  
+  <style>
+  .box {
+    margin: 20px;
+    padding: 20px;
+}
+
+.table-container {
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    font-size: 16px; /* Increased font size */
+}
+
+.table th {
+    background-color: #1e4e95;
+    color: white;
+    padding: 15px 20px; /* Increased padding */
+    font-weight: 500;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.table td {
+    padding: 12px 20px; /* Increased padding */
+    vertical-align: middle;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-bordered {
+    border: 1px solid #ddd;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: #f5f5f5;
+}
+
+.btn-sm {
+    padding: 8px 16px; /* Increased button size */
+    font-size: 14px;
+}
+
+  .search-container {
+      margin-bottom: 20px;
+  }
+  
+  .input-group .form-control {
+      border-radius: 4px 0 0 4px;
+      border-right: 0;
+  }
+  
+  .input-group-btn .btn {
+      border-radius: 0 4px 4px 0;
+      background: #1e4e95;
+      color: white;
+  }
+  
+  .input-group-btn .btn:hover {
+      background: #163c75;
+  }
+  
+  @media (max-width: 768px) {
+      .search-container {
+          float: none !important;
+          margin-top: 15px;
+      }
+      
+      .input-group {
+          width: 100% !important;
+      }
+
+      
+  }
+  </style>
+{% endblock %}
