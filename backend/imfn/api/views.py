@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 
 from datetime import datetime
 
@@ -129,3 +129,33 @@ def hospital_registration(request):
                 "error": "something went wrong"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+        
+        
+@api_view(['POST'])
+def login_function(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+    
+    db = get_db()
+    login_col = db['login']
+    
+    user =  login_col.find_one({"email": email})
+    if not user:
+        return Response(
+            {"error": "Email Not Fount"}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+        
+    if not check_password(password, user["password"]):
+        return Response(
+            {"error": "Wrong Password"},
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+        
+    return Response(
+        {
+            "message": "Login Successful",
+            "login_id": str(user["_id"]),
+            "user": user["user_type"] 
+        }
+    )
