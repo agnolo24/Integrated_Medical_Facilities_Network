@@ -7,7 +7,7 @@ import DoctorRegForm from './components/forms/doctorRegForm/DoctorRegForm'
 import PharmacyForm from './components/forms/pharmacyRegForm/PharmacyForm'
 import LandingHome from './components/landingPage/LandingHome'
 import LoginPage from './components/loginPage/LoginPage'
-// import AdminHomePage from './components/adminHomePage/AdminHomePage'
+// import AdminHomePage from './components/admin/adminHomePage/AdminHomePage'
 // import HospitalTable from './components/tables/hospitalTable/HospitalTable'
 import { BrowserRouter, Routes, Route } from 'react-router'
 
