@@ -10,6 +10,7 @@ import LoginPage from './components/loginPage/LoginPage'
 // import AdminHomePage from './components/adminHomePage/AdminHomePage'
 // import HospitalTable from './components/tables/hospitalTable/HospitalTable'
 import { BrowserRouter, Routes, Route } from 'react-router'
+import PatientHome from './components/Patient/PatientHome/PatientHome'
 
 
 function App() {
