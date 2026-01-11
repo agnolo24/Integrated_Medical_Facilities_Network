@@ -2,8 +2,18 @@ import React, { useState } from 'react'
 import '../../asset/login_assets/style.css'
 import LandingPageHeader from '../LandingPageHeader/LandingPageHeader'
 import LandingPageFooter from '../LandingPageFooter/LandingPageFooter'
+import axios from 'axios'
+import {useNavigate} from 'react-router'
 
 function LoginPage() {
+    const login_url = "http://127.0.0.1:8000/api/login_function/"
+    const navigate = useNavigate()
+
+    const [loginInfo, setLoginInfo] = useState({
+        loginId: '',
+        userType: ''
+    })
+
     let [data, formData] = useState({
         email: "",
         password: ""
@@ -13,9 +23,30 @@ function LoginPage() {
         formData({...data, [e.target.name]:e.target.value})
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
-        console.log(data)
+
+        try {
+            const response = await axios.post(login_url, data)
+
+            setLoginInfo({
+                loginId: response.data.login_id,
+                userType: response.data.user
+            })
+
+            localStorage.setItem("loginId", loginInfo.loginId)
+            localStorage.setItem("userType", loginInfo.userType)
+
+            if (loginInfo.userType === 'patient') {
+                navigate('')
+            } else if (loginInfo.userType === 'hospital') {
+                navigate('')
+            } else {
+                navigate('')
+            }
+        } catch (error) {
+            
+        }
     }
 
     return (
