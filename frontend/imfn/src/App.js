@@ -36,6 +36,8 @@ function App() {
           <Route path="/doctorReg" element={<DoctorRegForm />} />
           <Route path="/pharmacy" element={<PharmacyForm />} />
           <Route path="/userReg" element={<RegForm1 />} />
+          <Route path="/patienthome" element={<PatientHome />} />
+
         </Routes>
       </BrowserRouter>
     </div>
