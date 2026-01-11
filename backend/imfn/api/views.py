@@ -50,6 +50,7 @@ def patient_register(request):
             "name" : data["name"],
             "gender" : data["gender"],
             "age" : data["age"],
+            "dob" : datetime.combine(data["dob"], datetime.min.time()),
             "contact" : data["contact"],
             "created_at" : datetime.utcnow()
         }
@@ -63,6 +64,7 @@ def patient_register(request):
         }, status=status.HTTP_201_CREATED)
     
     except Exception as e:
+        print(e)
         if login_id is not None and ObjectId.is_valid(str(login_id)):
             login_col.delete_one({"_id":login_id})
         return Response(
