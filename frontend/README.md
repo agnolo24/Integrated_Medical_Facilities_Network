@@ -892,3 +892,85 @@ function App() {
 }
 
 export default App;
+
+------
+
+React frontend (form + API call)
+
+
+npm i axios
+
+# PatientRegister.jsx
+
+import { useState } from "react";
+import axios from "axios";
+
+const API = "http://127.0.0.1:8000/api/patients/register/";
+
+export default function PatientRegister() {
+  const [form, setForm] = useState({
+    name: "",
+    gender: "Male",
+    age: "",
+    contact: "",
+    email: "",
+    password: "",
+  });
+
+  const onChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = { ...form, age: Number(form.age) };
+      const res = await axios.post(API, payload);
+      alert(res.data.message + "\nPatient ID: " + res.data.patient_id);
+      setForm({
+        name: "",
+        gender: "Male",
+        age: "",
+        contact: "",
+        email: "",
+        password: "",
+      });
+    } catch (err) {
+      alert(err?.response?.data?.error || "Error");
+    }
+  };
+
+  return (
+    <div style={{ maxWidth: 500, margin: "40px auto" }}>
+      <h2>Patient Registration</h2>
+      <form onSubmit={onSubmit} style={{ display: "grid", gap: 10 }}>
+        <input name="name" value={form.name} onChange={onChange} placeholder="Name" />
+        <select name="gender" value={form.gender} onChange={onChange}>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+        <input name="age" value={form.age} onChange={onChange} placeholder="Age" />
+        <input name="contact" value={form.contact} onChange={onChange} placeholder="Contact" />
+        <input name="email" value={form.email} onChange={onChange} placeholder="Email" />
+        <input
+          name="password"
+          type="password"
+          value={form.password}
+          onChange={onChange}
+          placeholder="Password"
+        />
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  );
+}
+
+
+
+# App.jsx
+
+import PatientRegister from "./PatientRegister";
+export default function App() {
+  return <PatientRegister />;
+}
+
