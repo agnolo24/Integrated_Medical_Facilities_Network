@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password
 
 from datetime import datetime
 
-from .serializers import PatientRegisterSerializer
+from .serializers import *
 from .mongo import get_db
 
 from rest_framework.response import Response
@@ -62,7 +62,6 @@ def patient_register(request):
             "login_id" : str(login_id),
             "patient_id" : str(patient_result.inserted_id)
         }, status=status.HTTP_201_CREATED)
-    
     except Exception as e:
         print(e)
         if login_id is not None and ObjectId.is_valid(str(login_id)):
@@ -70,4 +69,63 @@ def patient_register(request):
         return Response(
             {"error":"Something went wrong"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+        
+        
+@api_view(['POST'])
+def hospital_registration(request):
+    serializer = HospitalRegistrationSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    
+    data = serializer.validated_data
+    db = get_db()
+    
+    login_col = db["login"]
+    hospital_col = db["hospital"]
+    
+    if login_col.find_one({"email":data['email']}):
+        return Response(
+            {"error": "Email already exists"}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+        
+    login_doc = {
+        "email": data['email'],
+        "password": make_password(data["password"]),
+        "user_type": "hospital",
+        "created_at" : datetime.utcnow()
+    }
+    
+    login_id = None
+    
+    try:
+        login_result = login_col.insert_one(login_doc)
+        login_id = login_result.inserted_id
+        
+        hospital_doc = {
+            'login_id' :login_id,
+            'hospitalName': data['hospitalName'],
+            'registrationId': data['registrationId'],
+            'hospitalAddress': data['hospitalAddress'],
+            'contactNumber': data['contactNumber'],
+            'created_at': datetime.utcnow()
+        }
+        
+        hospital_result = hospital_col.insert_one(hospital_doc)
+        
+        return Response(
+            {
+                "message": "Hospital registered",
+                "login_id": str(login_id),
+                "hospital_id":str(hospital_result.inserted_id)
+            }, status=status.HTTP_201_CREATED
+        )
+    except Exception as e:
+        if login_id is not None and ObjectId.is_valid(str(login_id)):
+            login_col.delete_one({"_id":login_id})
+            
+        return Response(
+            {
+                "error": "something went wrong"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
