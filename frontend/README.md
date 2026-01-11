@@ -102,7 +102,7 @@ They can have their own state and lifecycle methods, allowing more complex funct
 
 # How to import CSS
 
-  import './LoginForm.css';
+    import './LoginForm.css';
 
 ----
 
@@ -534,16 +534,16 @@ Hook Equivalent: useEffect(() => { … }, [dependency])
 
 Example:
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log("Component updated!");
-  }
+    componentDidUpdate(prevProps, prevState) {
+      console.log("Component updated!");
+    }
 
 
 or
 
-  useEffect(() => {
-    console.log("State changed!");
-  }, [someState]);
+    useEffect(() => {
+      console.log("State changed!");
+    }, [someState]);
 
 3️⃣ Unmounting Phase – Component Removal
 
@@ -555,16 +555,16 @@ Hook Equivalent: return () => { … } inside useEffect
 
 Example:
 
-  componentWillUnmount() {
-    console.log("Component is removed!");
-  }
+    componentWillUnmount() {
+      console.log("Component is removed!");
+    }
 
 
 or
 
-  useEffect(() => {
-    return () => console.log("Component unmounted!");
-  }, []);
+    useEffect(() => {
+      return () => console.log("Component unmounted!");
+    }, []);
 
 
 
@@ -813,7 +813,7 @@ or
 ----------------
 # Router
 ## installing react-router-dom
-  npm install react-router-dom
+    npm install react-router-dom
 
 ## Example
 ###  // src/components/Home.js
@@ -911,7 +911,7 @@ or
 # React frontend (form + API call)
 
 ## installing axios
-  npm i axios
+    npm i axios
 
 ## PatientRegister.jsx
 
