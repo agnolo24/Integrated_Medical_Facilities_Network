@@ -3,7 +3,7 @@ import '../../asset/login_assets/style.css'
 import LandingPageHeader from '../LandingPageHeader/LandingPageHeader'
 import LandingPageFooter from '../LandingPageFooter/LandingPageFooter'
 import axios from 'axios'
-import {useNavigate} from 'react-router'
+import { useNavigate } from 'react-router'
 
 function LoginPage() {
     const login_url = "http://127.0.0.1:8000/api/login_function/"
@@ -15,7 +15,7 @@ function LoginPage() {
     })
 
     function handleChange(e) {
-        formData({...data, [e.target.name]:e.target.value})
+        formData({ ...data, [e.target.name]: e.target.value })
     }
 
     async function handleSubmit(e) {
@@ -36,8 +36,13 @@ function LoginPage() {
             } else {
                 navigate('/login')
             }
-        } catch (error) {
-            
+        } catch (err) {
+            if (err.response) {
+                alert(err.response.data.error || "Login failed")
+            } else {
+                alert("Server not reachable")
+            }
+            console.error("Login error:", err)
         }
     }
 
@@ -56,7 +61,7 @@ function LoginPage() {
                             <form class="login-form" id="loginForm" novalidate onSubmit={handleSubmit}>
                                 <div class="form-group">
                                     <div class="input-wrapper">
-                                        <input type="email" id="email" name="email" required autocomplete="email" value={data.email} onChange={handleChange}/>
+                                        <input type="email" id="email" name="email" required autocomplete="email" value={data.email} onChange={handleChange} />
                                         <label for="email">Email</label>
                                     </div>
                                     <span class="error-message" id="emailError"></span>
@@ -64,7 +69,7 @@ function LoginPage() {
 
                                 <div class="form-group">
                                     <div class="input-wrapper">
-                                        <input type="password" id="password" name="password" required autocomplete="current-password" value={data.password} onChange={handleChange}/>
+                                        <input type="password" id="password" name="password" required autocomplete="current-password" value={data.password} onChange={handleChange} />
                                         <label for="password">Password</label>
                                         <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
                                             <span class="toggle-icon"></span>
@@ -104,7 +109,7 @@ function LoginPage() {
                 </div>
             </center>
 
-            <LandingPageFooter/>
+            <LandingPageFooter />
         </div>
     )
 }
