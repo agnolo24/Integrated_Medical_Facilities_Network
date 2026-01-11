@@ -11,6 +11,7 @@ import LoginPage from './components/loginPage/LoginPage'
 // import HospitalTable from './components/tables/hospitalTable/HospitalTable'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import PatientHome from './components/Patient/PatientHome/PatientHome'
+import HospitalHome from './components/Hospital/HospitalHome/HospitalHome'
 
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
           <Route path="/pharmacy" element={<PharmacyForm />} />
           <Route path="/userReg" element={<RegForm1 />} />
           <Route path="/patienthome" element={<PatientHome />} />
+          <Route path="/hospitalhome" element={<HospitalHome/>} />
+
 
         </Routes>
       </BrowserRouter>
