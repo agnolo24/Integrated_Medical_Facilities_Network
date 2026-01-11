@@ -3,8 +3,6 @@ import HospitalHeader from "../HospitalHeader/HospitalHeader";
 import HospitalFooter from "../HospitalFooter/HospitalFooter";
 import CardView from "../HospitalComponents/CardView";
 
-import {useNavigate} from "react-router"
-
 function HospitalHome() {
     const doctors = [
         { id: 1, name: "Doctors", link: "/hospitalhome"},
