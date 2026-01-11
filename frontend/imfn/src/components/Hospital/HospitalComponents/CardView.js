@@ -1,6 +1,3 @@
-import React, { useEffect } from 'react';
-import { NavLink } from 'react-router';
-
 // CSS Imports
 import '../../../asset/user_assets/css/bootstrap.min.css';
 import '../../../asset/user_assets/css/animate.min.css';
@@ -13,10 +10,11 @@ import '../../../asset/user_assets/css/meanmenu.css';
 import '../../../asset/user_assets/css/style.css';
 import '../../../asset/user_assets/css/responsive.css';
 
-function CardView({ name, specialty, experience, image }) {
+function CardView({ name,image, link }) {
     return (
         <div className="single-team mb-30 shadow-sm" style={{ background: '#fff', borderRadius: '10px', overflow: 'hidden' }}>
-            <div className="team-thumb" style={{ position: 'relative' }}>
+            <a href={link}>
+                <div className="team-thumb" style={{ position: 'relative' }}>
                 <div className="brd">
                     <img 
                         src={image || require('../../../asset/user_assets/img/team/team01.png')} 
@@ -28,13 +26,10 @@ function CardView({ name, specialty, experience, image }) {
             
             <div className="team-info p-4 text-center">
                 <h4 className="mb-1">
-                    <a href="#" style={{ fontSize: '20px', whiteSpace: 'nowrap' }}>{name}</a>
+                    {name}
                 </h4>
-                <span className="text-primary d-block mb-2" style={{ fontSize: '14px', fontWeight: '500' }}>
-                    {specialty}
-                </span>
-                <p className="text-muted small">{experience}</p>
             </div>
+            </a>
         </div>
     );
 }
