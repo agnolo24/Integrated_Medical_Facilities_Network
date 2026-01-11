@@ -38,11 +38,11 @@ function LoginPage() {
             localStorage.setItem("userType", loginInfo.userType)
 
             if (loginInfo.userType === 'patient') {
-                navigate('')
+                navigate('/patienthome')
             } else if (loginInfo.userType === 'hospital') {
-                navigate('')
+                navigate('/hospitalhome')
             } else {
-                navigate('')
+                navigate('/login')
             }
         } catch (error) {
             
