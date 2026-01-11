@@ -24,20 +24,6 @@ function CardView({ name, specialty, experience, image }) {
                         className="img-fluid w-100"
                     />
                 </div>
-
-                {/* The "+" Button logic */}
-                <div className="dropdown">
-                    <button className="xbtn border-0" type="button" data-bs-toggle="dropdown" style={{ cursor: 'pointer' }}>
-                        +
-                    </button>
-                    <div className="dropdown-menu shadow border-0">
-                        <div className="team-social d-flex justify-content-around p-2">
-                             <a href="#"><i className="fab fa-facebook-f"></i></a>
-                             <a href="#"><i className="fab fa-twitter"></i></a>
-                             <a href="#"><i className="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
             </div>
             
             <div className="team-info p-4 text-center">
