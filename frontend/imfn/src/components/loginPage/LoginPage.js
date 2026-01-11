@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../asset/login_assets/style.css'
 import LandingPageHeader from '../LandingPageHeader/LandingPageHeader'
 import LandingPageFooter from '../LandingPageFooter/LandingPageFooter'
 
 function LoginPage() {
+    let [data, formData] = useState({
+        email: "",
+        password: ""
+    })
+
+    function handleChange(e) {
+        formData({...data, [e.target.name]:e.target.value})
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        console.log(data)
+    }
+
     return (
         <div>
             <LandingPageHeader />
@@ -16,10 +30,10 @@ function LoginPage() {
                                 <p>Enter your credentials to continue</p>
                             </div>
 
-                            <form class="login-form" id="loginForm" novalidate>
+                            <form class="login-form" id="loginForm" novalidate onSubmit={handleSubmit}>
                                 <div class="form-group">
                                     <div class="input-wrapper">
-                                        <input type="email" id="email" name="email" required autocomplete="email" />
+                                        <input type="email" id="email" name="email" required autocomplete="email" value={data.email} onChange={handleChange}/>
                                         <label for="email">Email</label>
                                     </div>
                                     <span class="error-message" id="emailError"></span>
@@ -27,7 +41,7 @@ function LoginPage() {
 
                                 <div class="form-group">
                                     <div class="input-wrapper">
-                                        <input type="password" id="password" name="password" required autocomplete="current-password" />
+                                        <input type="password" id="password" name="password" required autocomplete="current-password" value={data.password} onChange={handleChange}/>
                                         <label for="password">Password</label>
                                         <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
                                             <span class="toggle-icon"></span>
