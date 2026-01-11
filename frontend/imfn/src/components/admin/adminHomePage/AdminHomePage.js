@@ -1,25 +1,14 @@
 import React from 'react';
 
 // AdminLTE Dependencies
-import '../../asset/AdminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css';
-import '../../asset/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css';
-import '../../asset/AdminLTE/bower_components/Ionicons/css/ionicons.min.css';
-import '../../asset/AdminLTE/dist/css/AdminLTE.min.css';
-import '../../asset/AdminLTE/dist/css/skins/_all-skins.min.css';
-import '../../asset/AdminLTE/bower_components/morris.js/morris.css';
-import '../../asset/AdminLTE/bower_components/jvectormap/jquery-jvectormap.css';
-import '../../asset/AdminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
-import '../../asset/AdminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.css';
-import '../../asset/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css';
-
-// User Assets (mapped from 'charles')
-import '../../asset/user_assets/css/style.css';
-import '../../asset/user_assets/css/responsive.css';
-
-// Images
-import img2 from '../../asset/AdminLTE/images/img2.jpg';
-// Placeholder for missing logo
-// import pcLogo from '../../asset/charles/images/fav-icon/pc_logo.png'; 
+import '../../../asset/AdminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css';
+import '../../../asset/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css';
+import '../../../asset/AdminLTE/bower_components/Ionicons/css/ionicons.min.css';
+import '../../../asset/AdminLTE/dist/css/AdminLTE.min.css';
+import '../../../asset/AdminLTE/dist/css/skins/_all-skins.min.css';
+import '../../../asset/AdminLTE/bower_components/morris.js/morris.css';
+import '../../../asset/AdminLTE/bower_components/jvectormap/jquery-jvectormap.css';
+import img2 from '../../../asset/AdminLTE/images/img2.jpg';
 
 function AdminHomePage() {
     return (
