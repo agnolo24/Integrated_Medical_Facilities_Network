@@ -6,7 +6,7 @@ function PatientHome(){
     return(
 
         <div>
-            Patient forms
+            Patient home
         </div>
     )
 }
