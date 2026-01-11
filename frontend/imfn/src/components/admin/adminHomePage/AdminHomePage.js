@@ -12,7 +12,7 @@ import img2 from '../../../asset/AdminLTE/images/img2.jpg';
 
 function AdminHomePage() {
     return (
-        <div className="hold-transition skin-blue sidebar-mini">
+        <div className="hold-transition skin-blue sidebar-mini admin-home">
             {/* Wrapper to emulate body class behavior if needed, though 'hold-transition' usually goes on body */}
             <div className="wrapper" style={{ overflow: 'hidden' }}> {/* added overflow hidden to contain floats/margins */}
 

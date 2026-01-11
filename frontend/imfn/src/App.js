@@ -7,8 +7,8 @@ import DoctorRegForm from './components/forms/doctorRegForm/DoctorRegForm'
 import PharmacyForm from './components/forms/pharmacyRegForm/PharmacyForm'
 import LandingHome from './components/landingPage/LandingHome'
 import LoginPage from './components/loginPage/LoginPage'
-// import AdminHomePage from './components/admin/adminHomePage/AdminHomePage'
-// import HospitalTable from './components/tables/hospitalTable/HospitalTable'
+import AdminHomePage from './components/admin/adminHomePage/AdminHomePage'
+import HospitalTable from './components/tables/hospitalTable/HospitalTable'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import PatientHome from './components/Patient/PatientHome/PatientHome'
 import HospitalHome from './components/Hospital/HospitalHome/HospitalHome'
@@ -31,8 +31,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingHome />} />
           <Route path="/login" element={<LoginPage />} />
-          {/* <Route path="/admin" element={<AdminHomePage />} />
-          <Route path="/hospital" element={<HospitalTable />} /> */}
+          <Route path="/admin" element={<AdminHomePage />} />
+          <Route path="/hospitalTable" element={<HospitalTable />} />
           <Route path="/hospitalReg" element={<HospitalRegForm />} />
           <Route path="/ambulance" element={<AmbulanceForm />} />
           <Route path="/doctorReg" element={<DoctorRegForm />} />
