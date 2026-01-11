@@ -26,27 +26,27 @@ They can have their own state and lifecycle methods, allowing more complex funct
 
 ## Function
 
-  // src/LoginForm.js
-  import React from 'react';
+    // src/LoginForm.js
+    import React from 'react';
 
-  function LoginForm() {
-    return (
-      <div>
-        <h2>Login</h2>
-        <form>
-          <div>
-            <label htmlFor="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" />
-          </div>
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    );
-  }
+    function LoginForm() {
+      return (
+        <div>
+          <h2>Login</h2>
+          <form>
+            <div>
+              <label htmlFor="username">Username</label>
+              <input type="text" id="username" name="username" placeholder="Enter your username" />
+            </div>
+            <div>
+              <label htmlFor="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="Enter your password" />
+            </div>
+            <button type="submit">Login</button>
+          </form>
+        </div>
+      );
+    }
 
   export default LoginForm;
 
