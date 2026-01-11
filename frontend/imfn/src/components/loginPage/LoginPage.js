@@ -9,11 +9,6 @@ function LoginPage() {
     const login_url = "http://127.0.0.1:8000/api/login_function/"
     const navigate = useNavigate()
 
-    const [loginInfo, setLoginInfo] = useState({
-        loginId: '',
-        userType: ''
-    })
-
     let [data, formData] = useState({
         email: "",
         password: ""
@@ -29,17 +24,14 @@ function LoginPage() {
         try {
             const response = await axios.post(login_url, data)
 
-            setLoginInfo({
-                loginId: response.data.login_id,
-                userType: response.data.user
-            })
+            const { login_id, user } = response.data
 
-            localStorage.setItem("loginId", loginInfo.loginId)
-            localStorage.setItem("userType", loginInfo.userType)
+            localStorage.setItem("loginId", login_id)
+            localStorage.setItem("userType", user)
 
-            if (loginInfo.userType === 'patient') {
+            if (user === 'patient') {
                 navigate('/patienthome')
-            } else if (loginInfo.userType === 'hospital') {
+            } else if (user === 'hospital') {
                 navigate('/hospitalhome')
             } else {
                 navigate('/login')
