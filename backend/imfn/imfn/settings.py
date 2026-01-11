@@ -89,6 +89,8 @@ DATABASES = {
     }
 }
 
+MONGO_URL = "mongodb://127.0.0.1:27017/"
+MONGO_DB_NAME = "hospital_db"
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
