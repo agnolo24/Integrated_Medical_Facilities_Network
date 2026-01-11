@@ -1,0 +1,25 @@
+login :
+    _id
+    email
+    password
+    user_type
+    created_at
+
+patient :
+    _id
+    login_id
+    name
+    gender
+    age
+    dob
+    contact
+    created_at
+
+hospital :
+    _id
+    login_id
+    hospitalName
+    registrationId
+    hospitalAddress
+    contactNumber
+    created_at
