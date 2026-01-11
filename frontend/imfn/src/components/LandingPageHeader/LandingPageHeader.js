@@ -86,7 +86,7 @@ function LandingPageHeader() {
                                                 <li className="has-sub">
                                                     <h6>Registration</h6>
                                                     <ul>
-                                                        <li><NavLink to="/userReg">User Registration</NavLink></li>
+                                                        <li><NavLink to="/userReg">Patient Registration</NavLink></li>
                                                         <li><NavLink to="/hospitalReg">Hospital Registration</NavLink></li>
                                                         <li><NavLink to="/ambulance">Ambulance Registration</NavLink></li>
                                                     </ul>
