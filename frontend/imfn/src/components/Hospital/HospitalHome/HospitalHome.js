@@ -3,11 +3,13 @@ import HospitalHeader from "../HospitalHeader/HospitalHeader";
 import HospitalFooter from "../HospitalFooter/HospitalFooter";
 import CardView from "../HospitalComponents/CardView";
 
+import {useNavigate} from "react-router"
+
 function HospitalHome() {
     const doctors = [
-        { id: 1, name: "Samanta Crane", specialty: "Internist", exp: "Since 2004" },
-        { id: 2, name: "John Doe", specialty: "Surgeon", exp: "Since 2010" },
-        { id: 3, name: "Jane Smith", specialty: "Pediatrician", exp: "Since 2015" },
+        { id: 1, name: "Doctors", link: "/hospitalhome"},
+        { id: 2, name: "John Doe", link: "#"},
+        { id: 3, name: "Jane Smith", link: "#"},
     ];
 
     return (
@@ -20,8 +22,7 @@ function HospitalHome() {
                         <div key={doc.id} className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                             <CardView 
                                 name={doc.name} 
-                                specialty={doc.specialty} 
-                                experience={doc.exp} 
+                                link={doc.link}
                             />
                         </div>
                     ))}
