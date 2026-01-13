@@ -62,6 +62,7 @@ def patient_register(request):
             "login_id" : str(login_id),
             "patient_id" : str(patient_result.inserted_id)
         }, status=status.HTTP_201_CREATED)
+        
     except Exception as e:
         print(e)
         if login_id is not None and ObjectId.is_valid(str(login_id)):
