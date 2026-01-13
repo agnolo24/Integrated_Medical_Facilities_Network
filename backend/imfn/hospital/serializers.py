@@ -39,7 +39,7 @@ class DoctorRegistrationSerializer(serializers.Serializer):
         "BVSc & AH (Bachelor of Veterinary Science and Animal Husbandry)",
         "BPT (Bachelor of Physiotherapy)",
     ]
-
+    hospital_login_id = serializers.CharField(max_length=50)
     name = serializers.CharField(max_length=30)
     gender = serializers.ChoiceField(choices=["Male", "Female", "other"])
     specialization = serializers.ChoiceField(choices=specialization_choice)

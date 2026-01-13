@@ -66,8 +66,11 @@ const DoctorRegForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const hospital_login_id = localStorage.getItem("loginId")
+
+
     try {
-      const response = await axios.post(doctorRegistrationUrl, formData)
+      const response = await axios.post(doctorRegistrationUrl, {...formData, hospital_login_id})
       alert(response.data.message)
 
       setFormData({

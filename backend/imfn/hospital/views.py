@@ -48,6 +48,7 @@ def doctor_registration(request):
         
         doctor_doc = {
             'login_id':login_id,
+            'hospital_login_id': data['hospital_login_id'],
             'name': data['name'],
             'gender': data['gender'],
             'specialization': data['specialization'],
