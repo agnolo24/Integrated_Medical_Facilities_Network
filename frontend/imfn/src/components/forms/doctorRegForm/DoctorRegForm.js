@@ -1,9 +1,13 @@
 // Doctor registration form
 
 import React, { useState } from 'react';
+import axios from 'axios'
+
 import './DoctorRegForm.css';
 
 const DoctorRegForm = () => {
+  const doctorRegistrationUrl = "http://127.0.0.1:8000/hospital/doctor_registration/"
+
   const specializations = [
     'Cardiology',
     'Dermatology',
@@ -43,25 +47,44 @@ const DoctorRegForm = () => {
   ];
 
   const [formData, setFormData] = useState({
-    name : '',
-    gender : '',
-    specialization : '',
-    dob : '',
-    hospital : '',
-    qualification : '',
-    experience : '',
-    contactNumber : '',
-    email : '',
-    password : ''
+    name: '',
+    gender: '',
+    specialization: '',
+    dob: '',
+    // hospital: '',
+    qualification: '',
+    experience: '',
+    contactNumber: '',
+    email: ''
+    // password : ''
   });
 
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
+
+    try {
+      const response = await axios.post(doctorRegistrationUrl, formData)
+      alert(response.data.message)
+
+      setFormData({
+        name: '',
+        gender: '',
+        specialization: '',
+        dob: '',
+        // hospital: '',
+        qualification: '',
+        experience: '',
+        contactNumber: '',
+        email: ''
+        // password : ''
+      })
+    } catch (error) {
+      alert(error?.response?.data?.error || "An Error Occur while Registering")
+    }
   };
 
   return (
@@ -74,22 +97,22 @@ const DoctorRegForm = () => {
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
-                
+
                 {/* Name */}
                 <div className="mb-3">
                   <label className="form-label">Full Name</label>
-                  <input type="text" name="name" className="form-control" 
+                  <input type="text" name="name" className="form-control"
                     value={formData.name} onChange={handleChange} required />
                 </div>
 
                 {/* Gender */}
                 <div className="mb-3">
                   <label className="form-label">Gender</label>
-                  <select name="gender" className="form-select" 
+                  <select name="gender" className="form-select"
                     value={formData.gender} onChange={handleChange} required>
                     <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                     <option value="other">Other</option>
                   </select>
                 </div>
@@ -97,7 +120,7 @@ const DoctorRegForm = () => {
                 {/* Specialization */}
                 <div className="mb-3">
                   <label className="form-label">Specialization</label>
-                  <select name="specialization" className="form-select" 
+                  <select name="specialization" className="form-select"
                     value={formData.specialization} onChange={handleChange} required>
                     <option value="">Select Specialization</option>
                     {specializations.map((spec, index) => (
@@ -110,22 +133,22 @@ const DoctorRegForm = () => {
                   {/* Date of Birth */}
                   <div className="col-md-6 mb-3">
                     <label className="form-label">Date of Birth</label>
-                    <input type="date" name="dob" className="form-control" 
+                    <input type="date" name="dob" className="form-control"
                       value={formData.dob} onChange={handleChange} required />
                   </div>
                 </div>
 
-                {/* hospital */}
+                {/* hospital
                 <div className="mb-3">
                   <label className="form-label">Hospital</label>
                   <input type="text" name="hospital" className="form-control" 
                     value={formData.hospital} onChange={handleChange} required />
-                </div>
+                </div> */}
 
                 {/* qualification */}
                 <div className="mb-3">
                   <label className="form-label">Qualification</label>
-                  <select name="qualification" className="form-select" 
+                  <select name="qualification" className="form-select"
                     value={formData.qualification} onChange={handleChange} required>
                     <option value="">Select Qualification</option>
                     {qualifications.map((qual, index) => (
@@ -133,34 +156,34 @@ const DoctorRegForm = () => {
                     ))}
                   </select>
                 </div>
-                
+
                 {/* experience */}
                 <div className="mb-3">
                   <label className="form-label">Experience (In Years)</label>
-                  <input type="number" name="experience" className="form-control" 
+                  <input type="number" name="experience" className="form-control"
                     value={formData.experience} onChange={handleChange} required />
                 </div>
 
                 {/* Contact Number */}
                 <div className="mb-3">
                   <label className="form-label">Contact Number</label>
-                  <input type="tel" name="contactNumber" className="form-control" 
+                  <input type="tel" name="contactNumber" className="form-control"
                     value={formData.contactNumber} onChange={handleChange} required />
                 </div>
 
                 {/* Email */}
                 <div className="mb-3">
                   <label className="form-label">Email Address</label>
-                  <input type="email" name="email" className="form-control" 
+                  <input type="email" name="email" className="form-control"
                     value={formData.email} onChange={handleChange} required />
                 </div>
 
                 {/* Password */}
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label className="form-label">Password</label>
                   <input type="password" name="password" className="form-control" 
                     value={formData.password} onChange={handleChange} required />
-                </div>
+                </div> */}
 
                 <button type="submit" className="btn btn-primary w-100 mt-3">Register</button>
               </form>
