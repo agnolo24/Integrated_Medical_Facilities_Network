@@ -85,29 +85,28 @@ function HospitalHeader() {
                                         <nav id="mobile-menu-desktop">
                                             <ul>
                                                 <li className="has-sub">
-                                                    <NavLink to="/"><h6>Home</h6></NavLink>
+                                                    <NavLink to="/hospitalhome"><h6>Home</h6></NavLink>
                                                 </li>
-                                                <li><a href="about.html">About Us</a></li>
-                                                <li className="has-sub">
+                                                {/* <li><a href="about.html">About Us</a></li> */}
+                                                {/* <li className="has-sub">
                                                     <a href="services.html">Services</a>
                                                     <ul>
                                                         <li><a href="services.html">Services</a></li>
                                                         <li><a href="services-detail.html">Services Details</a></li>
                                                     </ul>
-                                                </li>
+                                                </li> */}
 
-                                                <li className="has-sub">
+                                                {/* <li className="has-sub">
                                                     <a href="blog.html">Blog</a>
                                                     <ul>
                                                         <li><a href="blog.html">Blog</a></li>
                                                         <li><a href="blog-details.html">Blog Details</a></li>
                                                     </ul>
-                                                </li>
+                                                </li> */}
                                                 <li className="has-sub">
                                                     <h6>Registration</h6>
                                                     <ul>
-                                                        <li><NavLink to="/userReg">Patient Registration</NavLink></li>
-                                                        <li><NavLink to="/hospitalReg">Hospital Registration</NavLink></li>
+                                                        <li><NavLink to="/registerDoctor">Doctor Registration</NavLink></li>
                                                         <li><NavLink to="/ambulance">Ambulance Registration</NavLink></li>
                                                     </ul>
                                                 </li>
@@ -116,7 +115,7 @@ function HospitalHeader() {
                                     </div>
                                 </div>
                                 <div className="col-xl-2 col-lg-2 d-none d-lg-block">
-                                    <NavLink to="/login"><button className="top-btn">Login</button></NavLink>
+                                    <NavLink to="/"><button className="top-btn">Logout</button></NavLink>
                                 </div>
                                 <div className="col-md-6 col-6 d-block d-lg-none">
                                     <div className="mobile-menu-toggle d-flex justify-content-end align-items-center">
