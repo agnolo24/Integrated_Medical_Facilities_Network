@@ -1,0 +1,78 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.view-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* The Magic Responsive Grid */
+.doctor-grid {
+    display: grid;
+    gap: 1.5rem;
+    /* On mobile: 1 col, On Tablet: 2 cols, On Desktop: 3+ cols */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.doctor-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border-top: 5px solid #007bff; /* Medical blue accent */
+    transition: transform 0.2s;
+}
+
+.doctor-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-badge {
+    background: #e7f1ff;
+    color: #007bff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.doctor-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.qualification {
+    color: #6c757d;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.loader, .no-data {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: #666;
+}
