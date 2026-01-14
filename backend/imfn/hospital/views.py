@@ -41,7 +41,7 @@ def doctor_registration(request):
     }
     
     login_id = None
-    
+        
     try:
         login_result = login_col.insert_one(login_doc)
         login_id = login_result.inserted_id
@@ -78,3 +78,33 @@ def doctor_registration(request):
             {"error":"Something went wrong"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+        
+        
+@api_view(['GET'])
+def view_doctors(request):
+    
+    #* the 'request.query_params' is used to read the data in the GET request but for the POST request we can use the 'request.data'
+    hospital_login_id = request.query_params.get("hospitalLoginId")
+    
+    db = get_db()
+    doctor_col = db['doctors']
+    
+    doctors_cursor = doctor_col.find({"hospital_login_id": hospital_login_id}) 
+    '''
+        when we use "doctor_col.find({"hospital_login_id": hospital_login_id})" is doesn't return a native python data type or data structure,
+        it return something called the "cursor object" which is a part of the mongodb so we need to change it to the json format for that first we convert 
+        it into the list just like given bellow and we place the list as the value of a dictionary data type when we return the Response.
+    '''
+    doctor_list = list(doctors_cursor)
+    
+    '''
+        Yhe '_id' and 'login_id' are objectId, the mongoDB ObjectId is not JSON serializable → must be converted to string.
+    '''
+    for doc in doctor_list:
+        doc['_id'] = str(doc['_id'])
+        doc['login_id'] = str(doc['login_id'])
+    
+    return Response(
+        {"doctors": doctor_list},
+        status=status.HTTP_200_OK
+    )

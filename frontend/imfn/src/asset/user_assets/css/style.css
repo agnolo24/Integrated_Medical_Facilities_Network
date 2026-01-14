@@ -35,6 +35,29 @@
 	font-style: normal;
      line-height: 25px;
 }
+/* Force the header to stay on top of all page content */
+.header-area {
+    position: relative;
+    z-index: 9999 !important;
+}
+
+/* Ensure the sticky menu also maintains priority */
+.sticky-menu {
+    z-index: 9999 !important;
+}
+
+/* Target the specific dropdown list for Registration */
+.main-menu ul li ul {
+    z-index: 10000 !important;
+    /* Ensure it has a solid background so cards don't show through it */
+    background: #ffffff; 
+}
+
+/* Ensure the content wrapper stays behind the header */
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+}
 .img {
 	max-width: 100%;
 	transition: all 0.3s ease-out 0s;
