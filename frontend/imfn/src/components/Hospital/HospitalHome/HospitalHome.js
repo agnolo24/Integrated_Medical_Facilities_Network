@@ -4,7 +4,7 @@ import HospitalFooter from "../HospitalFooter/HospitalFooter";
 import CardView from "../HospitalComponents/CardView";
 
 function HospitalHome() {
-    const doctors = [
+    const card = [
         { id: 1, name: "Register Doctors", link: "/registerDoctor"},
         { id: 2, name: "View Doctors", link: "/viewDoctors"},
         { id: 3, name: "Jane Smith", link: "#"},
@@ -16,11 +16,11 @@ function HospitalHome() {
             <div className="container py-5">
                 <h1 className="text-center mb-5 fw-bold">Hospital Dashboard</h1>
                 <div className="row">
-                    {doctors.map((doc) => (
-                        <div key={doc.id} className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                    {card.map((data) => (
+                        <div key={data.id} className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                             <CardView 
-                                name={doc.name} 
-                                link={doc.link}
+                                name={data.name} 
+                                link={data.link}
                             />
                         </div>
                     ))}
