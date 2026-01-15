@@ -108,3 +108,38 @@ def view_doctors(request):
         {"doctors": doctor_list},
         status=status.HTTP_200_OK
     )
+    
+    
+@api_view(['POST'])
+def edit_doctor(request):
+    serializer = EditDoctorSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.validated_data
+    
+    db = get_db()
+    doc_col = db['doctors']
+        
+    doctor_doc = {
+        'name': data['name'],
+        'gender': data['gender'],
+        'specialization': data['specialization'],
+        'qualification': data['qualification'],
+        'experience': data['experience'],
+        'contactNumber': data['contactNumber']
+    }
+    
+    try:
+        result = doc_col.update_one({"_id":ObjectId(request.data.get('doctorId'))}, {'$set': doctor_doc})
+        
+        if result.matched_count> 0:
+            return Response(
+                {"message": "Profile Updated Successfully"},
+                status=status.HTTP_200_OK
+            )
+        
+    except Exception as e:
+        print(e)
+        return Response(
+            {'error': 'Doctor Not Fount'},
+            status=status.HTTP_404_NOT_FOUND
+        )
