@@ -79,7 +79,6 @@ const EditDoctor = ({ doctorData, onClose }) => {
         const hospital_login_id = localStorage.getItem("loginId");
 
         try {
-            // Sending the doctor ID (doctorData._id) is crucial for updating the right record
             const response = await axios.post(editDoctorUrl, {
                 ...formData,
                 hospital_login_id,
@@ -87,7 +86,7 @@ const EditDoctor = ({ doctorData, onClose }) => {
             });
 
             alert("Doctor updated successfully!");
-            onClose(); // Close the pop-up and refresh list
+            onClose();
         } catch (error) {
             alert(error?.response?.data?.error || "An Error Occurred while Updating");
         }
