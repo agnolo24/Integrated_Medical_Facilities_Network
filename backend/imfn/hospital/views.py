@@ -110,7 +110,7 @@ def view_doctors(request):
     )
     
     
-@api_view(['POST'])
+@api_view(['PUT'])
 def edit_doctor(request):
     serializer = EditDoctorSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -145,4 +145,69 @@ def edit_doctor(request):
         return Response(
             {'error': 'Doctor Not Fount'},
             status=status.HTTP_404_NOT_FOUND
+        )
+        
+        
+@api_view(['DELETE'])
+def delete_doctor(request):
+    db = get_db()
+    
+    doctor_id = request.data.get('doctorId')
+    hospital_login_id = request.data.get('hospital_login_id')
+    
+    if not doctor_id:
+        return Response(
+            {"error": "Doctor ID Missing"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    if not hospital_login_id:
+        return Response(
+            {"error": "Hospital Login ID Missing"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+        
+    try:
+        doctor_col = db['doctors']
+        login_col = db['login']
+        
+        doctor = doctor_col.find_one({
+            "_id": ObjectId(doctor_id),
+            "hospital_login_id": hospital_login_id
+        })
+        
+        
+        if not doctor:
+            return Response(
+                {"error": "Doctor not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        doctor_login_id = doctor.get('login_id')
+        
+        if not doctor_login_id:
+            return Response(
+                {"error": "Doctor Login ID Not Fount"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        reg_result = doctor_col.delete_one({"_id": ObjectId(doctor_id)})
+        log_result = login_col.delete_one({"_id": doctor_login_id})
+        
+        if reg_result.deleted_count > 0 and log_result.deleted_count > 0:
+            return Response(
+                {"message": "Doctor deleted successfully"},
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {"error": "Failed to delete doctor"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
+    except Exception as e:
+        print(f"Error deleting doctor: {e}")
+        return Response(
+            {"error": "Invalid Doctor ID"},
+            status=status.HTTP_400_BAD_REQUEST
         )

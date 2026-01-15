@@ -136,33 +136,33 @@ function HospitalHeader() {
                 <span className="menu-close" onClick={toggleMobileMenu}>
                     <i className="fas fa-times"></i>
                 </span>
+                
 
                 <ul className="d-block" style={{ marginTop: '40px' }}>
-                    <li><NavLink to="/" onClick={toggleMobileMenu}>Home</NavLink></li>
-                    <li><a href="about.html" onClick={toggleMobileMenu}>About Us</a></li>
-                    <li>
+                    <li><NavLink to="/hospitalhome" onClick={toggleMobileMenu}>Home</NavLink></li>
+                    {/* <li><a href="about.html" onClick={toggleMobileMenu}>About Us</a></li> */}
+                    {/* <li>
                         <a href="#" onClick={(e) => e.preventDefault()}>Services</a>
                         <ul className="sub-menu pl-3" style={{ display: 'block' }}>
                             <li><a href="services.html" onClick={toggleMobileMenu}>Services</a></li>
                             <li><a href="services-detail.html" onClick={toggleMobileMenu}>Services Details</a></li>
                         </ul>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                         <a href="#" onClick={(e) => e.preventDefault()}>Blog</a>
                         <ul className="sub-menu pl-3" style={{ display: 'block' }}>
                             <li><a href="blog.html" onClick={toggleMobileMenu}>Blog</a></li>
                             <li><a href="blog-details.html" onClick={toggleMobileMenu}>Blog Details</a></li>
                         </ul>
-                    </li>
+                    </li> */}
                     <li>
-                        <a href="#" onClick={(e) => e.preventDefault()}>Registration</a>
+                        Registration
                         <ul className="sub-menu pl-3" style={{ display: 'block' }}>
-                            <li><NavLink to="/userReg" onClick={toggleMobileMenu}>Patient Registration</NavLink></li>
-                            <li><NavLink to="/hospitalReg" onClick={toggleMobileMenu}>Hospital Registration</NavLink></li>
+                            <li><NavLink to="/doctorReg" onClick={toggleMobileMenu}>Doctor Registration</NavLink></li>
                             <li><NavLink to="/ambulance" onClick={toggleMobileMenu}>Ambulance Registration</NavLink></li>
                         </ul>
                     </li>
-                    <li><NavLink to="/login" onClick={toggleMobileMenu}>Login</NavLink></li>
+                    <li><NavLink to="/" onClick={toggleMobileMenu}>Logout</NavLink></li>
                 </ul>
 
                 <div className="side-social" style={{ marginTop: '20px' }}>
