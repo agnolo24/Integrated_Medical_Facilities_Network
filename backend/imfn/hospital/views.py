@@ -129,7 +129,10 @@ def edit_doctor(request):
     }
     
     try:
-        result = doc_col.update_one({"_id":ObjectId(request.data.get('doctorId'))}, {'$set': doctor_doc})
+        result = doc_col.update_one(
+            {"_id":ObjectId(request.data.get('doctorId'))}, #* This is the condition used to filter out the doctor, the doctorId is string and we use ObjectId to convert it into the mongodb object.
+            {'$set': doctor_doc} #* '$set' tell's mongodb to update the only fields we given, without '$set' mongodb will overwrite the entire collection.
+        )
         
         if result.matched_count> 0:
             return Response(
