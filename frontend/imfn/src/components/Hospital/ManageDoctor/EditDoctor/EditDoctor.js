@@ -79,7 +79,7 @@ const EditDoctor = ({ doctorData, onClose }) => {
         // console.log(`${hospital_login_id}: ${typeof(hospital_login_id)}, ${doctorData._id}: ${typeof(doctorData)}`)
 
         try {
-            const response = await axios.post(editDoctorUrl, {
+            const response = await axios.put(editDoctorUrl, {
                 ...formData,
                 hospital_login_id,
                 doctorId: doctorData._id
