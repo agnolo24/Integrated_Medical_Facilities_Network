@@ -10,11 +10,10 @@ const EditDoctor = ({ doctorData, onClose }) => {
         name: '',
         gender: '',
         specialization: '',
-        dob: '',
         qualification: '',
         experience: '',
         contactNumber: '',
-        email: ''
+        // email: ''
     });
 
     useEffect(() => {
@@ -23,11 +22,10 @@ const EditDoctor = ({ doctorData, onClose }) => {
                 name: doctorData.name || '',
                 gender: doctorData.gender || '',
                 specialization: doctorData.specialization || '',
-                dob: doctorData.dob || '',
                 qualification: doctorData.qualification || '',
                 experience: doctorData.experience || '',
-                contactNumber: doctorData.contactNumber || '',
-                email: doctorData.email || ''
+                contactNumber: doctorData.contactNumber || ''
+                // email: doctorData.email || ''
             });
         }
     }, [doctorData]);
@@ -76,7 +74,9 @@ const EditDoctor = ({ doctorData, onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const hospital_login_id = localStorage.getItem("loginId");
+        // console.log(`${hospital_login_id}: ${typeof(hospital_login_id)}, ${doctorData._id}: ${typeof(doctorData)}`)
 
         try {
             const response = await axios.post(editDoctorUrl, {
@@ -152,10 +152,10 @@ const EditDoctor = ({ doctorData, onClose }) => {
                             <input type="tel" name="contactNumber" className="form-control" value={formData.contactNumber} onChange={handleChange} required />
                         </div>
 
-                        <div className="mb-3">
+                        {/* <div className="mb-3">
                             <label className="form-label">Email Address</label>
                             <input type="email" name="email" className="form-control" value={formData.email} onChange={handleChange} required />
-                        </div>
+                        </div> */}
 
                         <div className="d-flex gap-2">
                             <button type="submit" className="btn btn-primary flex-grow-1">Update Details</button>
