@@ -35,7 +35,7 @@ def doctor_registration(request):
         
     login_doc = {
         "email": data["email"],
-        "password": data["contactNumber"],
+        "password": make_password(data["contactNumber"]),
         "user_type": "doctor",
         "created_at":datetime.utcnow()
     }
@@ -232,7 +232,7 @@ def register_ambulance(request):
     
     login_doc = {
         "email": data['email'],
-        "password": data['contactNumber'],
+        "password": make_password(data['contactNumber']),
         "user_type": "ambulance",
         "created_at":datetime.utcnow()
     }    
@@ -270,3 +270,7 @@ def register_ambulance(request):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
+
+@api_view(['GET'])
+def view_ambulance(request):
+    pass
