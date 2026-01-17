@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import HospitalHeader from '../../HospitalHeader/HospitalHeader';
 import HospitalFooter from '../../HospitalFooter/HospitalFooter';
-// import EditAmbulance from '../EditAmbulance/EditAmbulance'; // Not implemented yet
+import EditAmbulance from '../EditAmbulance/EditAmbulance';
 
 import './ViewAmbulance.css';
 
@@ -35,9 +35,8 @@ function ViewAmbulance() {
   };
 
   const handleEditClick = (ambulance) => {
-    // setSelectedAmbulance(ambulance);
-    // setIsModalOpen(true);
-    alert("Edit functionality is currently under development.");
+    setSelectedAmbulance(ambulance);
+    setIsModalOpen(true);
   };
 
   const handleCloseModel = () => {
@@ -93,6 +92,7 @@ function ViewAmbulance() {
                   <div className="details">
                     <span><strong>Vehicle No:</strong> {amp.vehicleNumber}</span>
                     <span><strong>Contact:</strong> {amp.contactNumber}</span>
+                    <span><strong>Email:</strong> {amp.email}</span>
                   </div>
                   <div className='container mt-3'>
                     <div className='row'>
@@ -118,11 +118,8 @@ function ViewAmbulance() {
           <div className="modal-overlay">
             <div className="modal-content">
               <button className="close-button" onClick={handleCloseModel}>&times;</button>
-              <div style={{ padding: '2rem' }}>
-                <h2>Edit Ambulance</h2>
-                <p>Edit form component would go here.</p>
-              </div>
-              {/* <EditAmbulance ambulanceData={selectedAmbulance} onClose={handleCloseModel} /> */}
+
+              <EditAmbulance ambulanceData={selectedAmbulance} onClose={handleCloseModel} />
             </div>
           </div>
         )
