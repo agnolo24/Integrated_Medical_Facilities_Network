@@ -109,6 +109,11 @@ function DoctorHeader() {
                                                         <li><NavLink to="/RegAmbulance">Ambulance Registration</NavLink></li>
                                                     </ul>
                                                 </li>
+                                                <li>
+                                                    <NavLink to="/doctorProfile">
+                                                        <i className="fas fa-user-circle" style={{ fontSize: '50px', color: '#1E0B9B' }}></i>
+                                                    </NavLink>
+                                                </li>
                                             </ul>
                                         </nav>
                                     </div>
