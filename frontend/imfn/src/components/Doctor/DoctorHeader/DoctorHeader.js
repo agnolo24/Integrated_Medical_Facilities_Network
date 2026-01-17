@@ -21,15 +21,28 @@ function DoctorHeader() {
     const [isSticky, setIsSticky] = useState(false);
 
     const [doctorData, setDoctorData] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false)
-        getDoctorData();
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+
+
+    const handleCloseProfile = () => {
+        setIsProfileOpen(false)
     }
 
-    const handleOpenModal = () => {
-        setIsModalOpen(true)
+    const handleOpenProfile = () => {
+        setIsProfileOpen(true)
+    }
+
+    const handleOpenEditProfile = () => {
+        setIsEditProfileOpen(true)
+        handleCloseProfile();
+    }
+
+    const handleCloseEditProfile = () => {
+        setIsEditProfileOpen(false)
+        getDoctorData();
     }
 
     const toggleMobileMenu = () => {
@@ -146,7 +159,7 @@ function DoctorHeader() {
                                                 </li>
                                                 <li>
 
-                                                    <button onClick={handleOpenModal} style={{ background: 'none', border: 'none', padding: 0 }}>
+                                                    <button onClick={handleOpenProfile} style={{ background: 'none', border: 'none', padding: 0 }}>
                                                         <i className="fas fa-user-circle" style={{ fontSize: '50px', color: '#1E0B9B' }}></i>
                                                     </button>
 
@@ -216,12 +229,23 @@ function DoctorHeader() {
 
             <div className={`offcanvas-overly ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
             {
-                isModalOpen && (
+                isProfileOpen && (
                     <div className="modal-overlay">
                         <div className="modal-content">
-                            <button className="close-button" onClick={handleCloseModal} style={{ color: 'black' }}>&times;</button>
-                            {/* <DoctorEditProfile doctorData={doctorData} onClose={handleCloseModal} /> */}
-                            <DoctorProfile doctorData={doctorData}/>
+                            <button className="close-button" onClick={handleCloseProfile} style={{ color: 'black' }}>&times;</button>
+                            {/* <DoctorEditProfile doctorData={doctorData} onClose={handleCloseProfile} /> */}
+                            <DoctorProfile doctorData={doctorData} handleOpenEditProfile={handleOpenEditProfile} />
+                        </div>
+                    </div>
+                )
+            }
+            {
+                isEditProfileOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <button className="close-button" onClick={handleCloseEditProfile} style={{ color: 'black' }}>&times;</button>
+                            <DoctorEditProfile doctorData={doctorData} onClose={handleCloseEditProfile} />
+                            {/* <DoctorProfile doctorData={doctorData}/> */}
                         </div>
                     </div>
                 )
