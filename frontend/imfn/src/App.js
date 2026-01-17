@@ -36,6 +36,7 @@ function App() {
           <Route path='/registerDoctor' element={<RegisterDoctor />} />
           <Route path='/viewDoctors' element={<ViewDoctor />} />
           <Route path='/RegAmbulance' element={<RegisterAmbulance/>} />
+          <Route path='/HomeAmbulance' element={<HomeAmbulance/>} />
         </Routes>
       </BrowserRouter>
     </div>
