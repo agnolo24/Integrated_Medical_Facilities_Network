@@ -15,7 +15,7 @@ import HospitalHome from './components/Hospital/HospitalHome/HospitalHome'
 import RegisterDoctor from './components/Hospital/ManageDoctor/RegisterDoctor/RegisterDoctor'
 import ViewDoctor from './components/Hospital/ManageDoctor/ViewDoctor/ViewDoctor'
 import RegisterAmbulance from './components/Hospital/ManageAmbulance/RegisterAmbulance/RegisterAmbulance'
-
+import ViewAmbulance from './components/Hospital/ManageAmbulance/viewAmbulance/viewAmbulance'
 
 function App() {
   return (
@@ -35,7 +35,8 @@ function App() {
           <Route path="/hospitalhome" element={<HospitalHome />} />
           <Route path='/registerDoctor' element={<RegisterDoctor />} />
           <Route path='/viewDoctors' element={<ViewDoctor />} />
-          <Route path='/RegAmbulance' element={<RegisterAmbulance/>} />
+          <Route path='/RegAmbulance' element={<RegisterAmbulance />} />
+          <Route path='/viewAmbulance' element={<ViewAmbulance/>} />
         </Routes>
       </BrowserRouter>
     </div>
