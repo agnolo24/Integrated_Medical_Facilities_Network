@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router';
+import axios from 'axios';
 
 // CSS Imports
 import '../../../asset/user_assets/css/bootstrap.min.css';
@@ -33,7 +34,26 @@ function DoctorHeader() {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
-    
+    const getDoctorData = async () => {
+        const dr_id = localStorage.getItem("loginId");
+        const DoctorDataUrl = "";
+
+        try {
+            const response = await axios.get("http://127.0.0.1:8000/doctor/getDoctorData/", {params: {dr_id: dr_id}});
+            console.log(response.data);
+            setDoctorData(response.data);
+        }
+        catch (error) {
+            console.error("Error fetching doctors:", error);
+        }
+        finally {
+            handleCloseModal();
+        }
+    }
+
+    useEffect(() => {
+        getDoctorData();
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
