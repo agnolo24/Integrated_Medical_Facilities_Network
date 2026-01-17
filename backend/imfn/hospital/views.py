@@ -273,4 +273,25 @@ def register_ambulance(request):
 
 @api_view(['GET'])
 def view_ambulance(request):
-    pass
+    hospital_login_id = request.query_params.get('hospital_login_id')
+    
+    db = get_db()
+    ambulance_col = db['ambulance']
+    
+    if ObjectId.is_valid(hospital_login_id):
+        ambulances = list(ambulance_col.find({'hospital_login_id': ObjectId(hospital_login_id)}))
+        
+        for amb in ambulances:
+            amb['_id'] = str(amb['_id'])
+            amb['login_id'] = str(amb['login_id'])
+            amb['hospital_login_id'] = str(amb['hospital_login_id'])
+        
+        return Response(
+            {"ambulances": ambulances},
+            status=status.HTTP_200_OK
+        )
+        
+    return Response(
+        {"error": "Invalid Login ID" },
+        status=status.HTTP_200_OK
+    )
