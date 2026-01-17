@@ -18,8 +18,7 @@ import RegisterAmbulance from './components/Hospital/ManageAmbulance/RegisterAmb
 import DoctorHome from './components/Doctor/DoctorHome/DoctorHome'
 import AmbulanceHome from './components/Ambulance/AmbulanceHome/AmbulanceHome'
 
-import ViewAmbulance from './components/Hospital/ManageAmbulance/viewAmbulance/viewAmbulance'
-
+import ViewAmbulance from './components/Hospital/ManageAmbulance/ViewAmbulance/ViewAmbulance'
 function App() {
   return (
     <div>
