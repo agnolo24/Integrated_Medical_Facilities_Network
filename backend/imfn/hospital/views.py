@@ -48,7 +48,7 @@ def doctor_registration(request):
         
         doctor_doc = {
             'login_id':login_id,
-            'hospital_login_id': data['hospital_login_id'],
+            'hospital_login_id': ObjectId(data['hospital_login_id']),
             'name': data['name'],
             'gender': data['gender'],
             'specialization': data['specialization'],
@@ -89,7 +89,7 @@ def view_doctors(request):
     db = get_db()
     doctor_col = db['doctors']
     
-    doctors_cursor = doctor_col.find({"hospital_login_id": hospital_login_id}) 
+    doctors_cursor = doctor_col.find({"hospital_login_id": ObjectId(hospital_login_id)}) 
     '''
         when we use "doctor_col.find({"hospital_login_id": hospital_login_id})" is doesn't return a native python data type or data structure,
         it return something called the "cursor object" which is a part of the mongodb so we need to change it to the json format for that first we convert 
@@ -103,6 +103,7 @@ def view_doctors(request):
     for doc in doctor_list:
         doc['_id'] = str(doc['_id'])
         doc['login_id'] = str(doc['login_id'])
+        doc['hospital_login_id'] = str(doc['hospital_login_id'])
     
     return Response(
         {"doctors": doctor_list},
@@ -173,7 +174,7 @@ def delete_doctor(request):
         
         doctor = doctor_col.find_one({
             "_id": ObjectId(doctor_id),
-            "hospital_login_id": hospital_login_id
+            "hospital_login_id": ObjectId(hospital_login_id)
         })
         
         
