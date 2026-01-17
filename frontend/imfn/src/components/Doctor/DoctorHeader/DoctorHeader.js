@@ -14,6 +14,7 @@ import '../../../asset/user_assets/css/meanmenu.css';
 import '../../../asset/user_assets/css/style.css';
 import '../../../asset/user_assets/css/responsive.css';
 import DoctorEditProfile from '../DoctorEditProfile/DoctorEditProfile';
+import DoctorProfile from '../DoctorProfile/DoctorProfile';
 
 function DoctorHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,6 +25,7 @@ function DoctorHeader() {
 
     const handleCloseModal = () => {
         setIsModalOpen(false)
+        getDoctorData();
     }
 
     const handleOpenModal = () => {
@@ -39,15 +41,14 @@ function DoctorHeader() {
         const DoctorDataUrl = "";
 
         try {
-            const response = await axios.get("http://127.0.0.1:8000/doctor/getDoctorData/", {params: {dr_id: dr_id}});
+            const response = await axios.get("http://127.0.0.1:8000/doctor/getDoctorData/", { params: { dr_id: dr_id } });
             console.log(response.data);
             setDoctorData(response.data);
+
+
         }
         catch (error) {
             console.error("Error fetching doctors:", error);
-        }
-        finally {
-            handleCloseModal();
         }
     }
 
@@ -218,8 +219,9 @@ function DoctorHeader() {
                 isModalOpen && (
                     <div className="modal-overlay">
                         <div className="modal-content">
-                            <button className="close-button" onClick={handleCloseModal}>&times;</button>
-                            <DoctorEditProfile doctorData={doctorData} onClose={handleCloseModal} />
+                            <button className="close-button" onClick={handleCloseModal} style={{ color: 'black' }}>&times;</button>
+                            {/* <DoctorEditProfile doctorData={doctorData} onClose={handleCloseModal} /> */}
+                            <DoctorProfile doctorData={doctorData}/>
                         </div>
                     </div>
                 )
