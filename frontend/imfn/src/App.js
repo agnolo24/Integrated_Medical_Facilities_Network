@@ -16,6 +16,7 @@ import RegisterDoctor from './components/Hospital/ManageDoctor/RegisterDoctor/Re
 import ViewDoctor from './components/Hospital/ManageDoctor/ViewDoctor/ViewDoctor'
 import RegisterAmbulance from './components/Hospital/ManageAmbulance/RegisterAmbulance/RegisterAmbulance'
 import DoctorHome from './components/Doctor/DoctorHome/DoctorHome'
+import AmbulanceHome from './components/Ambulance/AmbulanceHome/AmbulanceHome'
 
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
           <Route path='/viewDoctors' element={<ViewDoctor />} />
           <Route path='/RegAmbulance' element={<RegisterAmbulance/>} />
           <Route path='/doctorHome' element={<DoctorHome />} />
-          <Route path='/HomeAmbulance' element={<HomeAmbulance/>} />
+          <Route path='/AmbulanceHome' element={<AmbulanceHome/>} />
         </Routes>
       </BrowserRouter>
     </div>
