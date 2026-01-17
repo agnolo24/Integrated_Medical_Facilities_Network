@@ -1,7 +1,11 @@
 import './DoctorProfile.css'; // Optional: for external styling
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-export default function DoctorProfile({doctorData}) {
+// import DoctorEditProfile from '../DoctorEditProfile/DoctorEditProfile';
+
+export default function DoctorProfile({ doctorData ,handleOpenEditProfile}) {
+
+  
   return (
     <div className="profile-card">
       <div className="profile-icon-container">
@@ -13,8 +17,8 @@ export default function DoctorProfile({doctorData}) {
       <p>Email: <a href={`mailto:${doctorData.email}`}>{doctorData.email}</a></p>
       <p>Phone: <a href={`tel:${doctorData.contactNumber}`}>{doctorData.contactNumber}</a></p>
       <div className="profile-actions">
-        <button className="edit-button" 
-        // onClick={handleEditClick}
+        <button className="edit-button"
+          onClick={handleOpenEditProfile}
         >Edit</button>
         <a href="#" className="change-password">Change Password</a>
       </div>
