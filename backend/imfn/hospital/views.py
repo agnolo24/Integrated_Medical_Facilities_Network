@@ -269,7 +269,4 @@ def register_ambulance(request):
                 {"error": "internal server error"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-            
-# hai
-    
     

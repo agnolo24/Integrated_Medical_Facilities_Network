@@ -14,6 +14,7 @@ import PatientHome from './components/Patient/PatientHome/PatientHome'
 import HospitalHome from './components/Hospital/HospitalHome/HospitalHome'
 import RegisterDoctor from './components/Hospital/ManageDoctor/RegisterDoctor/RegisterDoctor'
 import ViewDoctor from './components/Hospital/ManageDoctor/ViewDoctor/ViewDoctor'
+import RegisterAmbulance from './components/Hospital/ManageAmbulance/RegisterAmbulance/RegisterAmbulance'
 
 
 function App() {
@@ -43,7 +44,8 @@ function App() {
           <Route path="/patienthome" element={<PatientHome />} />
           <Route path="/hospitalhome" element={<HospitalHome />} />
           <Route path='/registerDoctor' element={<RegisterDoctor />} />
-          <Route path='/viewDoctors' element={<ViewDoctor/>} />
+          <Route path='/viewDoctors' element={<ViewDoctor />} />
+          <Route path='/RegAmbulance' element={<RegisterAmbulance/>} />
         </Routes>
       </BrowserRouter>
     </div>
