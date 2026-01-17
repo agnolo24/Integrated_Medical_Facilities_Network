@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'api',
     'hospital'
     'doctor',
+    'ambulance',
 ]
 
 MIDDLEWARE = [
