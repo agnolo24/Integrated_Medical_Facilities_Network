@@ -93,6 +93,7 @@
   transition: color 0.2s ease;
 }
 
+
 .profile-card p a:hover {
   color: #4361ee;
 }
@@ -135,6 +136,13 @@
   transition: color 0.2s ease;
 }
 
+.change-password {
+  color: #2248f5;
+  font-size: 16px;
+}
+
 .change-password:hover {
-  color: #4361ee;
+  color: #021e98;
+  font-size: 17px;
+
 }

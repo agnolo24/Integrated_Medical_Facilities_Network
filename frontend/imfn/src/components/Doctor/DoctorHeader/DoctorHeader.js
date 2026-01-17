@@ -37,7 +37,7 @@ function DoctorHeader() {
 
     const handleOpenEditProfile = () => {
         setIsEditProfileOpen(true)
-        handleCloseProfile();
+        // handleCloseProfile();
     }
 
     const handleCloseEditProfile = () => {
