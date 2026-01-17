@@ -33,6 +33,8 @@ function LoginPage() {
                 navigate('/patienthome')
             } else if (user === 'hospital') {
                 navigate('/hospitalhome')
+            } else if (user === 'ambulance') {
+                navigate('/AmbulanceHome')
             } else {
                 navigate('/login')
             }
