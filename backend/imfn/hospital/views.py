@@ -277,14 +277,19 @@ def view_ambulance(request):
     
     db = get_db()
     ambulance_col = db['ambulance']
+    login_col = db['login']
     
     if ObjectId.is_valid(hospital_login_id):
         ambulances = list(ambulance_col.find({'hospital_login_id': ObjectId(hospital_login_id)}))
         
         for amb in ambulances:
+            login = login_col.find_one({'_id': amb['login_id']})
+            amb['email'] = login['email']
+            
             amb['_id'] = str(amb['_id'])
             amb['login_id'] = str(amb['login_id'])
             amb['hospital_login_id'] = str(amb['hospital_login_id'])
+            
         
         return Response(
             {"ambulances": ambulances},
@@ -295,3 +300,36 @@ def view_ambulance(request):
         {"error": "Invalid Login ID" },
         status=status.HTTP_200_OK
     )
+    
+    
+@api_view(['PUT'])
+def edit_ambulance(request):
+    serializer = AmbulanceUpdateSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.validated_data
+    
+    db = get_db()
+    ambulance_col = db['ambulance']  
+    
+    try:
+        ambulance_col.update_one(
+            {'_id': ObjectId(request.data['ambulance_id'])},
+            {'$set': {
+                'name': data['name'],
+                'ambulanceType': data['ambulanceType'],
+                'vehicleNumber': data['vehicleNumber'],
+                'category': data['category'],
+                'contactNumber': data['contactNumber']
+            }}
+        )
+        
+        return Response(
+            {"message": "Ambulance Updated"},
+            status=status.HTTP_200_OK
+        )
+    except Exception as e:
+        print(e)
+        return Response(
+            {"error": "Internal server error"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
