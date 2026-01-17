@@ -20,16 +20,6 @@ import RegisterAmbulance from './components/Hospital/ManageAmbulance/RegisterAmb
 function App() {
   return (
     <div>
-      {/* <RegForm1 />
-      <HospitalRegForm />
-      <AmbulanceForm />
-      <DoctorRegForm />
-      <PharmacyForm />
-      <LandingHome/>
-      <LoginPage/>
-      <AdminHomePage />
-      <HospitalTable /> */}
-
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingHome />} />
