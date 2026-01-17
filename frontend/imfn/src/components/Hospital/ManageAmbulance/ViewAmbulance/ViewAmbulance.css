@@ -1,0 +1,210 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper {
+    padding: 1rem 0.75rem;
+  }
+}
+
+.view-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* The Magic Responsive Grid */
+.ambulance-grid {
+  display: grid;
+  gap: 1.5rem;
+  /* On mobile: 1 col, On Tablet: 2 cols, On Desktop: 3+ cols */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .ambulance-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ambulance-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.ambulance-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  border-top: 5px solid #007bff; /* Red accent for Ambulance */
+  transition: transform 0.2s;
+}
+
+.ambulance-card:hover {
+  transform: translateY(-5px);
+}
+
+@media (max-width: 480px) {
+  .ambulance-card {
+    padding: 1.25rem 1rem;
+    border-radius: 10px;
+  }
+}
+
+.card-badge {
+  background: #ffe3e3;
+  color: #007bff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.ambulance-info h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.ambulance-type {
+  color: #6c757d;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.loader,
+.no-data {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Modal Background Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 45px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+  /* Apply fade-in to the overlay */
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Modal Box */
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  position: relative;
+  width: 90%;
+  max-width: 550px;
+  /* This creates space at the top so it doesn't touch the browser edge */
+  margin: 40px auto;
+  /* This prevents the modal from being taller than the screen */
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile responsiveness for modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    max-height: 90vh;
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 98%;
+    max-height: 95vh;
+    margin: 10px auto;
+    border-radius: 8px;
+  }
+}
+/* Close button (top-right X) */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 2001; /* Higher than the card header */
+  color: white; /* If it sits on the blue header */
+  font-size: 2rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Animation for the dark background */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animation for the form "popping" up */
+@keyframes slideUp {
+  from {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.btn-secondary {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-secondary:active {
+  transform: scale(0.95); /* Slight "squish" effect when clicked */
+}
+
+.button-doc {
+  max-width: 70%;
+}
