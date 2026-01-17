@@ -211,3 +211,64 @@ def delete_doctor(request):
             {"error": "Invalid Doctor ID"},
             status=status.HTTP_400_BAD_REQUEST
         )
+        
+        
+@api_view(['POST'])
+def register_ambulance(request):
+    serializer = AmbulanceRegistrationSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.validated_data
+    
+    db = get_db()
+    ambulance_col = db['ambulance']
+    login_col = db['login']
+    
+    if login_col.find_one({"email": data['email']}):
+        return Response(
+            {"error": "Email already exist..! Use another Email."},
+            status=status.HTTP_409_CONFLICT
+        )
+    
+    login_doc = {
+        "email": data['email'],
+        "password": data['contactNumber'],
+        "user_type": "ambulance",
+        "created_at":datetime.utcnow()
+    }    
+    login_id = None    
+    
+    try:
+        login_result = login_col.insert_one(login_doc)
+        login_id = login_result.inserted_id
+        
+        ambulance_doc = {
+            'login_id': login_id,
+            'hospital_login_id': ObjectId(data['hospital_login_id']),
+            'name': data['name'],
+            'ambulanceType': data['ambulanceType'],
+            'vehicleNumber': data['vehicleNumber'],
+            'category': data['category'],
+            'contactNumber': data['contactNumber'],
+            'created_at': datetime.utcnow()
+        }
+        
+        ambulance_col.insert_one(ambulance_doc)
+        
+        return Response(
+            {"message": "Ambulance Registered"},
+            status=status.HTTP_201_CREATED
+        )
+    except Exception as e:
+        print(e)
+        
+        if login_id is not None and ObjectId.is_valid(str(login_id)):
+            login_col.delete_one({"_id": login_id})
+            
+            return Response(
+                {"error": "internal server error"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+            
+            
+    
+    
