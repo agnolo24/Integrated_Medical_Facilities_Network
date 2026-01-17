@@ -85,7 +85,7 @@ function AmbulanceHeader() {
                                         <nav id="mobile-menu-desktop">
                                             <ul>
                                                 <li className="has-sub">
-                                                    <NavLink to="/hospitalhome"><h6>Home</h6></NavLink>
+                                                    <NavLink to="/Ambulancehome"><h6>Home</h6></NavLink>
                                                 </li>
                                                 {/* <li><a href="about.html">About Us</a></li> */}
                                                 {/* <li className="has-sub">
