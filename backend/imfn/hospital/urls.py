@@ -8,5 +8,5 @@ urlpatterns = [
     path('delete_doctor/', views.delete_doctor, name='delete_doctor'),
     path('register_ambulance/', views.register_ambulance, name='register_ambulance'),
     path('view_ambulance/', views.view_ambulance, name='view_ambulance'),
-    
+    path('edit_ambulance/', views.edit_ambulance, name='edit_ambulance'),
 ]
