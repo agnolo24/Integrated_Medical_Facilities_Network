@@ -1,29 +1,52 @@
 // ambulance reg form
 
 import React, { useState } from 'react';
+
 import './AmbulanceForm.css';
 import LandingPageHeader from '../../LandingPageHeader/LandingPageHeader';
 import LandingPageFooter from '../../LandingPageFooter/LandingPageFooter';
+import axios from 'axios';
 
 const AmbulanceForm = () => {
+    const ambulanceRegistrationUrl = 'http://127.0.0.1:8000/hospital/register_ambulance/' 
+
     const [formData, setFormData] = useState({
         name: '',
         ambulanceType: '',
         vehicleNumber: '',
-        hospital: '',
+        // hospital: '',
         category: '',
         contactNumber: '',
-        email: '',
-        password: ''
+        email: ''
+        // password: ''
     });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log('Form Submitted:', formData);
+        
+        try {
+            const hospital_login_id = localStorage.getItem("loginId")
+            const response = await axios.post(ambulanceRegistrationUrl, { ...formData, hospital_login_id })
+            
+            alert(response.data.message)
+
+            setFormData({
+                name: '',
+                ambulanceType: '',
+                vehicleNumber: '',
+                // hospital: '',
+                category: '',
+                contactNumber: '',
+                email: ''
+                // password: ''
+            })
+        } catch (error) {
+            alert(error?.response?.data?.error || "An error occur while registering the ambulance")
+        }
     };
 
     return (
@@ -72,12 +95,12 @@ const AmbulanceForm = () => {
 
 
                                 {/* Hospital Name */}
-                                <div className="mb-3">
+                                {/* <div className="mb-3">
                                     <label className="form-label">Hospital Name</label>
                                     <input type="text" name="hospital" className="form-control"
                                         value={formData.hospital} onChange={handleChange} required />
 
-                                </div>
+                                </div> */}
 
                                 {/* Category*/}
                                 <div className="mb-3">
@@ -89,9 +112,9 @@ const AmbulanceForm = () => {
 
                                         <option value="Category 2: Emergency calls">Category 2: Emergency calls
                                         </option>
-                                        <option value="caCategory 3: Urgent problems">Category 3: Urgent problems
+                                        <option value="Category 3: Urgent problems">Category 3: Urgent problems
                                         </option>
-                                        <option value="icCategory 4: Non-urgent problems">Category 4: Non-urgent problems
+                                        <option value="Category 4: Non-urgent problems">Category 4: Non-urgent problems
                                         </option>
                                     </select>
 
@@ -114,11 +137,11 @@ const AmbulanceForm = () => {
                                 </div>
 
                                 {/* Password */}
-                                <div className="mb-3">
+                                {/* <div className="mb-3">
                                     <label className="form-label">Password</label>
                                     <input type="password" name="password" className="form-control"
                                         value={formData.password} onChange={handleChange} required />
-                                </div>
+                                </div> */}
 
                                 <button type="submit" className="btn btn-primary w-100 mt-3">Register</button>
                             </form>
