@@ -40,3 +40,4 @@ def getAmbulanceData(request):
     
 
     return Response(amb,status=status.HTTP_200_OK)
+
