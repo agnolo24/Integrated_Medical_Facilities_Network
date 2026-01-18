@@ -141,6 +141,15 @@
   font-size: 16px;
 }
 
+.change-password button{
+  border: none;
+  outline: none;
+  background: #007bff;
+  background-color: transparent;
+  color: #2248f5;
+  font-size: 16px;
+}
+
 .change-password:hover {
   color: #021e98;
   font-size: 17px;
