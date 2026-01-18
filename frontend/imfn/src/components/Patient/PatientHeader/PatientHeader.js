@@ -134,19 +134,17 @@ function PatientHeader() {
                                                 </li>
                                                 {/* Add more patient links here */}
 
-                                                <li>
-
-                                                    <button onClick={handleOpenProfile} style={{ background: 'none', border: 'none', padding: 0 }}>
-                                                        <i className="fas fa-user-circle" style={{ fontSize: '50px', color: '#1E0B9B' }}></i>
-                                                    </button>
-
-                                                </li>
                                             </ul>
                                         </nav>
                                     </div>
                                 </div>
                                 <div className="col-xl-2 col-lg-2 d-none d-lg-block">
-                                    <NavLink to="/"><button className="top-btn">Logout</button></NavLink>
+                                    <div className="d-flex align-items-center justify-content-end">
+                                        <button onClick={handleOpenProfile} style={{ background: 'none', border: 'none', padding: 0, marginRight: '15px', width: '60px' }}>
+                                            <i className="fas fa-user-circle" style={{ fontSize: '45px', color: '#1E0B9B' }}></i>
+                                        </button>
+                                        <NavLink to="/"><button className="top-btn" style={{ padding: '12px 30px', fontSize: '16px' }}>Logout</button></NavLink>
+                                    </div>
                                 </div>
                                 <div className="col-md-6 col-6 d-block d-lg-none">
                                     <div className="mobile-menu-toggle d-flex justify-content-end align-items-center">
