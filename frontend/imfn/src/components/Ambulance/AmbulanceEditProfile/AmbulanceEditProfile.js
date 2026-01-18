@@ -2,7 +2,7 @@ import React,{useEffect,useState} from "react";
 import axios from "axios";
 
 
-function AmbulanceEditProfile({ambulanceData}){
+function AmbulanceEditProfile({ambulanceData,onClose}){
 
     const editAmbulanceUrl = 'http://127.0.0.1:8000/hospital/edit_ambulance/';
 
@@ -151,7 +151,7 @@ function AmbulanceEditProfile({ambulanceData}){
 
                         <div className="d-flex gap-2 justify-content-end mt-3">
                             <button type="button" className="btn btn-secondary" >Cancel</button>
-                            <button type="submit" className="btn btn-primary">Update Details</button>
+                            <button type="submit" className="btn btn-primary" onClick={onClose}>Update Details</button>
                         </div>
                     </form>
                 </div>

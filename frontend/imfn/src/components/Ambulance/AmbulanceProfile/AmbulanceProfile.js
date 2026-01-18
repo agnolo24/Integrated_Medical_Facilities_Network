@@ -2,7 +2,7 @@ import React,{useEffect} from "react";
 
 import './AmbulanceProfile.css'
 
-function AmbulanceProfile({AmbulanceData}){
+function AmbulanceProfile({AmbulanceData, handleOpenEditProfile}){
 
     return (
     <div className="profile-card">
