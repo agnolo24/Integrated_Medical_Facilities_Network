@@ -235,7 +235,7 @@ function AmbulanceHeader() {
                         <div className="modal-content">
                             <button className="close-button" onClick={handleCloseProfile} style={{ color: 'black' }}>&times;</button>
                             {/* <DoctorEditProfile doctorData={doctorData} onClose={handleCloseProfile} /> */}
-                            <AmbulanceProfile doctorData={AmbulanceData} handleOpenEditProfile={handleOpenEditProfile} />
+                            <AmbulanceProfile AmbulanceData={AmbulanceData} handleOpenEditProfile={handleOpenEditProfile} />
                         </div>
                     </div>
                 )
@@ -246,7 +246,7 @@ function AmbulanceHeader() {
                     <div className="modal-overlay">
                         <div className="modal-content">
                             <button className="close-button" onClick={handleCloseEditProfile} style={{ color: 'black' }}>&times;</button>
-                            <AmbulanceEditProfile doctorData={AmbulanceData} onClose={handleCloseEditProfile} />
+                            <AmbulanceEditProfile AmbulanceData={AmbulanceData} onClose={handleCloseEditProfile} />
                             {/* <DoctorProfile doctorData={doctorData}/> */}
                         </div>
                     </div>
