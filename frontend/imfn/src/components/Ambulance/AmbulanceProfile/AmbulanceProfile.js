@@ -9,7 +9,7 @@ function AmbulanceProfile({AmbulanceData, handleOpenEditProfile}){
       <div className="profile-icon-container">
         <i className="fas fa-user-md profile-icon"></i>
       </div>
-      <h2>AMBULANCE DETAILS {AmbulanceData.name}</h2>
+      <h2>AMBULANCE DETAILS</h2>
       <h4>{AmbulanceData.ambulanceType}</h4>
       <p>{AmbulanceData.category}</p>
       <p>Email: <a href={`mailto:${AmbulanceData.email}`}>{AmbulanceData.email}</a></p>
