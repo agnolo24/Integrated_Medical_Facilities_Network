@@ -140,3 +140,7 @@ class AmbulanceUpdateSerializer(serializers.Serializer):
     vehicleNumber = serializers.CharField(max_length=20)
     category = serializers.ChoiceField(choices=category_choice)
     contactNumber = serializers.CharField(max_length=20)
+
+
+class AmbulanceDeleteSerializer(serializers.Serializer):
+    ambulanceId = serializers.CharField(max_length=100)
