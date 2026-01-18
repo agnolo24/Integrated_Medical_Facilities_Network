@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router'; // Corrected import
+import axios from 'axios';
 
 // AdminLTE Dependencies
 import '../../../asset/AdminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css';
@@ -11,236 +13,287 @@ import '../../../asset/AdminLTE/bower_components/jvectormap/jquery-jvectormap.cs
 import img2 from '../../../asset/AdminLTE/images/img2.jpg';
 
 function AdminHomePage() {
+    const navigate = useNavigate();
+    const [pendingHospitals, setPendingHospitals] = useState([]);
+    const [verifiedHospitals, setVerifiedHospitals] = useState([]);
+    const [selectedHospital, setSelectedHospital] = useState(null); // For detail view
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Fetch Hospitals
+    const fetchHospitals = async () => {
+        try {
+            const response = await axios.get("http://127.0.0.1:8000/webAdmin/get_hospitals/");
+            const allHospitals = response.data;
+
+            // Filter locally or could filter in backend API
+            setPendingHospitals(allHospitals.filter(h => h.status !== 'verified'));
+            setVerifiedHospitals(allHospitals.filter(h => h.status === 'verified'));
+        } catch (error) {
+            console.error("Error fetching hospitals:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchHospitals();
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/');
+    };
+
+    const handleVerify = async (hospitalId) => {
+        if (!window.confirm("Are you sure you want to verify this hospital?")) return;
+
+        try {
+            await axios.post("http://127.0.0.1:8000/webAdmin/verify_hospital/", { hospital_id: hospitalId });
+            alert("Hospital Verified Successfully");
+            fetchHospitals(); // Refresh lists
+        } catch (error) {
+            console.error("Error verifying hospital:", error);
+            alert("Failed to verify hospital");
+        }
+    };
+
+    const handleViewDetails = async (hospitalLoginId) => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/webAdmin/get_hospital_details/`, {
+                params: { hospital_login_id: hospitalLoginId }
+            });
+            setSelectedHospital(response.data);
+            setIsModalOpen(true);
+        } catch (error) {
+            console.error("Error fetching hospital details:", error);
+            alert("Failed to load details");
+        }
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedHospital(null);
+    };
+
+
     return (
         <div className="hold-transition skin-blue sidebar-mini admin-home">
-            {/* Wrapper to emulate body class behavior if needed, though 'hold-transition' usually goes on body */}
-            <div className="wrapper" style={{ overflow: 'hidden' }}> {/* added overflow hidden to contain floats/margins */}
+            <div className="wrapper" style={{ overflow: 'hidden' }}>
 
+                {/* Header */}
                 <header className="main-header">
-                    {/* Logo */}
                     <a href="#" className="logo">
-                        {/* mini logo for sidebar mini 50x50 pixels */}
                         <span className="logo-mini"><b>A</b>LT</span>
-                        {/* logo for regular state and mobile devices */}
                         <span className="logo-lg"><b>Admin</b> page</span>
                     </a>
-                    {/* Header Navbar: style can be found in header.less */}
                     <nav className="navbar navbar-static-top">
+                        <div className="navbar-custom-menu">
+                            <ul className="nav navbar-nav">
+                                <li>
+                                    <button onClick={handleLogout} className="btn btn-danger btn-flat" style={{ margin: '8px' }}>Log out</button>
+                                </li>
+                            </ul>
+                        </div>
                     </nav>
                 </header>
 
-                {/* Left side column. contains the logo and sidebar */}
+                {/* Sidebar */}
                 <aside className="main-sidebar">
-                    {/* sidebar: style can be found in sidebar.less */}
                     <section className="sidebar">
-                        {/* sidebar menu: : style can be found in sidebar.less */}
                         <ul className="sidebar-menu" data-widget="tree">
                             <li className="header">MAIN NAVIGATION</li>
-                            <li>
-                                <a href="#" style={{
-                                    padding: '12px 20px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '12px',
-                                    color: '#b8c7ce',
-                                    transition: 'all 0.3s ease',
-                                    borderLeft: '3px solid transparent'
-                                }}>
-                                    <i className="fa fa-building" style={{ fontSize: '16px', width: '20px' }}></i>
-                                    <span>Registered Stations</span>
+                            <li className="active">
+                                <a href="#">
+                                    <i className="fa fa-hospital-o"></i> <span>Hospitals</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" style={{
-                                    padding: '12px 20px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '12px',
-                                    color: '#b8c7ce',
-                                    transition: 'all 0.3s ease',
-                                    borderLeft: '3px solid transparent'
-                                }}>
-                                    <i className="fa fa-users" style={{ fontSize: '16px', width: '20px' }}></i>
-                                    <span>Registered Staff</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" style={{
-                                    padding: '12px 20px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '12px',
-                                    color: '#b8c7ce',
-                                    transition: 'all 0.3s ease',
-                                    borderLeft: '3px solid transparent'
-                                }}>
-                                    <i className="fa fa-money" style={{ fontSize: '16px', width: '20px' }}></i>
-                                    <span>Manage Salary</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" style={{
-                                    padding: '12px 20px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '12px',
-                                    color: '#b8c7ce',
-                                    transition: 'all 0.3s ease',
-                                    borderLeft: '3px solid transparent'
-                                }}>
-                                    <i className="fa fa-file-text" style={{ fontSize: '16px', width: '20px' }}></i>
-                                    <span>View Complaints</span>
-                                </a>
-                            </li>
-                            <li className="logout-item" style={{
-                                marginTop: '20px',
-                                background: 'rgba(255,255,255,0.1)',
-                                borderRadius: '4px'
-                            }}>
-                                <a href="#" style={{
-                                    padding: '15px 20px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '10px',
-                                    color: '#fff',
-                                    fontSize: '16px',
-                                    fontWeight: '500'
-                                }}>
-                                    <i className="fa fa-sign-out" style={{ fontSize: '18px' }}></i>
-                                    <span>Log Out</span>
-                                </a>
-                            </li>
+                            {/* Placeholder links from template */}
+                            <li><a href="#"><i className="fa fa-users"></i> <span>Other Users</span></a></li>
                         </ul>
                     </section>
-                    {/* /.sidebar */}
                 </aside>
 
-                {/* Content Wrapper. Contains page content */}
+                {/* Content */}
                 <div className="content-wrapper">
-                    {/* Content Header (Page header) */}
                     <section className="content-header">
                         <h1>
                             Dashboard
-                            <small>Control panel</small>
+                            <small>Hospital Management</small>
                         </h1>
                     </section>
 
-                    {/* Add after content-header section */}
-                    <div className="banner-section">
-                        <div className="banner-image" style={{
-                            height: '250px',
-                            width: '100%',
-                            backgroundColor: 'rgb(4, 234, 255)',
-                            backgroundImage: `url(${img2})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat',
-                            marginBottom: '30px',
-                            position: 'relative',
-                            borderRadius: '8px',
-                            overflow: 'hidden'
-                        }}>
-                            <div className="banner-overlay" style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                background: 'rgba(0,0,0,0.5)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                flexDirection: 'column',
-                                color: 'white'
-                            }}>
-                                <h2 style={{
-                                    fontSize: '36px',
-                                    fontWeight: '600',
-                                    marginBottom: '10px',
-                                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-                                }}>Administration Portal</h2>
-                                <p style={{
-                                    fontSize: '18px',
-                                    margin: 0,
-                                    textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
-                                }}>Manage and monitor operations efficiently</p>
-                            </div>
-                        </div>
-                    </div>
-
+                    {/* Main Content */}
                     <section className="content">
+
+                        {/* Stats widgets could go here */}
+
                         <div className="row">
-                            {/* Salary Management Box */}
-                            <div className="col-lg-4 col-xs-6">
-                                <div className="small-box bg-aqua">
-                                    <div className="inner">
-                                        <h3>Manage Salary</h3>
-                                        <p>Edit staff salary details</p>
+
+                            {/* Pending Hospitals Request */}
+                            <div className="col-md-12">
+                                <div className="box box-warning">
+                                    <div className="box-header with-border">
+                                        <h3 className="box-title">Pending Hospital Verifications</h3>
                                     </div>
-                                    <div className="icon">
-                                        <i className="ion ion-cash"></i>
+                                    <div className="box-body table-responsive no-padding">
+                                        <table className="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Registration ID</th>
+                                                    <th>Address</th>
+                                                    <th>Contact</th>
+                                                    <th>Email</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {pendingHospitals.length === 0 ? (
+                                                    <tr><td colSpan="6" className="text-center">No pending requests</td></tr>
+                                                ) : (
+                                                    pendingHospitals.map(h => (
+                                                        <tr key={h._id}>
+                                                            <td>{h.hospitalName}</td>
+                                                            <td>{h.registrationId}</td>
+                                                            <td>{h.hospitalAddress}</td>
+                                                            <td>{h.contactNumber}</td>
+                                                            <td>{h.email}</td>
+                                                            <td>
+                                                                <button className="btn btn-success btn-sm" onClick={() => handleVerify(h._id)}>Verify</button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                )}
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <a href="#" className="small-box-footer">Manage <i className="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
 
-                            {/* Complaints Box */}
-                            <div className="col-lg-4 col-xs-6">
-                                <div className="small-box bg-green">
-                                    <div className="inner">
-                                        <h3>Complaints</h3>
-                                        <p>View complaints from public</p>
+                            {/* Verified Hospitals List */}
+                            <div className="col-md-12">
+                                <div className="box box-success">
+                                    <div className="box-header with-border">
+                                        <h3 className="box-title">Verified Hospitals</h3>
                                     </div>
-                                    <div className="icon">
-                                        <i className="ion ion-document-text"></i>
+                                    <div className="box-body table-responsive no-padding">
+                                        <table className="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Registration ID</th>
+                                                    <th>Address</th>
+                                                    <th>Contact</th>
+                                                    <th>Email</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {verifiedHospitals.length === 0 ? (
+                                                    <tr><td colSpan="6" className="text-center">No verified hospitals</td></tr>
+                                                ) : (
+                                                    verifiedHospitals.map(h => (
+                                                        <tr key={h._id}>
+                                                            <td>{h.hospitalName}</td>
+                                                            <td>{h.registrationId}</td>
+                                                            <td>{h.hospitalAddress}</td>
+                                                            <td>{h.contactNumber}</td>
+                                                            <td>{h.email}</td>
+                                                            <td>
+                                                                <button className="btn btn-info btn-sm" onClick={() => handleViewDetails(h.login_id)}>View Details</button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                )}
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <a href="#" className="small-box-footer">View <i className="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
 
-                            {/* Stations Box */}
-                            <div className="col-lg-4 col-xs-6">
-                                <div className="small-box bg-yellow">
-                                    <div className="inner">
-                                        <h3>Stations</h3>
-                                        <p>Registered Police Stations</p>
-                                    </div>
-                                    <div className="icon">
-                                        <i className="ion ion-android-home"></i>
-                                    </div>
-                                    <a href="#" className="small-box-footer">View Stations <i className="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-
-                            {/* Staff Management Box */}
-                            <div className="col-lg-4 col-xs-6">
-                                <div className="small-box bg-red">
-                                    <div className="inner">
-                                        <h3>Staff</h3>
-                                        <p>Manage police staff</p>
-                                    </div>
-                                    <div className="icon">
-                                        <i className="ion ion-person-stalker"></i>
-                                    </div>
-                                    <a href="#" className="small-box-footer">View Staff <i className="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
                         </div>
                     </section>
-                    {/* /.content */}
                 </div>
-                {/* /.content-wrapper */}
 
                 <footer className="main-footer">
-                    <div className="pull-right hidden-xs">
-                        <b>Version</b> 2.4.13
-                    </div>
-                    <strong>Copyright &copy; 2023-2026 <a href="#">Kerala Police</a>.</strong> All rights
-                    reserved.
+                    <strong>Copyright &copy; 2026 Admin Portal.</strong> All rights reserved.
                 </footer>
 
+                {/* Modal for Hospital Details */}
+                {isModalOpen && selectedHospital && (
+                    <div className="modal-backdrop-custom" style={{
+                        position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+                        backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex',
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
+                        <div className="modal-content-custom bg-white" style={{
+                            width: '80%', maxHeight: '90vh', overflowY: 'auto', padding: '20px', borderRadius: '5px', position: 'relative'
+                        }}>
+                            <button onClick={closeModal} style={{ position: 'absolute', right: '20px', top: '20px', fontSize: '20px', background: 'none', border: 'none' }}>&times;</button>
+
+                            <h3>{selectedHospital.hospital.hospitalName} Details</h3>
+                            <hr />
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <p><strong>Address:</strong> {selectedHospital.hospital.hospitalAddress}</p>
+                                    <p><strong>Registration ID:</strong> {selectedHospital.hospital.registrationId}</p>
+                                </div>
+                                <div className="col-md-6">
+                                    <p><strong>Contact:</strong> {selectedHospital.hospital.contactNumber}</p>
+                                    <p><strong>Email:</strong> {selectedHospital.hospital.email}</p>
+                                </div>
+                            </div>
+
+                            <h4 className="mt-4">Registered Doctors ({selectedHospital.doctors.length})</h4>
+                            <table className="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Spec</th>
+                                        <th>Qual</th>
+                                        <th>Exp</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {selectedHospital.doctors.map(d => (
+                                        <tr key={d._id}>
+                                            <td>Dr. {d.name}</td>
+                                            <td>{d.specialization}</td>
+                                            <td>{d.qualification}</td>
+                                            <td>{d.experience} Yrs</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            <h4 className="mt-4">Registered Ambulances ({selectedHospital.ambulances.length})</h4>
+                            <table className="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Vehicle No</th>
+                                        <th>Type</th>
+                                        <th>Category</th>
+                                        <th>Driver Contact</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {selectedHospital.ambulances.map(a => (
+                                        <tr key={a._id}>
+                                            <td>{a.vehicleNumber}</td>
+                                            <td>{a.ambulanceType}</td>
+                                            <td>{a.category}</td>
+                                            <td>{a.contactNumber}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            <div className="text-right mt-3">
+                                <button className="btn btn-default" onClick={closeModal}>Close</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
             </div>
-            {/* ./wrapper */}
         </div>
     );
 }
