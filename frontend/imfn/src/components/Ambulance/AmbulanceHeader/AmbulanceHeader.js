@@ -247,7 +247,7 @@ function AmbulanceHeader() {
                     <div className="modal-overlay">
                         <div className="modal-content">
                             <button className="close-button" onClick={handleCloseEditProfile} style={{ color: 'black' }}>&times;</button>
-                            <AmbulanceEditProfile AmbulanceData={AmbulanceData} onClose={handleCloseEditProfile} />
+                            <AmbulanceEditProfile ambulanceData={AmbulanceData} onClose={handleCloseEditProfile} />
                             {/* <DoctorProfile doctorData={doctorData}/> */}
                         </div>
                     </div>
