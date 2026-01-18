@@ -35,9 +35,11 @@ function LoginPage() {
                 navigate('/hospitalhome')
             } else if (user === 'doctor') {
                 navigate('/doctorhome')
-            }else if (user === 'ambulance') {
+            } else if (user === 'ambulance') {
                 navigate('/AmbulanceHome')
-            }else {
+            } else if (user === 'admin') {
+                navigate('/admin')
+            } else {
                 navigate('/login')
             }
         } catch (err) {
