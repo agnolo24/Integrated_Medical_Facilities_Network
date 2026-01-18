@@ -238,24 +238,19 @@ function DoctorHeader() {
             <div className={`offcanvas-overly ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
             {
                 isProfileOpen && (
-                    <div className="modal-overlay">
-                        <div className="modal-content">
-                            <button className="close-button" onClick={handleCloseProfile} style={{ color: 'black' }}>&times;</button>
-                            {/* <DoctorEditProfile doctorData={doctorData} onClose={handleCloseProfile} /> */}
-                            <DoctorProfile doctorData={doctorData} handleOpenEditProfile={handleOpenEditProfile} />
-                        </div>
-                    </div>
+                    <DoctorProfile
+                        doctorData={doctorData}
+                        handleOpenEditProfile={handleOpenEditProfile}
+                        onClose={handleCloseProfile}
+                    />
                 )
             }
             {
                 isEditProfileOpen && (
-                    <div className="modal-overlay">
-                        <div className="modal-content">
-                            <button className="close-button" onClick={handleCloseEditProfile} style={{ color: 'black' }}>&times;</button>
-                            <DoctorEditProfile doctorData={doctorData} onClose={handleCloseEditProfile} />
-                            {/* <DoctorProfile doctorData={doctorData}/> */}
-                        </div>
-                    </div>
+                    <DoctorEditProfile
+                        doctorData={doctorData}
+                        onClose={handleCloseEditProfile}
+                    />
                 )
             }
         </div>
