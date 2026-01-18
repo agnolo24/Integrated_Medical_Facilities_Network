@@ -20,7 +20,10 @@ export default function DoctorProfile({ doctorData ,handleOpenEditProfile}) {
         <button className="edit-button"
           onClick={handleOpenEditProfile}
         >Edit</button>
-        <a href="#" className="change-password">Change Password</a>
+        <button className="change-password" style={{backgroundColor: "transparent",outline: "none",border: "none",}}
+          // onClick={}
+        >Change Password</button>
+        {/* <a href="#" className="change-password">Change Password</a> */}
       </div>
     </div>
   );
