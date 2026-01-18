@@ -60,6 +60,12 @@ function AmbulanceHeader() {
         }
     }
 
+    useEffect(
+        () =>{
+            getAmbulanceData()
+        },[]
+    )
+
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
