@@ -46,10 +46,10 @@ function AmbulanceHeader() {
     }
 
     const getAmbulanceData = async () => {
-        const dr_id = localStorage.getItem("loginId");
+        const am_id = localStorage.getItem("loginId");
 
         try {
-            const response = await axios.get("http://127.0.0.1:8000/doctor/getDoctorData/", { params: { dr_id: dr_id } });
+            const response = await axios.get("http://127.0.0.1:8000/ambulance/getAmbulanceData/", { params: { am_id: am_id } });
             console.log(response.data);
             setAmbulanceData(response.data);
 
