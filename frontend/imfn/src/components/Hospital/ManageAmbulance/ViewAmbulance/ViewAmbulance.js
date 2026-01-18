@@ -9,6 +9,8 @@ import './ViewAmbulance.css';
 
 function ViewAmbulance() {
   const viewAmbulanceUrl = 'http://127.0.0.1:8000/hospital/view_ambulance/';
+  const deleteAmbulanceUrl = 'http://127.0.0.1:8000/hospital/delete_ambulance/';
+
   const hospital_login_id = localStorage.getItem('loginId');
 
   const [ambulances, setAmbulances] = useState([]);
@@ -49,9 +51,6 @@ function ViewAmbulance() {
     const res = window.confirm(`Are you sure you want to delete ${ambulance.name}?`);
 
     if (res) {
-      alert("Delete functionality is currently under development (requires backend support).");
-      /* 
-      // Implementation for when endpoint is available
       try {
            await axios.delete(deleteAmbulanceUrl, {
                data: {
@@ -65,7 +64,7 @@ function ViewAmbulance() {
            console.error("Delete error:", error);
            alert("Failed to delete.");
        }
-       */
+      
     }
   };
 
