@@ -57,6 +57,7 @@ function AmbulanceHeader() {
         }
         catch (error) {
             console.error("Error fetching doctors:", error);
+            alert('error')
         }
     }
 

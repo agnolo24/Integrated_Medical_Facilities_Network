@@ -18,7 +18,6 @@ from bson import ObjectId
 @api_view(['GET'])
 def getAmbulanceData(request):
     am_id=request.query_params.get('am_id')
-    print(am_id)
 
     db =get_db()
     amb_col=db['ambulance']
@@ -32,6 +31,12 @@ def getAmbulanceData(request):
         amb['hospital_login_id'] = str(amb['hospital_login_id'])
         print(amb)
 
+    log_coll=db['login']
 
     
+    ambulance_login=log_coll.find_one({'_id':ObjectId(am_id)})
+    email=ambulance_login['email']
+    amb["email"]=email
+    
+
     return Response(amb,status=status.HTTP_200_OK)
