@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router';
+import axios from 'axios';
+
 
 // CSS Imports
 import '../../../asset/user_assets/css/bootstrap.min.css';
@@ -12,6 +14,9 @@ import '../../../asset/user_assets/css/default.css';
 import '../../../asset/user_assets/css/meanmenu.css';
 import '../../../asset/user_assets/css/style.css';
 import '../../../asset/user_assets/css/responsive.css';
+import AmbulanceProfile from '../AmbulanceProfile/AmbulanceProfile';
+import AmbulanceEditProfile from '../AmbulanceEditProfile/AmbulanceEditProfile';
+
 
 function AmbulanceHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -19,8 +24,10 @@ function AmbulanceHeader() {
 
     const [AmbulanceData, setAmbulanceData] = useState([]);
 
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
-     const handleCloseProfile = () => {
+    const handleCloseProfile = () => {
         setIsProfileOpen(false)
     }
 
@@ -38,7 +45,20 @@ function AmbulanceHeader() {
         getAmbulanceData();
     }
 
-    
+    const getAmbulanceData = async () => {
+        const dr_id = localStorage.getItem("loginId");
+
+        try {
+            const response = await axios.get("http://127.0.0.1:8000/doctor/getDoctorData/", { params: { dr_id: dr_id } });
+            console.log(response.data);
+            setAmbulanceData(response.data);
+
+
+        }
+        catch (error) {
+            console.error("Error fetching doctors:", error);
+        }
+    }
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -134,7 +154,7 @@ function AmbulanceHeader() {
                                                     </ul>
                                                 </li>
                                                 <li>
-                                                   
+
                                                     <button onClick={handleOpenProfile} style={{ background: 'none', border: 'none', padding: 0 }}>
                                                         <i className="fas fa-user-circle" style={{ fontSize: '50px', color: '#1E0B9B' }}></i>
                                                     </button>
@@ -203,6 +223,29 @@ function AmbulanceHeader() {
             </div>
 
             <div className={`offcanvas-overly ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
+            {
+                isProfileOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <button className="close-button" onClick={handleCloseProfile} style={{ color: 'black' }}>&times;</button>
+                            {/* <DoctorEditProfile doctorData={doctorData} onClose={handleCloseProfile} /> */}
+                            <AmbulanceProfile doctorData={AmbulanceData} handleOpenEditProfile={handleOpenEditProfile} />
+                        </div>
+                    </div>
+                )
+            }
+
+            {
+                isEditProfileOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <button className="close-button" onClick={handleCloseEditProfile} style={{ color: 'black' }}>&times;</button>
+                            <AmbulanceEditProfile doctorData={AmbulanceData} onClose={handleCloseEditProfile} />
+                            {/* <DoctorProfile doctorData={doctorData}/> */}
+                        </div>
+                    </div>
+                )
+            }
         </div>
     );
 }
