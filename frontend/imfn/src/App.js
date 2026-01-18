@@ -21,6 +21,7 @@ import AmbulanceProfile from './components/Ambulance/AmbulanceProfile/AmbulanceP
 import AmbulanceEditProfile from './components/Ambulance/AmbulanceEditProfile/AmbulanceEditProfile'
 import ViewAmbulance from './components/Hospital/ManageAmbulance/ViewAmbulance/ViewAmbulance'
 import DoctorProfile from './components/Doctor/DoctorProfile/DoctorProfile'
+import SheduleDoctors from './components/Hospital/ManageDoctor/SheduleDoctors/SheduleDoctors'
 function App() {
   return (
     <div>
@@ -46,6 +47,7 @@ function App() {
           <Route path='/DoctorProfile' element={<DoctorProfile />} />
           <Route path='/AmbulanceProfile' element={<AmbulanceProfile />} />
           <Route path='/AmbulanceEditProfile' element={<AmbulanceEditProfile />} />
+          <Route path='/scheduleDoctor' element={<SheduleDoctors />} />
         </Routes>
       </BrowserRouter>
     </div>

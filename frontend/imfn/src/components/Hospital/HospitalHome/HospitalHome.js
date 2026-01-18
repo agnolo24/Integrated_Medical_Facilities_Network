@@ -5,6 +5,7 @@ import CardView from "../HospitalComponents/CardView";
 
 function HospitalHome() {
     const card = [
+        { id: 0, name: "Schedule Doctor", link: "/scheduleDoctor"},
         { id: 1, name: "View Doctors", link: "/viewDoctors"},
         { id: 2, name: "View Ambulance", link: "/viewAmbulance"},
     ];
