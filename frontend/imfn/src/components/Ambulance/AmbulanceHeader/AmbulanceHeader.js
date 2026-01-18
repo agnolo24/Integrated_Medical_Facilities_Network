@@ -17,6 +17,29 @@ function AmbulanceHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
 
+    const [AmbulanceData, setAmbulanceData] = useState([]);
+
+
+     const handleCloseProfile = () => {
+        setIsProfileOpen(false)
+    }
+
+    const handleOpenProfile = () => {
+        setIsProfileOpen(true)
+    }
+
+    const handleOpenEditProfile = () => {
+        setIsEditProfileOpen(true)
+        // handleCloseProfile();
+    }
+
+    const handleCloseEditProfile = () => {
+        setIsEditProfileOpen(false)
+        getAmbulanceData();
+    }
+
+    
+
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
@@ -111,9 +134,10 @@ function AmbulanceHeader() {
                                                     </ul>
                                                 </li>
                                                 <li>
-                                                    <NavLink to="/doctorProfile">
+                                                   
+                                                    <button onClick={handleOpenProfile} style={{ background: 'none', border: 'none', padding: 0 }}>
                                                         <i className="fas fa-user-circle" style={{ fontSize: '50px', color: '#1E0B9B' }}></i>
-                                                    </NavLink>
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </nav>
