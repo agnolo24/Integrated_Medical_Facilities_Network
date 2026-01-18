@@ -1,7 +1,7 @@
 import '../../Hospital/HospitalProfile/HospitalProfile.css';
 import React from 'react';
 
-export default function DoctorProfile({ doctorData, handleOpenEditProfile, onClose }) {
+export default function DoctorProfile({ doctorData, handleOpenEditProfile, onClose , handleOpenChangePassword}) {
 
   return (
     <div className="profile-overlay" onClick={onClose}>
@@ -49,7 +49,7 @@ export default function DoctorProfile({ doctorData, handleOpenEditProfile, onClo
           {/* Note: Original DoctorProfile had a placeholder Change Password. I'll add the button styled correctly but without logic for now unless I see it elsewhere. 
                Actually, I should probably add the logic if I can, but let's stick to design first.
            */}
-          <button className="password-btn">Change Password</button>
+          <button className="password-btn" onClick={handleOpenChangePassword}>Change Password</button>
         </div>
       </div>
     </div>

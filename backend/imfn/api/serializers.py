@@ -20,4 +20,8 @@ class HospitalRegistrationSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(min_length = 4, write_only = True)
     
-    
+class ChangePasswordSerializer(serializers.Serializer):
+    currentPassword = serializers.CharField()
+    newPassword = serializers.CharField(min_length = 4)
+    confirmPassword = serializers.CharField(min_length = 4)
+    loginId = serializers.CharField()

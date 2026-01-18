@@ -210,3 +210,34 @@ def register_admin(request):
             {"error": "Something went wrong"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+@api_view(["POST"])
+def change_password(request):
+    print("change pass")
+    serializer = ChangePasswordSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    data = serializer.validated_data
+    db = get_db()
+    login_col = db["login"]
+    print(data)
+    print("login id : ",data["loginId"])
+    try:
+        user = login_col.find_one({"_id": ObjectId(data["loginId"])})
+        if not user:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if not check_password(data["currentPassword"], user["password"]):
+            return Response(
+                {"error": "Wrong Password"}, status=status.HTTP_401_UNAUTHORIZED
+            )
+
+        user["password"] = make_password(data["newPassword"])
+        login_col.update_one({"_id": user["_id"]}, {"$set": user})
+
+        return Response({"message": "Password changed successfully"}, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response({"error": "Something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    
