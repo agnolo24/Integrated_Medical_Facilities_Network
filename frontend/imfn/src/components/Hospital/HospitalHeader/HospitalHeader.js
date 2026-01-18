@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
+import axios from 'axios';
 
 // CSS Imports
 import '../../../asset/user_assets/css/bootstrap.min.css';
@@ -13,15 +14,37 @@ import '../../../asset/user_assets/css/meanmenu.css';
 import '../../../asset/user_assets/css/style.css';
 import '../../../asset/user_assets/css/responsive.css';
 
+import HospitalProfile from '../HospitalProfile/HospitalProfile';
+import HospitalEditProfile from '../HospitalEditProfile/HospitalEditProfile';
+
 function HospitalHeader() {
+    const navigate = useNavigate();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
+
+    // Profile State
+    const [hospitalData, setHospitalData] = useState(null);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
     useEffect(() => {
+        const fetchHospitalData = async () => {
+            const loginId = localStorage.getItem('loginId');
+            if (loginId) {
+                try {
+                    const response = await axios.get(`http://127.0.0.1:8000/hospital/getHospitalData/?login_id=${loginId}`);
+                    setHospitalData(response.data);
+                } catch (error) {
+                    console.error("Error fetching hospital data", error);
+                }
+            }
+        };
+        fetchHospitalData();
+
         const handleScroll = () => {
             if (window.scrollY > 150) {
                 setIsSticky(true);
@@ -35,6 +58,16 @@ function HospitalHeader() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/')
+    }
+
+    const handleOpenEditProfile = () => {
+        setIsProfileOpen(false);
+        setIsEditProfileOpen(true);
+    };
 
     return (
         <div>
@@ -87,22 +120,6 @@ function HospitalHeader() {
                                                 <li className="has-sub">
                                                     <NavLink to="/hospitalhome"><h6>Home</h6></NavLink>
                                                 </li>
-                                                {/* <li><a href="about.html">About Us</a></li> */}
-                                                {/* <li className="has-sub">
-                                                    <a href="services.html">Services</a>
-                                                    <ul>
-                                                        <li><a href="services.html">Services</a></li>
-                                                        <li><a href="services-detail.html">Services Details</a></li>
-                                                    </ul>
-                                                </li> */}
-
-                                                {/* <li className="has-sub">
-                                                    <a href="blog.html">Blog</a>
-                                                    <ul>
-                                                        <li><a href="blog.html">Blog</a></li>
-                                                        <li><a href="blog-details.html">Blog Details</a></li>
-                                                    </ul>
-                                                </li> */}
                                                 <li className="has-sub">
                                                     <h6>Registration</h6>
                                                     <ul>
@@ -115,7 +132,15 @@ function HospitalHeader() {
                                     </div>
                                 </div>
                                 <div className="col-xl-2 col-lg-2 d-none d-lg-block">
-                                    <NavLink to="/"><button className="top-btn">Logout</button></NavLink>
+                                    <div className="d-flex align-items-center justify-content-end">
+                                        <button
+                                            onClick={() => setIsProfileOpen(true)}
+                                            style={{ background: 'none', border: 'none', padding: 0, marginRight: '15px', width: '60px', cursor: 'pointer' }}
+                                        >
+                                            <i className="fas fa-user-circle" style={{ fontSize: '45px', color: '#1E0B9B' }}></i>
+                                        </button>
+                                        <button onClick={handleLogout} className="top-btn" style={{ padding: '12px 30px', fontSize: '16px' }}>Logout</button>
+                                    </div>
                                 </div>
                                 <div className="col-md-6 col-6 d-block d-lg-none">
                                     <div className="mobile-menu-toggle d-flex justify-content-end align-items-center">
@@ -136,25 +161,9 @@ function HospitalHeader() {
                 <span className="menu-close" onClick={toggleMobileMenu}>
                     <i className="fas fa-times"></i>
                 </span>
-                
 
                 <ul className="d-block" style={{ marginTop: '40px' }}>
                     <li><NavLink to="/hospitalhome" onClick={toggleMobileMenu}>Home</NavLink></li>
-                    {/* <li><a href="about.html" onClick={toggleMobileMenu}>About Us</a></li> */}
-                    {/* <li>
-                        <a href="#" onClick={(e) => e.preventDefault()}>Services</a>
-                        <ul className="sub-menu pl-3" style={{ display: 'block' }}>
-                            <li><a href="services.html" onClick={toggleMobileMenu}>Services</a></li>
-                            <li><a href="services-detail.html" onClick={toggleMobileMenu}>Services Details</a></li>
-                        </ul>
-                    </li> */}
-                    {/* <li>
-                        <a href="#" onClick={(e) => e.preventDefault()}>Blog</a>
-                        <ul className="sub-menu pl-3" style={{ display: 'block' }}>
-                            <li><a href="blog.html" onClick={toggleMobileMenu}>Blog</a></li>
-                            <li><a href="blog-details.html" onClick={toggleMobileMenu}>Blog Details</a></li>
-                        </ul>
-                    </li> */}
                     <li>
                         Registration
                         <ul className="sub-menu pl-3" style={{ display: 'block' }}>
@@ -162,7 +171,7 @@ function HospitalHeader() {
                             <li><NavLink to="/ambulance" onClick={toggleMobileMenu}>Ambulance Registration</NavLink></li>
                         </ul>
                     </li>
-                    <li><NavLink to="/" onClick={toggleMobileMenu}>Logout</NavLink></li>
+                    <li><span onClick={handleLogout} style={{ cursor: 'pointer', color: '#333', fontWeight: '500' }}>Logout</span></li>
                 </ul>
 
                 <div className="side-social" style={{ marginTop: '20px' }}>
@@ -174,6 +183,22 @@ function HospitalHeader() {
             </div>
 
             <div className={`offcanvas-overly ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
+
+            {/* Models */}
+            {isProfileOpen && (
+                <HospitalProfile
+                    hospitalData={hospitalData}
+                    handleOpenEditProfile={handleOpenEditProfile}
+                    onClose={() => setIsProfileOpen(false)}
+                />
+            )}
+
+            {isEditProfileOpen && (
+                <HospitalEditProfile
+                    hospitalData={hospitalData}
+                    onClose={() => setIsEditProfileOpen(false)}
+                />
+            )}
         </div>
     );
 }
