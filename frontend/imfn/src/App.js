@@ -7,7 +7,7 @@ import DoctorRegForm from './components/forms/doctorRegForm/DoctorRegForm'
 import PharmacyForm from './components/forms/pharmacyRegForm/PharmacyForm'
 import LandingHome from './components/landingPage/LandingHome'
 import LoginPage from './components/loginPage/LoginPage'
-import AdminHomePage from './components/admin/adminHomePage/AdminHomePage'
+import AdminHomePage from './components/admin/AdminDashboard/AdminDashboard'
 import HospitalTable from './components/tables/hospitalTable/HospitalTable'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import PatientHome from './components/Patient/PatientHome/PatientHome'
@@ -40,12 +40,12 @@ function App() {
           <Route path='/registerDoctor' element={<RegisterDoctor />} />
           <Route path='/viewDoctors' element={<ViewDoctor />} />
           <Route path='/RegAmbulance' element={<RegisterAmbulance />} />
-          <Route path='/viewAmbulance' element={<ViewAmbulance/>} />
+          <Route path='/viewAmbulance' element={<ViewAmbulance />} />
           <Route path='/doctorHome' element={<DoctorHome />} />
-          <Route path='/AmbulanceHome' element={<AmbulanceHome/>} />
+          <Route path='/AmbulanceHome' element={<AmbulanceHome />} />
           <Route path='/DoctorProfile' element={<DoctorProfile />} />
           <Route path='/AmbulanceProfile' element={<AmbulanceProfile />} />
-          <Route path='/AmbulanceEditProfile' element={<AmbulanceEditProfile />}   />
+          <Route path='/AmbulanceEditProfile' element={<AmbulanceEditProfile />} />
         </Routes>
       </BrowserRouter>
     </div>
