@@ -15,6 +15,7 @@ import '../../../asset/user_assets/css/style.css';
 import '../../../asset/user_assets/css/responsive.css';
 import DoctorEditProfile from '../DoctorEditProfile/DoctorEditProfile';
 import DoctorProfile from '../DoctorProfile/DoctorProfile';
+import ChangePassword from '../../forms/ChangePassword/ChangePassword';
 
 function DoctorHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,6 +26,7 @@ function DoctorHeader() {
 
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+    const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
 
 
     const handleCloseProfile = () => {
@@ -44,6 +46,21 @@ function DoctorHeader() {
         setIsEditProfileOpen(false)
         getDoctorData();
     }
+
+    const handleOpenChangePassword = () => {
+        setIsChangePasswordOpen(true)
+        console.log("Open", isChangePasswordOpen)
+        handleCloseProfile();
+
+    }
+
+    const handleCloseChangePassword = () => {
+        setIsChangePasswordOpen(false)
+        console.log("Close", isChangePasswordOpen)
+    }
+
+
+
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -241,16 +258,23 @@ function DoctorHeader() {
                     <DoctorProfile
                         doctorData={doctorData}
                         handleOpenEditProfile={handleOpenEditProfile}
+                        handleOpenChangePassword={handleOpenChangePassword}
                         onClose={handleCloseProfile}
                     />
                 )
             }
+            
             {
                 isEditProfileOpen && (
                     <DoctorEditProfile
                         doctorData={doctorData}
                         onClose={handleCloseEditProfile}
                     />
+                )
+            }
+            {
+                isChangePasswordOpen && (
+                    <ChangePassword onClose={handleCloseChangePassword} />
                 )
             }
         </div>

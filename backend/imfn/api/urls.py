@@ -10,4 +10,5 @@ urlpatterns = [
     ),
     path("login_function/", views.login_function, name="login_function"),
     path("register_admin/", views.register_admin, name="register_admin"),
+    path("change_password/", views.change_password, name="change_password"),
 ]
