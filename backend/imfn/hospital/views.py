@@ -333,3 +333,39 @@ def edit_ambulance(request):
             {"error": "Internal server error"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+        
+
+@api_view(['DELETE'])
+def delete_ambulance(request):
+    serializer = AmbulanceDeleteSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.validated_data
+    
+    db = get_db()
+    ambulance_col = db['ambulance']
+    login_col = db['login']
+    
+    ambulance = ambulance_col.find_one({'_id': ObjectId(data['ambulanceId'])})
+    
+    if not ambulance:
+        return Response(
+            {"error": "Ambulance not found"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    login_id = ambulance['login_id']
+    
+    try:
+        ambulance_col.delete_one({'_id': ObjectId(data['ambulanceId'])})
+        login_col.delete_one({'_id': ObjectId(login_id)})
+        
+        return Response(
+            {"message": "Ambulance Deleted"},
+            status=status.HTTP_200_OK
+        )
+    except Exception as e:
+        print(e)
+        return Response(
+            {"error": "Internal server error"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
