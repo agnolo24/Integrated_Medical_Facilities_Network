@@ -49,6 +49,7 @@ class DoctorRegistrationSerializer(serializers.Serializer):
     contactNumber = serializers.CharField(max_length=20)
     email = serializers.EmailField()
 
+
 class EditDoctorSerializer(serializers.Serializer):
     specialization_choice = [
         "Cardiology",
@@ -95,46 +96,36 @@ class EditDoctorSerializer(serializers.Serializer):
     contactNumber = serializers.CharField(max_length=20)
     hospital_login_id = serializers.CharField(max_length=100)
     doctorId = serializers.CharField(max_length=100)
-    
-    
+
+
 class AmbulanceRegistrationSerializer(serializers.Serializer):
-    ambulance_choices = [
-        'bls',
-        'als',
-        'micu',
-        'icu'
-    ]
-    
+    ambulance_choices = ["bls", "als", "micu", "icu"]
+
     category_choice = [
-        'Category 1: Life-threatening emergencies',
-        'Category 2: Emergency calls',
-        'Category 3: Urgent problems',
-        'Category 4: Non-urgent problems'
+        "Category 1: Life-threatening emergencies",
+        "Category 2: Emergency calls",
+        "Category 3: Urgent problems",
+        "Category 4: Non-urgent problems",
     ]
-    
-    hospital_login_id = serializers.CharField(max_length=50)    
+
+    hospital_login_id = serializers.CharField(max_length=50)
     name = serializers.CharField(max_length=30)
     ambulanceType = serializers.ChoiceField(choices=ambulance_choices)
     vehicleNumber = serializers.CharField(max_length=20)
     category = serializers.ChoiceField(choices=category_choice)
     contactNumber = serializers.CharField(max_length=20)
     email = serializers.EmailField()
-    
-    
+
+
 class AmbulanceUpdateSerializer(serializers.Serializer):
-    ambulance_choices = [
-        'bls',
-        'als',
-        'micu',
-        'icu'
-    ]
-    
+    ambulance_choices = ["bls", "als", "micu", "icu"]
+
     category_choice = [
-        'Category 1: Life-threatening emergencies',
-        'Category 2: Emergency calls',
-        'Category 3: Urgent problems',
-        'Category 4: Non-urgent problems'
-    ]   
+        "Category 1: Life-threatening emergencies",
+        "Category 2: Emergency calls",
+        "Category 3: Urgent problems",
+        "Category 4: Non-urgent problems",
+    ]
     name = serializers.CharField(max_length=30)
     ambulanceType = serializers.ChoiceField(choices=ambulance_choices)
     vehicleNumber = serializers.CharField(max_length=20)
@@ -144,3 +135,11 @@ class AmbulanceUpdateSerializer(serializers.Serializer):
 
 class AmbulanceDeleteSerializer(serializers.Serializer):
     ambulanceId = serializers.CharField(max_length=100)
+
+
+class EditHospitalSerializer(serializers.Serializer):
+    hospitalName = serializers.CharField(max_length=100)
+    registrationId = serializers.CharField(max_length=50)
+    hospitalAddress = serializers.CharField(max_length=200)
+    contactNumber = serializers.CharField(max_length=20)
+    hospitalId = serializers.CharField(max_length=100)
