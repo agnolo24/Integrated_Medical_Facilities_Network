@@ -1,26 +1,21 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import './CreateSchedule.css'
 
 function CreateSchedule({ doctor, onClose }) {
+    const createScheduleUrl = "http://127.0.0.1:8000/hospital/create_schedule/"
     const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
     const [schedules, setSchedules] = useState({
-        sunday: [],
-        monday: [],
-        tuesday: [],
-        wednesday: [],
-        thursday: [],
-        friday: [],
-        saturday: []
+        sunday: [], monday: [], tuesday: [], wednesday: [], thursday: [], friday: [], saturday: []
     })
 
-    // State for time input modal
     const [showTimeInput, setShowTimeInput] = useState(false)
     const [selectedDay, setSelectedDay] = useState('')
     const [startTime, setStartTime] = useState('')
     const [endTime, setEndTime] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
-    // Format time to 12-hour format
     const formatTime = (time24) => {
         const [hours, minutes] = time24.split(':')
         const hour = parseInt(hours)
@@ -29,122 +24,114 @@ function CreateSchedule({ doctor, onClose }) {
         return `${hour12}:${minutes} ${ampm}`
     }
 
-    // Open time input modal for a specific day
     const openTimeInput = (day) => {
-        setSelectedDay(day)
-        setStartTime('')
-        setEndTime('')
-        setShowTimeInput(true)
+        setSelectedDay(day); setShowTimeInput(true);
     }
 
-    // Add schedule to a day
     const addSchedule = () => {
-        if (!startTime || !endTime) {
-            alert('Please select both start and end times')
-            return
-        }
-
-        if (startTime >= endTime) {
-            alert('End time must be after start time')
-            return
-        }
-
+        if (!startTime || !endTime) return alert('Select both times')
+        if (startTime >= endTime) return alert('End time must be after start time')
         const newSchedule = `${formatTime(startTime)} - ${formatTime(endTime)}`
-
-        setSchedules(prev => ({
-            ...prev,
-            [selectedDay]: [...prev[selectedDay], newSchedule]
-        }))
-
-        setShowTimeInput(false)
-        setStartTime('')
-        setEndTime('')
+        setSchedules(prev => ({ ...prev, [selectedDay]: [...prev[selectedDay], newSchedule] }))
+        cancelTimeInput()
     }
 
-    // Remove schedule from a day
-    const removeSchedule = (day, index) => {
-        setSchedules(prev => ({
-            ...prev,
-            [day]: prev[day].filter((_, i) => i !== index)
-        }))
-    }
-
-    // Cancel time input
     const cancelTimeInput = () => {
-        setShowTimeInput(false)
-        setStartTime('')
-        setEndTime('')
+        setShowTimeInput(false); setStartTime(''); setEndTime('');
+    }
+
+    const removeSchedule = (day, index) => {
+        setSchedules(prev => ({ ...prev, [day]: prev[day].filter((_, i) => i !== index) }))
+    }
+
+    const handleSubmit = async () => {
+        // Check if at least one schedule is added
+        const hasSchedules = days.some(day => schedules[day].length > 0)
+        if (!hasSchedules) {
+            return alert('Please add at least one schedule before saving')
+        }
+
+        const hospital_login_id = localStorage.getItem("loginId")
+
+        setIsLoading(true)
+        try {
+            console.log({data: {
+                schedules,
+                hospital_login_id,
+                doctorId: doctor._id
+            }})
+            const response = await axios.post(createScheduleUrl, {
+                schedules,
+                hospital_login_id,
+                doctorId: doctor._id
+            })
+
+            alert("Schedule saved successfully!")
+            onClose()
+        } catch (error) {
+            alert(error?.response?.data?.error || "An error occurred while saving the schedule")
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
-        <div className="profile-overlay">
-            <div className="profile-modal schedule-modal">
-                <button className="close-btn" onClick={onClose}>&times;</button>
+        <div className="m-sched-overlay">
+            <div className="m-sched-modal">
+                <button className="m-sched-close-x" onClick={onClose}>&times;</button>
 
-                <div className="profile-header">
+                <div className="m-sched-header">
                     <h2>Schedule Duty</h2>
-                    <p className="profile-role">Managing schedule for Dr. {doctor?.name || 'Doctor'}</p>
+                    <p>Managing schedule for <strong>Dr. {doctor?.name || 'doc1'}</strong></p>
                 </div>
 
-                <div className="schedule-grid">
+                <div className="m-sched-list">
                     {days.map((day) => (
-                        <div className="day-row" key={day}>
-                            <span className="day-name">{day}</span>
-                            <div className="day-schedules">
+                        <div className="m-sched-row" key={day}>
+                            <div className="m-sched-day-label">{day}</div>
+                            <div className="m-sched-pills-area">
                                 {schedules[day].length === 0 ? (
-                                    <span style={{ color: '#999', fontSize: '13px' }}>No schedules added</span>
+                                    <span className="m-sched-empty-text">No schedules added</span>
                                 ) : (
-                                    schedules[day].map((schedule, index) => (
-                                        <span className="schedule-tag" key={index}>
-                                            {schedule}
-                                            <button
-                                                className="remove-schedule"
-                                                onClick={() => removeSchedule(day, index)}
-                                                title="Remove schedule"
-                                            >
-                                                ×
-                                            </button>
-                                        </span>
+                                    schedules[day].map((time, index) => (
+                                        <div className="m-sched-pill" key={index}>
+                                            {time}
+                                            <button className="m-sched-pill-remove" onClick={() => removeSchedule(day, index)}>&times;</button>
+                                        </div>
                                     ))
                                 )}
                             </div>
-                            <button
-                                className="add-btn"
-                                onClick={() => openTimeInput(day)}
-                                title={`Add schedule for ${day}`}
-                            >
-                                +
-                            </button>
+                            <button className="m-sched-add-circle" onClick={() => openTimeInput(day)}>+</button>
                         </div>
                     ))}
                 </div>
 
-                {/* Time Input Modal */}
+                {/* Save Schedule Button */}
+                <div className="m-sched-footer">
+                    <button
+                        className="m-sched-btn-save"
+                        onClick={handleSubmit}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Saving...' : 'Save Schedule'}
+                    </button>
+                </div>
+
                 {showTimeInput && (
-                    <div className="time-input-overlay">
-                        <div className="time-input-box">
-                            <div className="time-field">
+                    <div className="m-sched-popover-bg">
+                        <div className="m-sched-popover-box">
+                            <div className="m-sched-input-group">
                                 <label>Start Time</label>
-                                <input
-                                    type="time"
-                                    value={startTime}
-                                    onChange={(e) => setStartTime(e.target.value)}
-                                />
+                                <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
                             </div>
-                            <div className="time-field">
+                            <div className="m-sched-input-group">
                                 <label>End Time</label>
-                                <input
-                                    type="time"
-                                    value={endTime}
-                                    onChange={(e) => setEndTime(e.target.value)}
-                                />
+                                <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
                             </div>
-                            <button className="edit-btn" onClick={addSchedule}>
-                                Add
-                            </button>
-                            <button className="password-btn" onClick={cancelTimeInput}>
-                                Cancel
-                            </button>
+                            <div className="m-sched-popover-actions">
+                                <button className="m-sched-btn-cancel" onClick={cancelTimeInput}>Cancel</button>
+                                <button className="m-sched-btn-confirm" onClick={addSchedule}>Add Slot</button>
+                            </div>
                         </div>
                     </div>
                 )}
