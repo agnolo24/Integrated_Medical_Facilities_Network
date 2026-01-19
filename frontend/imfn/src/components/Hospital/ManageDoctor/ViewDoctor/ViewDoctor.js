@@ -6,6 +6,7 @@ import HospitalFooter from '../../HospitalFooter/HospitalFooter';
 import EditDoctor from '../EditDoctor/EditDoctor';
 
 import './ViewDoctor.css';
+import ViewDoctorSchedules from '../ViewDoctorSchedules/ViewDoctorSchedules';
 
 function ViewDoctor() {
     const viewDoctorUrl = "http://127.0.0.1:8000/hospital/view_doctors/"
@@ -16,6 +17,9 @@ function ViewDoctor() {
 
     const [selectedDoctor, setSelectedDoctor] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const [selectedDoctorForSchedule, setSelectedDoctorForSchedule] = useState([])
+    const [isScheduleOpen, setIsScheduleOpen] = useState(false)
 
     useEffect(() => {
         getData();
@@ -47,7 +51,7 @@ function ViewDoctor() {
         getData()
     }
 
-    const handleDelete = async(doctor) => {
+    const handleDelete = async (doctor) => {
         const res = window.confirm(`Are you sure you want to delete Dr. ${doctor.name}?`)
 
         if (res) {
@@ -66,6 +70,15 @@ function ViewDoctor() {
                 alert(error?.response?.data?.error || "Failed to Delete Dr. " + doctor.name)
             }
         }
+    }
+
+    const handleScheduleClick = (doc) => {
+        setIsScheduleOpen(true)
+        setSelectedDoctorForSchedule(doc)
+    }
+
+    const handleScheduleClose = () => {
+        setIsScheduleOpen(false)
     }
 
     return (
@@ -102,8 +115,15 @@ function ViewDoctor() {
                                                 <button className='btn btn-secondary' style={{ 'borderRadius': '25px' }} onClick={() => handleEditClick(doc)}>Edit</button>
                                             </div>
                                             <div className='button-doc col align-self-center'>
-                                                <button className='btn btn-warning' style={{ 'borderRadius': '25px' }} onClick={() => handleDelete(doc)}>Delete</button>
+                                                <button className='btn btn-secondary' style={{ 'borderRadius': '25px' }} onClick={() => handleDelete(doc)}>Delete</button>
                                             </div>
+                                        </div>
+                                        <div className='row'>
+                                            <center>
+                                                <div style={{'margin-top':'20px'}}>
+                                                    <button className='btn btn-secondary' style={{ 'borderRadius': '25px', 'width': '80%'}} onClick={() => handleScheduleClick(doc)}>Schedules</button>
+                                                </div>
+                                            </center>
                                         </div>
 
                                     </div>
@@ -127,6 +147,17 @@ function ViewDoctor() {
                 )
             }
 
+            
+            {
+                isScheduleOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <button className="close-button" onClick={handleScheduleClose}>&times;</button>
+                            <ViewDoctorSchedules doctorData={selectedDoctorForSchedule} onClose={handleScheduleClose} />
+                        </div>
+                    </div>
+                ) 
+            }
             <HospitalFooter />
         </div>
     );

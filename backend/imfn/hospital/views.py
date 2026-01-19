@@ -444,3 +444,13 @@ def change_hospital_password(request):
         return Response(
             {"error": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+
+
+@api_view(["GET"])
+def doctor_schedule(request):
+    doctor_id = request.query_params.get('doctorId')
+    
+    return Response(
+        {"message": "No schedules fount.."},
+        status=status.HTTP_200_OK
+    )
