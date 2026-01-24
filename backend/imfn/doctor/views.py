@@ -40,3 +40,5 @@ def getDoctorData(request):
 
 
     return Response(doctor_cur,status=status.HTTP_200_OK)
+
+
