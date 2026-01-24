@@ -3,11 +3,21 @@ import DoctorHeader from '../../DoctorHeader/DoctorHeader';
 import DoctorFooter from '../../DoctorFooter/DoctorFooter';
 import './ViewPatientAppointments.css';
 import axios from 'axios';
+import ViewPatientAppointmentDetails from '../ViewPatientAppointmentDetails/ViewPatientAppointmentDetails';
 
 export default function ViewPatientAppointments() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('scheduled');
   const [appointments, setAppointments] = useState([]);
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState([])
+  const [isAppointmentDetailsOpen, setIsAppointmentDetailsOpen] = useState(false)
+
+  const openAppointmentDetails = (_id) => {
+    setSelectedAppointmentId(_id)
+    setIsAppointmentDetailsOpen(true)
+  }
+  const closeAppointmentDetails = () => setIsAppointmentDetailsOpen(false)
+
 
 
   const fetchData = async () => {
@@ -112,7 +122,7 @@ export default function ViewPatientAppointments() {
                         </span>
                       </td>
                       <td>
-                        <button className="vpa-action-btn vpa-btn-view" title="View Details">
+                        <button className="vpa-action-btn vpa-btn-view" title="View Details" onClick={() => openAppointmentDetails(apt._id)} >
                           <i className="fas fa-eye"></i>
                         </button>
                       </td>
@@ -131,6 +141,12 @@ export default function ViewPatientAppointments() {
           </div>
         </div>
       </div>
+
+      {
+        isAppointmentDetailsOpen && (
+          <ViewPatientAppointmentDetails selectedAppointmentId={selectedAppointmentId} closeAppointmentDetails={closeAppointmentDetails} />
+        )
+      }
 
       <DoctorFooter />
     </div>

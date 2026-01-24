@@ -104,3 +104,40 @@ def get_patient_appointment(request):
         ) 
 
     return Response({},status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_patient_appointment_details(request):
+    login_id = request.query_params.get("login_id")
+    apt_id = request.query_params.get("apt_id")
+    
+    db = get_db()
+    appointment_col = db['appointments']
+    patient_col = db['patient']
+    
+    try:
+        appointment = appointment_col.find_one({"_id": ObjectId(apt_id)})
+        if not appointment:
+            return Response({"error": "Appointment not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        patient = patient_col.find_one({"_id": ObjectId(appointment["patient_id"])})
+        if not patient:
+            return Response({"error": "Patient not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        appointment["_id"] = str(appointment["_id"])
+        appointment["patient_login_id"] = str(appointment["patient_login_id"])
+        appointment["patient_id"] = str(appointment["patient_id"])
+        appointment["doctor_id"] = str(appointment["doctor_id"])
+        appointment["hospital_login_id"] = str(appointment["hospital_login_id"])
+        appointment["patient_name"] = patient.get("name", "")
+        appointment["patient_contact"] = patient.get("contact", "")
+        appointment["patient_age"] = patient.get("age", "")
+        appointment["patient_gender"] = patient.get("gender", "")
+        appointment["patient_address"] = patient.get("address", "")
+
+        return Response(appointment,status=status.HTTP_200_OK)
+    except Exception as e:
+        print(f"Error getting appointment details: {e}")
+        return Response(
+            {"error": "Failed to get appointment details"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
