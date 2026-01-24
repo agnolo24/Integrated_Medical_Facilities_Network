@@ -446,11 +446,142 @@ def change_hospital_password(request):
         )
 
 
+@api_view(["POST"])
+def create_schedule(request):
+    """
+    Create or update a doctor's schedule.
+
+    Expected POST data:
+    {
+        "doctorId": "string",
+        "hospital_login_id": "string",
+        "schedules": {
+            "sunday": ["10:00 AM - 12:00 PM", "2:00 PM - 4:00 PM"],
+            "monday": ["9:00 AM - 1:00 PM"],
+            ...
+        }
+    }
+    """
+    serializer = CreateScheduleSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.validated_data
+
+    db = get_db()
+    doctor_col = db["doctors"]
+    schedule_col = db["doctor_schedules"]
+
+    doctor_id = data["doctorId"]
+    hospital_login_id = data["hospital_login_id"]
+    schedules = data["schedules"]
+
+    try:
+        # Verify the doctor exists and belongs to the hospital
+        doctor = doctor_col.find_one(
+            {
+                "_id": ObjectId(doctor_id),
+                "hospital_login_id": ObjectId(hospital_login_id),
+            }
+        )
+
+        if not doctor:
+            return Response(
+                {"error": "Doctor not found or does not belong to this hospital"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        # Check if schedule already exists for this doctor
+        existing_schedule = schedule_col.find_one({"doctor_id": ObjectId(doctor_id)})
+
+        schedule_doc = {
+            "doctor_id": ObjectId(doctor_id),
+            "hospital_login_id": ObjectId(hospital_login_id),
+            "schedules": schedules,
+            "updated_at": datetime.utcnow(),
+        }
+
+        if existing_schedule:
+            # Update existing schedule
+            schedule_col.update_one(
+                {"doctor_id": ObjectId(doctor_id)}, {"$set": schedule_doc}
+            )
+            message = "Schedule updated successfully"
+        else:
+            # Create new schedule
+            schedule_doc["created_at"] = datetime.utcnow()
+            schedule_col.insert_one(schedule_doc)
+            message = "Schedule created successfully"
+
+        return Response({"message": message}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(f"Error creating/updating schedule: {e}")
+        return Response(
+            {"error": "Failed to save schedule. Please try again."},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+
 @api_view(["GET"])
-def doctor_schedule(request):
-    doctor_id = request.query_params.get('doctorId')
-    
-    return Response(
-        {"message": "No schedules fount.."},
-        status=status.HTTP_200_OK
-    )
+def get_schedule(request):
+    """
+    Get a doctor's schedule.
+
+    Query params:
+    - doctorId: The doctor's ID
+    """
+    doctor_id = request.query_params.get("doctorId")
+
+    if not doctor_id:
+        return Response(
+            {"error": "Doctor ID is required"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    db = get_db()
+    schedule_col = db["doctor_schedules"]
+
+    try:
+        if not ObjectId.is_valid(doctor_id):
+            return Response(
+                {"error": "Invalid Doctor ID"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        schedule = schedule_col.find_one({"doctor_id": ObjectId(doctor_id)})
+
+        if not schedule:
+            # Return empty schedules if none exist
+            return Response(
+                {
+                    "schedules": {
+                        "sunday": [],
+                        "monday": [],
+                        "tuesday": [],
+                        "wednesday": [],
+                        "thursday": [],
+                        "friday": [],
+                        "saturday": [],
+                    }
+                },
+                status=status.HTTP_200_OK,
+            )
+
+        # Convert ObjectId fields to string for JSON serialization
+        schedule["_id"] = str(schedule["_id"])
+        schedule["doctor_id"] = str(schedule["doctor_id"])
+        schedule["hospital_login_id"] = str(schedule["hospital_login_id"])
+
+        return Response(
+            {
+                "schedules": schedule["schedules"],
+                "schedule_id": schedule["_id"],
+                "updated_at": schedule.get("updated_at"),
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    except Exception as e:
+        print(f"Error fetching schedule: {e}")
+        return Response(
+            {"error": "Failed to fetch schedule"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+

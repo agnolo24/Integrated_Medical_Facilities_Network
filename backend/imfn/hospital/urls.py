@@ -12,6 +12,12 @@ urlpatterns = [
     path("delete_ambulance/", views.delete_ambulance, name="delete_ambulance"),
     path("getHospitalData/", views.getHospitalData, name="getHospitalData"),
     path("editHospital/", views.editHospital, name="editHospital"),
-    path("change_hospital_password/", views.change_hospital_password, name="change_hospital_password"),
-    path("doctor_schedule/", views.doctor_schedule, name="doctor_schedule"),
+    path(
+        "change_hospital_password/",
+        views.change_hospital_password,
+        name="change_hospital_password",
+    ),
+    # Schedule management endpoints
+    path("create_schedule/", views.create_schedule, name="create_schedule"),
+    path("get_schedule/", views.get_schedule, name="get_schedule"),
 ]
