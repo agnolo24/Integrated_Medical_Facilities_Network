@@ -1,0 +1,277 @@
+.find-doctors-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.find-doctors-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Search Hero Section */
+.search-hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.search-hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-hero p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+}
+
+/* Search Box */
+.search-box-container {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.search-filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 10px 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.filter-btn.active {
+    background: white;
+    color: #667eea;
+    border-color: white;
+}
+
+.search-input-wrapper {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 20px 30px;
+    padding-right: 60px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 60px;
+    background: white;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+}
+
+.search-input::placeholder {
+    color: #94a3b8;
+}
+
+.search-spinner {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e2e8f0;
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Suggestions Dropdown */
+.suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    z-index: 100;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background: #f8fafc;
+}
+
+.suggestion-icon {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 12px;
+}
+
+.suggestion-content {
+    flex: 1;
+}
+
+.suggestion-name {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.suggestion-detail {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.suggestion-type-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.suggestion-item.doctor .suggestion-type-badge {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.suggestion-item.hospital .suggestion-type-badge {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.no-results {
+    padding: 30px;
+    text-align: center;
+    color: #64748b;
+}
+
+/* Quick Actions */
+.quick-actions {
+    margin-top: 60px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    backdrop-filter: blur(20px);
+}
+
+.quick-actions h2 {
+    color: white;
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.specialization-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.specialization-card {
+    background: white;
+    padding: 24px;
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.specialization-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.spec-icon {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+}
+
+.spec-name {
+    font-weight: 700;
+    color: #334155;
+    font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .search-hero p {
+        font-size: 1rem;
+    }
+    
+    .search-input {
+        padding: 16px 24px;
+        font-size: 1rem;
+    }
+    
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .specialization-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .specialization-card {
+        padding: 16px;
+    }
+    
+    .spec-icon {
+        font-size: 2rem;
+    }
+}

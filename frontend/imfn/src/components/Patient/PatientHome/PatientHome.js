@@ -5,8 +5,8 @@ import CardView from '../../Hospital/HospitalComponents/CardView';
 
 export default function PatientHome() {
     const card = [
-        { id: 1, name: "Find Doctors", link: "#" },
-        { id: 2, name: "View Appointments", link: "#" },
+        { id: 1, name: "Find Doctors", link: "/findDoctors" },
+        { id: 2, name: "View Appointments", link: "/viewAppointments" },
     ];
 
     return (
