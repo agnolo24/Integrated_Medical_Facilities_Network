@@ -26,7 +26,7 @@ export default function ViewPatientAppointments() {
 
   const filteredAppointments = appointments.filter(apt => {
     const matchesSearch = apt.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      apt.id.toLowerCase().includes(searchTerm.toLowerCase());
+      (apt._id && apt._id.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesStatus = filterStatus === 'all' || apt.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
@@ -64,7 +64,7 @@ export default function ViewPatientAppointments() {
             </div>
 
             <div className="vpa-filter-group">
-              {['all', 'scheduled', 'completed', 'cancelled'].map(status => (
+              {['all', 'scheduled', 'completed', 'cancelled',].map(status => (
                 <button
                   key={status}
                   className={`vpa-filter-btn ${filterStatus === status ? 'active' : ''}`}
@@ -91,7 +91,7 @@ export default function ViewPatientAppointments() {
               <tbody>
                 {filteredAppointments.length > 0 ? (
                   filteredAppointments.map(apt => (
-                    <tr key={apt.id}>
+                    <tr key={apt._id}>
                       <td>
                         <div style={{ fontWeight: '600', color: '#2c3e50' }}>{apt.patientName}</div>
                         {/* <div style={{ fontSize: '0.8rem', color: '#95a5a6' }}>ID: {apt.id} • {apt.age}y/{apt.gender}</div> */}
