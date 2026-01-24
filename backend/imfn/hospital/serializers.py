@@ -143,3 +143,56 @@ class EditHospitalSerializer(serializers.Serializer):
     hospitalAddress = serializers.CharField(max_length=200)
     contactNumber = serializers.CharField(max_length=20)
     hospitalId = serializers.CharField(max_length=100)
+
+
+class DayScheduleSerializer(serializers.Serializer):
+    """Serializer for individual day schedule - expects a list of time slot strings"""
+
+    pass  # This is a placeholder, we validate the list in the parent serializer
+
+
+class CreateScheduleSerializer(serializers.Serializer):
+    """Serializer for creating doctor schedules"""
+
+    VALID_DAYS = [
+        "sunday",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+    ]
+
+    doctorId = serializers.CharField(max_length=100)
+    hospital_login_id = serializers.CharField(max_length=100)
+    schedules = serializers.DictField(
+        child=serializers.ListField(
+            child=serializers.CharField(max_length=50), allow_empty=True
+        )
+    )
+
+    def validate_schedules(self, value):
+        """Validate that schedules contains valid day keys"""
+        for day in value.keys():
+            if day.lower() not in self.VALID_DAYS:
+                raise serializers.ValidationError(
+                    f"Invalid day: {day}. Must be one of {self.VALID_DAYS}"
+                )
+        return value
+
+    def validate(self, data):
+        """Validate that at least one day has schedules"""
+        schedules = data.get("schedules", {})
+        has_schedules = any(len(slots) > 0 for slots in schedules.values())
+        if not has_schedules:
+            raise serializers.ValidationError(
+                {"schedules": "At least one schedule slot is required"}
+            )
+        return data
+
+
+class GetScheduleSerializer(serializers.Serializer):
+    """Serializer for getting doctor schedules"""
+
+    doctorId = serializers.CharField(max_length=100)

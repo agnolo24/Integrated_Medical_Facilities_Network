@@ -6,7 +6,7 @@ import HospitalFooter from '../../HospitalFooter/HospitalFooter';
 import EditDoctor from '../EditDoctor/EditDoctor';
 
 import './ViewDoctor.css';
-import ViewDoctorSchedules from '../ViewDoctorSchedules/ViewDoctorSchedules';
+import CreateSchedule from '../CreateSchedule/CreateSchedule';
 
 function ViewDoctor() {
     const viewDoctorUrl = "http://127.0.0.1:8000/hospital/view_doctors/"
@@ -153,7 +153,7 @@ function ViewDoctor() {
                     <div className="modal-overlay">
                         <div className="modal-content">
                             <button className="close-button" onClick={handleScheduleClose}>&times;</button>
-                            <ViewDoctorSchedules doctorData={selectedDoctorForSchedule} onClose={handleScheduleClose} />
+                            <CreateSchedule doctor={selectedDoctorForSchedule} onClose={handleScheduleClose}/>
                         </div>
                     </div>
                 ) 
