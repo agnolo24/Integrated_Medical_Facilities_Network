@@ -29,6 +29,9 @@ import BookAppointment from './components/Patient/BookAppointment/BookAppointmen
 import HospitalDetails from './components/Patient/HospitalDetails/HospitalDetails'
 import ViewAppointments from './components/Patient/ViewAppointments/ViewAppointments'
 
+//Doctor Module Components
+import ViewPatientAppointments from './components/Doctor/ManagePatient/ViewPatientAppointments/ViewPatientAppointments'
+
 function App() {
   return (
     <div>
@@ -61,6 +64,7 @@ function App() {
           <Route path='/bookAppointment' element={<BookAppointment />} />
           <Route path='/hospitalDetails' element={<HospitalDetails />} />
           <Route path='/viewAppointments' element={<ViewAppointments />} />
+          <Route path='/viewPatientAppointments' element={<ViewPatientAppointments />} />
         </Routes>
       </BrowserRouter>
     </div>

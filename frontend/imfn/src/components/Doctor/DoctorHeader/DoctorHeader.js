@@ -167,13 +167,13 @@ function DoctorHeader() {
                                                                     <li><a href="blog-details.html">Blog Details</a></li>
                                                                 </ul>
                                                             </li> */}
-                                                <li className="has-sub">
+                                                {/* <li className="has-sub">
                                                     <h6>Registration</h6>
                                                     <ul>
                                                         <li><NavLink to="/registerDoctor">Doctor Registration</NavLink></li>
                                                         <li><NavLink to="/RegAmbulance">Ambulance Registration</NavLink></li>
                                                     </ul>
-                                                </li>
+                                                </li> */}
                                                 {/* <li>
 
                                                     <button onClick={handleOpenProfile} style={{ background: 'none', border: 'none', padding: 0 }}>
@@ -234,13 +234,13 @@ function DoctorHeader() {
                                         <li><a href="blog-details.html" onClick={toggleMobileMenu}>Blog Details</a></li>
                                     </ul>
                                 </li> */}
-                    <li>
+                    {/* <li>
                         Registration
                         <ul className="sub-menu pl-3" style={{ display: 'block' }}>
                             <li><NavLink to="/doctorReg" onClick={toggleMobileMenu}>Doctor Registration</NavLink></li>
                             <li><NavLink to="/ambulance" onClick={toggleMobileMenu}>Ambulance Registration</NavLink></li>
                         </ul>
-                    </li>
+                    </li> */}
                     <li><NavLink to="/" onClick={toggleMobileMenu}>Logout</NavLink></li>
                 </ul>
 
