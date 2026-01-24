@@ -65,10 +65,9 @@ def get_patient_appointment(request):
             
 
 
-        appointments = list(appointment_col.find(query).sort("appointment_date", -1))
+        appointments = list(appointment_col.find(query).sort([("appointment_date", -1), ("time_slot", -1)]))
         appointment_list = []
         for apt in appointments:
-            print("looping")
             appointment_list.append(
                 {
                     "_id": str(apt["_id"]),
@@ -91,7 +90,6 @@ def get_patient_appointment(request):
                     ),
                 }
             )
-        print("data : ",appointment_list)
         return Response(
             {"appointments": appointment_list, "total": len(appointment_list)},
             status=status.HTTP_200_OK,
