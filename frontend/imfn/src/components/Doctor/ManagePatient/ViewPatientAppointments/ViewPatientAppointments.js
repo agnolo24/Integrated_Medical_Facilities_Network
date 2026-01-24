@@ -2,77 +2,27 @@ import React, { useState, useEffect } from 'react';
 import DoctorHeader from '../../DoctorHeader/DoctorHeader';
 import DoctorFooter from '../../DoctorFooter/DoctorFooter';
 import './ViewPatientAppointments.css';
+import axios from 'axios';
 
 export default function ViewPatientAppointments() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('scheduled');
   const [appointments, setAppointments] = useState([]);
 
-  // Mock data to simulate API response
 
   const fetchData = async () => {
-    const mockData = [
-      {
-        id: 'APT001',
-        patientName: 'John Doe',
-        age: 32,
-        gender: 'Male',
-        date: '2023-10-25',
-        time: '09:00 AM',
-        type: 'General Checkup',
-        status: 'scheduled',
-        reason: 'Persistent headache and fatigue'
-      },
-      {
-        id: 'APT002',
-        patientName: 'Sarah Smith',
-        age: 28,
-        gender: 'Female',
-        date: '2023-10-25',
-        time: '10:30 AM',
-        type: 'Follow-up',
-        status: 'completed',
-        reason: 'Post-surgery review'
-      },
-      {
-        id: 'APT003',
-        patientName: 'Michael Brown',
-        age: 45,
-        gender: 'Male',
-        date: '2023-10-26',
-        time: '11:00 AM',
-        type: 'Consultation',
-        status: 'scheduled',
-        reason: 'Knee pain evaluation'
-      },
-      {
-        id: 'APT004',
-        patientName: 'Emily Wilson',
-        age: 35,
-        gender: 'Female',
-        date: '2023-10-24',
-        time: '02:00 PM',
-        type: 'Emergency',
-        status: 'cancelled',
-        reason: 'High fever'
-      },
-      {
-        id: 'APT005',
-        patientName: 'Robert Johnson',
-        age: 55,
-        gender: 'Male',
-        date: '2023-10-27',
-        time: '09:30 AM',
-        type: 'Routine Checkup',
-        status: 'scheduled',
-        reason: 'Annual physical'
-      }
-    ];
-    setAppointments(mockData);
+
+    const URL = "http://127.0.0.1:8000/doctor/get_patient_appointment/"
+
+    const login_id = localStorage.getItem("loginId")
+    const response = await axios.get(URL, { params: { login_id: login_id, time_filter: filterStatus } });
+    if (response.data && response.data.appointments) {
+      setAppointments(response.data.appointments);
+    }
   }
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [filterStatus]);
 
   const filteredAppointments = appointments.filter(apt => {
     const matchesSearch = apt.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -147,10 +97,10 @@ export default function ViewPatientAppointments() {
                         {/* <div style={{ fontSize: '0.8rem', color: '#95a5a6' }}>ID: {apt.id} • {apt.age}y/{apt.gender}</div> */}
                       </td>
                       <td>
-                        <div style={{ color: '#34495e' }}>{apt.date}</div>
-                        <div style={{ fontSize: '0.85rem', color: '#7f8c8d' }}>{apt.time}</div>
+                        <div style={{ color: '#34495e' }}>{apt.appointment_date}</div>
+                        <div style={{ fontSize: '0.85rem', color: '#7f8c8d' }}>{apt.time_slot}</div>
                       </td>
-                      <td>{apt.type}</td>
+                      <td>{apt.appointment_type}</td>
                       <td>
                         <div style={{ maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: '#7f8c8d' }}>
                           {apt.reason}
