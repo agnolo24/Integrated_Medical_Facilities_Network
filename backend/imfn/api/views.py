@@ -229,7 +229,7 @@ def change_password(request):
 
         if not check_password(data["currentPassword"], user["password"]):
             return Response(
-                {"error": "Wrong Password"}, status=status.HTTP_401_UNAUTHORIZED
+                {"error": "Current Password is Wrong."}, status=status.HTTP_401_UNAUTHORIZED
             )
 
         user["password"] = make_password(data["newPassword"])
@@ -239,5 +239,3 @@ def change_password(request):
     except Exception as e:
         print(e)
         return Response({"error": "Something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    

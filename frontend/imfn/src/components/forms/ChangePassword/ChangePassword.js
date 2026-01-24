@@ -4,6 +4,9 @@ import axios from 'axios'
 
 export default function ChangePassword({ onClose }) {
 
+    const [msg, setMsg] = useState("")
+    const [isMsg, setIsMsg] = useState(false)
+
     const [data, setData] = useState({
         currentPassword: "",
         newPassword: "",
@@ -18,9 +21,39 @@ export default function ChangePassword({ onClose }) {
         })
     }
 
+
     const handlePasswordChange = async (e) => {
         e.preventDefault()
         const login_id = localStorage.getItem("loginId");
+        if (!login_id) {
+            setMsg("Login ID not found")
+            setIsMsg(true)
+            return
+        }
+
+        if (data.currentPassword === "") {
+            setMsg("Current Password is required")
+            setIsMsg(true)
+            return
+        }
+
+        if (data.newPassword === "") {
+            setMsg("New Password is required")
+            setIsMsg(true)
+            return
+        }
+
+        if (data.confirmPassword === "") {
+            setMsg("Confirm Password is required")
+            setIsMsg(true)
+            return
+        }
+
+        if (data.newPassword !== data.confirmPassword) {
+            setMsg("New Password and Confirm Password do not match")
+            setIsMsg(true)
+            return
+        }
 
         try {
             const response = await axios.post("http://127.0.0.1:8000/api/change_password/", {
@@ -32,16 +65,13 @@ export default function ChangePassword({ onClose }) {
             })
             console.log(response.data)
             alert("Password changed successfully!")
+            setIsMsg(false)
             onClose()
         } catch (error) {
             console.log(error)
-            alert(error?.response?.data?.error || "An Error Occurred while Changing Password")
+            setMsg(error?.response?.data?.error || "An Error Occurred while Changing Password")
+            setIsMsg(true)
         }
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(data)
     }
 
     return (
@@ -53,7 +83,7 @@ export default function ChangePassword({ onClose }) {
                         <h2>Change Password</h2>
                         <p>Enter your new password details</p>
                     </div>
-
+                    {isMsg && <p className="change-password-error">{msg}</p>}
                     <form className="change-password-form" onSubmit={handlePasswordChange}>
                         <div className="form-group">
                             <div className="change-password-input-wrapper">
@@ -99,6 +129,9 @@ export default function ChangePassword({ onClose }) {
 
                         <button type="submit" className="change-password-btn">
                             Update Password
+                        </button>
+                        <button type="button" className="change-password-cancel-btn" onClick={onClose}>
+                            Cancel
                         </button>
                     </form>
                 </div>
