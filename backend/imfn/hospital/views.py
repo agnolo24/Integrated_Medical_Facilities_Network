@@ -448,20 +448,6 @@ def change_hospital_password(request):
 
 @api_view(["POST"])
 def create_schedule(request):
-    """
-    Create or update a doctor's schedule.
-
-    Expected POST data:
-    {
-        "doctorId": "string",
-        "hospital_login_id": "string",
-        "schedules": {
-            "sunday": ["10:00 AM - 12:00 PM", "2:00 PM - 4:00 PM"],
-            "monday": ["9:00 AM - 1:00 PM"],
-            ...
-        }
-    }
-    """
     serializer = CreateScheduleSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     data = serializer.validated_data
@@ -523,12 +509,6 @@ def create_schedule(request):
 
 @api_view(["GET"])
 def get_schedule(request):
-    """
-    Get a doctor's schedule.
-
-    Query params:
-    - doctorId: The doctor's ID
-    """
     doctor_id = request.query_params.get("doctorId")
 
     if not doctor_id:
