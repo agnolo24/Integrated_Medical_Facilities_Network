@@ -18,7 +18,7 @@
     color: #2c3e50;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .vpa-subtitle {
@@ -63,7 +63,7 @@
     background: #fff;
     font-size: 1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .vpa-search-input:focus {
@@ -145,7 +145,7 @@
 
 .vpa-table tr:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 /* Interactive Elements */
@@ -191,12 +191,23 @@
     color: #111827;
 }
 
+.vpa-btn-prescription {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.vpa-btn-prescription:hover {
+    background: #bbdefb;
+    color: #0d47a1;
+}
+
 /* Animations */
 @keyframes fadeInDown {
     from {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -208,6 +219,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -224,8 +236,9 @@
     .vpa-search-box {
         max-width: 100%;
     }
-    
-    .vpa-table th, .vpa-table td {
+
+    .vpa-table th,
+    .vpa-table td {
         padding: 10px;
     }
 }

@@ -1,0 +1,268 @@
+/* ViewPrescriptionByDoctor.css */
+.vpbd-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.vpbd-modal {
+    margin-top: 100px;
+    background: #ffffff;
+    width: 90%;
+    max-width: 800px;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    max-height: 70vh;
+    /* Fix height */
+}
+
+/* ... existing styles ... */
+.vpbd-close-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #95a5a6;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.vpbd-close-icon:hover {
+    background: #f1f2f6;
+    color: #e74c3c;
+    transform: rotate(90deg);
+}
+
+.vpbd-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.vpbd-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.vpbd-body {
+    margin-bottom: 2rem;
+    color: #34495e;
+    font-size: 1rem;
+    text-align: center;
+    overflow-y: auto;
+    /* Enable scrolling */
+    flex: 1;
+    /* Take available space */
+    padding-right: 5px;
+    /* Space for scrollbar */
+    min-height: 0;
+    /* Important for flex child scrolling */
+}
+
+.vpbd-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    border-top: 1px solid #f0f2f5;
+    padding-top: 1.5rem;
+    margin-top: auto;
+    /* Push to bottom if needed */
+    flex-shrink: 0;
+    /* Prevent shrinking */
+}
+
+.vpbd-cancel-btn {
+    padding: 0.6rem 1.2rem;
+    background: #f8f9fa;
+    color: #7f8c8d;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vpbd-cancel-btn:hover {
+    background: #e9ecef;
+    color: #2c3e50;
+    border-color: #d0d0d0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Table Styles */
+.vpbd-table-container {
+    overflow-x: auto;
+    margin-top: 1rem;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.vpbd-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.vpbd-table th {
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    font-weight: 600;
+    padding: 1rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.vpbd-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f0f2f5;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.vpbd-table tr:last-child td {
+    border-bottom: none;
+}
+
+.vpbd-table tr:hover {
+    background-color: #fcfcfc;
+}
+
+/* Input Styles within Table */
+.vpbd-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    transition: all 0.2s;
+}
+
+.vpbd-input:focus {
+    outline: none;
+    background: white;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+}
+
+.vpbd-input::placeholder {
+    color: #bdc3c7;
+}
+
+/* Add Row Button */
+.vpbd-add-row-container {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #e9ecef;
+    background: #f8f9fa;
+}
+
+.vpbd-add-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #3498db;
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+}
+
+.vpbd-add-btn:hover {
+    background: #2980b9;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+}
+
+
+/* Delete Button */
+.vpbd-delete-btn {
+    background: transparent;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Submit Button */
+.vpbd-submit-btn {
+    padding: 0.6rem 1.5rem;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+}
+
+.vpbd-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+}
+
+.vpbd-submit-btn:active {
+    transform: translateY(0);
+}
