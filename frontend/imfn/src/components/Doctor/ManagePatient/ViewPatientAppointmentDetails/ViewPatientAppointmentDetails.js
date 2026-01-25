@@ -144,15 +144,25 @@ export default function ViewPatientAppointmentDetails({ selectedAppointmentId, c
                                     </div>
                                 </div>
                             </div>
+                            <div className='medical-history'>
+                                
+                                <button className="medical-history-btn" onClick={() => alert('Feature coming soon: Add Prescription')}>
+                                    View Medical History
+                                </button>
+                            </div>
                         </div>
 
                         <div className="vpad-footer">
                             <button className="vpad-btn vpad-btn-secondary" onClick={closeAppointmentDetails}>
                                 Close
                             </button>
-                            <button className="vpad-btn vpad-btn-primary" onClick={() => alert('Feature coming soon: Add Prescription')}>
-                                <i className="fas fa-file-prescription"></i> Add Prescription
-                            </button>
+                            {
+                                (details.status === 'scheduled' || details.status === 'completed') && (
+                                    <button className="vpad-btn vpad-btn-primary" onClick={() => alert('Feature coming soon: Add Prescription')}>
+                                        <i className="fas fa-file-prescription"></i> Add Prescription
+                                    </button>
+                                )
+                            }
                         </div>
                     </>
                 ) : null}
