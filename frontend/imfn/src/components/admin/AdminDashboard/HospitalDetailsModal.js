@@ -1,7 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 const HospitalDetailsModal = ({ data, onClose }) => {
+    const navigate = useNavigate();
+
     if (!data) return null;
+
+    const viewHistory = (doctor) => {
+        navigate('/doctorAppointmentHistory', {
+            state: {
+                doctor: doctor,
+                hospitalName: data.hospital.hospitalName
+            }
+        });
+    };
 
     return (
         <div className="modal-overlay-custom" onClick={onClose}>
@@ -49,6 +61,7 @@ const HospitalDetailsModal = ({ data, onClose }) => {
                                     <th>Specialization</th>
                                     <th>Qualification</th>
                                     <th>Experience</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,8 +71,17 @@ const HospitalDetailsModal = ({ data, onClose }) => {
                                         <td>{d.specialization}</td>
                                         <td>{d.qualification}</td>
                                         <td>{d.experience} Years</td>
+                                        <td>
+                                            <button
+                                                className="btn btn-secondary btn-sm"
+                                                title="View Appointment History"
+                                                onClick={() => viewHistory(d)}
+                                            >
+                                                <i className="fas fa-history me-1"></i> History
+                                            </button>
+                                        </td>
                                     </tr>
-                                )) : <tr><td colSpan="4" className="text-center">No doctors registered</td></tr>}
+                                )) : <tr><td colSpan="5" className="text-center">No doctors registered</td></tr>}
                             </tbody>
                         </table>
                     </div>

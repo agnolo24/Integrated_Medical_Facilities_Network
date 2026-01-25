@@ -31,6 +31,7 @@ import ViewAppointments from './components/Patient/ViewAppointments/ViewAppointm
 
 //Doctor Module Components
 import ViewPatientAppointments from './components/Doctor/ManagePatient/ViewPatientAppointments/ViewPatientAppointments'
+import DoctorAppointmentHistory from './components/admin/AdminDashboard/DoctorAppointmentHistory'
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="/" element={<LandingHome />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminHomePage />} />
+          <Route path="/doctorAppointmentHistory" element={<DoctorAppointmentHistory />} />
           <Route path="/hospitalTable" element={<HospitalTable />} />
           <Route path="/hospitalReg" element={<HospitalRegForm />} />
           <Route path="/ambulance" element={<AmbulanceForm />} />
