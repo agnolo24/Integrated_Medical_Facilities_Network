@@ -47,7 +47,6 @@ const DoctorAppointmentHistory = () => {
         if (!dateString) return 'N/A';
         const date = new Date(dateString);
         return date.toLocaleDateString('en-IN', {
-            weekday: 'short',
             day: '2-digit',
             month: 'short',
             year: 'numeric'
@@ -55,14 +54,7 @@ const DoctorAppointmentHistory = () => {
     };
 
     const formatTime = (timeString) => {
-        if (!timeString) return 'N/A';
-        if (timeString.includes(':')) {
-            const [hours, minutes] = timeString.split(':');
-            const hour = parseInt(hours, 10);
-            const ampm = hour >= 12 ? 'PM' : 'AM';
-            const hour12 = hour % 12 || 12;
-            return `${hour12}:${minutes} ${ampm}`;
-        }
+        if (!timeString || timeString === 'N/A') return 'Not Set';
         return timeString;
     };
 
@@ -72,8 +64,7 @@ const DoctorAppointmentHistory = () => {
             completed: 'status-completed',
             confirmed: 'status-confirmed',
             pending: 'status-pending',
-            cancelled: 'status-cancelled',
-            'no-show': 'status-noshow'
+            cancelled: 'status-cancelled'
         };
         return statusMap[statusLower] || 'status-default';
     };
@@ -86,12 +77,7 @@ const DoctorAppointmentHistory = () => {
     };
 
     const getStats = () => {
-        const stats = {
-            total: appointments.length,
-            completed: 0,
-            pending: 0,
-            cancelled: 0
-        };
+        const stats = { total: appointments.length, completed: 0, pending: 0, cancelled: 0 };
         appointments.forEach(apt => {
             const status = (apt.status || apt.appointment_status || '').toLowerCase();
             if (status === 'completed') stats.completed++;
@@ -108,196 +94,96 @@ const DoctorAppointmentHistory = () => {
 
     return (
         <div className="admin-container">
-            <AdminSidebar
-                activeTab="hospitals"
-                setActiveTab={() => navigate('/admin')}
-                onLogout={handleLogout}
-            />
+            <AdminSidebar activeTab="hospitals" onLogout={handleLogout} />
 
             <main className="admin-main">
-                <div className="appointment-history-page">
-                    {/* Header Section */}
-                    <div className="history-header">
-                        <div className="header-left">
-                            <button className="back-btn" onClick={() => navigate(-1)}>
-                                <i className="fas fa-arrow-left"></i>
-                                Back
-                            </button>
-                            <div className="header-info">
-                                <h1>
-                                    <i className="fas fa-calendar-check"></i>
-                                    Appointment History
-                                </h1>
-                                <p className="breadcrumb">
-                                    <span>{hospitalName || 'Hospital'}</span>
-                                    <i className="fas fa-chevron-right"></i>
-                                    <span>Dr. {doctor.name}</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div className="header-right">
-                            <button className="refresh-btn" onClick={fetchAppointments} disabled={loading}>
-                                <i className={`fas fa-sync-alt ${loading ? 'fa-spin' : ''}`}></i>
-                                Refresh
-                            </button>
+                <header className="page-header">
+                    <div className="header-nav">
+                        {/* <button className="minimal-back" onClick={() => navigate(-1)}>
+                            <i className="fas fa-chevron-left"></i> Back to Doctors
+                        </button> */}
+                        <div className="title-group">
+                            <h1>Dr. {doctor.name}</h1>
+                            <span className="subtitle">{hospitalName} • Appointment History</span>
                         </div>
                     </div>
+                    {/* <button className="action-btn outline" onClick={fetchAppointments} disabled={loading}>
+                        <i className={`fas fa-sync-alt ${loading ? 'fa-spin' : ''}`}></i> Refresh
+                    </button> */}
+                </header>
 
-                    {/* Doctor Info Card */}
-                    {/* <div className="doctor-info-card sticky-card">
-                        <div className="doctor-avatar">
-                            <i className="fas fa-user-md"></i>
-                        </div>
-                        <div className="doctor-details">
-                            <h2>Dr. {doctor.name}</h2>
-                            <div className="doctor-meta">
-                                <span><i className="fas fa-stethoscope"></i> {doctor.specialization}</span>
-                                <span><i className="fas fa-graduation-cap"></i> {doctor.qualification}</span>
-                                <span><i className="fas fa-briefcase"></i> {doctor.experience} Years Experience</span>
-                            </div>
-                        </div>
-                    </div> */}
+                <section className="stats-grid">
+                    <div className={`stat-card total ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>
+                        <div className="icon-box"><i className="fas fa-calendar-alt"></i></div>
+                        <div className="stat-info"><h3>{stats.total}</h3><p>Total</p></div>
+                    </div>
+                    <div className={`stat-card success ${filter === 'completed' ? 'active' : ''}`} onClick={() => setFilter('completed')}>
+                        <div className="icon-box"><i className="fas fa-check-circle"></i></div>
+                        <div className="stat-info"><h3>{stats.completed}</h3><p>Completed</p></div>
+                    </div>
+                    <div className={`stat-card warning ${filter === 'pending' ? 'active' : ''}`} onClick={() => setFilter('pending')}>
+                        <div className="icon-box"><i className="fas fa-clock"></i></div>
+                        <div className="stat-info"><h3>{stats.pending}</h3><p>Pending</p></div>
+                    </div>
+                    <div className={`stat-card danger ${filter === 'cancelled' ? 'active' : ''}`} onClick={() => setFilter('cancelled')}>
+                        <div className="icon-box"><i className="fas fa-times-circle"></i></div>
+                        <div className="stat-info"><h3>{stats.cancelled}</h3><p>Cancelled</p></div>
+                    </div>
+                </section>
 
-                    {/* Stats Section */}
-                    <div className="stats-row">
-                        <div className="stat-box total" onClick={() => setFilter('all')}>
-                            <div className="stat-icon">
-                                <i className="fas fa-calendar-alt"></i>
-                            </div>
-                            <div className="stat-content">
-                                <h3>{stats.total}</h3>
-                                <p>Total Appointments</p>
-                            </div>
+                <div className="content-card">
+                    <div className="filter-bar">
+                        <div className="tabs">
+                            {['all', 'completed', 'confirmed', 'pending', 'cancelled'].map(f => (
+                                <button key={f} className={`tab-btn ${filter === f ? 'active' : ''}`} onClick={() => setFilter(f)}>
+                                    {f.charAt(0).toUpperCase() + f.slice(1)}
+                                </button>
+                            ))}
                         </div>
-                        <div className="stat-box completed" onClick={() => setFilter('completed')}>
-                            <div className="stat-icon">
-                                <i className="fas fa-check-circle"></i>
-                            </div>
-                            <div className="stat-content">
-                                <h3>{stats.completed}</h3>
-                                <p>Completed</p>
-                            </div>
-                        </div>
-                        <div className="stat-box pending" onClick={() => setFilter('pending')}>
-                            <div className="stat-icon">
-                                <i className="fas fa-clock"></i>
-                            </div>
-                            <div className="stat-content">
-                                <h3>{stats.pending}</h3>
-                                <p>Pending</p>
-                            </div>
-                        </div>
-                        <div className="stat-box cancelled" onClick={() => setFilter('cancelled')}>
-                            <div className="stat-icon">
-                                <i className="fas fa-times-circle"></i>
-                            </div>
-                            <div className="stat-content">
-                                <h3>{stats.cancelled}</h3>
-                                <p>Cancelled</p>
-                            </div>
-                        </div>
+                        <div className="results-info">Showing {filteredAppointments.length} records</div>
                     </div>
 
-                    {/* Filter Tabs */}
-                    <div className="filter-section">
-                        <div className="filter-tabs">
-                            <button
-                                className={`filter-tab ${filter === 'all' ? 'active' : ''}`}
-                                onClick={() => setFilter('all')}
-                            >
-                                All
-                            </button>
-                            <button
-                                className={`filter-tab ${filter === 'completed' ? 'active' : ''}`}
-                                onClick={() => setFilter('completed')}
-                            >
-                                Completed
-                            </button>
-                            <button
-                                className={`filter-tab ${filter === 'confirmed' ? 'active' : ''}`}
-                                onClick={() => setFilter('confirmed')}
-                            >
-                                Confirmed
-                            </button>
-                            <button
-                                className={`filter-tab ${filter === 'pending' ? 'active' : ''}`}
-                                onClick={() => setFilter('pending')}
-                            >
-                                Pending
-                            </button>
-                            <button
-                                className={`filter-tab ${filter === 'cancelled' ? 'active' : ''}`}
-                                onClick={() => setFilter('cancelled')}
-                            >
-                                Cancelled
-                            </button>
-                        </div>
-                        <div className="results-count">
-                            Showing {filteredAppointments.length} appointment{filteredAppointments.length !== 1 ? 's' : ''}
-                        </div>
-                    </div>
-
-                    {/* Appointments Grid */}
-                    <div className="appointments-container">
+                    <div className="appointments-list-container">
                         {loading ? (
-                            <div className="loading-state">
+                            <div className="skeleton-loader">
                                 <div className="spinner"></div>
-                                <p>Loading appointments...</p>
+                                <p>Syncing appointments...</p>
                             </div>
                         ) : filteredAppointments.length === 0 ? (
                             <div className="empty-state">
-                                <i className="fas fa-calendar-times"></i>
-                                <h3>No Appointments Found</h3>
-                                <p>
-                                    {filter === 'all'
-                                        ? 'This doctor has no appointment history yet.'
-                                        : `No ${filter} appointments found.`
-                                    }
-                                </p>
-                                {filter !== 'all' && (
-                                    <button className="reset-filter-btn" onClick={() => setFilter('all')}>
-                                        View All Appointments
-                                    </button>
-                                )}
+                                <i className="fas fa-folder-open"></i>
+                                <h3>No data available</h3>
+                                <p>Try changing the filter or refresh the page.</p>
                             </div>
                         ) : (
-                            <div className="appointments-list">
+                            <div className="history-table">
+                                <div className="table-header">
+                                    <span>Patient</span>
+                                    <span>Date & Time</span>
+                                    <span>Reason</span>
+                                    <span>Status</span>
+                                </div>
                                 {filteredAppointments.map((apt, index) => (
-                                    <div key={apt._id || index} className="appointment-list-item">
-                                        <div className="item-main">
-                                            <div className="patient-info">
-                                                <div className="patient-avatar">
-                                                    {(apt.patientName || apt.patient_name || 'P').charAt(0).toUpperCase()}
-                                                </div>
-                                                <div className="patient-details">
-                                                    <h4>{apt.patientName || apt.patient_name || 'Unknown Patient'}</h4>
-                                                    <span className="patient-contact">
-                                                        {apt.patientEmail || apt.patient_email || apt.patientPhone || apt.patient_phone || 'No contact info'}
-                                                    </span>
-                                                </div>
+                                    <div key={apt._id || index} className="table-row">
+                                        <div className="patient-cell">
+                                            <div className="avatar-small">{(apt.patientName || 'P')[0]}</div>
+                                            <div className="details">
+                                                <strong>{apt.patientName || 'Unknown'}</strong>
+                                                <small>{apt.patientPhone || 'No Contact'}</small>
                                             </div>
-                                            <span className={`status-badge ${getStatusClass(apt.status || apt.appointment_status)}`}>
-                                                {apt.status || apt.appointment_status || 'Unknown'}
+                                        </div>
+                                        <div className="time-cell">
+                                            <div className="date">{formatDate(apt.appointmentDate || apt.date)}</div>
+                                            <div className="time"><i className="far fa-clock"></i> {formatTime(apt.appointmentTime)}</div>
+                                        </div>
+                                        <div className="reason-cell">
+                                            {apt.reason || apt.symptoms || <span className="no-data">Regular Checkup</span>}
+                                        </div>
+                                        <div className="status-cell">
+                                            <span className={`badge-pill ${getStatusClass(apt.status || apt.appointment_status)}`}>
+                                                {apt.status || 'Unknown'}
                                             </span>
                                         </div>
-
-                                        <div className="item-meta">
-                                            <div className="meta-item">
-                                                <i className="fas fa-calendar-alt"></i>
-                                                <span>{formatDate(apt.appointmentDate || apt.appointment_date || apt.date)}</span>
-                                            </div>
-                                            <div className="meta-item">
-                                                <i className="fas fa-clock"></i>
-                                                <span>{formatTime(apt.appointmentTime || apt.appointment_time || apt.time || apt.slot)}</span>
-                                            </div>
-                                        </div>
-
-                                        {(apt.reason || apt.symptoms || apt.notes) && (
-                                            <div className="item-notes">
-                                                <i className="fas fa-notes-medical"></i>
-                                                <p>{apt.reason || apt.symptoms || apt.notes}</p>
-                                            </div>
-                                        )}
                                     </div>
                                 ))}
                             </div>
