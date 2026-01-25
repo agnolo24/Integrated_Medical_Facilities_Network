@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ViewPatientAppointmentDetails.css';
 
-export default function ViewPatientAppointmentDetails({ selectedAppointmentId, closeAppointmentDetails, openCheckHistoryCode }) {
+export default function ViewPatientAppointmentDetails({ selectedAppointmentId, closeAppointmentDetails, openCheckHistoryCode, openViewPrescription }) {
     const [details, setDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -158,8 +158,8 @@ export default function ViewPatientAppointmentDetails({ selectedAppointmentId, c
                             </button>
                             {
                                 (details.status === 'scheduled' || details.status === 'completed') && (
-                                    <button className="vpad-btn vpad-btn-primary" onClick={() => alert('Feature coming soon: Add Prescription')}>
-                                        <i className="fas fa-file-prescription"></i> Add Prescription
+                                    <button className="vpad-btn vpad-btn-primary" onClick={() => openViewPrescription(details._id)}>
+                                        <i className="fas fa-file-prescription"></i> View Prescription
                                     </button>
                                 )
                             }
