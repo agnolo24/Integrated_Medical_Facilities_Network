@@ -1,0 +1,134 @@
+/* ===========================
+   Overlay
+=========================== */
+.assign-duty-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 2000; /* higher than navbar */
+}
+
+/* ===========================
+   Card
+=========================== */
+.assign-duty-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 32px);
+    border-radius: 10px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease;
+}
+
+/* ===========================
+   Header
+=========================== */
+.assign-duty-header {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    padding: 18px;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.assign-duty-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.assign-duty-header span {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+/* ===========================
+   Form (Scrollable)
+=========================== */
+.assign-duty-form {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* ===========================
+   Form Fields
+=========================== */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+}
+
+.form-group textarea {
+    min-height: 80px;
+}
+
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
+}
+
+/* ===========================
+   Actions
+=========================== */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+/* ===========================
+   Animations
+=========================== */
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ===========================
+   Mobile
+=========================== */
+@media (max-width: 480px) {
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+}
