@@ -1,20 +1,40 @@
 import React from 'react'
 import './CheckHistoryCode.css'
+import axios from 'axios'
 
-export default function CheckHistoryCode({selectedAppointmentId, closeCheckHistoryCode }) {
+export default function CheckHistoryCode({ selectedAppointmentId, closeCheckHistoryCode }) {
 
     const [formData, setFormData] = React.useState({
         historyCode: "",
     });
 
-    const url = "http://127.0.0.1:8000/doctor/check_history_code";
-    const handleSubmit = (e) => {
+    const url = "http://127.0.0.1:8000/doctor/check_history_code/";
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = { historyCode: formData.historyCode ,  selectedAppointmentId : selectedAppointmentId};
-        // console.log(data);
-        // console.log(selectedAppointmentId);
-        const response = axios.post(url,{params : data});
-        
+        const data = { history_code: formData.historyCode, apt_id: selectedAppointmentId };
+
+        try {
+            const response = await axios.post(url, data);
+
+            if (response.status === 200) {
+                console.log("Success");
+                alert("History Code Verified Successfully!");
+                closeCheckHistoryCode();
+            }
+        }
+        catch (error) {
+            console.log(error);
+            if (error.response) {
+                if (error.response.status === 400) {
+                    alert("Invalid History Code");
+                } else if (error.response.status === 404) {
+                    alert("Record not found");
+                } else {
+                    alert("An error occurred. Please try again.");
+                }
+            }
+        }
+
     };
     return (
         <div className="chc-overlay">
