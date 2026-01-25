@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.hashers import make_password, check_password
 
 from datetime import datetime
+import random
 
 from .serializers import *
 from .mongo import get_db
@@ -44,6 +45,8 @@ def patient_register(request):
         login_result = login_col.insert_one(login_doc)
         login_id = login_result.inserted_id
 
+        history_code = random.randint(100000, 999999)
+
         patient_doc = {
             "login_id": login_id,
             "name": data["name"],
@@ -51,6 +54,7 @@ def patient_register(request):
             "age": data["age"],
             "dob": datetime.combine(data["dob"], datetime.min.time()),
             "contact": data["contact"],
+            "history_code": history_code,
             "created_at": datetime.utcnow(),
         }
 
