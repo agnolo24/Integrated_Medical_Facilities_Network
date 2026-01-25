@@ -243,7 +243,7 @@ def register_ambulance(request):
             "category": data["category"],
             "contactNumber": data["contactNumber"],
             "created_at": datetime.utcnow(),
-            "available": 1
+            "available": 1,
         }
 
         ambulance_col.insert_one(ambulance_doc)
@@ -569,36 +569,44 @@ def get_schedule(request):
 
 @api_view(["POST"])
 def assign_duty_ambulance(request):
-    serializer = AmbulanceDutySerializer(data = request.data)
+    serializer = AmbulanceDutySerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     data = serializer.validated_data
-    
+
     db = get_db()
-    ambulance_duty_col = db['ambulance_duty']
-    ambulance_col = db['ambulance']
-    
-    query = {
-        'from_address': data['from_address'],
-        'to_address': data['to_address'],
-        'risk_level': data['risk_level'],
-        'ambulance_login_id': ObjectId(data['ambulance_id']),
-        'created_at': datetime.utcnow(),
-        'status': 'pending'
-    }
-    
+    ambulance_duty_col = db["ambulance_duty"]
+    ambulance_col = db["ambulance"]
+
     try:
+        # Find the ambulance record to get its login_id
+        ambulance = ambulance_col.find_one({"_id": ObjectId(data["ambulance_id"])})
+        if not ambulance:
+            return Response(
+                {"error": "Ambulance not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        login_id = ambulance.get("login_id")
+
+        query = {
+            "from_address": data["from_address"],
+            "to_address": data["to_address"],
+            "risk_level": data["risk_level"],
+            "ambulance_login_id": ObjectId(login_id),
+            "created_at": datetime.utcnow(),
+            "status": "pending",
+        }
+
         ambulance_duty_col.insert_one(query)
-        
+
         doc = {"available": 0}
-        
-        ambulance_col.update_one({"_id": ObjectId(data['ambulance_id'])}, {"$set": doc})
+
+        ambulance_col.update_one({"_id": ObjectId(data["ambulance_id"])}, {"$set": doc})
         return Response(
-            {
-                "message": "Ambulance duty assigned successfully"
-            }, status=status.HTTP_200_OK)
+            {"message": "Ambulance duty assigned successfully"},
+            status=status.HTTP_200_OK,
+        )
     except:
         return Response(
-            {
-            "error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            {"error": "Internal server error"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
-    
