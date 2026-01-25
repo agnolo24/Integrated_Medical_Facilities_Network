@@ -140,3 +140,32 @@ def get_hospital_details(request):
             {"error": "Internal Server Error"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+@api_view(["GET"])
+def view_doctor_history(request):
+    """
+    View doctor history.
+    """
+    doctor_id = request.query_params.get("doctorId")
+    if not doctor_id:
+        return Response(
+            {"error": "Missing doctor_id"}, status=status.HTTP_400_BAD_REQUEST
+        )
+    db = get_db()
+    appointment_col = db["appointments"]
+    try:
+        appointments = list(appointment_col.find({"doctor_id": ObjectId(doctor_id)}))
+        for appointment in appointments:
+            appointment["_id"] = str(appointment["_id"])
+            appointment["patient_login_id"] = str(appointment["patient_login_id"])
+            appointment["patient_id"] = str(appointment["patient_id"])
+            appointment["doctor_id"] = str(appointment["doctor_id"])
+            appointment["hospital_login_id"] = str(appointment["hospital_login_id"])
+        return Response(appointments, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(f"Error fetching doctor history: {e}")
+        return Response(
+            {"error": "Internal Server Error"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
