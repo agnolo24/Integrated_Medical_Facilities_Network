@@ -144,12 +144,34 @@ def get_patient_appointment_details(request):
 
 @api_view(['POST'])
 def check_history_code(request):
-    history_code = request.data.get('history_code')
+    apt_id = request.data.get("apt_id")
+    history_code = request.data.get("history_code")
+
+    print("apt_id : ",apt_id)
+    print("history_code : ",history_code)
+
     db = get_db()
+    appointment_col = db['appointments']
     patient_col = db['patient']
     try:
+        appointment = appointment_col.find_one({"_id": ObjectId(apt_id)})
+        if not appointment:
+            return Response({"error": "Appointment not found"}, status=status.HTTP_404_NOT_FOUND)
         
-        return Response(patient,status=status.HTTP_200_OK)
+        patient_id = appointment["patient_id"]
+        patient = patient_col.find_one({"_id": ObjectId(patient_id)})
+        if not patient:
+            return Response({"error": "Patient not found"}, status=status.HTTP_404_NOT_FOUND)
+            
+        stored_code = str(patient.get('history_code', ''))
+        input_code = str(history_code)
+        
+        if stored_code == input_code:
+            print("login")
+            return Response({"msg" : "success"},status=status.HTTP_200_OK)
+        else:
+            print("not login")
+            return Response({"error": "Invalid history code"},status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         print(f"Error getting patient details: {e}")
         return Response(
