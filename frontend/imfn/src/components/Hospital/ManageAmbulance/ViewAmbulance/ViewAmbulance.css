@@ -208,3 +208,15 @@
 .button-doc {
   max-width: 70%;
 }
+.btn-pill {
+    border-radius: 25px;
+}
+
+.duty-btn-container {
+    margin-top: 20px;
+}
+
+.btn-assign-duty {
+    border-radius: 25px;
+    width: 80%;
+}

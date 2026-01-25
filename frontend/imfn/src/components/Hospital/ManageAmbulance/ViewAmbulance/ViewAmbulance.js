@@ -4,6 +4,7 @@ import axios from 'axios';
 import HospitalHeader from '../../HospitalHeader/HospitalHeader';
 import HospitalFooter from '../../HospitalFooter/HospitalFooter';
 import EditAmbulance from '../EditAmbulance/EditAmbulance';
+import AssignDuty from '../AssignDuty/AssignDuty';
 
 import './ViewAmbulance.css';
 
@@ -18,6 +19,8 @@ function ViewAmbulance() {
 
   const [selectedAmbulance, setSelectedAmbulance] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [assignDuty, setAssignDuty] = useState(false)
 
   useEffect(() => {
     getData();
@@ -47,24 +50,36 @@ function ViewAmbulance() {
     getData();
   };
 
+  const handleDutyClick = (ambulance) => {
+    setSelectedAmbulance(ambulance);
+    setAssignDuty(true)
+    console.log(ambulance)
+  };
+
+  const handleCloseAssignDuty = () => {
+    setAssignDuty(false);
+    setSelectedAmbulance(null);
+    getData();
+  };
+
   const handleDelete = async (ambulance) => {
     const res = window.confirm(`Are you sure you want to delete ${ambulance.name}?`);
 
     if (res) {
       try {
-           await axios.delete(deleteAmbulanceUrl, {
-               data: {
-                   ambulanceId: ambulance._id,
-                   hospital_login_id: hospital_login_id
-               }
-           });
-           alert("Successfully Deleted " + ambulance.name);
-           getData();
-       } catch (error) {
-           console.error("Delete error:", error);
-           alert("Failed to delete.");
-       }
-      
+        await axios.delete(deleteAmbulanceUrl, {
+          data: {
+            ambulanceId: ambulance._id,
+            hospital_login_id: hospital_login_id
+          }
+        });
+        alert("Successfully Deleted " + ambulance.name);
+        getData();
+      } catch (error) {
+        console.error("Delete error:", error);
+        alert("Failed to delete.");
+      }
+
     }
   };
 
@@ -96,10 +111,17 @@ function ViewAmbulance() {
                   <div className='container mt-3'>
                     <div className='row'>
                       <div className='button-doc col align-self-center'>
-                        <button className='btn btn-secondary' style={{ 'borderRadius': '25px' }} onClick={() => handleEditClick(amp)}>Edit</button>
+                        <button className='btn btn-secondary btn-pill' onClick={() => handleEditClick(amp)}>Edit</button>
                       </div>
                       <div className='button-doc col align-self-center'>
-                        <button className='btn btn-warning' style={{ 'borderRadius': '25px' }} onClick={() => handleDelete(amp)}>Delete</button>
+                        <button className='btn btn-warning btn-pill' onClick={() => handleDelete(amp)}>Delete</button>
+                      </div>
+                      <div className='row'>
+                        <center>
+                          <div className='duty-btn-container'>
+                            <button className='btn btn-secondary btn-assign-duty' onClick={() => { handleDutyClick(amp) }}>Assign Duty</button>
+                          </div>
+                        </center>
                       </div>
                     </div>
                   </div>
@@ -119,6 +141,18 @@ function ViewAmbulance() {
               <button className="close-button" onClick={handleCloseModel}>&times;</button>
 
               <EditAmbulance ambulanceData={selectedAmbulance} onClose={handleCloseModel} />
+            </div>
+          </div>
+        )
+      }
+
+      {
+        assignDuty && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <button className="close-button" onClick={handleCloseAssignDuty}>&times;</button>
+
+              <AssignDuty ambulanceData={selectedAmbulance} onClose={handleCloseAssignDuty} />
             </div>
           </div>
         )
