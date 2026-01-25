@@ -7,4 +7,5 @@ urlpatterns = [
     path(
         "get_hospital_details/", views.get_hospital_details, name="get_hospital_details"
     ),
+    path("view_doctor_history/", views.view_doctor_history, name="view_doctor_history"),
 ]
