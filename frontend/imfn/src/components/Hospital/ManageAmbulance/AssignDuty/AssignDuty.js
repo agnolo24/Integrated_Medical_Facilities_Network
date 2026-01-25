@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import './AssignDuty.css';
+import {useNavigate} from 'react-router'
+
+import axios from 'axios'
 
 function AssignDuty({ ambulanceData, onClose }) {
+    const navigate = useNavigate()
+    const assign_duty_ambulance_url = "http://localhost:8000/hospital/assign_duty_ambulance/";
+    
     const [formData, setFormData] = useState({
         from_address: '',
         to_address: '',
@@ -16,10 +22,19 @@ function AssignDuty({ ambulanceData, onClose }) {
         });
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
-        // Future: API call
+        
+        try {
+            const response = await axios.post(assign_duty_ambulance_url, formData)
+            alert("Duty Assigned.")
+
+            onClose()
+        } catch (error) {
+            console.error("An error occur while assigning duty:", error)
+            alert("Failed to Assign Duty.")
+        }
     };
 
     return (

@@ -196,3 +196,16 @@ class GetScheduleSerializer(serializers.Serializer):
     """Serializer for getting doctor schedules"""
 
     doctorId = serializers.CharField(max_length=100)
+
+
+class AmbulanceDutySerializer(serializers.Serializer):
+    risk_level = [
+        'low',
+        'medium',
+        'high'
+    ]
+    
+    from_address = serializers.CharField(max_length = 100)
+    to_address = serializers.CharField(max_length = 100)
+    risk_level = serializers.ChoiceField(choices = risk_level)
+    ambulance_id = serializers.CharField(max_length = 50)
