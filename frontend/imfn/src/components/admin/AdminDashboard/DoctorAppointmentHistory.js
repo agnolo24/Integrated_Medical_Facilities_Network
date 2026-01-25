@@ -166,15 +166,15 @@ const DoctorAppointmentHistory = () => {
                                 {filteredAppointments.map((apt, index) => (
                                     <div key={apt._id || index} className="table-row">
                                         <div className="patient-cell">
-                                            <div className="avatar-small">{(apt.patientName || 'P')[0]}</div>
+                                            <div className="avatar-small">{(apt.patient_name || 'P')[0]}</div>
                                             <div className="details">
-                                                <strong>{apt.patientName || 'Unknown'}</strong>
-                                                <small>{apt.patientPhone || 'No Contact'}</small>
+                                                <strong>{apt.patient_name || 'Unknown'}</strong>
+                                                {/* <small>{apt.patient_phone || 'No Contact'}</small> */}
                                             </div>
                                         </div>
                                         <div className="time-cell">
-                                            <div className="date">{formatDate(apt.appointmentDate || apt.date)}</div>
-                                            <div className="time"><i className="far fa-clock"></i> {formatTime(apt.appointmentTime)}</div>
+                                            <div className="date">{formatDate(apt.appointment_date)}</div>
+                                            <div className="time"><i className="far fa-clock"></i> {formatTime(apt.time_slot)}</div>
                                         </div>
                                         <div className="reason-cell">
                                             {apt.reason || apt.symptoms || <span className="no-data">Regular Checkup</span>}
