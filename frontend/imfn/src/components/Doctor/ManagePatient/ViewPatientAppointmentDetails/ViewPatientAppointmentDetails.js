@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ViewPatientAppointmentDetails.css';
 
-export default function ViewPatientAppointmentDetails({ selectedAppointmentId, closeAppointmentDetails }) {
+export default function ViewPatientAppointmentDetails({ selectedAppointmentId, closeAppointmentDetails, openCheckHistoryCode }) {
     const [details, setDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -146,7 +146,7 @@ export default function ViewPatientAppointmentDetails({ selectedAppointmentId, c
                             </div>
                             <div className='medical-history'>
                                 
-                                <button className="medical-history-btn" onClick={() => alert('Feature coming soon: Add Prescription')}>
+                                <button className="medical-history-btn" onClick={() => openCheckHistoryCode(details._id)}>
                                     View Medical History
                                 </button>
                             </div>

@@ -141,3 +141,18 @@ def get_patient_appointment_details(request):
             {"error": "Failed to get appointment details"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+@api_view(['POST'])
+def check_history_code(request):
+    history_code = request.data.get('history_code')
+    db = get_db()
+    patient_col = db['patient']
+    try:
+        
+        return Response(patient,status=status.HTTP_200_OK)
+    except Exception as e:
+        print(f"Error getting patient details: {e}")
+        return Response(
+            {"error": "Failed to get patient details"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )

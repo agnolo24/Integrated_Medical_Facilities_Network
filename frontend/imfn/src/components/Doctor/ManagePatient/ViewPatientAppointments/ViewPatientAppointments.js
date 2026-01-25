@@ -4,6 +4,7 @@ import DoctorFooter from '../../DoctorFooter/DoctorFooter';
 import './ViewPatientAppointments.css';
 import axios from 'axios';
 import ViewPatientAppointmentDetails from '../ViewPatientAppointmentDetails/ViewPatientAppointmentDetails';
+import CheckHistoryCode from '../CheckHistoryCode/CheckHistoryCode';
 
 export default function ViewPatientAppointments() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -11,11 +12,20 @@ export default function ViewPatientAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState([])
   const [isAppointmentDetailsOpen, setIsAppointmentDetailsOpen] = useState(false)
+  const [isCheckHistoryCodeOpen, setIsCheckHistoryCodeOpen] = useState(false)
 
   const openAppointmentDetails = (_id) => {
     setSelectedAppointmentId(_id)
     setIsAppointmentDetailsOpen(true)
   }
+
+  const openCheckHistoryCode = (_id) => {
+    setSelectedAppointmentId(_id)
+    setIsCheckHistoryCodeOpen(true)
+  }
+
+  const closeCheckHistoryCode = () => setIsCheckHistoryCodeOpen(false)
+
   const closeAppointmentDetails = () => setIsAppointmentDetailsOpen(false)
 
 
@@ -144,7 +154,12 @@ export default function ViewPatientAppointments() {
 
       {
         isAppointmentDetailsOpen && (
-          <ViewPatientAppointmentDetails selectedAppointmentId={selectedAppointmentId} closeAppointmentDetails={closeAppointmentDetails} />
+          <ViewPatientAppointmentDetails selectedAppointmentId={selectedAppointmentId} closeAppointmentDetails={closeAppointmentDetails} openCheckHistoryCode={openCheckHistoryCode} />
+        )
+      }
+      {
+        isCheckHistoryCodeOpen && (
+          <CheckHistoryCode selectedAppointmentId={selectedAppointmentId} closeCheckHistoryCode={closeCheckHistoryCode} />
         )
       }
 
