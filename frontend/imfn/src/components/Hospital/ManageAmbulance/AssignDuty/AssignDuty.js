@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './AssignDuty.css';
 
 function AssignDuty({ ambulanceData, onClose }) {
+    const assign_duty_ambulance_url = "http://localhost:8000/hospital/assign_duty_ambulance/";
+    
     const [formData, setFormData] = useState({
         from_address: '',
         to_address: '',
