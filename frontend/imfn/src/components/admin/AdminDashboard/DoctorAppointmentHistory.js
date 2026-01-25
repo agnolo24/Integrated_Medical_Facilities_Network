@@ -94,7 +94,11 @@ const DoctorAppointmentHistory = () => {
 
     return (
         <div className="admin-container">
-            <AdminSidebar activeTab="hospitals" onLogout={handleLogout} />
+            <AdminSidebar
+                activeTab="hospitals"
+                setActiveTab={() => navigate('/admin')}
+                onLogout={handleLogout}
+            />
 
             <main className="admin-main">
                 <header className="page-header">
