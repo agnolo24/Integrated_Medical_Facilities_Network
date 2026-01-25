@@ -5,6 +5,7 @@ import './ViewPatientAppointments.css';
 import axios from 'axios';
 import ViewPatientAppointmentDetails from '../ViewPatientAppointmentDetails/ViewPatientAppointmentDetails';
 import CheckHistoryCode from '../CheckHistoryCode/CheckHistoryCode';
+import ViewPrescriptionByDoctor from '../ViewPrescriptionByDoctor/ViewPrescriptionByDoctor';
 
 export default function ViewPatientAppointments() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,6 +14,14 @@ export default function ViewPatientAppointments() {
   const [selectedAppointmentId, setSelectedAppointmentId] = useState([])
   const [isAppointmentDetailsOpen, setIsAppointmentDetailsOpen] = useState(false)
   const [isCheckHistoryCodeOpen, setIsCheckHistoryCodeOpen] = useState(false)
+  const [isViewPrescriptionOpen, setIsViewPrescriptionOpen] = useState(false)
+
+  const openViewPrescription = (_id) => {
+    setSelectedAppointmentId(_id)
+    setIsViewPrescriptionOpen(true)
+  }
+
+  const closeViewPrescription = () => setIsViewPrescriptionOpen(false)
 
   const openAppointmentDetails = (_id) => {
     setSelectedAppointmentId(_id)
@@ -132,9 +141,17 @@ export default function ViewPatientAppointments() {
                         </span>
                       </td>
                       <td>
+
+                        {/*  View Details */}
                         <button className="vpa-action-btn vpa-btn-view" title="View Details" onClick={() => openAppointmentDetails(apt._id)} >
                           <i className="fas fa-eye"></i>
                         </button>
+
+                        {/* View Prescription */}
+                        <button className="vpa-action-btn vpa-btn-prescription" title="View Prescription" onClick={() => openViewPrescription(apt._id)}>
+                          <i className="fas fa-file-medical"></i>
+                        </button>
+
                       </td>
                     </tr>
                   ))
@@ -154,12 +171,18 @@ export default function ViewPatientAppointments() {
 
       {
         isAppointmentDetailsOpen && (
-          <ViewPatientAppointmentDetails selectedAppointmentId={selectedAppointmentId} closeAppointmentDetails={closeAppointmentDetails} openCheckHistoryCode={openCheckHistoryCode} />
+          <ViewPatientAppointmentDetails selectedAppointmentId={selectedAppointmentId} closeAppointmentDetails={closeAppointmentDetails} openCheckHistoryCode={openCheckHistoryCode} openViewPrescription={openViewPrescription} />
         )
       }
       {
         isCheckHistoryCodeOpen && (
           <CheckHistoryCode selectedAppointmentId={selectedAppointmentId} closeCheckHistoryCode={closeCheckHistoryCode} />
+        )
+      }
+      
+      {
+        isViewPrescriptionOpen && (
+          <ViewPrescriptionByDoctor selectedAppointmentId={selectedAppointmentId} closeViewPrescription={closeViewPrescription} />
         )
       }
 
