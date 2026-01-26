@@ -1,28 +1,53 @@
-import React,{useEffect} from "react";
-
+import React from "react";
 import './AmbulanceProfile.css'
 
-function AmbulanceProfile({AmbulanceData, handleOpenEditProfile, handleOpenChangePassword}){
+function AmbulanceProfile({ AmbulanceData, handleOpenEditProfile, handleOpenChangePassword }) {
 
-    return (
-    <div className="profile-card">
-      <div className="profile-icon-container">
-        <i className="fas fa-user-md profile-icon"></i>
-      </div>
-      <h2>AMBULANCE DETAILS</h2>
-      <h4>{AmbulanceData.ambulanceType}</h4>
-      <p>{AmbulanceData.category}</p>
-      <p>Email: <a href={`mailto:${AmbulanceData.email}`}>{AmbulanceData.email}</a></p>
-      <p>Phone: <a href={`tel:${AmbulanceData.contactNumber}`}>{AmbulanceData.contactNumber}</a></p>
-      <div className="profile-actions">
-        <button className="edit-button"
-          onClick={handleOpenEditProfile}
-        >Edit</button>
-        <button className="password-btn" onClick={handleOpenChangePassword} >Change Password</button>
+  return (
+    <div className="ambulance-profile-container">
+      <div className="ambulance-profile-card">
+
+        <div className="profile-header-section">
+          <div className="profile-avatar-wrapper">
+            <i className="fas fa-ambulance profile-avatar-icon"></i>
+          </div>
+          <h2 className="profile-name">AMBULANCE DETAILS</h2>
+          <span className="profile-badge">{AmbulanceData.ambulanceType || 'General'}</span>
+        </div>
+
+        <div className="profile-details-section">
+          <div className="detail-row">
+            <span className="detail-label">Category</span>
+            <span className="detail-value">{AmbulanceData.category || 'N/A'}</span>
+          </div>
+
+          <div className="detail-row">
+            <span className="detail-label">Email</span>
+            <span className="detail-value">
+              <a href={`mailto:${AmbulanceData.email}`} className="contact-link">{AmbulanceData.email}</a>
+            </span>
+          </div>
+
+          <div className="detail-row">
+            <span className="detail-label">Phone</span>
+            <span className="detail-value">
+              <a href={`tel:${AmbulanceData.contactNumber}`} className="contact-link">{AmbulanceData.contactNumber}</a>
+            </span>
+          </div>
+        </div>
+
+        <div className="profile-actions-section">
+          <button className="action-btn primary-btn" onClick={handleOpenEditProfile}>
+            <i className="fas fa-edit"></i> Edit Profile
+          </button>
+          <button className="action-btn secondary-btn" onClick={handleOpenChangePassword}>
+            <i className="fas fa-key"></i> Change Password
+          </button>
+        </div>
+
       </div>
     </div>
   );
 }
 
-
-export default AmbulanceProfile
+export default AmbulanceProfile;
