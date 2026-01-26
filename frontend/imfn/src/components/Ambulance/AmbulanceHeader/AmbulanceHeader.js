@@ -16,6 +16,7 @@ import '../../../asset/user_assets/css/style.css';
 import '../../../asset/user_assets/css/responsive.css';
 import AmbulanceProfile from '../AmbulanceProfile/AmbulanceProfile';
 import AmbulanceEditProfile from '../AmbulanceEditProfile/AmbulanceEditProfile';
+import ChangePassword from '../../forms/ChangePassword/ChangePassword';
 
 
 function AmbulanceHeader() {
@@ -26,6 +27,8 @@ function AmbulanceHeader() {
 
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+    const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+
 
     const handleCloseProfile = () => {
         setIsProfileOpen(false)
@@ -45,6 +48,18 @@ function AmbulanceHeader() {
         getAmbulanceData();
     }
 
+    const handleOpenChangePassword = () => {
+        setIsChangePasswordOpen(true)
+        handleCloseProfile();
+
+    }
+
+    const handleCloseChangePassword = () => {
+        setIsChangePasswordOpen(false)
+        console.log("Close", isChangePasswordOpen)
+    }
+
+
     const getAmbulanceData = async () => {
         const am_id = localStorage.getItem("loginId");
 
@@ -62,9 +77,9 @@ function AmbulanceHeader() {
     }
 
     useEffect(
-        () =>{
+        () => {
             getAmbulanceData()
-        },[]
+        }, []
     )
 
     const toggleMobileMenu = () => {
@@ -236,7 +251,7 @@ function AmbulanceHeader() {
                         <div className="modal-content">
                             <button className="close-button" onClick={handleCloseProfile} style={{ color: 'black' }}>&times;</button>
                             {/* <DoctorEditProfile doctorData={doctorData} onClose={handleCloseProfile} /> */}
-                            <AmbulanceProfile AmbulanceData={AmbulanceData} handleOpenEditProfile={handleOpenEditProfile} />
+                            <AmbulanceProfile AmbulanceData={AmbulanceData} handleOpenEditProfile={handleOpenEditProfile} handleOpenChangePassword={handleOpenChangePassword} />
                         </div>
                     </div>
                 )
@@ -251,6 +266,11 @@ function AmbulanceHeader() {
                             {/* <DoctorProfile doctorData={doctorData}/> */}
                         </div>
                     </div>
+                )
+            }
+            {
+                isChangePasswordOpen && (
+                    <ChangePassword onClose={handleCloseChangePassword} />
                 )
             }
         </div>
