@@ -2,7 +2,7 @@ import React,{useEffect} from "react";
 
 import './AmbulanceProfile.css'
 
-function AmbulanceProfile({AmbulanceData, handleOpenEditProfile}){
+function AmbulanceProfile({AmbulanceData, handleOpenEditProfile, handleOpenChangePassword}){
 
     return (
     <div className="profile-card">
@@ -18,7 +18,7 @@ function AmbulanceProfile({AmbulanceData, handleOpenEditProfile}){
         <button className="edit-button"
           onClick={handleOpenEditProfile}
         >Edit</button>
-        <a href="#" className="change-password">Change Password</a>
+        <button className="password-btn" onClick={handleOpenChangePassword} >Change Password</button>
       </div>
     </div>
   );
