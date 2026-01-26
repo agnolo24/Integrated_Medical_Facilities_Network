@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './ViewPrescriptionByDoctor.css'
+import axios from 'axios'
 
 export default function ViewPrescriptionByDoctor({ selectedAppointmentId, closeViewPrescription }) {
 
@@ -22,13 +23,28 @@ export default function ViewPrescriptionByDoctor({ selectedAppointmentId, closeV
         setPrescription(updatedPrescription);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log("Submitting Prescription:", {
-            appointment_id: selectedAppointmentId,
-            medicines: prescription
-        });
-        alert("Prescription Submitted! (Check Console)");
+
+        const url = "http://localhost:8000/doctor/add_prescription_by_doctor/";
+
+
+        try {
+            const response = await axios.post(url, {
+                appointment_id: selectedAppointmentId,
+                prescription: prescription
+            });
+            if (response.status === 200) {
+                alert("Prescription Submitted!");
+            }
+        }
+        catch (error) {
+            alert("Somthing Went wrong!");
+            console.error("Error occured : ", error)
+            if (error.response.status === 500) {
+                alert("Error : ",response.data.message);
+            }
+        }
     };
 
     return (

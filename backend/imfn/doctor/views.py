@@ -178,3 +178,37 @@ def check_history_code(request):
             {"error": "Failed to get patient details"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+@api_view(['POST'])
+def add_prescription_by_doctor(request):
+    serializer = AddPrescriptionSerializer(data =request.data)
+    serializer.is_valid(raise_exception = True)
+    data = serializer.data
+
+    prescription = {
+        "prescription" : data['prescription']
+    }
+
+    db = get_db()
+    appointment_col = db['appointments']
+
+    query = {"_id" : ObjectId(data['appointment_id']),}
+    
+    apt = appointment_col.find_one(query)
+    if not apt:
+        return Response({"error": "Internal server error"}, status = status.HTTP_404_NOT_FOUND)
+
+    try :
+        appointment = appointment_col.update_one(query,{"$set" : prescription })
+        print(appointment.did_upsert)
+        return Response(
+            {
+            "message": "Prescription added successfully"
+            }, status=status.HTTP_200_OK)
+    except:
+        return Response(
+            {
+            "error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
