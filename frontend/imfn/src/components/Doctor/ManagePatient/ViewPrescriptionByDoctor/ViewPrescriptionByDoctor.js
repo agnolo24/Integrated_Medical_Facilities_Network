@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ViewPrescriptionByDoctor.css'
 import axios from 'axios'
 
@@ -23,11 +23,10 @@ export default function ViewPrescriptionByDoctor({ selectedAppointmentId, closeV
         setPrescription(updatedPrescription);
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const url = "http://localhost:8000/doctor/add_prescription_by_doctor/";
-
 
         try {
             const response = await axios.post(url, {
@@ -42,10 +41,36 @@ export default function ViewPrescriptionByDoctor({ selectedAppointmentId, closeV
             alert("Somthing Went wrong!");
             console.error("Error occured : ", error)
             if (error.response.status === 500) {
-                alert("Error : ",response.data.message);
+                alert("Error : ", error.response.data.message);
             }
         }
     };
+
+    const fetchData = async () => {
+        const url = "http://localhost:8000/doctor/get_prescription_data/"
+
+        try {
+            const response = await axios.get(url, {
+                params: {
+                    _id: selectedAppointmentId,
+                }
+            });
+            console.log("data : ", response.data.prescription)
+            if (response.data && response.data.prescription) {
+                setPrescription(response.data.prescription)
+            }
+
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            // alert("something went wrong: " + (error.response?.data?.message || error.message));
+        }
+    }
+
+    useEffect(
+        () => {
+            fetchData()
+        }, []
+    )
 
     return (
         <div className="vpbd-overlay">
