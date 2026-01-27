@@ -121,12 +121,16 @@ function ViewAmbulance() {
                           {
                             amp.available === 0 ? (
                               <div className='duty-btn-container'>
-                            <button className='btn btn-secondary btn-assign-duty' style={{'background': '#f75a5aff'}} disabled>Not Available</button>
-                          </div>
+                                <button className='btn btn-secondary btn-assign-duty' style={{ 'background': '#f75a5aff' }} disabled>Duty Pending</button>
+                              </div>
+                            ) : amp.available === 2 ? (
+                              <div className='duty-btn-container'>
+                                <button className='btn btn-secondary btn-assign-duty' style={{ 'background': '#6af75aff' }} disabled>Duty Accepted</button>
+                              </div>
                             ) : (
-                            <div className='duty-btn-container'>
-                            <button className='btn btn-secondary btn-assign-duty' onClick={() => { handleDutyClick(amp) }}>Assign Duty</button>
-                          </div>
+                              <div className='duty-btn-container'>
+                                <button className='btn btn-secondary btn-assign-duty' onClick={() => { handleDutyClick(amp) }}>Assign Duty</button>
+                              </div>
                             )
                           }
                         </center>

@@ -95,6 +95,7 @@ def accept_duty(request):
     try:
         db = get_db()
         duty_col = db["ambulance_duty"]
+        ambulance_col = db["ambulance"]
 
         duty = duty_col.find_one({"_id": ObjectId(id)})
 
@@ -105,6 +106,11 @@ def accept_duty(request):
 
         duty["status"] = "accepted"
         duty_col.update_one({"_id": ObjectId(id)}, {"$set": duty})
+        
+        ambulance = ambulance_col.find_one({"login_id": ObjectId(duty['ambulance_login_id'])})
+        ambulance["available"] = 2
+        ambulance_col.update_one({"login_id": ObjectId(duty['ambulance_login_id'])}, {"$set": ambulance})
+            
 
     except:
         return Response(
