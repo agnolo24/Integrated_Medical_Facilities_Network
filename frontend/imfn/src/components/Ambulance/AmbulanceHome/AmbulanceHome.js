@@ -9,6 +9,7 @@ function AmbulanceHome() {
 
     const getDutyUrl = "http://127.0.0.1:8000/ambulance/get_duty/";
     const acceptDutyUrl = "http://127.0.0.1:8000/ambulance/accept_duty/";
+    const completeDutyUrl = "http://127.0.0.1:8000/ambulance/complete_duty/";
 
     useEffect(() => {
         getDuty();
@@ -40,6 +41,21 @@ function AmbulanceHome() {
     async function acceptDuty(duty) {
         try {
             const response = await axios.put(acceptDutyUrl, {
+                dutyId: duty._id,
+            });
+            // Refresh duty data from server
+        } catch (error) {
+            console.error("No duty or server error", error);
+            setDuty(null);
+        } finally {
+            getDuty();
+        }
+    }
+
+
+    async function completeDuty(duty) {
+        try {
+            const response = await axios.put(completeDutyUrl, {
                 dutyId: duty._id,
             });
             // Refresh duty data from server
@@ -150,7 +166,7 @@ function AmbulanceHome() {
                                     </div>
 
                                     {duty.status === "accepted" ? (
-                                        <button className="btn btn-success w-100 py-3" style={{'background': '#f9a353ff'}}>
+                                        <button className="btn btn-success w-100 py-3" style={{'background': '#f9a353ff'}} onClick={() => { completeDuty(duty) }}>
                                             <i className="bi bi-person-check-fill me-2" />
                                             Duty Completed
                                         </button>

@@ -113,3 +113,36 @@ def accept_duty(request):
         )
 
     return Response({"Message": "Duty Accepted"}, status=status.HTTP_200_OK)
+
+
+@api_view(["PUT"])
+def complete_duty(request):
+    id = request.data.get("dutyId")
+    print(id)
+
+    try:
+        db = get_db()
+        duty_col = db["ambulance_duty"]
+        ambulance_col = db["ambulance"]
+
+        duty = duty_col.find_one({"_id": ObjectId(id)})
+
+        if not duty:
+            return Response(
+                {"error": "Duty not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        duty["status"] = "completed"
+        duty_col.update_one({"_id": ObjectId(id)}, {"$set": duty})
+
+        ambulance = ambulance_col.find_one({"login_id": ObjectId(duty['ambulance_login_id'])})
+        ambulance["available"] = 1
+        ambulance_col.update_one({"login_id": ObjectId(duty['ambulance_login_id'])}, {"$set": ambulance})
+            
+    except:
+        return Response(
+            {"error": "Internal server error"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+    return Response({"Message": "Duty Completed"}, status=status.HTTP_200_OK)

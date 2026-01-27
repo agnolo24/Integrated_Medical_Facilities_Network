@@ -584,7 +584,7 @@ def assign_duty_ambulance(request):
             return Response(
                 {"error": "Ambulance not found"}, status=status.HTTP_404_NOT_FOUND
             )
-            
+
         if ambulance.get("available") == 0:
             return Response(
                 {"error": "Ambulance is not available"}, status=status.HTTP_404_NOT_FOUND
