@@ -118,9 +118,17 @@ function ViewAmbulance() {
                       </div>
                       <div className='row'>
                         <center>
-                          <div className='duty-btn-container'>
+                          {
+                            amp.available === 0 ? (
+                              <div className='duty-btn-container'>
+                            <button className='btn btn-secondary btn-assign-duty' style={{'background': '#f75a5aff'}} disabled>Not Available</button>
+                          </div>
+                            ) : (
+                            <div className='duty-btn-container'>
                             <button className='btn btn-secondary btn-assign-duty' onClick={() => { handleDutyClick(amp) }}>Assign Duty</button>
                           </div>
+                            )
+                          }
                         </center>
                       </div>
                     </div>
