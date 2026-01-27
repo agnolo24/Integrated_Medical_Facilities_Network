@@ -178,3 +178,64 @@ def check_history_code(request):
             {"error": "Failed to get patient details"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+@api_view(['POST'])
+def add_prescription_by_doctor(request):
+    serializer = AddPrescriptionSerializer(data =request.data)
+    serializer.is_valid(raise_exception = True)
+    data = serializer.data
+
+    prescription = {
+        "prescription" : data['prescription']
+    }
+
+    db = get_db()
+    appointment_col = db['appointments']
+
+    query = {"_id" : ObjectId(data['appointment_id']),}
+    
+    apt = appointment_col.find_one(query)
+    if not apt:
+        return Response({"error": "Internal server error"}, status = status.HTTP_404_NOT_FOUND)
+
+    try :
+        appointment = appointment_col.update_one(query,{"$set" : prescription })
+        print(appointment.did_upsert)
+        return Response(
+            {
+            "message": "Prescription added successfully"
+            }, status=status.HTTP_200_OK)
+    except:
+        return Response(
+            {
+            "error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['GET'])
+def get_prescription_data(request):
+    _id = request.query_params.get('_id')
+
+    print("_id : ", _id)
+    
+    db = get_db()
+    appointment_coll = db['appointments']
+    try:
+        apt = appointment_coll.find_one({"_id" : ObjectId(_id)})
+
+        if not apt:
+            return Response(
+                {
+                "error": "Can not find appointment"}, status=status.HTTP_404_NOT_FOUND
+            )
+        
+        prescription = apt['prescription']
+        print(prescription)
+        return Response({"prescription" : prescription}, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(f"Error: {e}")
+        return Response(
+            {
+            "error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+    return Response({},status=status.HTTP_200_OK)
+
