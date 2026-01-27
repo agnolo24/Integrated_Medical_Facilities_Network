@@ -1,148 +1,166 @@
-/* Premium Glassmorphism Design for Doctor Profile */
-.profile-card {
+/* Modern Medical Design for Ambulance Profile */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.ambulance-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  /* padding-top: 150px; */
+  background-color: transparent; /* Assuming parent has background, or we can add a subtle one here */
+  font-family: 'Inter', sans-serif;
+}
+
+.ambulance-profile-card {
   width: 100%;
-  /* Fit outer div */
-  max-width: 100%;
-  /* Ensure it doesn't overflow */
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 30px 20px;
-  text-align: center;
-  font-family: 'Poppins', 'Segoe UI', sans-serif;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  position: relative;
+  max-width: 450px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-sizing: border-box;
-  /* Include padding in width */
+  border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-.profile-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+.ambulance-profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
 }
 
-/* Decorative background gradient accent */
-.profile-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(67, 97, 238, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.profile-icon-container {
+/* Header Section */
+.profile-header-section {
+  background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+  padding: 40px 30px 30px;
+  text-align: center;
+  color: white;
   position: relative;
-  width: 120px;
-  height: 120px;
+  clip-path: ellipse(150% 100% at 50% 0%); /* Curved bottom effect */
+}
+
+.profile-avatar-wrapper {
+  width: 100px;
+  height: 100px;
   margin: 0 auto 20px;
-  z-index: 1;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f0f4ff 0%, #e2e8f0 100%);
-  border-radius: 50%;
-  border: 4px solid #fff;
-  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.25);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.profile-icon {
-  font-size: 60px;
-  color: #4361ee;
+.profile-avatar-icon {
+  font-size: 45px;
+  color: #ffffff;
 }
 
-.profile-card h2 {
-  margin: 10px 0 5px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #1a1a2e;
-  position: relative;
-  z-index: 1;
-}
-
-.profile-card h4 {
+.profile-name {
   margin: 0;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.profile-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  font-size: 13px;
+  background-color: #ffffff;
   color: #4361ee;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  position: relative;
-  z-index: 1;
 }
 
-.profile-card p {
-  margin: 8px 0;
+/* Details Section */
+.profile-details-section {
+  padding: 15px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1px 0;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-size: 14px;
+  color: #8c98a4;
+  font-weight: 500;
+}
+
+.detail-value {
   font-size: 15px;
-  color: #5d6778;
-  line-height: 1.5;
-  position: relative;
-  z-index: 1;
+  color: #2d3748;
+  font-weight: 600;
+  text-align: right;
 }
 
-/* Contact Info Styling */
-.profile-card p a {
-  color: #5d6778;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-
-.profile-card p a:hover {
+.contact-link {
   color: #4361ee;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
-.profile-actions {
-  margin-top: 25px;
+.contact-link:hover {
+  color: #3a0ca3;
+  text-decoration: underline;
+}
+
+/* Actions Section */
+.profile-actions-section {
+  padding: 0 30px 40px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  align-items: center;
-  position: relative;
-  z-index: 1;
 }
 
-.edit-button {
-  background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
-  border: none;
-  padding: 12px 30px;
-  border-radius: 50px;
-  color: white;
+.action-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 100%;
-  max-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  border: none;
 }
 
-.edit-button:hover {
+.primary-btn {
+  background: #4361ee;
+  color: white;
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+}
+
+.primary-btn:hover {
+  background: #3a0ca3;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+  box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
 }
 
-.change-password {
-  color: #b0b0b0;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  transition: color 0.2s ease;
+.secondary-btn {
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
 }
 
-.change-password {
-  color: #2248f5;
-  font-size: 16px;
-}
-
-.change-password:hover {
-  color: #021e98;
-  font-size: 17px;
-
+.secondary-btn:hover {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
 }

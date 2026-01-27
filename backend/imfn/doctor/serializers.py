@@ -46,3 +46,11 @@ class EditDoctorSerializer(serializers.Serializer):
     contactNumber = serializers.CharField(max_length=20)
     hospital_login_id = serializers.CharField(max_length=100)
     doctorId = serializers.CharField(max_length=100)
+
+
+class AddPrescriptionSerializer(serializers.Serializer):
+    appointment_id = serializers.CharField(max_length=100)
+    prescription = serializers.ListField(
+        child = serializers.DictField(
+        )
+    )
