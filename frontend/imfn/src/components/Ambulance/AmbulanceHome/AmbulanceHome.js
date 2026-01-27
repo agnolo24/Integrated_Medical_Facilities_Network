@@ -8,6 +8,7 @@ function AmbulanceHome() {
     const [loading, setLoading] = useState(true);
 
     const getDutyUrl = "http://127.0.0.1:8000/ambulance/get_duty/";
+    const acceptDutyUrl = "http://127.0.0.1:8000/ambulance/accept_duty/";
 
     useEffect(() => {
         getDuty();
@@ -35,6 +36,20 @@ function AmbulanceHome() {
         };
         return `badge ${map[level] || "bg-secondary"} px-3 py-2 text-uppercase`;
     };
+
+    async function acceptDuty(duty) {
+        try {
+            const response = await axios.put(acceptDutyUrl, {
+                dutyId: duty._id,
+            });
+            // Refresh duty data from server
+        } catch (error) {
+            console.error("No duty or server error", error);
+            setDuty(null);
+        } finally {
+            getDuty();
+        }
+    }
 
     return (
         <div className="bg-light min-vh-100">
@@ -134,10 +149,17 @@ function AmbulanceHome() {
                                         </div>
                                     </div>
 
-                                    <button className="btn btn-primary w-100 py-3 fw-semibold shadow-sm">
-                                        <i className="bi bi-navigation me-2" />
-                                        Accept & Start Navigation
-                                    </button>
+                                    {duty.status === "accepted" ? (
+                                        <button className="btn btn-success w-100 py-3" style={{'background': '#f9a353ff'}}>
+                                            <i className="bi bi-person-check-fill me-2" />
+                                            Duty Completed
+                                        </button>
+                                    ) : (
+                                        <button className="btn btn-primary w-100 py-3 fw-semibold shadow-sm" onClick={() => { acceptDuty(duty) }}>
+                                            <i className="bi bi-navigation me-2" />
+                                            Accept & Start Navigation
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ) : (

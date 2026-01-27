@@ -62,7 +62,7 @@ def get_duty(request):
             "$or": [
                 {"ambulance_login_id": ObjectId(login_id)},
             ],
-            "status": "pending",
+            "status": {"$in": ["pending", "accepted"]},
         }
 
         if ambulance:
@@ -86,3 +86,30 @@ def get_duty(request):
             {"error": "Internal server error"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+@api_view(["PUT"])
+def accept_duty(request):
+    id = request.data.get("dutyId")
+
+    try:
+        db = get_db()
+        duty_col = db["ambulance_duty"]
+
+        duty = duty_col.find_one({"_id": ObjectId(id)})
+
+        if not duty:
+            return Response(
+                {"error": "Duty not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        duty["status"] = "accepted"
+        duty_col.update_one({"_id": ObjectId(id)}, {"$set": duty})
+
+    except:
+        return Response(
+            {"error": "Internal server error"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+    return Response({"Message": "Duty Accepted"}, status=status.HTTP_200_OK)
