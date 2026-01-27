@@ -43,7 +43,6 @@ def getAmbulanceData(request):
 @api_view(["GET"])
 def get_duty(request):
     login_id = request.query_params.get("ambulanceId")
-    print(login_id)
     if not login_id:
         return Response(
             {"error": "Login Id not fount"}, status=status.HTTP_400_BAD_REQUEST
