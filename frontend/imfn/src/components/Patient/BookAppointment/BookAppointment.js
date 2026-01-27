@@ -21,6 +21,7 @@ function BookAppointment() {
     const [selectedSlot, setSelectedSlot] = useState('')
     const [appointmentType, setAppointmentType] = useState('offline')
     const [reason, setReason] = useState('')
+    const [selectedFiles, setSelectedFiles] = useState([])
     const [isBooking, setIsBooking] = useState(false)
     const [slotsLoading, setSlotsLoading] = useState(false)
     const [slotsMessage, setSlotsMessage] = useState('')
@@ -90,15 +91,24 @@ function BookAppointment() {
         }
 
         setIsBooking(true)
+        const formData = new FormData()
+        formData.append('patient_login_id', patient_login_id)
+        formData.append('doctor_id', doctorId)
+        formData.append('hospital_login_id', hospitalLoginId || doctor?.hospital_login_id)
+        formData.append('appointment_date', selectedDate)
+        formData.append('time_slot', selectedSlot)
+        formData.append('appointment_type', appointmentType)
+        formData.append('reason', reason)
+
+        selectedFiles.forEach((file) => {
+            formData.append('documents', file)
+        })
+
         try {
-            const response = await axios.post(`${baseUrl}book_appointment/`, {
-                patient_login_id,
-                doctor_id: doctorId,
-                hospital_login_id: hospitalLoginId || doctor?.hospital_login_id,
-                appointment_date: selectedDate,
-                time_slot: selectedSlot,
-                appointment_type: appointmentType,
-                reason: reason
+            const response = await axios.post(`${baseUrl}book_appointment/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             })
 
             alert(response.data.message || "Appointment booked successfully!")
@@ -234,6 +244,47 @@ function BookAppointment() {
                                 onChange={(e) => setReason(e.target.value)}
                                 rows={3}
                             />
+                        </div>
+
+                        {/* File Upload */}
+                        <div className="form-group">
+                            <label>Upload Medical Documents (Lab Results, X-Rays, etc.)</label>
+                            <div className="file-upload-container">
+                                <input
+                                    type="file"
+                                    multiple
+                                    id="medical-docs"
+                                    className="file-input-hidden"
+                                    onChange={(e) => {
+                                        const newFiles = Array.from(e.target.files);
+                                        setSelectedFiles(prev => [...prev, ...newFiles]);
+                                        e.target.value = ''; // Reset input to allow adding more files separately
+                                    }}
+                                    accept=".pdf,.doc,.docx,image/*"
+                                />
+                                <label htmlFor="medical-docs" className="file-upload-label">
+                                    <span className="upload-icon">{selectedFiles.length > 0 ? '➕' : '📁'}</span>
+                                    {selectedFiles.length > 0
+                                        ? 'Add More Documents'
+                                        : 'Choose files or drag & drop'}
+                                </label>
+                                {selectedFiles.length > 0 && (
+                                    <div className="file-preview-list">
+                                        {selectedFiles.map((file, idx) => (
+                                            <div key={idx} className="file-preview-item">
+                                                <span className="file-name text-truncate">{file.name}</span>
+                                                <button
+                                                    className="remove-file"
+                                                    onClick={() => setSelectedFiles(selectedFiles.filter((_, i) => i !== idx))}
+                                                >
+                                                    ✕
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                <small className="help-text">Accepted formats: PDF, Images, Word docs (Multiple allowed)</small>
+                            </div>
                         </div>
 
                         {/* Book Button */}
