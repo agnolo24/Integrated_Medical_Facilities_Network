@@ -186,6 +186,24 @@ function ViewAppointments() {
                                             <strong>Reason:</strong> {appointment.reason}
                                         </p>
                                     )}
+                                    {appointment.documents && appointment.documents.length > 0 && (
+                                        <div className="appointment-documents">
+                                            <strong>Medical Docs:</strong>
+                                            <div className="docs-grid">
+                                                {appointment.documents.map((doc, idx) => (
+                                                    <a
+                                                        key={idx}
+                                                        href={`http://127.0.0.1:8000${doc}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="document-badge"
+                                                    >
+                                                        <span className="icon">📄</span> Doc {idx + 1}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="appointment-actions">

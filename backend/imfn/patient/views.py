@@ -13,6 +13,8 @@ from datetime import datetime, timedelta
 import re
 
 from bson import ObjectId
+from django.core.files.storage import FileSystemStorage
+import os
 
 # Create your views here.
 
@@ -537,7 +539,23 @@ def book_appointment(request):
             "reason": data.get("reason", ""),
             "status": "scheduled",
             "created_at": datetime.utcnow(),
+            "documents": [],
         }
+
+        # Handle file uploads
+        files = request.FILES.getlist("documents")
+        if files:
+            fs = FileSystemStorage()
+            file_paths = []
+            for file in files:
+                # Create a unique filename with timestamp
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                filename = f"appointments/{timestamp}_{file.name.replace(' ', '_')}"
+                saved_filename = fs.save(filename, file)
+                file_url = fs.url(saved_filename)
+                file_paths.append(file_url)
+
+            appointment_doc["documents"] = file_paths
 
         result = appointment_col.insert_one(appointment_doc)
 
@@ -629,6 +647,7 @@ def get_appointments(request):
                     "appointment_type": apt.get("appointment_type", ""),
                     "status": apt.get("status", ""),
                     "reason": apt.get("reason", ""),
+                    "documents": apt.get("documents", []),
                     "created_at": (
                         apt.get("created_at").strftime("%Y-%m-%d %H:%M")
                         if apt.get("created_at")
