@@ -7,6 +7,8 @@ import './PatientHome.css';
 
 export default function PatientHome() {
     const [patientData, setPatientData] = useState(null);
+    const [location, setLocation] = useState({ lat: null, lon: null });
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const getPatientData = async () => {
@@ -23,8 +25,41 @@ export default function PatientHome() {
     }, []);
 
     const handleEmergency = () => {
+        getLocation();
         alert("Emergency protocols initiated. Searching for nearest hospital and notifying emergency contacts...");
-        // In a real app, this would trigger an ambulance request or alert system
+        console.log(location);
+    };
+
+    const getLocation = () => {
+        if (!navigator.geolocation) {
+            setError("Geolocation is not supported by your browser.");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setLocation({
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                });
+                setError(null); // Clear any previous errors
+            },
+            (err) => {
+                switch (err.code) {
+                    case err.PERMISSION_DENIED:
+                        setError("Permission denied. Please allow location access.");
+                        break;
+                    case err.POSITION_UNAVAILABLE:
+                        setError("Location information is unavailable.");
+                        break;
+                    case err.TIMEOUT:
+                        setError("Location request timed out.");
+                        break;
+                    default:
+                        setError("An unknown error occurred.");
+                }
+            }
+        );
     };
 
     return (
