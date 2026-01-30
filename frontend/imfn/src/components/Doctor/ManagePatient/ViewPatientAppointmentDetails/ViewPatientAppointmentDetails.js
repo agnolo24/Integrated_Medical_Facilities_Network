@@ -144,8 +144,44 @@ export default function ViewPatientAppointmentDetails({ selectedAppointmentId, c
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="vpad-section">
+                                <h3><i className="fas fa-file-medical"></i> Documents</h3>
+                                <div className="vpad-info-group">
+                                    <label>Documents</label>
+                                    <div className="vpad-documents-container">
+                                        {
+                                            details.documents && details.documents.length > 0 ?
+                                                details.documents.map((doc, index) => (
+                                                    <a
+                                                        key={index}
+                                                        href={"http://127.0.0.1:8000" + doc}
+                                                        target="_blank"
+                                                        // download key={index}
+                                                        rel="noopener noreferrer"
+                                                        className="vpad-document-item"
+                                                    >
+                                                        <div className="vpad-doc-icon">
+                                                            <i className="fas fa-file-alt"></i>
+                                                        </div>
+                                                        <div className="vpad-doc-info">
+                                                            <span className="vpad-doc-name">Document {index + 1}</span>
+                                                            <span className="vpad-doc-action">View File <i className="fas fa-external-link-alt"></i></span>
+                                                        </div>
+                                                    </a>
+                                                ))
+                                                :
+                                                <div className="vpad-no-docs">
+                                                    <i className="far fa-folder-open"></i>
+                                                    <p>No documents uploaded</p>
+                                                </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className='medical-history'>
-                                
+
                                 <button className="medical-history-btn" onClick={() => openCheckHistoryCode(details._id)}>
                                     View Medical History
                                 </button>
