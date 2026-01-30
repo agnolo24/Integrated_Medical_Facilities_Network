@@ -9,6 +9,17 @@ export default function PatientHome() {
     const [patientData, setPatientData] = useState(null);
     const [location, setLocation] = useState({ lat: null, lon: null });
     const [error, setError] = useState(null);
+    const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const emergencyTypes = [
+        { id: 'accident', label: 'Accident / Trauma', icon: 'fa-car-crash', color: '#e53e3e' },
+        { id: 'heart', label: 'Heart Related', icon: 'fa-heartbeat', color: '#d53f8c' },
+        { id: 'breathing', label: 'Breathing Difficulty', icon: 'fa-lungs', color: '#3182ce' },
+        { id: 'pregnancy', label: 'Pregnancy / Labor', icon: 'fa-baby', color: '#805ad5' },
+        { id: 'unconscious', label: 'Unconscious', icon: 'fa-user-slash', color: '#718096' },
+        { id: 'other', label: 'Other Critical', icon: 'fa-plus-circle', color: '#319795' }
+    ];
 
     useEffect(() => {
         const getPatientData = async () => {
@@ -22,12 +33,35 @@ export default function PatientHome() {
         };
 
         getPatientData();
+        getLocation(); // Get location on mount to be ready
     }, []);
 
-    const handleEmergency = () => {
+    const handleEmergencyClick = () => {
+        setShowEmergencyModal(true);
+    };
+
+    const triggerEmergency = async (type) => {
+        setLoading(true);
+        setShowEmergencyModal(false);
+
+        // Ensure we have current location
         getLocation();
-        alert("Emergency protocols initiated. Searching for nearest hospital and notifying emergency contacts...");
-        console.log(location);
+
+        try {
+            const response = await axios.get("http://127.0.0.1:8000/patient/getNearestHospital/", {
+                params: {
+                    lat: location.lat,
+                    lon: location.lon,
+                    type: type.label
+                }
+            });
+            alert(`Emergency protocols initiated for ${type.label}. Searching for nearest hospital and notifying emergency contacts...`);
+            console.log(response.data);
+        } catch (error) {
+            alert("Failed to find nearest hospital. Please call emergency services directly.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     const getLocation = () => {
@@ -42,7 +76,7 @@ export default function PatientHome() {
                     lat: position.coords.latitude,
                     lon: position.coords.longitude,
                 });
-                setError(null); // Clear any previous errors
+                setError(null);
             },
             (err) => {
                 switch (err.code) {
@@ -73,9 +107,13 @@ export default function PatientHome() {
                         <h3><i className="fas fa-exclamation-triangle me-2"></i> Medical Emergency?</h3>
                         <p>Get immediate medical assistance. Our 24/7 emergency response team is ready to help.</p>
                     </div>
-                    <button className="emergency-btn" onClick={handleEmergency}>
+                    <button
+                        className={`emergency-btn ${loading ? 'loading' : ''}`}
+                        onClick={handleEmergencyClick}
+                        disabled={loading}
+                    >
                         <i className="fas fa-ambulance"></i>
-                        EMERGENCY BUTTON
+                        {loading ? 'INITIATING...' : 'EMERGENCY BUTTON'}
                     </button>
                 </section>
 
@@ -102,6 +140,38 @@ export default function PatientHome() {
                     </NavLink>
                 </div>
             </main>
+
+            {/* Emergency Modal */}
+            {showEmergencyModal && (
+                <div className="emergency-modal-overlay">
+                    <div className="emergency-modal">
+                        <div className="modal-header">
+                            <h2>Select Emergency Type</h2>
+                            <button className="close-btn" onClick={() => setShowEmergencyModal(false)} aria-label="Close">
+                                <i className="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p className="modal-subtitle">What is the nature of the emergency? This helps us dispatch the right care.</p>
+                            <div className="emergency-type-grid">
+                                {emergencyTypes.map((type) => (
+                                    <button
+                                        key={type.id}
+                                        className="emergency-type-card"
+                                        onClick={() => triggerEmergency(type)}
+                                        style={{ '--accent-color': type.color }}
+                                    >
+                                        <div className="type-icon">
+                                            <i className={`fas ${type.icon}`}></i>
+                                        </div>
+                                        <span>{type.label}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <PatientFooter />
         </div>

@@ -16,4 +16,6 @@ urlpatterns = [
     path("book_appointment/", views.book_appointment, name="book_appointment"),
     path("appointments/", views.get_appointments, name="get_appointments"),
     path("cancel_appointment/", views.cancel_appointment, name="cancel_appointment"),
+    # Emergency functionality
+    path("getNearestHospital/", views.getNearestHospital, name="getNearestHospital"),
 ]
