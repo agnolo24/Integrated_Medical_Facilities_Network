@@ -134,6 +134,18 @@ def get_patient_appointment_details(request):
         appointment["patient_gender"] = patient.get("gender", "")
         appointment["patient_address"] = patient.get("address", "")
 
+        appointment["appointment_date"] = (
+            appointment.get("appointment_date").strftime("%Y-%m-%d")
+            if appointment.get("appointment_date")
+            else ""
+        )
+        appointment["created_at"] = (
+            appointment.get("created_at").strftime("%Y-%m-%d %H:%M")
+            if appointment.get("created_at")
+            else ""
+        )
+        appointment["documents"] = appointment.get("documents") or ""
+        print("data :",appointment["documents"])
         return Response(appointment,status=status.HTTP_200_OK)
     except Exception as e:
         print(f"Error getting appointment details: {e}")
