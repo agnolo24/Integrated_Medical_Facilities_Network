@@ -35,7 +35,10 @@ export default function ViewPatientAppointments() {
 
   const closeCheckHistoryCode = () => setIsCheckHistoryCodeOpen(false)
 
-  const closeAppointmentDetails = () => setIsAppointmentDetailsOpen(false)
+  const closeAppointmentDetails = () =>{ 
+    setIsAppointmentDetailsOpen(false)
+    fetchData()
+  }
 
 
 
