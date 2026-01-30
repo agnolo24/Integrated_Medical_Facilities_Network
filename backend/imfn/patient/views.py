@@ -717,3 +717,17 @@ def cancel_appointment(request):
             {"error": "Failed to cancel appointment"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+@api_view(["GET"])
+def getNearestHospital(request):
+    lat = request.query_params.get("lat")
+    lon = request.query_params.get("lon")
+    emergency_type = request.query_params.get("type", "General")
+
+    print(f"Emergency Alert! Type: {emergency_type}, Location: ({lat}, {lon})")
+
+    return Response(
+        {"message": "Emergency response initiated", "type": emergency_type},
+        status=status.HTTP_200_OK,
+    )
