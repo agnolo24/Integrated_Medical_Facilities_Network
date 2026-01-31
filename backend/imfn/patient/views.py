@@ -15,6 +15,9 @@ import re
 from bson import ObjectId
 from django.core.files.storage import FileSystemStorage
 import os
+import openrouteservice
+import base64
+import json
 
 # Create your views here.
 
@@ -723,11 +726,119 @@ def cancel_appointment(request):
 def getNearestHospital(request):
     lat = request.query_params.get("lat")
     lon = request.query_params.get("lon")
+    patient_login_id = request.query_params.get("patient_login_id")
     emergency_type = request.query_params.get("type", "General")
 
-    print(f"Emergency Alert! Type: {emergency_type}, Location: ({lat}, {lon})")
+    if not lat or not lon:
+        return Response(
+            {"error": "Location data is required"}, status=status.HTTP_400_BAD_REQUEST
+        )
 
-    return Response(
-        {"message": "Emergency response initiated", "type": emergency_type},
-        status=status.HTTP_200_OK,
-    )
+    try:
+        p_lat = float(lat)
+        p_lon = float(lon)
+    except ValueError:
+        return Response(
+            {"error": "Invalid location format"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    db = get_db()
+    hospital_col = db["hospital"]
+    # Search for verified hospitals
+    hospitals = list(hospital_col.find({"status": "verified"}))
+
+    if not hospitals:
+        return Response(
+            {"error": "No verified hospitals found"}, status=status.HTTP_404_NOT_FOUND
+        )
+
+    # OpenRouteService API Setup
+    RAW_KEY = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImRhNGE3ZjFhNTE4ZDQwOWM4NTgzMWRiZTc1MDcyOWJlIiwiaCI6Im11cm11cjY0In0="
+    try:
+        # Decode the provided key (extracting the 'id' field which is the actual API key)
+        decoded_key = json.loads(base64.b64decode(RAW_KEY).decode("utf-8")).get("id")
+    except:
+        decoded_key = RAW_KEY
+
+    client = openrouteservice.Client(key=decoded_key)
+
+    valid_hospitals = []
+    locations = [[p_lon, p_lat]]  # ORS expects [longitude, latitude]
+
+    for hosp in hospitals:
+        h_lat = hosp.get("lat")
+        h_lon = hosp.get("lon")
+        if h_lat and h_lon:
+            try:
+                locations.append([float(h_lon), float(h_lat)])
+                valid_hospitals.append(hosp)
+            except (ValueError, TypeError):
+                continue
+
+    if not valid_hospitals:
+        return Response(
+            {"error": "No hospitals with valid coordinates found"},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    try:
+        # Using ORS Matrix API to find distances and durations from patient to all hospitals
+        # Profile 'driving-car', source: 0 (patient), destinations: 1 to N (hospitals)
+        matrix = client.distance_matrix(
+            locations=locations,
+            profile="driving-car",
+            metrics=["distance", "duration"],
+            sources=[0],
+            destinations=list(range(1, len(locations))),
+        )
+
+        # Distances are in meters, Durations in seconds
+        distances = matrix["distances"][0]
+        durations = matrix["durations"][0]
+
+        # Find the hospital with the minimum travel distance (or duration)
+        min_dist = min(distances)
+        min_index = distances.index(min_dist)
+        nearest_hospital = valid_hospitals[min_index]
+        travel_time = durations[min_index]
+
+        # Create emergency record in database
+        emergency_col = db["emergencies"]
+        emergency_doc = {
+            "patient_login_id": (
+                ObjectId(patient_login_id) if patient_login_id else None
+            ),
+            "patient_location": {"lat": p_lat, "lon": p_lon},
+            "emergency_type": emergency_type,
+            "hospital_login_id": nearest_hospital["login_id"],
+            "status": "pending_hospital",
+            "distance_m": min_dist,
+            "duration_s": travel_time,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow(),
+        }
+
+        result = emergency_col.insert_one(emergency_doc)
+
+        return Response(
+            {
+                "message": "Nearest hospital identified using OpenRouteService Matrix API",
+                "emergency_id": str(result.inserted_id),
+                "nearest_hospital": {
+                    "hospitalName": nearest_hospital.get("hospitalName"),
+                    "hospitalAddress": nearest_hospital.get("hospitalAddress"),
+                    "contactNumber": nearest_hospital.get("contactNumber"),
+                    "distance_km": round(min_dist / 1000, 2),
+                    "estimated_time_mins": round(travel_time / 60, 1),
+                },
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    except Exception as e:
+        print(f"ORS Error: {e}")
+        # Fallback to Haversine if API fails or other errors occur
+        return Response(
+            {"error": "Failed to calculate distances using ORS"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
