@@ -2,7 +2,7 @@ import React from 'react'
 import './CheckHistoryCode.css'
 import axios from 'axios'
 
-export default function CheckHistoryCode({ selectedAppointmentId, closeCheckHistoryCode }) {
+export default function CheckHistoryCode({ selectedAppointmentId, closeCheckHistoryCode, openHistory }) {
 
     const [formData, setFormData] = React.useState({
         historyCode: "",
@@ -17,9 +17,10 @@ export default function CheckHistoryCode({ selectedAppointmentId, closeCheckHist
             const response = await axios.post(url, data);
 
             if (response.status === 200) {
-                console.log("Success");
+                // console.log("Success");
                 alert("History Code Verified Successfully!");
                 closeCheckHistoryCode();
+                openHistory();
             }
         }
         catch (error) {
