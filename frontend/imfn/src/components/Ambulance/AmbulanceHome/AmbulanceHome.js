@@ -1,26 +1,47 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useState, useEffect } from "react";
 import AmbulanceHeader from "../AmbulanceHeader/AmbulanceHeader";
 import AmbulanceFooter from "../AmbulanceFooter/AmbulanceFooter";
+import { Phone, MapPin, Navigation, CheckCircle, User, Clock, AlertCircle, Play, List, RefreshCw } from "lucide-react";
 
 function AmbulanceHome() {
     const [duty, setDuty] = useState(null);
+    const [emergencies, setEmergencies] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const getDutyUrl = "http://127.0.0.1:8000/ambulance/get_duty/";
-    const acceptDutyUrl = "http://127.0.0.1:8000/ambulance/accept_duty/";
-    const completeDutyUrl = "http://127.0.0.1:8000/ambulance/complete_duty/";
+    const loginId = localStorage.getItem("loginId");
+    const BASE_URL = "http://127.0.0.1:8000/ambulance";
 
     useEffect(() => {
-        getDuty();
+        const init = async () => {
+            await getDuty();
+            await emergencyCall();
+            setLoading(false);
+        };
+        init();
+
+        // const interval = setInterval(emergencyCall, 10000);
+        // return () => clearInterval(interval);
+
     }, []);
+
+    async function emergencyCall() {
+        try {
+            const response = await axios.get(`${BASE_URL}/get_available_emergencies/`, {
+                params: { ambulanceId: loginId },
+            });
+            setEmergencies(response.data.emergencies || []);
+        } catch (error) {
+            console.error("Error fetching emergencies:", error);
+        }
+    }
 
     async function getDuty() {
         try {
-            const response = await axios.get(getDutyUrl, {
-                params: { ambulanceId: localStorage.getItem("loginId") },
+            const response = await axios.get(`${BASE_URL}/get_duty/`, {
+                params: { ambulanceId: loginId },
             });
-            setDuty(response.data[0]);
+            setDuty(response.data[0] || null);
         } catch (error) {
             console.error("No duty or server error", error);
             setDuty(null);
@@ -29,175 +50,213 @@ function AmbulanceHome() {
         }
     }
 
-    const getRiskBadge = (level) => {
-        const map = {
-            high: "bg-danger",
-            medium: "bg-warning text-dark",
-            low: "bg-success",
-        };
-        return `badge ${map[level] || "bg-secondary"} px-3 py-2 text-uppercase`;
-    };
-
-    async function acceptDuty(duty) {
+    async function handleAcceptEmergency(emergencyId) {
         try {
-            const response = await axios.put(acceptDutyUrl, {
-                dutyId: duty._id,
+            await axios.post(`${BASE_URL}/accept_emergency_duty/`, {
+                emergency_id: emergencyId,
+                ambulance_login_id: loginId
             });
-            // Refresh duty data from server
-        } catch (error) {
-            console.error("No duty or server error", error);
-            setDuty(null);
-        } finally {
+            alert("Emergency duty accepted!");
             getDuty();
+            emergencyCall();
+        } catch (error) {
+            const msg = error.response?.data?.error || "Could not accept duty.";
+            alert(msg);
         }
     }
 
-
-    async function completeDuty(duty) {
+    async function acceptDuty(currentDuty) {
         try {
-            const response = await axios.put(completeDutyUrl, {
-                dutyId: duty._id,
+            await axios.put(`${BASE_URL}/accept_duty/`, {
+                dutyId: currentDuty._id,
             });
-            // Refresh duty data from server
-        } catch (error) {
-            console.error("No duty or server error", error);
-            setDuty(null);
-        } finally {
             getDuty();
+        } catch (error) {
+            console.error("Error accepting duty:", error);
         }
+    }
+
+    async function completeDuty(currentDuty) {
+        try {
+            await axios.put(`${BASE_URL}/complete_duty/`, {
+                dutyId: currentDuty._id,
+            });
+            getDuty();
+            emergencyCall();
+        } catch (error) {
+            console.error("Error completing duty:", error);
+        }
+    }
+
+    if (loading) {
+        return (
+            <div className="bg-light min-vh-100 d-flex flex-column">
+                <AmbulanceHeader />
+                <div className="container flex-grow-1 d-flex justify-content-center align-items-center">
+                    <div className="text-center">
+                        <div className="spinner-border text-primary mb-3" role="status"></div>
+                        <p className="text-muted">Loading your dashboard...</p>
+                    </div>
+                </div>
+                <AmbulanceFooter />
+            </div>
+        );
     }
 
     return (
-        <div className="bg-light min-vh-100">
+        <div className="bg-light min-vh-100 pb-5">
             <AmbulanceHeader />
 
             <div className="container py-5">
+                <style>{`
+                    .pulse-animation {
+                        animation: pulse-red 2s infinite;
+                    }
+                    @keyframes pulse-red {
+                        0% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+                        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+                        100% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+                    }
+                    .scroll-panel {
+                        max-height: 800px;
+                        overflow-y: auto;
+                        padding-right: 10px;
+                    }
+                    .scroll-panel::-webkit-scrollbar { width: 5px; }
+                    .scroll-panel::-webkit-scrollbar-thumb { background: #ccc; border-radius: 5px; }
+                    .duty-card {
+                        transition: all 0.3s ease;
+                    }
+                    .duty-card:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+                    }
+                `}</style>
+
                 <div className="text-center mb-5">
                     <h1 className="fw-bold text-primary">Ambulance Dashboard</h1>
-                    <p className="text-muted mb-0">
-                        Active emergency assignment overview
-                    </p>
+                    <p className="text-muted mb-0">Manage active assignments and live emergency requests</p>
                 </div>
 
                 <div className="row justify-content-center">
-                    <div className="col-lg-6 col-md-8">
-                        {loading ? (
-                            <div className="text-center py-5">
-                                <div className="spinner-border text-primary" />
-                                <p className="mt-3 text-muted">
-                                    Loading duty details...
-                                </p>
+                    <div className="col-lg-10">
+                        <div className="row g-4">
+                            {/* ACTIVE DUTY SECTION */}
+                            <div className="col-md-6">
+                                <h5 className="fw-bold mb-4 d-flex align-items-center gap-2 text-primary">
+                                    <AlertCircle size={22} /> Current Assignment
+                                </h5>
+                                {duty ? (
+                                    <div className="card border-0 shadow-sm rounded-4 duty-card overflow-hidden h-100">
+                                        <div className="card-body p-4">
+                                            <div className="d-flex align-items-center gap-3 mb-4">
+                                                <div className="bg-primary text-white p-3 rounded-circle shadow-sm">
+                                                    <User size={24} />
+                                                </div>
+                                                <div className="flex-grow-1">
+                                                    <h5 className="mb-0 fw-bold">{duty.patient_name || "N/A"}</h5>
+                                                    <small className="text-muted">Contact: {duty.patient_contact || "N/A"}</small>
+                                                </div>
+                                                <a href={`tel:${duty.patient_contact}`} className="btn btn-primary rounded-circle p-2 shadow-sm">
+                                                    <Phone size={20} />
+                                                </a>
+                                            </div>
+
+                                            <div className="bg-light rounded-4 p-4 mb-4">
+                                                <div className="d-flex gap-3 mb-3">
+                                                    <MapPin size={20} className="text-danger mt-1" />
+                                                    <div>
+                                                        <small className="text-muted text-uppercase fw-bold x-small">Pickup From</small>
+                                                        <p className="mb-0 fw-semibold">{duty.from_address}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="d-flex gap-3">
+                                                    <Navigation size={20} className="text-success mt-1" />
+                                                    <div>
+                                                        <small className="text-muted text-uppercase fw-bold x-small">Destination</small>
+                                                        <p className="mb-0 fw-semibold">{duty.to_address}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="d-grid mt-4">
+                                                {duty.status === "accepted" ? (
+                                                    <button className="btn btn-success btn-lg py-3 fw-bold rounded-4 shadow-sm" onClick={() => completeDuty(duty)}>
+                                                        <CheckCircle className="me-2" /> Mark as Completed
+                                                    </button>
+                                                ) : (
+                                                    <button className="btn btn-primary btn-lg py-3 fw-bold rounded-4 shadow-sm" onClick={() => acceptDuty(duty)}>
+                                                        <Navigation className="me-2" /> Start Navigation
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="card border-0 shadow-sm rounded-4 p-5 text-center text-muted border-2 border-dashed h-100 d-flex flex-column justify-content-center">
+                                        <Clock size={48} className="mx-auto mb-3 opacity-25" />
+                                        <h5 className="fw-bold">No Active Duty</h5>
+                                        <p className="small mb-0">Wait for new assignments or accept an emergency.</p>
+                                    </div>
+                                )}
                             </div>
-                        ) : duty ? (
-                            /* ACTIVE DUTY CARD */
-                            <div className="card border-0 shadow-sm rounded-4">
-                                <div className="card-header bg-white border-0 d-flex justify-content-between align-items-center px-4 pt-4">
-                                    <h5 className="fw-bold mb-0">
-                                        Active Assignment
+
+                            {/* EMERGENCY LIST SECTION */}
+                            <div className="col-md-6">
+                                <div className="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 className="fw-bold mb-0 d-flex align-items-center gap-2 text-danger">
+                                        <List size={22} /> Live Emergencies
+                                        {emergencies.length > 0 && <span className="badge bg-danger rounded-pill fs-7">{emergencies.length}</span>}
                                     </h5>
-                                    <span className={getRiskBadge(duty.risk_level)}>
-                                        {duty.risk_level} Risk
-                                    </span>
+                                    <button onClick={emergencyCall} className="btn btn-link btn-sm text-decoration-none d-flex align-items-center gap-1">
+                                        <RefreshCw size={14} /> Refresh
+                                    </button>
                                 </div>
 
-                                <div className="card-body px-4 pb-4">
-                                    {/* LOCATIONS */}
-                                    <div className="d-flex gap-3 mb-4">
-                                        <div className="text-center">
-                                            <div className="rounded-circle bg-primary-subtle text-primary p-2 mb-2">
-                                                <i className="bi bi-geo-alt-fill" />
-                                            </div>
-                                            <div
-                                                className="mx-auto"
-                                                style={{
-                                                    width: "2px",
-                                                    height: "40px",
-                                                    background: "#dee2e6",
-                                                }}
-                                            />
-                                            <div className="rounded-circle bg-success-subtle text-success p-2 mt-2">
-                                                <i className="bi bi-hospital-fill" />
-                                            </div>
-                                        </div>
+                                <div className="scroll-panel">
+                                    {emergencies.length > 0 ? (
+                                        emergencies.map((e) => (
+                                            <div key={e._id} className="card border-0 shadow-sm rounded-4 mb-3 border-start border-4 border-danger pulse-animation duty-card">
+                                                <div className="card-body p-3">
+                                                    <div className="d-flex justify-content-between align-items-start mb-2">
+                                                        <div>
+                                                            <h6 className="fw-bold mb-0">{e.patient_name || "Guest Patient"}</h6>
+                                                            <span className="badge bg-danger-subtle text-danger px-2 py-1 mt-1 small text-uppercase" style={{ fontSize: '0.65rem' }}>
+                                                                {e.emergency_type}
+                                                            </span>
+                                                        </div>
+                                                        <small className="text-muted">{new Date(e.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+                                                    </div>
+                                                    <div className="d-flex align-items-center gap-2 text-muted small mb-3">
+                                                        <MapPin size={14} className="text-danger" />
+                                                        <span className="text-truncate">Contact: {e.patient_contact}</span>
+                                                    </div>
 
-                                        <div className="flex-grow-1">
-                                            <div className="mb-3">
-                                                <small className="text-muted text-uppercase fw-semibold">
-                                                    Pickup Location
-                                                </small>
-                                                <p className="mb-0 fw-semibold">
-                                                    {duty.from_address}
-                                                </p>
+                                                    {e.status === 'ambulance_assigned' && (
+                                                        <button
+                                                            onClick={() => handleAcceptEmergency(e._id)}
+                                                            style={{ 'color': 'white', 'backgroundColor': '#dc3545', 'border': 'none', 'borderRadius': '5px', 'padding': '5px 10px', 'cursor': 'pointer' }}
+                                                        >
+                                                            <Play size={14} /> Accept Emergency Duty
+                                                        </button>
+                                                    )}
+                                                    {e.status === 'ambulance_accepted' && (
+                                                        <div className="alert alert-secondary py-2 mb-0 text-center small fw-bold text-uppercase">
+                                                            Mark Finished
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </div>
-
-                                            <div>
-                                                <small className="text-muted text-uppercase fw-semibold">
-                                                    Destination
-                                                </small>
-                                                <p className="mb-0 fw-semibold">
-                                                    {duty.to_address}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* META INFO */}
-                                    <div className="bg-light rounded-3 p-3 mb-4">
-                                        <div className="row text-center">
-                                            <div className="col border-end">
-                                                <small className="text-muted d-block">
-                                                    Status
-                                                </small>
-                                                <span className="fw-bold text-primary">
-                                                    {duty.status}
-                                                </span>
-                                            </div>
-                                            <div className="col">
-                                                <small className="text-muted d-block">
-                                                    Assigned At
-                                                </small>
-                                                <span className="fw-bold">
-                                                    {new Date(
-                                                        duty.created_at
-                                                    ).toLocaleTimeString()}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {duty.status === "accepted" ? (
-                                        <button className="btn btn-success w-100 py-3" style={{'background': '#f9a353ff'}} onClick={() => { completeDuty(duty) }}>
-                                            <i className="bi bi-person-check-fill me-2" />
-                                            Duty Completed
-                                        </button>
+                                        ))
                                     ) : (
-                                        <button className="btn btn-primary w-100 py-3 fw-semibold shadow-sm" onClick={() => { acceptDuty(duty) }}>
-                                            <i className="bi bi-navigation me-2" />
-                                            Accept & Start Navigation
-                                        </button>
+                                        <div className="card border-0 shadow-sm rounded-4 p-5 text-center bg-white border-2 border-dashed h-100 d-flex flex-column justify-content-center">
+                                            <AlertCircle size={48} className="mx-auto mb-3 text-muted opacity-25" />
+                                            <h6 className="text-muted">No pending emergencies nearby</h6>
+                                        </div>
                                     )}
                                 </div>
                             </div>
-                        ) : (
-                            /* NO DUTY STATE */
-                            <div className="card border-0 shadow-sm rounded-4 text-center p-5">
-                                <div className="mb-3 text-secondary">
-                                    <i className="bi bi-clock-history fs-1" />
-                                </div>
-                                <h5 className="fw-bold">No Active Duties</h5>
-                                <p className="text-muted mb-4">
-                                    You are currently available and waiting for
-                                    new assignments.
-                                </p>
-                                <button
-                                    onClick={getDuty}
-                                    className="btn btn-outline-primary px-4"
-                                >
-                                    <i className="bi bi-arrow-clockwise me-2" />
-                                    Refresh Status
-                                </button>
-                            </div>
-                        )}
+                        </div>
                     </div>
                 </div>
             </div>
