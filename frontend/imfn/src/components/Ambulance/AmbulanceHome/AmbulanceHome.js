@@ -65,6 +65,21 @@ function AmbulanceHome() {
         }
     }
 
+    async function handleMarkFinished(emergencyId) {
+        try {
+            await axios.post(`${BASE_URL}/emergency_finished/`, {
+                emergency_id: emergencyId,
+                ambulance_login_id: loginId
+            });
+            alert("Emergency duty marked as finished!");
+            getDuty();
+            emergencyCall();
+        } catch (error) {
+            const msg = error.response?.data?.error || "Could not mark duty as finished.";
+            alert(msg);
+        }
+    }
+
     async function acceptDuty(currentDuty) {
         try {
             await axios.put(`${BASE_URL}/accept_duty/`, {
@@ -241,9 +256,12 @@ function AmbulanceHome() {
                                                         </button>
                                                     )}
                                                     {e.status === 'ambulance_accepted' && (
-                                                        <div className="alert alert-secondary py-2 mb-0 text-center small fw-bold text-uppercase">
-                                                            Mark Finished
-                                                        </div>
+                                                        <button
+                                                            onClick={() => handleMarkFinished(e._id)}
+                                                            style={{ 'color': 'white', 'backgroundColor': '#3580dcff', 'border': 'none', 'borderRadius': '5px', 'padding': '5px 10px', 'cursor': 'pointer' }}
+                                                        >
+                                                            <Play size={14} /> Mark Finished
+                                                        </button>
                                                     )}
                                                 </div>
                                             </div>

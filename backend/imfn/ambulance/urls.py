@@ -16,4 +16,9 @@ urlpatterns = [
         views.accept_emergency_duty,
         name="accept_emergency_duty",
     ),
+    path(
+        "emergency_finished/",
+        views.emergency_finished,
+        name="emergency_finished",
+    ),
 ]
