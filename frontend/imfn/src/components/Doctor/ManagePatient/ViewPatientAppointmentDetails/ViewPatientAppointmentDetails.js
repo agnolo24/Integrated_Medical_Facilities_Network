@@ -7,48 +7,49 @@ export default function ViewPatientAppointmentDetails({ selectedAppointmentId, c
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
+    const fetchDetails = async () => {
+        setLoading(true);
+        try {
+            // Since there is no single-item endpoint, we fetch all and find the match
+            // In a production app, we would ask for a specific endpoint
+            const URL = "http://127.0.0.1:8000/doctor/get_patient_appointment_details/";
+            const login_id = localStorage.getItem("loginId");
+
+            // Fetch ALL appointments (both scheduled and cancelled) to ensure we find it
+            // We'll make two requests if needed or just hope 'all' isn't filtered on backend too strictly
+            // Based on backend logic:
+            // if filterStatus is 'scheduled', query['status'] = 'scheduled'
+            // We need to pass no filterStatus to get everything? 
+            // Wait, backend logic:
+            // if filterStatus == 'scheduled' ... elif filterStatus == 'cancelled' ...
+            // If we pass generic string logic, we might miss it.
+            // Actually the backend code:
+            // if filterStatus == 'scheduled': ... elif ...
+            // So if we pass nothing or 'all', it doesn't filter status! Perfect.
+
+            const response = await axios.get(URL, { params: { login_id: login_id, apt_id: selectedAppointmentId } });
+            setDetails(response.data);
+            // if (response.data && response.data.appointments) {
+            //     console.log("hello there");
+            //     const match = response.data.appointments.find(apt => apt._id === selectedAppointmentId);
+            //     if (match) {
+            //         setDetails(match);
+            //     } else {
+            //         setError("Appointment details not found.");
+            //     }
+            // } else {
+            //     setError("Failed to load appointment data.");
+            // }
+        } catch (err) {
+            console.error("Error fetching details:", err);
+            setError("Something went wrong while fetching details.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchDetails = async () => {
-            setLoading(true);
-            try {
-                // Since there is no single-item endpoint, we fetch all and find the match
-                // In a production app, we would ask for a specific endpoint
-                const URL = "http://127.0.0.1:8000/doctor/get_patient_appointment_details/";
-                const login_id = localStorage.getItem("loginId");
-
-                // Fetch ALL appointments (both scheduled and cancelled) to ensure we find it
-                // We'll make two requests if needed or just hope 'all' isn't filtered on backend too strictly
-                // Based on backend logic:
-                // if filterStatus is 'scheduled', query['status'] = 'scheduled'
-                // We need to pass no filterStatus to get everything? 
-                // Wait, backend logic:
-                // if filterStatus == 'scheduled' ... elif filterStatus == 'cancelled' ...
-                // If we pass generic string logic, we might miss it.
-                // Actually the backend code:
-                // if filterStatus == 'scheduled': ... elif ...
-                // So if we pass nothing or 'all', it doesn't filter status! Perfect.
-
-                const response = await axios.get(URL, { params: { login_id: login_id, apt_id: selectedAppointmentId } });
-                setDetails(response.data);
-                // if (response.data && response.data.appointments) {
-                //     console.log("hello there");
-                //     const match = response.data.appointments.find(apt => apt._id === selectedAppointmentId);
-                //     if (match) {
-                //         setDetails(match);
-                //     } else {
-                //         setError("Appointment details not found.");
-                //     }
-                // } else {
-                //     setError("Failed to load appointment data.");
-                // }
-            } catch (err) {
-                console.error("Error fetching details:", err);
-                setError("Something went wrong while fetching details.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
         if (selectedAppointmentId) {
             fetchDetails();
         }
@@ -61,6 +62,26 @@ export default function ViewPatientAppointmentDetails({ selectedAppointmentId, c
     };
 
     if (!selectedAppointmentId) return null;
+
+    const setComplete = async () => {
+        const url = "http://127.0.0.1:8000/doctor/set_appointment_complete/"
+        const confirmed = window.confirm("Are you sure you are setting this appointment as complete ? this process is undone.")
+        if (confirmed) {
+            try {
+                console.log("_id : ", details._id)
+                const response = await axios.get(url, { params: { _id: details._id } })
+                console.log(response.data)
+                closeAppointmentDetails()
+            }
+            catch (err) {
+                console.error("Error fetching details:", err);
+                setError("Something went wrong while fetching details.");
+            }
+        }
+        else {
+            alert("cancel complection")
+        }
+    }
 
     return (
         <div className="vpad-overlay" onClick={closeAppointmentDetails}>
@@ -144,10 +165,48 @@ export default function ViewPatientAppointmentDetails({ selectedAppointmentId, c
                                     </div>
                                 </div>
                             </div>
-                            <div className='medical-history'>
-                                
+
+                            <div className="vpad-section">
+                                <h3><i className="fas fa-file-medical"></i> Documents</h3>
+                                <div className="vpad-info-group">
+                                    <label>Documents</label>
+                                    <div className="vpad-documents-container">
+                                        {
+                                            details.documents && details.documents.length > 0 ?
+                                                details.documents.map((doc, index) => (
+                                                    <a
+                                                        key={index}
+                                                        href={"http://127.0.0.1:8000" + doc}
+                                                        target="_blank"
+                                                        // download key={index}
+                                                        rel="noopener noreferrer"
+                                                        className="vpad-document-item"
+                                                    >
+                                                        <div className="vpad-doc-icon">
+                                                            <i className="fas fa-file-alt"></i>
+                                                        </div>
+                                                        <div className="vpad-doc-info">
+                                                            <span className="vpad-doc-name">Document {index + 1}</span>
+                                                            <span className="vpad-doc-action">View File <i className="fas fa-external-link-alt"></i></span>
+                                                        </div>
+                                                    </a>
+                                                ))
+                                                :
+                                                <div className="vpad-no-docs">
+                                                    <i className="far fa-folder-open"></i>
+                                                    <p>No documents uploaded</p>
+                                                </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className='vpad-action-container'>
                                 <button className="medical-history-btn" onClick={() => openCheckHistoryCode(details._id)}>
-                                    View Medical History
+                                    <i className="fas fa-history"></i> View Medical History
+                                </button>
+                                <button className="vpad-btn-complete" onClick={setComplete}>
+                                    Complete
                                 </button>
                             </div>
                         </div>

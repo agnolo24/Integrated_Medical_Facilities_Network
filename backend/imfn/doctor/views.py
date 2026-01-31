@@ -134,6 +134,18 @@ def get_patient_appointment_details(request):
         appointment["patient_gender"] = patient.get("gender", "")
         appointment["patient_address"] = patient.get("address", "")
 
+        appointment["appointment_date"] = (
+            appointment.get("appointment_date").strftime("%Y-%m-%d")
+            if appointment.get("appointment_date")
+            else ""
+        )
+        appointment["created_at"] = (
+            appointment.get("created_at").strftime("%Y-%m-%d %H:%M")
+            if appointment.get("created_at")
+            else ""
+        )
+        appointment["documents"] = appointment.get("documents") or ""
+        print("data :",appointment["documents"])
         return Response(appointment,status=status.HTTP_200_OK)
     except Exception as e:
         print(f"Error getting appointment details: {e}")
@@ -239,3 +251,25 @@ def get_prescription_data(request):
         )
     return Response({},status=status.HTTP_200_OK)
 
+@api_view(["GET"])
+def set_appointment_complete(request):
+    _id = request.query_params["_id"]
+
+    db = get_db()
+    appointment_coll = db['appointments']
+
+    apt = appointment_coll.find_one({ '_id' : ObjectId(_id) })
+    if not apt:
+        print("No Data")
+        return Response({"message : failed"},status=status.HTTP_404_NOT_FOUND)
+
+    try:
+       
+        appointment_coll.update_one({ '_id' : ObjectId(_id)},{"$set" : {"status" : "completed"}})
+        return Response({"message" : "sucess"},status=status.HTTP_200_OK)
+    except Exception as e:
+        print(f"Error: {e}")
+        return Response(
+            {
+            "error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
