@@ -46,8 +46,11 @@ function ViewPatientHistory({ selectedAppointmentId, closeHistory }) {
         <div className="vph-overlay" onClick={closeHistory}>
             <div className="vph-modal" onClick={e => e.stopPropagation()}>
                 <div className="vph-header">
-                    <h2><i className="fas fa-history"></i> Medical History</h2>
-                    <button className="vph-close-btn" onClick={closeHistory}>
+                    <div className="vph-header-content">
+                        <h2><i className="fas fa-history"></i> Medical History</h2>
+                        <span className="vph-header-subtitle">Comprehensive patient record and past consultations</span>
+                    </div>
+                    <button className="vph-close-btn" onClick={closeHistory} title="Close">
                         <i className="fas fa-times"></i>
                     </button>
                 </div>
