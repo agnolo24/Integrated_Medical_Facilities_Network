@@ -11,11 +11,12 @@ from .serializers import *
 
 from datetime import datetime
 
+import json
+import base64
+import openrouteservice
 from bson import ObjectId
 
 # Create your views here.
-
-
 @api_view(["GET"])
 def getAmbulanceData(request):
     am_id = request.query_params.get("am_id")
@@ -72,12 +73,34 @@ def get_duty(request):
 
         if len(data) == 0:
             return Response(
-                {"Message": "No Duty Fount"}, status=status.HTTP_404_NOT_FOUND
+                {"Message": "No Duty Found"}, status=status.HTTP_404_NOT_FOUND
             )
 
         for item in data:
             item["_id"] = str(item["_id"])
             item["ambulance_login_id"] = str(item["ambulance_login_id"])
+
+            # If duty is linked to an emergency, fetch patient details
+            if "emergency_id" in item:
+                item["emergency_id"] = str(item["emergency_id"])
+                emergency = emergency_col.find_one(
+                    {"_id": ObjectId(item["emergency_id"])}
+                )
+                if emergency:
+                    item["patient_location"] = emergency.get("patient_location")
+                    if emergency.get("patient_login_id"):
+                        patient = patient_col.find_one(
+                            {"login_id": ObjectId(emergency["patient_login_id"])}
+                        )
+                        if patient:
+                            item["patient_name"] = patient.get("name", "N/A")
+                            item["patient_contact"] = patient.get("contact", "N/A")
+                    else:
+                        # Guest patient
+                        item["patient_name"] = "Guest Patient"
+                        item["patient_contact"] = emergency.get(
+                            "patient_contact", "N/A"
+                        )
 
         return Response(data, status=status.HTTP_200_OK)
 
@@ -166,40 +189,50 @@ def get_available_emergencies(request):
     """
     Ambulance sees approved emergencies from their hospital.
     """
-    ambulance_login_id = request.query_params.get("ambulance_login_id")
+    ambulance_login_id = request.query_params.get("ambulanceId")
     db = get_db()
     ambulance_col = db["ambulance"]
     emergency_col = db["emergencies"]
     patient_col = db["patient"]
 
     try:
-        amb = ambulance_col.find_one({"login_id": ObjectId(ambulance_login_id)})
-        if not amb or amb.get("available") in [0, 2]:
-            return Response(
-                {"emergencies": [], "message": "Ambulance not available"}, status=200
-            )
+        # amb = ambulance_col.find_one({"login_id": ObjectId(ambulance_login_id)})
+        # if not amb or amb.get("available") in [0, 2]:
+        #     return Response(
+        #         {"emergencies": [], "message": "Ambulance not available"}, status=200
+        #     )
 
-        hospital_id = amb.get("hospital_login_id")
-        emergencies = list(
-            emergency_col.find(
-                {
-                    "hospital_login_id": ObjectId(hospital_id),
-                    "status": "hospital_approved",
-                }
-            ).sort("created_at", -1)
-        )
+        # hospital_id = amb.get("hospital_login_id")
+        amb = ambulance_col.find_one({"login_id": ObjectId(ambulance_login_id)})
+        hospital_id = amb.get("hospital_login_id") if amb else None
+
+        # Show emergencies that are approved by the hospital and belong to this ambulance's hospital
+        # OR emergencies already assigned to this ambulance
+        query = {
+            "$or": [
+                {"hospital_login_id": hospital_id, "status": "hospital_approved"},
+                {"ambulance_login_id": ObjectId(ambulance_login_id)},
+            ]
+        }
+
+        emergencies = list(emergency_col.find(query).sort("created_at", -1))
 
         for q in emergencies:
             q["_id"] = str(q["_id"])
-            q["hospital_login_id"] = str(q["hospital_login_id"])
+            q["patient_login_id"] = str(q.get("patient_login_id", ""))
+            q["hospital_login_id"] = str(q.get("hospital_login_id", ""))
+            q["ambulance_login_id"] = str(q.get("ambulance_login_id", ""))
+
             if q.get("patient_login_id"):
-                q["patient_login_id"] = str(q["patient_login_id"])
                 patient = patient_col.find_one(
                     {"login_id": ObjectId(q["patient_login_id"])}
                 )
                 if patient:
                     q["patient_name"] = patient.get("name", "Guest")
                     q["patient_contact"] = patient.get("contact", "N/A")
+            else:
+                q["patient_name"] = "Guest Patient"
+                q["patient_contact"] = q.get("patient_contact", "N/A")
 
         return Response({"emergencies": emergencies}, status=200)
     except Exception as e:
