@@ -209,3 +209,9 @@ class AmbulanceDutySerializer(serializers.Serializer):
     to_address = serializers.CharField(max_length = 100)
     risk_level = serializers.ChoiceField(choices = risk_level)
     ambulance_id = serializers.CharField(max_length = 50)
+
+
+class PharmacyRegisterSerializer(serializers.Serializer):
+    hospital_login_id = serializers.CharField(max_length=50)
+    email = serializers.EmailField()
+    password = serializers.CharField(min_length = 4, write_only = True)

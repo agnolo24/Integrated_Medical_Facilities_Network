@@ -768,3 +768,103 @@ def assign_emergency_to_ambulance(request):
         return Response({"message": "Ambulance assigned successfully"}, status=200)
     except Exception as e:
         return Response({"error": str(e)}, status=500)
+
+@api_view(['POST'])
+def register_pharmacy(request):
+    serializer = PharmacyRegisterSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    data = serializer.validated_data
+    db = get_db()
+    login_col = db["login"]
+    hospital_col = db["hospital"]
+    pharmacy_col = db["pharmacy"]
+
+    # print(data['hospital_login_id'])
+    # print(data['email'])
+    # print(data['password'])
+    if login_col.find_one({"email": data["email"]}):
+        return Response(
+            {"error": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    
+    login_doc = {
+        "email": data["email"],
+        "password": make_password(data["password"]),
+        "user_type": "pharmacy",
+        "created_at": datetime.utcnow(),
+    }
+
+    login_id = None
+
+    try:
+        login_result = login_col.insert_one(login_doc)
+        login_id = login_result.inserted_id
+
+        hospital_login_id = data['hospital_login_id']
+        hospital = hospital_col.find_one({"login_id": ObjectId(hospital_login_id)})
+        hospital_id = str(hospital['_id'])
+
+        pharmacy_doc = {
+            "login_id": login_id,
+            "hospital_id": hospital_id,
+            "created_at": datetime.utcnow(),
+        }
+        pharmacy_result = pharmacy_col.insert_one(pharmacy_doc)
+        return Response(
+            {
+                "message": "Pharmacy registered",
+                "login_id": str(login_id),
+                "pharmacy_id": str(pharmacy_result.inserted_id),
+            },
+            status=status.HTTP_201_CREATED,
+        )
+    except Exception as e:
+        if login_id is not None and ObjectId.is_valid(str(login_id)):
+            login_col.delete_one({"_id": login_id})
+
+        return Response(
+            {"error": "something went wrong"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+@api_view(['GET'])
+def check_pharmacy_exist(request):
+    hospital_login_id = request.query_params.get("hospital_login_id")
+    db = get_db()
+    login_col = db["login"]
+    hospital_col = db["hospital"]
+    pharmacy_col = db["pharmacy"]
+
+    try:
+        hospital = hospital_col.find_one({"login_id": ObjectId(hospital_login_id)})
+        hospital_id = str(hospital['_id'])
+        pharmacy = pharmacy_col.find_one({"hospital_id": hospital_id})
+        if pharmacy:
+            return Response(
+                {
+                    "message": "Pharmacy already exists",
+                    "isExist": True
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                {
+                    "message": "Pharmacy does not exist",
+                    "isExist": False
+                },
+                status=status.HTTP_200_OK,
+            )
+    except Exception as e:
+        return Response(
+            {"error": str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+        
+
+    return Response(
+        {"message": "Email is available"},
+        status=status.HTTP_200_OK,
+    )
