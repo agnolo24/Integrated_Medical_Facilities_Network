@@ -294,24 +294,34 @@ def get_patient_history(request):
         for appointment in appointments:
             data = {}
             data['appointment_id'] = str(appointment['_id'])
-            data['appointment_date'] = appointment['appointment_date']
+            data['appointment_date'] = appointment['appointment_date'].strftime("%Y-%m-%d") if appointment.get('appointment_date') else "N/A"
             data['time_slot'] = appointment['time_slot']
             data['status'] = appointment['status']
             data['reason'] = appointment['reason']
 
-            #hospital data
-            hospital_data = hospital_col.find_one({"login_id" : appointment['hospital_login_id']})
-            data['hospital_name'] = hospital_data['hospitalName']
-            data['hospital_contact'] = hospital_data['contactNumber']
-            data['hospital_address'] = hospital_data['hospitalAddress']
+            # hospital data
+            hospital_data = hospital_col.find_one({"login_id": appointment.get('hospital_login_id')})
+            if hospital_data:
+                data['hospital_name'] = hospital_data.get('hospitalName', 'N/A')
+                data['hospital_contact'] = hospital_data.get('contactNumber', 'N/A')
+                data['hospital_address'] = hospital_data.get('hospitalAddress', 'N/A')
+            else:
+                data['hospital_name'] = 'N/A'
+                data['hospital_contact'] = 'N/A'
+                data['hospital_address'] = 'N/A'
             
-            # data['doctor_id'] = str(appointment['doctor_id'])
-            #doctor data
-            doctor_data = doctor_col.find_one({"_id" : appointment['doctor_id']})
-            data['doctor_name'] = doctor_data['name']
-            data['doctor_specialization'] = doctor_data['specialization']
-            data['doctor_contact'] = doctor_data['contactNumber']
-            data['doctor_email'] = doctor_data['email']
+            # doctor data
+            doctor_data = doctor_col.find_one({"_id": appointment.get('doctor_id')})
+            if doctor_data:
+                data['doctor_name'] = doctor_data.get('name', 'N/A')
+                data['doctor_specialization'] = doctor_data.get('specialization', 'N/A')
+                data['doctor_contact'] = doctor_data.get('contactNumber', 'N/A')
+                data['doctor_email'] = doctor_data.get('email', 'N/A')
+            else:
+                data['doctor_name'] = 'N/A'
+                data['doctor_specialization'] = 'N/A'
+                data['doctor_contact'] = 'N/A'
+                data['doctor_email'] = 'N/A'
 
             #prescription data
             data['prescription'] = appointment.get('prescription', None)
