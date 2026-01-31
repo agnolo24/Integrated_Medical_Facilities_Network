@@ -68,9 +68,9 @@ export default function ViewPatientAppointmentDetails({ selectedAppointmentId, c
         const confirmed = window.confirm("Are you sure you are setting this appointment as complete ? this process is undone.")
         if (confirmed) {
             try {
-                console.log("_id : ", details._id)
+                // console.log("_id : ", details._id)
                 const response = await axios.get(url, { params: { _id: details._id } })
-                console.log(response.data)
+                // console.log(response.data)
                 closeAppointmentDetails()
             }
             catch (err) {
