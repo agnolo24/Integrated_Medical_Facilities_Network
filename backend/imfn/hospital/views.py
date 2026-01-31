@@ -587,7 +587,8 @@ def assign_duty_ambulance(request):
 
         if ambulance.get("available") == 0:
             return Response(
-                {"error": "Ambulance is not available"}, status=status.HTTP_404_NOT_FOUND
+                {"error": "Ambulance is not available"},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         login_id = ambulance.get("login_id")
@@ -615,3 +616,65 @@ def assign_duty_ambulance(request):
             {"error": "Internal server error"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+@api_view(["GET"])
+def get_pending_emergencies(request):
+    """
+    Get all pending emergencies for a specific hospital.
+    """
+    hospital_login_id = request.query_params.get("hospital_login_id")
+    if not hospital_login_id:
+        return Response({"error": "Hospital ID required"}, status=400)
+
+    db = get_db()
+    emergency_col = db["emergencies"]
+    patient_col = db["patient"]
+
+    try:
+        emergencies = list(
+            emergency_col.find(
+                {
+                    "hospital_login_id": ObjectId(hospital_login_id),
+                    "status": "pending_hospital",
+                }
+            ).sort("created_at", -1)
+        )
+
+        for q in emergencies:
+            q["_id"] = str(q["_id"])
+            q["hospital_login_id"] = str(q["hospital_login_id"])
+            if q.get("patient_login_id"):
+                q["patient_login_id"] = str(q["patient_login_id"])
+                patient = patient_col.find_one(
+                    {"login_id": ObjectId(q["patient_login_id"])}
+                )
+                if patient:
+                    q["patient_name"] = patient.get("name", "Unknown")
+                    q["patient_contact"] = patient.get("contact", "N/A")
+
+        return Response({"emergencies": emergencies}, status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
+
+
+@api_view(["POST"])
+def respond_to_emergency(request):
+    """
+    Hospital approves or rejects an emergency.
+    """
+    emergency_id = request.data.get("emergency_id")
+    action = request.data.get("action")  # 'approve' or 'reject'
+
+    db = get_db()
+    emergency_col = db["emergencies"]
+
+    try:
+        new_status = "hospital_approved" if action == "approve" else "hospital_rejected"
+        emergency_col.update_one(
+            {"_id": ObjectId(emergency_id)},
+            {"$set": {"status": new_status, "updated_at": datetime.utcnow()}},
+        )
+        return Response({"message": f"Emergency {action}d"}, status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)

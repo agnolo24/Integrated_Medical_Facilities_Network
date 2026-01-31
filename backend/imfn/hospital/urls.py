@@ -20,5 +20,17 @@ urlpatterns = [
     # Schedule management endpoints
     path("create_schedule/", views.create_schedule, name="create_schedule"),
     path("get_schedule/", views.get_schedule, name="get_schedule"),
-    path("assign_duty_ambulance/", views.assign_duty_ambulance, name="assign_duty_ambulance"),
+    path(
+        "assign_duty_ambulance/",
+        views.assign_duty_ambulance,
+        name="assign_duty_ambulance",
+    ),
+    path(
+        "get_pending_emergencies/",
+        views.get_pending_emergencies,
+        name="get_pending_emergencies",
+    ),
+    path(
+        "respond_to_emergency/", views.respond_to_emergency, name="respond_to_emergency"
+    ),
 ]
