@@ -33,4 +33,14 @@ urlpatterns = [
     path(
         "respond_to_emergency/", views.respond_to_emergency, name="respond_to_emergency"
     ),
+    path(
+        "get_available_ambulances/",
+        views.get_available_ambulances,
+        name="get_available_ambulances",
+    ),
+    path(
+        "assign_emergency_to_ambulance/",
+        views.assign_emergency_to_ambulance,
+        name="assign_emergency_to_ambulance",
+    ),
 ]

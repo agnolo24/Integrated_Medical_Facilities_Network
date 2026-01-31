@@ -678,3 +678,93 @@ def respond_to_emergency(request):
         return Response({"message": f"Emergency {action}d"}, status=200)
     except Exception as e:
         return Response({"error": str(e)}, status=500)
+
+
+@api_view(["GET"])
+def get_available_ambulances(request):
+    """
+    Fetch all available ambulances for a specific hospital.
+    """
+    hospital_login_id = request.query_params.get("hospital_login_id")
+    if not hospital_login_id:
+        return Response({"error": "Hospital ID required"}, status=400)
+
+    db = get_db()
+    ambulance_col = db["ambulance"]
+
+    try:
+        # available: 1 means available
+        ambulances = list(
+            ambulance_col.find(
+                {"hospital_login_id": ObjectId(hospital_login_id), "available": 1}
+            )
+        )
+
+        for amb in ambulances:
+            amb["_id"] = str(amb["_id"])
+            amb["login_id"] = str(amb["login_id"])
+            amb["hospital_login_id"] = str(amb["hospital_login_id"])
+
+        return Response({"ambulances": ambulances}, status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
+
+
+@api_view(["POST"])
+def assign_emergency_to_ambulance(request):
+    """
+    Hospital assigns a specific ambulance to an emergency.
+    """
+    emergency_id = request.data.get("emergency_id")
+    ambulance_id = request.data.get(
+        "ambulance_id"
+    )  # This is the _id from ambulance collection
+
+    if not emergency_id or not ambulance_id:
+        return Response({"error": "Missing ID"}, status=400)
+
+    db = get_db()
+    emergency_col = db["emergencies"]
+    ambulance_col = db["ambulance"]
+    # duty_col = db["ambulance_duty"]
+
+    try:
+        # 1. Get ambulance details
+        ambulance = ambulance_col.find_one({"_id": ObjectId(ambulance_id)})
+        if not ambulance or ambulance.get("available") != 1:
+            return Response({"error": "Ambulance not available"}, status=400)
+
+        # 2. Update emergency status
+        emergency_col.update_one(
+            {"_id": ObjectId(emergency_id)},
+            {
+                "$set": {
+                    "status": "ambulance_assigned",
+                    "ambulance_login_id": ambulance["login_id"],
+                    "updated_at": datetime.utcnow(),
+                }
+            },
+        )
+
+        # 3. Mark ambulance as busy (status 2 for emergency duty)
+        ambulance_col.update_one(
+            {"_id": ObjectId(ambulance_id)}, {"$set": {"available": 0}}
+        )
+
+        # 4. Create duty record
+        # emerge = emergency_col.find_one({"_id": ObjectId(emergency_id)})
+        # duty_doc = {
+        #     "emergency_id": ObjectId(emergency_id),
+        #     "ambulance_login_id": ambulance["login_id"],
+        #     "from_address": f"Lat: {emerge['patient_location']['lat']}, Lon: {emerge['patient_location']['lon']}",
+        #     "to_address": "Hospital",
+        #     "status": "pending",
+        #     "risk_level": f"High ({emerge['emergency_type']})",
+        #     "patient_location": emerge["patient_location"],
+        #     "created_at": datetime.utcnow(),
+        # }
+        # duty_col.insert_one(duty_doc)
+
+        return Response({"message": "Ambulance assigned successfully"}, status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
