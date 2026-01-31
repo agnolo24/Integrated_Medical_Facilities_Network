@@ -32,6 +32,7 @@ import ViewAppointments from './components/Patient/ViewAppointments/ViewAppointm
 //Doctor Module Components
 import ViewPatientAppointments from './components/Doctor/ManagePatient/ViewPatientAppointments/ViewPatientAppointments'
 import DoctorAppointmentHistory from './components/admin/AdminDashboard/DoctorAppointmentHistory'
+import RegisterPharmaci from './components/Hospital/ManagePharmaci/RegisterPharmaci/RegisterPharmaci'
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
           <Route path='/AmbulanceProfile' element={<AmbulanceProfile />} />
           <Route path='/AmbulanceEditProfile' element={<AmbulanceEditProfile />} />
           <Route path='/scheduleDoctor' element={<SheduleDoctors />} />
+          <Route path='/registerPharmaci' element={<RegisterPharmaci />} />
 
           {/* Patient Module Routes */}
           <Route path='/findDoctors' element={<FindDoctors />} />
