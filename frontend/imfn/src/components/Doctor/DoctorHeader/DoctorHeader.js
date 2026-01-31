@@ -72,7 +72,7 @@ function DoctorHeader() {
 
         try {
             const response = await axios.get("http://127.0.0.1:8000/doctor/getDoctorData/", { params: { dr_id: dr_id } });
-            console.log(response.data);
+            // console.log(response.data);
             setDoctorData(response.data);
 
 
