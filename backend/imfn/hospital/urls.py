@@ -43,4 +43,6 @@ urlpatterns = [
         views.assign_emergency_to_ambulance,
         name="assign_emergency_to_ambulance",
     ),
+    path("register_pharmacy/", views.register_pharmacy, name="register_pharmacy"),
+    path("check_pharmacy_exist/", views.check_pharmacy_exist, name="check_pharmacy_exist"),
 ]
