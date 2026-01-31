@@ -114,6 +114,8 @@ def hospital_registration(request):
             "registrationId": data["registrationId"],
             "hospitalAddress": data["hospitalAddress"],
             "contactNumber": data["contactNumber"],
+            "lat": data["lat"],
+            "lon": data["lon"],
             "status": "pending",
             "created_at": datetime.utcnow(),
         }
