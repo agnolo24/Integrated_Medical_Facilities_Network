@@ -22,6 +22,7 @@ import AmbulanceEditProfile from './components/Ambulance/AmbulanceEditProfile/Am
 import ViewAmbulance from './components/Hospital/ManageAmbulance/ViewAmbulance/ViewAmbulance'
 import DoctorProfile from './components/Doctor/DoctorProfile/DoctorProfile'
 import SheduleDoctors from './components/Hospital/ManageDoctor/SheduleDoctors/SheduleDoctors'
+import RegisterPharmacy from './components/Hospital/ManagePharmacy/RegisterPharmacy/RegisterPharmacy'
 
 // Patient Module Components
 import FindDoctors from './components/Patient/FindDoctors/FindDoctors'
@@ -32,7 +33,6 @@ import ViewAppointments from './components/Patient/ViewAppointments/ViewAppointm
 //Doctor Module Components
 import ViewPatientAppointments from './components/Doctor/ManagePatient/ViewPatientAppointments/ViewPatientAppointments'
 import DoctorAppointmentHistory from './components/admin/AdminDashboard/DoctorAppointmentHistory'
-import RegisterPharmaci from './components/Hospital/ManagePharmaci/RegisterPharmaci/RegisterPharmaci'
 
 function App() {
   return (
@@ -61,7 +61,7 @@ function App() {
           <Route path='/AmbulanceProfile' element={<AmbulanceProfile />} />
           <Route path='/AmbulanceEditProfile' element={<AmbulanceEditProfile />} />
           <Route path='/scheduleDoctor' element={<SheduleDoctors />} />
-          <Route path='/registerPharmaci' element={<RegisterPharmaci />} />
+          <Route path='/registerPharmacy' element={<RegisterPharmacy />} />
 
           {/* Patient Module Routes */}
           <Route path='/findDoctors' element={<FindDoctors />} />

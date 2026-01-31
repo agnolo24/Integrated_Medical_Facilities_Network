@@ -125,7 +125,7 @@ function HospitalHeader() {
                                                     <ul>
                                                         <li><NavLink to="/registerDoctor">Doctor Registration</NavLink></li>
                                                         <li><NavLink to="/RegAmbulance">Ambulance Registration</NavLink></li>
-                                                        <li><NavLink to="/registerPharmaci">Pharmacy Registration</NavLink></li>
+                                                        <li><NavLink to="/registerPharmacy">Pharmacy Registration</NavLink></li>
                                                     </ul>
                                                 </li>
                                             </ul>
