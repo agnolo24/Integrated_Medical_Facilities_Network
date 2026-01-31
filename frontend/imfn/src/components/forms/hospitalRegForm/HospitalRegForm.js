@@ -1,6 +1,6 @@
 // user reg form
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import './HospitalRegForm.css';
@@ -14,9 +14,17 @@ const HospitalRegForm = () => {
     registrationId: '',
     hospitalAddress: '',
     contactNumber: '',
+    lat: '',
+    lon: '',
     email: '',
     password: ''
   });
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setFormData({ ...formData, lat: position.coords.latitude, lon: position.coords.longitude })
+    })
+  }, [])
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,6 +42,8 @@ const HospitalRegForm = () => {
         registrationId: '',
         hospitalAddress: '',
         contactNumber: '',
+        lat: '',
+        lon: '',
         email: '',
         password: ''
       })
@@ -81,6 +91,18 @@ const HospitalRegForm = () => {
                     <label className="form-label">Contact Number</label>
                     <input type="tel" name="contactNumber" className="form-control"
                       value={formData.contactNumber} onChange={handleChange} required />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Latitude</label>
+                    <input type="text" name="lat" className="form-control"
+                      value={formData.lat} onChange={handleChange} required />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Longitude</label>
+                    <input type="text" name="lon" className="form-control"
+                      value={formData.lon} onChange={handleChange} required />
                   </div>
 
 
