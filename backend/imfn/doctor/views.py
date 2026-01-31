@@ -159,9 +159,6 @@ def check_history_code(request):
     apt_id = request.data.get("apt_id")
     history_code = request.data.get("history_code")
 
-    print("apt_id : ",apt_id)
-    print("history_code : ",history_code)
-
     db = get_db()
     appointment_col = db['appointments']
     patient_col = db['patient']
@@ -273,3 +270,64 @@ def set_appointment_complete(request):
             {
             "error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+@api_view(['GET'])
+def get_patient_history(request):
+    print("get_patient_history")
+    apt_id = request.query_params.get('apt_id')
+    print("apt_id : ", apt_id)
+
+    db = get_db()
+    appointment_col = db['appointments']
+    doctor_col = db['doctors']
+    hospital_col = db['hospital']
+
+    current_apt = appointment_col.find_one({"_id" : ObjectId(apt_id)})
+    if not current_apt:
+        return Response({"error" : "Appointment not found"},status=status.HTTP_404_NOT_FOUND)
+    
+    patient_id = current_apt['patient_id']
+    history = []
+    print("history function")
+    try:
+        print("try")
+        appointments = appointment_col.find({"patient_id" : ObjectId(patient_id)})
+        for appointment in appointments:
+            data = {}
+            data['appointment_id'] = str(appointment['_id'])
+            data['appointment_date'] = appointment['appointment_date']
+            data['time_slot'] = appointment['time_slot']
+            data['status'] = appointment['status']
+            data['reason'] = appointment['reason']
+
+            #hospital data
+            hospital_data = hospital_col.find_one({"login_id" : appointment['hospital_login_id']})
+            data['hospital_name'] = hospital_data['hospitalName']
+            data['hospital_contact'] = hospital_data['contactNumber']
+            data['hospital_address'] = hospital_data['hospitalAddress']
+            
+            # data['doctor_id'] = str(appointment['doctor_id'])
+            #doctor data
+            doctor_data = doctor_col.find_one({"_id" : appointment['doctor_id']})
+            data['doctor_name'] = doctor_data['name']
+            data['doctor_specialization'] = doctor_data['specialization']
+            data['doctor_contact'] = doctor_data['contactNumber']
+            data['doctor_email'] = doctor_data['email']
+
+            #prescription data
+            data['prescription'] = appointment.get('prescription', None)
+            
+            #documents data
+            data['documents'] = appointment.get('documents', None)
+
+            history.append(data)
+
+        print("history : ", history)
+        return Response({"history" : history},status=status.HTTP_200_OK)
+    except Exception as e:
+        print(f"Error: {e}")
+        return Response(
+            {
+            "error": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+    
+    return Response({"message" : "Get_patinet_history from views.py"},status=status.HTTP_200_OK)

@@ -6,6 +6,7 @@ import axios from 'axios';
 import ViewPatientAppointmentDetails from '../ViewPatientAppointmentDetails/ViewPatientAppointmentDetails';
 import CheckHistoryCode from '../CheckHistoryCode/CheckHistoryCode';
 import ViewPrescriptionByDoctor from '../ViewPrescriptionByDoctor/ViewPrescriptionByDoctor';
+import ViewPatientHistory from '../ViewPatientHistory/ViewPatientHistory';
 
 export default function ViewPatientAppointments() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,11 +16,20 @@ export default function ViewPatientAppointments() {
   const [isAppointmentDetailsOpen, setIsAppointmentDetailsOpen] = useState(false)
   const [isCheckHistoryCodeOpen, setIsCheckHistoryCodeOpen] = useState(false)
   const [isViewPrescriptionOpen, setIsViewPrescriptionOpen] = useState(false)
+  const [isHistoyOpen, setIsHistoryOpen ] = useState(false)
 
   const openViewPrescription = (_id) => {
     setSelectedAppointmentId(_id)
     setIsViewPrescriptionOpen(true)
   }
+
+  const openHistory = () => {
+    setIsHistoryOpen(true)
+  }  
+
+  const closeHistory = () => {
+    setIsHistoryOpen(false)
+  }  
 
   const closeViewPrescription = () => setIsViewPrescriptionOpen(false)
 
@@ -39,8 +49,6 @@ export default function ViewPatientAppointments() {
     setIsAppointmentDetailsOpen(false)
     fetchData()
   }
-
-
 
   const fetchData = async () => {
 
@@ -179,13 +187,19 @@ export default function ViewPatientAppointments() {
       }
       {
         isCheckHistoryCodeOpen && (
-          <CheckHistoryCode selectedAppointmentId={selectedAppointmentId} closeCheckHistoryCode={closeCheckHistoryCode} />
+          <CheckHistoryCode selectedAppointmentId={selectedAppointmentId} closeCheckHistoryCode={closeCheckHistoryCode} openHistory={openHistory}/>
         )
       }
       
       {
         isViewPrescriptionOpen && (
           <ViewPrescriptionByDoctor selectedAppointmentId={selectedAppointmentId} closeViewPrescription={closeViewPrescription} />
+        )
+      }
+
+      {
+        isHistoyOpen && (
+          <ViewPatientHistory selectedAppointmentId={selectedAppointmentId} closeHistory={closeHistory} />
         )
       }
 
