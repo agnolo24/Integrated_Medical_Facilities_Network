@@ -48,16 +48,20 @@ export default function PatientHome() {
         getLocation();
 
         try {
+            const login_id = localStorage.getItem("loginId");
             const response = await axios.get("http://127.0.0.1:8000/patient/getNearestHospital/", {
                 params: {
                     lat: location.lat,
                     lon: location.lon,
-                    type: type.label
+                    type: type.label,
+                    patient_login_id: login_id
                 }
             });
-            alert(`Emergency protocols initiated for ${type.label}. Searching for nearest hospital and notifying emergency contacts...`);
+            const { nearest_hospital } = response.data;
+            alert(`Emergency protocols initiated for ${type.label}.\n\nNearest Hospital Found: ${nearest_hospital.hospitalName}\nDistance: ${nearest_hospital.distance_km} km\nEstimated Arrival: ${nearest_hospital.estimated_time_mins} mins\n\nWaiting for hospital approval and ambulance dispatch...`);
             console.log(response.data);
         } catch (error) {
+            console.error("Emergency trigger error:", error);
             alert("Failed to find nearest hospital. Please call emergency services directly.");
         } finally {
             setLoading(false);

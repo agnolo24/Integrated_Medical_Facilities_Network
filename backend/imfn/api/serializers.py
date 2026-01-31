@@ -16,6 +16,8 @@ class HospitalRegistrationSerializer(serializers.Serializer):
     registrationId = serializers.CharField(max_length = 30)
     hospitalAddress = serializers.CharField(max_length = 100)
     contactNumber = serializers.CharField(max_length = 20)
+    lat = serializers.CharField(max_length = 200)
+    lon = serializers.CharField(max_length = 200)
     
     email = serializers.EmailField()
     password = serializers.CharField(min_length = 4, write_only = True)
