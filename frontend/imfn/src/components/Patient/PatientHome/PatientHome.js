@@ -134,14 +134,14 @@ export default function PatientHome() {
                         <i className="fas fa-clock" style={{ color: '#48bb78' }}></i>
                         <h3>My Appointments</h3>
                     </NavLink>
-                    <NavLink to="/myRecords" className="action-card">
+                    <NavLink to="/PatientMedicalHistory" className="action-card">
                         <i className="fas fa-heartbeat" style={{ color: '#ff4b2b' }}></i>
                         <h3>Health Records</h3>
                     </NavLink>
-                    <NavLink to="/profile" className="action-card">
+                    {/* <NavLink to="/profile" className="action-card">
                         <i className="fas fa-user-circle" style={{ color: '#9f7aea' }}></i>
                         <h3>My Profile</h3>
-                    </NavLink>
+                    </NavLink> */}
                 </div>
             </main>
 

@@ -18,4 +18,5 @@ urlpatterns = [
     path("cancel_appointment/", views.cancel_appointment, name="cancel_appointment"),
     # Emergency functionality
     path("getNearestHospital/", views.getNearestHospital, name="getNearestHospital"),
+    path("get_patient_med_history/", views.get_patient_med_history, name='get_patient_med_history'),
 ]

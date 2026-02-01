@@ -842,3 +842,82 @@ def getNearestHospital(request):
             {"error": "Failed to calculate distances using ORS"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+@api_view(["GET"])
+def get_patient_med_history(request):
+    patient_login_id = request.query_params.get("patient_login_id")
+
+    if not patient_login_id:
+        return Response(
+            {"error": "Patient LoginId missing"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        db = get_db()
+        appointment_col = db["appointments"]
+        doctor_col = db["doctors"]
+        hospital_col = db["hospital"]
+
+        patient_appointments = list(
+            appointment_col.find({"patient_login_id": ObjectId(patient_login_id)}).sort(
+                "appointment_date", -1
+            )
+        )
+
+        history = []
+        for apt in patient_appointments:
+            data = {}
+            data["appointment_id"] = str(apt["_id"])
+            data["appointment_date"] = (
+                apt["appointment_date"].strftime("%Y-%m-%d")
+                if apt.get("appointment_date")
+                else "N/A"
+            )
+            data["time_slot"] = apt.get("time_slot", "N/A")
+            data["status"] = apt.get("status", "N/A")
+            data["reason"] = apt.get("reason", "N/A")
+            data["appointment_type"] = apt.get("appointment_type", "N/A")
+
+            # hospital data
+            hospital_data = hospital_col.find_one(
+                {"login_id": apt.get("hospital_login_id")}
+            )
+            if hospital_data:
+                data["hospital_name"] = hospital_data.get("hospitalName", "N/A")
+                data["hospital_contact"] = hospital_data.get("contactNumber", "N/A")
+                data["hospital_address"] = hospital_data.get("hospitalAddress", "N/A")
+            else:
+                data["hospital_name"] = "N/A"
+                data["hospital_contact"] = "N/A"
+                data["hospital_address"] = "N/A"
+
+            # doctor data
+            doctor_data = doctor_col.find_one({"_id": apt.get("doctor_id")})
+            if doctor_data:
+                data["doctor_name"] = doctor_data.get("name", "N/A")
+                data["doctor_specialization"] = doctor_data.get("specialization", "N/A")
+                data["doctor_contact"] = doctor_data.get("contactNumber", "N/A")
+                data["doctor_email"] = doctor_data.get("email", "N/A")
+            else:
+                data["doctor_name"] = "N/A"
+                data["doctor_specialization"] = "N/A"
+                data["doctor_contact"] = "N/A"
+                data["doctor_email"] = "N/A"
+
+            # prescription data
+            data["prescription"] = apt.get("prescription", None)
+
+            # documents data
+            data["documents"] = apt.get("documents", None)
+
+            history.append(data)
+
+        return Response(history, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(f"Error fetching medical history: {e}")
+        return Response(
+            {"error": "Failed to fetch medical history"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
