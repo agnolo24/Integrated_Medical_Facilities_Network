@@ -24,6 +24,7 @@ import DoctorProfile from './components/Doctor/DoctorProfile/DoctorProfile'
 import SheduleDoctors from './components/Hospital/ManageDoctor/SheduleDoctors/SheduleDoctors'
 import RegisterPharmacy from './components/Hospital/ManagePharmacy/RegisterPharmacy/RegisterPharmacy'
 import PharmacyHome from './components/Pharmacy/PharmacyHome/PharmacyHome'
+import ManageMedicine from './components/Pharmacy/ManageMedicine/ManageMedicine'
 
 // Patient Module Components
 import FindDoctors from './components/Patient/FindDoctors/FindDoctors'
@@ -72,8 +73,9 @@ function App() {
           <Route path='/hospitalDetails' element={<HospitalDetails />} />
           <Route path='/viewAppointments' element={<ViewAppointments />} />
           <Route path='/viewPatientAppointments' element={<ViewPatientAppointments />} />
-          <Route path = '/PatientMedicalHistory' element={<PatientMedicalHistory/>} />
-          <Route path = '/pharmacyHome' element={<PharmacyHome />} />
+          <Route path='/PatientMedicalHistory' element={<PatientMedicalHistory />} />
+          <Route path='/pharmacyHome' element={<PharmacyHome />} />
+          <Route path='/manageMedicine' element={<ManageMedicine />} />
 
           <Route path='/PatientMedicalHistory' element={<PatientMedicalHistory />} />
           <Route path='/meeting/:appointmentId' element={<MeetingRoom />} />
