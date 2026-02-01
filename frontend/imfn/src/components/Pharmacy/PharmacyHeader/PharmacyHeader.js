@@ -111,6 +111,9 @@ function PharmacyHeader() {
                                                 <li className="has-sub">
                                                     <NavLink to="/pharmacyhome"><h6>Home</h6></NavLink>
                                                 </li>
+                                                <li className="has-sub">
+                                                    <NavLink to="/manageMedicine"><h6>Manage Medicine</h6></NavLink>
+                                                </li>
                                                 {/* Add more pharmacy specific links here */}
                                             </ul>
                                         </nav>
@@ -146,6 +149,7 @@ function PharmacyHeader() {
 
                 <ul className="d-block" style={{ marginTop: '40px' }}>
                     <li><NavLink to="/pharmacyhome" onClick={toggleMobileMenu}>Home</NavLink></li>
+                    <li><NavLink to="/manageMedicine" onClick={toggleMobileMenu}>Manage Medicine</NavLink></li>
                     <li><span onClick={handleLogout} style={{ cursor: 'pointer', color: '#333', fontWeight: '500' }}>Logout</span></li>
                 </ul>
 
