@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "ambulance",
     "patient",
     "webAdmin",
+    "pharmacy",
 ]
 
 MIDDLEWARE = [
