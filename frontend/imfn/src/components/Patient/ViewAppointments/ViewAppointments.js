@@ -14,9 +14,15 @@ function ViewAppointments() {
     const [activeTab, setActiveTab] = useState('upcoming')
     const [cancellingId, setCancellingId] = useState(null)
 
+    const [currentTime, setCurrentTime] = useState(new Date())
+
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 30000)
+        return () => clearInterval(timer)
+    }, [])
+
     useEffect(() => {
         fetchAppointments()
-        // getPortalData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeTab])
 
@@ -107,16 +113,28 @@ function ViewAppointments() {
         return appointmentDate >= today
     }
 
-    const handleJoinClick = async(appointmentId) => {
-        const patient_login_id = localStorage.getItem("loginId")
+    const isMeetingActive = (date, timeSlot) => {
+        try {
+            const startTimeStr = timeSlot.split(' - ')[0]
+            const scheduledTime = new Date(`${date} ${startTimeStr}`)
+            const diff = scheduledTime - currentTime
+            return diff <= 5 * 60 * 1000 && diff > -2 * 60 * 60 * 1000
+        } catch (e) {
+            return false
+        }
+    }
+
+    const handleJoinClick = async (appointmentId) => {
+        const login_id = localStorage.getItem("loginId")
         try {
             const response = await axios.get(`${baseUrl}get_portal_data/`, {
                 params: {
                     appointment_id: appointmentId,
-                    patient_login_id
+                    login_id
                 }
             })
             console.log(response.data)
+            navigate(`/meeting/${appointmentId}`)
         } catch (error) {
             alert(error.response?.data?.error || "Failed to join appointment")
         }
@@ -225,9 +243,18 @@ function ViewAppointments() {
                                     )}
 
                                     {appointment.appointment_type === 'online' ? (
-                                        <p className="appointment-reason">
-                                            <strong>Meeting Portal:</strong> <button onClick={() => handleJoinClick(appointment._id)}>Join</button>
-                                        </p>
+                                        <div className="appointment-portal-section">
+                                            <strong>Meeting Portal:</strong>
+                                            {isMeetingActive(appointment.appointment_date, appointment.time_slot) ? (
+                                                <button className="join-meeting-btn" onClick={() => handleJoinClick(appointment._id)}>
+                                                    Join Meeting
+                                                </button>
+                                            ) : (
+                                                <span className="portal-waiting-text">
+                                                    Will be enabled 5min before start
+                                                </span>
+                                            )}
+                                        </div>
                                     ) : null}
 
                                     {appointment.documents && appointment.documents.length > 0 && (

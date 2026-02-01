@@ -919,12 +919,12 @@ def get_patient_med_history(request):
 
 @api_view(["GET"])
 def get_portal_data(request):
-    patient_login_id = request.query_params.get("patient_login_id")
+    login_id = request.query_params.get("login_id")
     appointment_id = request.query_params.get("appointment_id")
 
-    if not patient_login_id or not appointment_id:
+    if not login_id or not appointment_id:
         return Response(
-            {"error": "Patient LoginId and Appointment Id missing"},
+            {"error": "LoginId and Appointment Id missing"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -993,8 +993,8 @@ def get_portal_data(request):
             return Response(
                 {
                     "message": "Access granted. Joining meeting portal...",
-                    "room_id": str(appointment["_id"])
-                    # "portal_url": f"http://localhost:3000/meeting/{appointment['_id']}", 
+                    "room_id": str(appointment["_id"]),
+                    # "portal_url": f"http://localhost:3000/meeting/{appointment['_id']}",
                 },
                 status=status.HTTP_200_OK,
             )

@@ -34,6 +34,7 @@ import ViewAppointments from './components/Patient/ViewAppointments/ViewAppointm
 import ViewPatientAppointments from './components/Doctor/ManagePatient/ViewPatientAppointments/ViewPatientAppointments'
 import DoctorAppointmentHistory from './components/admin/AdminDashboard/DoctorAppointmentHistory'
 import PatientMedicalHistory from './components/Patient/PatientMedicalHistory/PatientMedicalHistory'
+import MeetingRoom from './components/MeetingRoom/MeetingRoom'
 
 function App() {
   return (
@@ -70,7 +71,8 @@ function App() {
           <Route path='/hospitalDetails' element={<HospitalDetails />} />
           <Route path='/viewAppointments' element={<ViewAppointments />} />
           <Route path='/viewPatientAppointments' element={<ViewPatientAppointments />} />
-          <Route path = '/PatientMedicalHistory' element={<PatientMedicalHistory/>} />
+          <Route path='/PatientMedicalHistory' element={<PatientMedicalHistory />} />
+          <Route path='/meeting/:appointmentId' element={<MeetingRoom />} />
         </Routes>
       </BrowserRouter>
     </div>

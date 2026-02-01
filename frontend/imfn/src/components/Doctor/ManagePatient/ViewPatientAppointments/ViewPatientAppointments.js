@@ -7,8 +7,10 @@ import ViewPatientAppointmentDetails from '../ViewPatientAppointmentDetails/View
 import CheckHistoryCode from '../CheckHistoryCode/CheckHistoryCode';
 import ViewPrescriptionByDoctor from '../ViewPrescriptionByDoctor/ViewPrescriptionByDoctor';
 import ViewPatientHistory from '../ViewPatientHistory/ViewPatientHistory';
+import { useNavigate } from 'react-router';
 
 export default function ViewPatientAppointments() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('scheduled');
   const [appointments, setAppointments] = useState([]);
@@ -16,7 +18,13 @@ export default function ViewPatientAppointments() {
   const [isAppointmentDetailsOpen, setIsAppointmentDetailsOpen] = useState(false)
   const [isCheckHistoryCodeOpen, setIsCheckHistoryCodeOpen] = useState(false)
   const [isViewPrescriptionOpen, setIsViewPrescriptionOpen] = useState(false)
-  const [isHistoyOpen, setIsHistoryOpen ] = useState(false)
+  const [isHistoyOpen, setIsHistoryOpen] = useState(false)
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 30000)
+    return () => clearInterval(timer)
+  }, [])
 
   const openViewPrescription = (_id) => {
     setSelectedAppointmentId(_id)
@@ -25,11 +33,11 @@ export default function ViewPatientAppointments() {
 
   const openHistory = () => {
     setIsHistoryOpen(true)
-  }  
+  }
 
   const closeHistory = () => {
     setIsHistoryOpen(false)
-  }  
+  }
 
   const closeViewPrescription = () => setIsViewPrescriptionOpen(false)
 
@@ -45,7 +53,7 @@ export default function ViewPatientAppointments() {
 
   const closeCheckHistoryCode = () => setIsCheckHistoryCodeOpen(false)
 
-  const closeAppointmentDetails = () =>{ 
+  const closeAppointmentDetails = () => {
     setIsAppointmentDetailsOpen(false)
     fetchData()
   }
@@ -58,6 +66,33 @@ export default function ViewPatientAppointments() {
     const response = await axios.get(URL, { params: { login_id: login_id, time_filter: filterStatus } });
     if (response.data && response.data.appointments) {
       setAppointments(response.data.appointments);
+    }
+  }
+
+  const handleJoinClick = async (appointmentId) => {
+    const login_id = localStorage.getItem("loginId")
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/patient/get_portal_data/`, {
+        params: {
+          appointment_id: appointmentId,
+          login_id
+        }
+      })
+      console.log(response.data)
+      navigate(`/meeting/${appointmentId}`)
+    } catch (error) {
+      alert(error.response?.data?.error || "Failed to join appointment")
+    }
+  }
+
+  const isMeetingActive = (date, timeSlot) => {
+    try {
+      const startTimeStr = timeSlot.split(' - ')[0]
+      const scheduledTime = new Date(`${date} ${startTimeStr}`)
+      const diff = scheduledTime - currentTime
+      return diff <= 5 * 60 * 1000 && diff > -2 * 60 * 60 * 1000
+    } catch (e) {
+      return false
     }
   }
   useEffect(() => {
@@ -163,6 +198,24 @@ export default function ViewPatientAppointments() {
                           <i className="fas fa-file-medical"></i>
                         </button>
 
+                        {/* Join Online Meeting */}
+                        {apt.appointment_type === 'online' && apt.status === 'scheduled' && (
+                          isMeetingActive(apt.appointment_date, apt.time_slot) ? (
+                            <button
+                              className="vpa-action-btn vpa-btn-join"
+                              title="Join Meeting"
+                              onClick={() => handleJoinClick(apt._id)}
+                              style={{ background: '#10b981', color: 'white' }}
+                            >
+                              <i className="fas fa-video"></i> Join
+                            </button>
+                          ) : (
+                            <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontStyle: 'italic' }}>
+                              Starts soon
+                            </span>
+                          )
+                        )}
+
                       </td>
                     </tr>
                   ))
@@ -187,10 +240,10 @@ export default function ViewPatientAppointments() {
       }
       {
         isCheckHistoryCodeOpen && (
-          <CheckHistoryCode selectedAppointmentId={selectedAppointmentId} closeCheckHistoryCode={closeCheckHistoryCode} openHistory={openHistory}/>
+          <CheckHistoryCode selectedAppointmentId={selectedAppointmentId} closeCheckHistoryCode={closeCheckHistoryCode} openHistory={openHistory} />
         )
       }
-      
+
       {
         isViewPrescriptionOpen && (
           <ViewPrescriptionByDoctor selectedAppointmentId={selectedAppointmentId} closeViewPrescription={closeViewPrescription} />
