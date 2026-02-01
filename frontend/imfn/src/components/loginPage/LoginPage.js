@@ -39,6 +39,8 @@ function LoginPage() {
                 navigate('/AmbulanceHome')
             } else if (user === 'admin') {
                 navigate('/admin')
+            } else if (user === 'pharmacy') {
+                navigate('/pharmacyhome')
             } else {
                 navigate('/login')
             }
