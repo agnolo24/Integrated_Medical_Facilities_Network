@@ -28,4 +28,5 @@ urlpatterns = [
     path("ambulance/", include("ambulance.urls")),
     path("patient/", include("patient.urls")),
     path("webAdmin/", include("webAdmin.urls")),
+    path("pharmacy/", include("pharmacy.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

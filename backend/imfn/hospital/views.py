@@ -808,7 +808,7 @@ def register_pharmacy(request):
 
         pharmacy_doc = {
             "login_id": login_id,
-            "hospital_id": hospital_id,
+            "hospital_id": ObjectId(hospital_id),
             "created_at": datetime.utcnow(),
         }
         pharmacy_result = pharmacy_col.insert_one(pharmacy_doc)
