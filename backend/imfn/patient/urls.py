@@ -19,4 +19,5 @@ urlpatterns = [
     # Emergency functionality
     path("getNearestHospital/", views.getNearestHospital, name="getNearestHospital"),
     path("get_patient_med_history/", views.get_patient_med_history, name='get_patient_med_history'),
+    path('get_portal_data/', views.get_portal_data, name='get_portal_data'),
 ]

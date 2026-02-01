@@ -15,7 +15,7 @@ import re
 from bson import ObjectId
 from django.core.files.storage import FileSystemStorage
 import os
-import openrouteservice
+import openrouteservice  # it is used for distance calculation(to find the closest hospital)
 import base64
 import json
 
@@ -124,9 +124,6 @@ def change_password(request):
             {"error": "Failed to change password"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
-
-
-# ==================== SEARCH FUNCTIONALITY ====================
 
 
 @api_view(["GET"])
@@ -473,9 +470,6 @@ def get_available_slots(request):
             {"error": "Failed to get available slots"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
-
-
-# ==================== APPOINTMENT BOOKING ====================
 
 
 @api_view(["POST"])
@@ -919,5 +913,102 @@ def get_patient_med_history(request):
         print(f"Error fetching medical history: {e}")
         return Response(
             {"error": "Failed to fetch medical history"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+
+@api_view(["GET"])
+def get_portal_data(request):
+    patient_login_id = request.query_params.get("patient_login_id")
+    appointment_id = request.query_params.get("appointment_id")
+
+    if not patient_login_id or not appointment_id:
+        return Response(
+            {"error": "Patient LoginId and Appointment Id missing"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    try:
+        db = get_db()
+        appointment_col = db["appointments"]
+
+        appointment = appointment_col.find_one({"_id": ObjectId(appointment_id)})
+
+        if not appointment:
+            return Response(
+                {"error": "Appointment not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if appointment.get("status") != "scheduled":
+            return Response(
+                {
+                    "error": f"Appointment is {appointment.get('status')}. Portal only available for scheduled appointments."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if appointment.get("appointment_type") != "online":
+            return Response(
+                {"error": "This is an in-person appointment. No portal available."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Extract timing information
+        time_slot = appointment.get("time_slot", "")  # Format: "10:30 AM - 11:00 AM"
+        apt_date = appointment.get("appointment_date")
+
+        try:
+            # Parse start time from "10:30 AM - 11:00 AM"
+            start_time_str = time_slot.split(" - ")[0]
+            start_time_obj = datetime.strptime(start_time_str, "%I:%M %p").time()
+
+            # Create a full scheduled datetime object
+            scheduled_datetime = datetime.combine(apt_date.date(), start_time_obj)
+
+            # Get current time
+            current_datetime = datetime.now()
+
+            # Verification: Allow joining 5 minutes before the scheduled time
+            join_window_start = scheduled_datetime - timedelta(minutes=5)
+            # You can also add a window end if needed, e.g., session lasts 1 hour
+            join_window_end = scheduled_datetime + timedelta(hours=1)
+
+            if current_datetime < join_window_start:
+                wait_time = (join_window_start - current_datetime).total_seconds() / 60
+                return Response(
+                    {
+                        "error": f"Portal is not yet active. Please join 5 minutes before the scheduled time ({start_time_str}).",
+                        "wait_minutes": round(wait_time, 1),
+                    },
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            if current_datetime > join_window_end:
+                return Response(
+                    {"error": "This appointment session has already ended."},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            # If all checks pass
+            return Response(
+                {
+                    "message": "Access granted. Joining meeting portal...",
+                    "room_id": str(appointment["_id"])
+                    # "portal_url": f"http://localhost:3000/meeting/{appointment['_id']}", 
+                },
+                status=status.HTTP_200_OK,
+            )
+
+        except Exception as te:
+            print(f"Time parsing error: {te}")
+            return Response(
+                {"error": "Failed to parse appointment timing data."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    except Exception as e:
+        print(f"Error fetching portal data: {e}")
+        return Response(
+            {"error": "Failed to fetch appointment data"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )

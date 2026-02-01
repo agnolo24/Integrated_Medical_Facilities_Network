@@ -16,6 +16,7 @@ function ViewAppointments() {
 
     useEffect(() => {
         fetchAppointments()
+        // getPortalData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeTab])
 
@@ -38,6 +39,27 @@ function ViewAppointments() {
             setIsLoading(false)
         }
     }
+
+    // const getPortalData = async() => {
+    //     const url = `${baseUrl}get_portal_data/`
+    //     const patient_login_id = localStorage.getItem("loginId")
+
+    //     if (!patient_login_id) {
+    //         navigate('/login')
+    //         return
+    //     }
+
+    //     try {
+    //         const response = await axios.get(url, {
+    //             params: {
+    //                 patient_login_id
+    //             }
+    //         })
+    //         console.log(response.data)            
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     const handleCancelAppointment = async (appointmentId) => {
         if (!window.confirm("Are you sure you want to cancel this appointment?")) return
@@ -83,6 +105,21 @@ function ViewAppointments() {
         const today = new Date()
         today.setHours(0, 0, 0, 0)
         return appointmentDate >= today
+    }
+
+    const handleJoinClick = async(appointmentId) => {
+        const patient_login_id = localStorage.getItem("loginId")
+        try {
+            const response = await axios.get(`${baseUrl}get_portal_data/`, {
+                params: {
+                    appointment_id: appointmentId,
+                    patient_login_id
+                }
+            })
+            console.log(response.data)
+        } catch (error) {
+            alert(error.response?.data?.error || "Failed to join appointment")
+        }
     }
 
     return (
@@ -178,7 +215,7 @@ function ViewAppointments() {
                                         </span>
                                         <span className="meta-item">
                                             <span className="icon">{appointment.appointment_type === 'online' ? '💻' : '🏥'}</span>
-                                            {appointment.appointment_type === 'online' ? 'Online' : 'In-Person'}
+                                            {appointment.appointment_type === 'online' ? ('Online') : 'In-Person'}
                                         </span>
                                     </div>
                                     {appointment.reason && (
@@ -186,6 +223,13 @@ function ViewAppointments() {
                                             <strong>Reason:</strong> {appointment.reason}
                                         </p>
                                     )}
+
+                                    {appointment.appointment_type === 'online' ? (
+                                        <p className="appointment-reason">
+                                            <strong>Meeting Portal:</strong> <button onClick={() => handleJoinClick(appointment._id)}>Join</button>
+                                        </p>
+                                    ) : null}
+
                                     {appointment.documents && appointment.documents.length > 0 && (
                                         <div className="appointment-documents">
                                             <strong>Medical Docs:</strong>
