@@ -62,8 +62,11 @@ def get_patient_appointment(request):
             query['status'] = 'scheduled'
         elif filterStatus == 'cancelled':
             query['status'] = 'cancelled'
-            
-
+        elif filterStatus == 'today':
+            query['status'] = 'scheduled'
+            query['appointment_date'] = datetime.combine(
+                datetime.now().date(), datetime.min.time()
+            )
 
         appointments = list(appointment_col.find(query).sort([("appointment_date", -1), ("time_slot", -1)]))
         appointment_list = []
@@ -90,6 +93,7 @@ def get_patient_appointment(request):
                     ),
                 }
             )
+
         return Response(
             {"appointments": appointment_list, "total": len(appointment_list)},
             status=status.HTTP_200_OK,
