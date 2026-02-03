@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router';
 export default function ViewPatientAppointments() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('scheduled');
+  const [filterStatus, setFilterStatus] = useState('today');
   const [appointments, setAppointments] = useState([]);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState([])
   const [isAppointmentDetailsOpen, setIsAppointmentDetailsOpen] = useState(false)
@@ -102,7 +102,8 @@ export default function ViewPatientAppointments() {
   const filteredAppointments = appointments.filter(apt => {
     const matchesSearch = apt.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (apt._id && apt._id.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesStatus = filterStatus === 'all' || apt.status === filterStatus;
+    const matchesStatus = filterStatus === 'all' ||
+      (filterStatus === 'today' ? apt.status === 'scheduled' : apt.status === filterStatus);
     return matchesSearch && matchesStatus;
   });
 
@@ -139,7 +140,7 @@ export default function ViewPatientAppointments() {
             </div>
 
             <div className="vpa-filter-group">
-              {['all', 'scheduled', 'completed', 'cancelled',].map(status => (
+              {['all', 'today', 'scheduled', 'completed', 'cancelled',].map(status => (
                 <button
                   key={status}
                   className={`vpa-filter-btn ${filterStatus === status ? 'active' : ''}`}
