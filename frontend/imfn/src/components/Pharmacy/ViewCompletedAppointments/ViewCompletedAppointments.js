@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PharmacyHeader from '../PharmacyHeader/PharmacyHeader';
 import PharmacyFooter from '../PharmacyFooter/PharmacyFooter';
+import PrescriptionToggle from './PrescriptionToggle';
 import './ViewCompletedAppointments.css';
 
 function ViewCompletedAppointments() {
@@ -31,36 +32,6 @@ function ViewCompletedAppointments() {
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
-    };
-
-    const renderPrescription = (prescription) => {
-        if (!prescription || prescription === "N/A" || (Array.isArray(prescription) && prescription.length === 0)) {
-            return <span>No prescription available</span>;
-        }
-
-        if (typeof prescription === 'string') {
-            return <span>{prescription}</span>;
-        }
-
-        if (Array.isArray(prescription)) {
-            return (
-                <ul className="prescription-list">
-                    {prescription.map((item, index) => (
-                        <li key={index} className="prescription-item">
-                            <div className="medicine-info">
-                                <span className="medicine-name">{item.medicine_name}</span>
-                                <span className="medicine-qty">{item.quantity} Qty</span>
-                            </div>
-                            <div className="medicine-details">
-                                {item.dose_age} • {item.days} Day(s)
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            );
-        }
-
-        return <span>{typeof prescription === 'object' ? JSON.stringify(prescription) : prescription}</span>;
     };
 
     const filteredAppointments = appointments.filter(apt =>
@@ -117,9 +88,7 @@ function ViewCompletedAppointments() {
                                             <td>{apt.doctor_name}</td>
                                             <td>{apt.time_slot}</td>
                                             <td>
-                                                <div className="prescription-box">
-                                                    {renderPrescription(apt.prescription)}
-                                                </div>
+                                                <PrescriptionToggle appointmentId={apt.appointment_id} />
                                             </td>
                                         </tr>
                                     ))
