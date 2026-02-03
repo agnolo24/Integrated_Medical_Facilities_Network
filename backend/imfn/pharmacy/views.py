@@ -233,3 +233,29 @@ def get_completed_appointments(request):
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(["GET"])
+def get_prescription(request):
+    appointment_id = request.query_params.get("appointment_id")
+    if not appointment_id:
+        return Response({"error": "Appointment ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    db = get_db()
+    appointment_col = db['appointments']
+
+    try:
+        if not ObjectId.is_valid(appointment_id):
+            return Response({"error": "Invalid Appointment ID format"}, status=status.HTTP_400_BAD_REQUEST)
+
+        appointment = appointment_col.find_one({"_id": ObjectId(appointment_id)})
+        if not appointment:
+            return Response({"error": "Appointment record not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        prescription = appointment.get("prescription", "N/A")
+        return Response({"prescription": prescription}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # print("appointment_id : ",appointment_id)
+    # return Response({"message":"success"},status=status.HTTP_200_OK)
