@@ -35,8 +35,10 @@ function ViewCompletedAppointments() {
     };
 
     const filteredAppointments = appointments.filter(apt =>
-        apt.patient_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        apt.doctor_name.toLowerCase().includes(searchTerm.toLowerCase())
+        apt.prescription !== "N/A" && (
+            apt.patient_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            apt.doctor_name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
     );
 
     return (
