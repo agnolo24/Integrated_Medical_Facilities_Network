@@ -208,7 +208,13 @@ def get_completed_appointments(request):
         tomorrow = today + timedelta(days=1)
 
         print("hospital_id : ",str(hospital_id))
-        hospital_login_id = hospital_col.find_one({"_id": ObjectId(hospital_id)})['login_id']
+        hospital = hospital_col.find_one({"_id": ObjectId(hospital_id) if isinstance(hospital_id, str) else hospital_id})
+        if not hospital:
+            return Response({"error": "Hospital record not found"}, status=status.HTTP_404_NOT_FOUND)
+            
+        hospital_login_id = hospital.get('login_id')
+        if not hospital_login_id:
+            return Response({"error": "Hospital login ID not found"}, status=status.HTTP_404_NOT_FOUND)
 
         query = {
             "hospital_login_id": ObjectId(hospital_login_id) if isinstance(hospital_login_id, (str, ObjectId)) else hospital_login_id,
@@ -256,6 +262,3 @@ def get_prescription(request):
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    # print("appointment_id : ",appointment_id)
-    # return Response({"message":"success"},status=status.HTTP_200_OK)
