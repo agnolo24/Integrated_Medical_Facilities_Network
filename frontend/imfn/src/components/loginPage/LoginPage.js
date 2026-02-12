@@ -41,6 +41,8 @@ function LoginPage({ hideHeaderFooter = false }) {
                 navigate('/admin')
             } else if (user === 'pharmacy') {
                 navigate('/pharmacyhome')
+            } else if (user === 'billing') {
+                navigate('/billinghome')
             } else {
                 navigate('/login')
             }
