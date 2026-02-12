@@ -94,34 +94,35 @@ const EditDoctor = ({ doctorData, onClose }) => {
 
     return (
         <div className="edit-doctor-container">
-            <div className="card border-0">
-                <div className="card-header bg-primary text-white text-center">
-                    <h4>Edit Doctor Profile</h4>
+            <div className="edit-doctor-card">
+                <div className="edit-doctor-header">
+                    <i className="fas fa-user-edit"></i>
+                    <h2>Refine Specialist Profile</h2>
+                    <p>Update credentials and contact information</p>
                 </div>
-                <div className="card-body">
-                    <form onSubmit={handleSubmit}>
-                        {/* Name */}
-                        <div className="mb-3">
-                            <label className="form-label">Full Name</label>
-                            <input type="text" name="name" className="form-control"
+
+                <div className="edit-doctor-body">
+                    <form className="modern-edit-form" onSubmit={handleSubmit}>
+                        <div className="form-input-group">
+                            <label><i className="fas fa-id-card"></i> Full Name</label>
+                            <input type="text" name="name" placeholder="Dr. Jane Smith"
                                 value={formData.name} onChange={handleChange} required />
                         </div>
 
-                        {/* Gender & Specialization */}
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label className="form-label">Gender</label>
-                                <select name="gender" className="form-select" value={formData.gender} onChange={handleChange} required>
-                                    <option value="">Select</option>
+                        <div className="form-grid">
+                            <div className="form-input-group">
+                                <label><i className="fas fa-venus-mars"></i> Gender</label>
+                                <select name="gender" value={formData.gender} onChange={handleChange} required>
+                                    <option value="">Select Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <label className="form-label">Specialization</label>
-                                <select name="specialization" className="form-select" value={formData.specialization} onChange={handleChange} required>
-                                    <option value="">Select</option>
+                            <div className="form-input-group">
+                                <label><i className="fas fa-stethoscope"></i> Specialization</label>
+                                <select name="specialization" value={formData.specialization} onChange={handleChange} required>
+                                    <option value="">Select Domain</option>
                                     {specializations.map((spec, index) => (
                                         <option key={index} value={spec}>{spec}</option>
                                     ))}
@@ -129,37 +130,34 @@ const EditDoctor = ({ doctorData, onClose }) => {
                             </div>
                         </div>
 
-                        {/* Qualification & Experience */}
-                        <div className="row">
-                            <div className="col-md-8 mb-3">
-                                <label className="form-label">Qualification</label>
-                                <select name="qualification" className="form-select" value={formData.qualification} onChange={handleChange} required>
-                                    <option value="">Select</option>
+                        <div className="form-grid">
+                            <div className="form-input-group" style={{ gridColumn: 'span 1' }}>
+                                <label><i className="fas fa-graduation-cap"></i> Qualification</label>
+                                <select name="qualification" value={formData.qualification} onChange={handleChange} required>
+                                    <option value="">Select Credential</option>
                                     {qualifications.map((qual, index) => (
                                         <option key={index} value={qual}>{qual}</option>
                                     ))}
                                 </select>
                             </div>
-                            <div className="col-md-4 mb-3">
-                                <label className="form-label">Exp (Yrs)</label>
-                                <input type="number" name="experience" className="form-control" value={formData.experience} onChange={handleChange} required />
+                            <div className="form-input-group">
+                                <label><i className="fas fa-award"></i> Exp (Years)</label>
+                                <input type="number" name="experience" placeholder="10"
+                                    value={formData.experience} onChange={handleChange} required />
                             </div>
                         </div>
 
-                        {/* Contact & Email */}
-                        <div className="mb-3">
-                            <label className="form-label">Contact Number</label>
-                            <input type="tel" name="contactNumber" className="form-control" value={formData.contactNumber} onChange={handleChange} required />
+                        <div className="form-input-group">
+                            <label><i className="fas fa-phone-alt"></i> Contact Number</label>
+                            <input type="tel" name="contactNumber" placeholder="+1 234 567 890"
+                                value={formData.contactNumber} onChange={handleChange} required />
                         </div>
 
-                        {/* <div className="mb-3">
-                            <label className="form-label">Email Address</label>
-                            <input type="email" name="email" className="form-control" value={formData.email} onChange={handleChange} required />
-                        </div> */}
-
-                        <div className="d-flex gap-2">
-                            <button type="submit" className="btn btn-primary flex-grow-1">Update Details</button>
-                            <button type="button" className="btn btn-light" onClick={onClose}>Cancel</button>
+                        <div className="form-actions-edit">
+                            <button type="submit" className="update-btn">
+                                <i className="fas fa-save"></i> Synchronize Profile
+                            </button>
+                            <button type="button" className="cancel-btn-edit" onClick={onClose}>Discard</button>
                         </div>
                     </form>
                 </div>

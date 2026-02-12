@@ -71,6 +71,18 @@ const AmbulanceForm = () => {
                                 </div>
                             </div>
 
+                            <div className="modern-form-group">
+                                <label><i className="fas fa-layer-group"></i> Emergency Category</label>
+                                <select name="category" className="modern-select"
+                                    value={formData.category} onChange={handleChange} required>
+                                    <option value="">Select Category</option>
+                                    <option value="Category 1: Life-threatening emergencies">Category 1: Life-threatening emergencies</option>
+                                    <option value="Category 2: Emergency calls">Category 2: Emergency calls</option>
+                                    <option value="Category 3: Urgent problems">Category 3: Urgent problems</option>
+                                    <option value="Category 4: Non-urgent problems">Category 4: Non-urgent problems</option>
+                                </select>
+                            </div>
+
                             <div className="modern-form-grid">
                                 <div className="modern-form-group">
                                     <label><i className="fas fa-truck-medical"></i> Ambulance Type</label>
@@ -89,18 +101,6 @@ const AmbulanceForm = () => {
                                     <input type="text" name="vehicleNumber" placeholder="AB-123-CD"
                                         value={formData.vehicleNumber} onChange={handleChange} required />
                                 </div>
-                            </div>
-
-                            <div className="modern-form-group">
-                                <label><i className="fas fa-layer-group"></i> Emergency Category</label>
-                                <select name="category" className="modern-select"
-                                    value={formData.category} onChange={handleChange} required>
-                                    <option value="">Select Category</option>
-                                    <option value="Category 1: Life-threatening emergencies">Category 1: Life-threatening emergencies</option>
-                                    <option value="Category 2: Emergency calls">Category 2: Emergency calls</option>
-                                    <option value="Category 3: Urgent problems">Category 3: Urgent problems</option>
-                                    <option value="Category 4: Non-urgent problems">Category 4: Non-urgent problems</option>
-                                </select>
                             </div>
 
                             <div className="modern-form-grid">
