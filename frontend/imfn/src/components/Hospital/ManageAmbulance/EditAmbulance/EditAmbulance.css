@@ -1,0 +1,144 @@
+/* Modern Edit Ambulance Profile CSS */
+.edit-ambulance-wrapper {
+    width: 100%;
+}
+
+.edit-ambulance-card-modern {
+    background: #ffffff;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.edit-ambulance-header-premium {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    padding: 35px;
+    text-align: center;
+    color: white;
+}
+
+.edit-ambulance-header-premium i {
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.9;
+}
+
+.edit-ambulance-header-premium h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.edit-ambulance-header-premium p {
+    margin: 8px 0 0;
+    opacity: 0.85;
+    font-size: 1rem;
+}
+
+.edit-ambulance-body-content {
+    padding: 40px;
+}
+
+.modern-ambulance-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-row-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.modern-input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modern-input-field label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modern-input-field label i {
+    color: #3b82f6;
+    font-size: 1.15rem;
+}
+
+.modern-input-field input,
+.modern-input-field select {
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 2px solid #f1f5f9;
+    font-size: 16px;
+    color: #1e293b;
+    background: #f8fafc;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-input-field input:focus,
+.modern-input-field select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.edit-actions-modern {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    margin-top: 15px;
+}
+
+.sync-profile-btn {
+    background: #1e40af;
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.sync-profile-btn:hover {
+    background: #1e3a8a;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(30, 58, 175, 0.2);
+}
+
+.discard-changes-btn {
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.discard-changes-btn:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+@media (max-width: 650px) {
+    .form-row-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
