@@ -120,7 +120,8 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
         if (medicine_details.length === 0) return;
 
         console.log("Saving records for:", medicine_details);
-        const url = "http://127.0.0.1:8000/pharmacy/update_medicine_stock/";
+        const url1 = "http://127.0.0.1:8000/pharmacy/update_medicine_stock/";
+        const url2 = "http://127.0.0.1:8000/pharmacy/add_medicine_to_bill/";
 
         console.log("availableMedicines", availableMedicines);
 
@@ -130,16 +131,42 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
             stock: item.stock,
         }));
 
+        const Medicine_Details = medicine_details.map(item => ({
+            medicine_id: item.medicine_id,
+            medicine_name: item.medicine_name,
+            quantity: item.quantity,
+            price: item.price,
+            // expiry_date: item.expiry_date,
+        }));
+
         console.log("Medicine_Stock", Medicine_Stock);
+        console.log("Medicine_Details", Medicine_Details);
 
         try {
-            const response = await axios.post(url, {
+            const response = await axios.post(url1, {
                 pharmacy_login_id: pharmacyLoginId,
                 Medicine_Stock: Medicine_Stock,
             });
 
             if (response.status === 200) {
-                alert("Dispensing records saved and stock updated successfully!");
+                console.log("Dispensing records saved and stock updated successfully!");
+                // Optionally close modal or clear list after save
+                setMedicineDetails([]);
+            }
+        }
+        catch (error) {
+            console.error("Error updating medicine stock:", error);
+            alert("Failed to update stock. Please try again.");
+        }
+
+        try {
+            const response = await axios.post(url2, {
+                appointment_Id : appointmentId,
+                Medicine_Details : Medicine_Details,
+            });
+
+            if (response.status === 200) {
+                console.log("Dispensing records saved and stock updated successfully!");
                 // Optionally close modal or clear list after save
                 setMedicineDetails([]);
             }
