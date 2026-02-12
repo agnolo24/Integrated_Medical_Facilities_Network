@@ -153,6 +153,7 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
                 // Optionally close modal or clear list after save
                 setMedicineDetails([]);
             }
+            
         }
         catch (error) {
             console.error("Error updating medicine stock:", error);
@@ -166,9 +167,10 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
             });
 
             if (response.status === 200) {
-                console.log("Dispensing records saved and stock updated successfully!");
+                console.log("Record is added to the bill!");
                 // Optionally close modal or clear list after save
                 setMedicineDetails([]);
+                handleCloseModal();
             }
         }
         catch (error) {
