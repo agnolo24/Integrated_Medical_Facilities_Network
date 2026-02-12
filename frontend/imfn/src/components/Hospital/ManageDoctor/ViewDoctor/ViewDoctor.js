@@ -175,7 +175,7 @@ function ViewDoctor() {
             {isScheduleOpen && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <button className="close-button" onClick={handleScheduleClose}>&times;</button>
+                        {/* <button className="close-button" onClick={handleScheduleClose}>&times;</button> */}
                         <div className="modal-inner-scroll">
                             <CreateSchedule doctor={selectedDoctorForSchedule} onClose={handleScheduleClose} />
                         </div>
