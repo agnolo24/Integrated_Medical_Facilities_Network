@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "patient",
     "webAdmin",
     "pharmacy",
+    "billing",
 ]
 
 MIDDLEWARE = [
