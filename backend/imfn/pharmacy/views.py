@@ -75,7 +75,7 @@ def add_medicine(request):
 
     try:
         medicine_obj = {
-            "medicine_id": str(ObjectId()),
+            "medicine_id": ObjectId(),
             "name": name,
             "description": description,
             "price": price,
@@ -89,6 +89,7 @@ def add_medicine(request):
             {"$push": {"medicines": medicine_obj}}
         )
 
+        medicine_obj['medicine_id'] = str(medicine_obj['medicine_id'])
         if result.modified_count > 0:
             return Response({"message": "Medicine added successfully", "medicine": medicine_obj}, status=status.HTTP_200_OK)
         else:
@@ -113,6 +114,8 @@ def view_medicines(request):
             return Response({"error": "Pharmacy record not found"}, status=status.HTTP_404_NOT_FOUND)
         
         medicines = pharmacy.get("medicines", [])
+        for med in medicines:
+            med['medicine_id'] = str(med['medicine_id'])
         return Response({"medicines": medicines}, status=status.HTTP_200_OK)
 
     except Exception as e:
@@ -137,7 +140,7 @@ def edit_medicine(request):
 
     try:
         result = pharmacy_col.update_one(
-            {"login_id": ObjectId(pharmacy_login_id), "medicines.medicine_id": medicine_id},
+            {"login_id": ObjectId(pharmacy_login_id), "medicines.medicine_id": ObjectId(medicine_id)},
             {"$set": {
                 "medicines.$.name": name,
                 "medicines.$.description": description,
@@ -171,7 +174,7 @@ def delete_medicine(request):
     try:
         result = pharmacy_col.update_one(
             {"login_id": ObjectId(pharmacy_login_id)},
-            {"$pull": {"medicines": {"medicine_id": medicine_id}}}
+            {"$pull": {"medicines": {"medicine_id": ObjectId(medicine_id)}}}
         )
 
         if result.modified_count > 0:
@@ -286,7 +289,7 @@ def update_medicine_stock(request):
             
             if medicine_id is not None and stock is not None:
                 result = pharmacy_col.update_one(
-                    {"login_id": ObjectId(pharmacy_login_id), "medicines.medicine_id": medicine_id},
+                    {"login_id": ObjectId(pharmacy_login_id), "medicines.medicine_id": ObjectId(medicine_id)},
                     {"$set": {
                         "medicines.$.stock": stock,
                     }}
