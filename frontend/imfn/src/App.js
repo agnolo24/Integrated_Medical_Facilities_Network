@@ -25,6 +25,7 @@ import SheduleDoctors from './components/Hospital/ManageDoctor/SheduleDoctors/Sh
 import RegisterPharmacy from './components/Hospital/ManagePharmacy/RegisterPharmacy/RegisterPharmacy'
 import RegisterBilling from './components/Hospital/ManageBilling/RegisterBilling/RegisterBilling'
 import PharmacyHome from './components/Pharmacy/PharmacyHome/PharmacyHome'
+import BillingHome from './components/Billing/BillingHome/BillingHome'
 import ManageMedicine from './components/Pharmacy/ManageMedicine/ManageMedicine'
 import ViewCompletedAppointments from './components/Pharmacy/ViewCompletedAppointments/ViewCompletedAppointments'
 
@@ -80,6 +81,7 @@ function App() {
           <Route path='/pharmacyHome' element={<PharmacyHome />} />
           <Route path='/manageMedicine' element={<ManageMedicine />} />
           <Route path='/viewCompletedAppointments' element={<ViewCompletedAppointments />} />
+          <Route path='/billinghome' element={<BillingHome />} />
 
           <Route path='/PatientMedicalHistory' element={<PatientMedicalHistory />} />
           <Route path='/meeting/:appointmentId' element={<MeetingRoom />} />
