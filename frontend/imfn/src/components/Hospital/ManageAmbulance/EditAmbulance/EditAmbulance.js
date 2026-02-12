@@ -68,6 +68,24 @@ function EditAmbulance({ ambulanceData, onClose }) {
                 </div>
                 <div className="card-body">
                     <form onSubmit={handleSubmit}>
+                        {/* Category */}
+                        <div className="mb-3">
+                            <label htmlFor="category" className="form-label">Emergency Category</label>
+                            <select
+                                name="category"
+                                id="category"
+                                className="form-select"
+                                value={formData.category}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value="">Select Category</option>
+                                {category_choice.map((cat, index) => (
+                                    <option value={cat} key={index}>{cat}</option>
+                                ))}
+                            </select>
+                        </div>
+
                         {/* Name & Ambulance Type */}
                         <div className="row">
                             <div className="col-md-6 mb-3">
@@ -100,7 +118,7 @@ function EditAmbulance({ ambulanceData, onClose }) {
                             </div>
                         </div>
 
-                        {/* Vehicle Number & Category */}
+                        {/* Vehicle Number & Contact */}
                         <div className="row">
                             <div className="col-md-6 mb-3">
                                 <label htmlFor="vehicleNumber" className="form-label">Vehicle Number</label>
@@ -114,26 +132,6 @@ function EditAmbulance({ ambulanceData, onClose }) {
                                     required
                                 />
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="category" className="form-label">Category</label>
-                                <select
-                                    name="category"
-                                    id="category"
-                                    className="form-select"
-                                    value={formData.category}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="">Select Category</option>
-                                    {category_choice.map((cat, index) => (
-                                        <option value={cat} key={index}>{cat}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-
-                        {/* Contact & Email */}
-                        <div className="row">
                             <div className="col-md-6 mb-3">
                                 <label htmlFor="contactNumber" className="form-label">Contact Number</label>
                                 <input

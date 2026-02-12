@@ -78,7 +78,7 @@ function HospitalHome() {
 
             <main className="hp-main-workspace scrollbar-hide">
                 {/* Management Ribbon - Prominent and Visible */}
-                <div className="hp-management-ribbon">
+                {/* <div className="hp-management-ribbon">
                     <div className="hp-ribbon-content">
                         <div className="hp-ribbon-group">
                             <span className="hp-ribbon-label">Fleet & Staff Management</span>
@@ -95,7 +95,7 @@ function HospitalHome() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Dashboard Header/Stats */}
                 <div className="hp-top-stats-row">

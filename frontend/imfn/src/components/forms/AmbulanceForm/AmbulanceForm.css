@@ -1,8 +1,8 @@
 /* Modern Ambulance Management CSS */
 :root {
-    --amb-primary: #dc2626; /* Emergency Red */
-    --amb-secondary: #f87171;
-    --amb-bg-gradient: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    --amb-primary: #1e3a8a; /* Deep Blue */
+    --amb-secondary: #3b82f6;
+    --amb-bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
 }
 
 .registration-wrapper {
@@ -30,7 +30,7 @@
     background: #ffffff;
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 25px 50px -12px rgba(220, 38, 38, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(30, 58, 138, 0.1);
     border-top: 5px solid var(--amb-primary);
 }
 
@@ -110,7 +110,7 @@
     outline: none;
     border-color: var(--amb-primary);
     background: white;
-    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+    box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
 }
 
 .registration-submit-btn.ambulance-btn {
@@ -131,9 +131,9 @@
 }
 
 .registration-submit-btn.ambulance-btn:hover {
-    background: #b91c1c;
+    background: #172554;
     transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(220, 38, 38, 0.2);
+    box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.2);
 }
 
 @keyframes slideIn {
