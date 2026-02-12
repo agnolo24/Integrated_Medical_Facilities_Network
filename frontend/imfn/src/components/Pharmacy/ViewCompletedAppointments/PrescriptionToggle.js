@@ -1,34 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PrescriptionToggle = ({ appointmentId }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
     const [prescription, setPrescription] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const handleOpenModal = async () => {
-        setIsModalOpen(true);
-        if (!prescription && !loading) {
-            setLoading(true);
-            setError(null);
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/pharmacy/get_prescription/', {
-                    params: { appointment_id: appointmentId }
-                });
-                setPrescription(response.data.prescription);
-            } catch (err) {
-                console.error("Error fetching prescription:", err);
-                setError("Failed to load prescription.");
-            } finally {
-                setLoading(false);
-            }
+    // New states for medicine management
+    const [availableMedicines, setAvailableMedicines] = useState([]);
+    const [medicine_details, setMedicineDetails] = useState([]);
+    const [selectedMedicineId, setSelectedMedicineId] = useState("");
+    const [quantity, setQuantity] = useState("1"); // Use string to allow clearing
+
+    const pharmacyLoginId = localStorage.getItem("loginId");
+
+    const fetchPrescription = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/pharmacy/get_prescription/', {
+                params: { appointment_id: appointmentId }
+            });
+            setPrescription(response.data.prescription);
+        } catch (err) {
+            console.error("Error fetching prescription:", err);
+            setError("Failed to load prescription.");
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
+    const fetchAvailableMedicines = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/pharmacy/view_medicines/', {
+                params: { pharmacy_login_id: pharmacyLoginId }
+            });
+            setAvailableMedicines(response.data.medicines || []);
+        } catch (error) {
+            console.error("Error fetching medicines:", error);
+        }
     };
+
+    useEffect(() => {
+        if (appointmentId) {
+            fetchPrescription();
+            fetchAvailableMedicines();
+        }
+    }, [appointmentId]);
 
     // Close modal on Escape key
     useEffect(() => {
@@ -37,7 +55,44 @@ const PrescriptionToggle = ({ appointmentId }) => {
         };
         window.addEventListener('keydown', handleEsc);
         return () => window.removeEventListener('keydown', handleEsc);
-    }, []);
+    }, [handleCloseModal]);
+
+    const handleAddMedicine = () => {
+        if (!selectedMedicineId) {
+            alert("Please select a medicine");
+            return;
+        }
+
+        if (!quantity || parseInt(quantity) <= 0) {
+            alert("Please enter a valid quantity");
+            return;
+        }
+
+        const selectedMed = availableMedicines.find(m => m.medicine_id.toString() === selectedMedicineId.toString());
+        if (selectedMed) {
+            const newEntry = {
+                medicine_name: selectedMed.name,
+                quantity: parseInt(quantity),
+                price: selectedMed.price,
+                expiry_date: selectedMed.expiry_date
+            };
+            setMedicineDetails([...medicine_details, newEntry]);
+            // Reset selection
+            setSelectedMedicineId("");
+            setQuantity("1");
+        }
+    };
+
+    const handleRemoveMedicine = (index) => {
+        const updated = medicine_details.filter((_, i) => i !== index);
+        setMedicineDetails(updated);
+    };
+
+    const handleSave = () => {
+        // Placeholder for future save logic
+        console.log("Saving details:", medicine_details);
+        alert("Dispensing details saved locally. (Backend integration pending)");
+    };
 
     const renderPrescriptionContent = (data) => {
         if (!data || data === "N/A" || (Array.isArray(data) && data.length === 0)) {
@@ -76,52 +131,134 @@ const PrescriptionToggle = ({ appointmentId }) => {
     };
 
     return (
-        <div className="prescription-modal-container">
-            <button
-                className="btn check-prescription-btn"
-                onClick={handleOpenModal}
-                title="View Prescription Details"
-            >
-                <i className="fas fa-file-prescription"></i> Check Prescription
-            </button>
+        <div className="prescription-modal-overlay" onClick={handleCloseModal}>
+            <div className="prescription-modal-card" style={{ maxWidth: '800px' }} onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header-premium">
+                    <h3><i className="fas fa-prescription"></i> Prescription & Billing Management</h3>
+                    <button className="close-btn-minimal" onClick={handleCloseModal}>
+                        <i className="fas fa-times"></i>
+                    </button>
+                </div>
 
-            {isModalOpen && (
-                <div className="prescription-modal-overlay" onClick={handleCloseModal}>
-                    <div className="prescription-modal-card" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header-premium">
-                            <h3><i className="fas fa-prescription"></i> Prescription Details</h3>
-                            <button className="close-btn-minimal" onClick={handleCloseModal}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </div>
-
-                        <div className="modal-body-premium">
+                <div className="modal-body-premium">
+                    <div className="row">
+                        {/* Left Column: Doctor's Prescription */}
+                        <div className="col-md-6 border-end">
+                            <h4 className="mb-3 text-primary"><i className="fas fa-file-medical"></i> Prescribed by Doctor</h4>
                             {loading ? (
                                 <div className="modal-loader">
                                     <div className="spinner-premium"></div>
-                                    <p>Retrieving prescription details...</p>
+                                    <p>Loading prescription...</p>
                                 </div>
                             ) : error ? (
                                 <div className="modal-error">
-                                    <i className="fas fa-exclamation-triangle"></i>
                                     <p>{error}</p>
-                                    <button className="btn ss-btn btn-sm mt-2" onClick={handleOpenModal}>Retry</button>
+                                    <button className="btn ss-btn btn-sm mt-2" onClick={fetchPrescription}>Retry</button>
                                 </div>
                             ) : (
                                 renderPrescriptionContent(prescription)
                             )}
                         </div>
 
-                        <div className="modal-footer-premium">
-                            <button className="btn ss-btn close-action-btn" onClick={handleCloseModal}>
-                                Close
-                            </button>
+                        {/* Right Column: Medicine Management */}
+                        <div className="col-md-6 ps-md-4">
+                            <h4 className="mb-3 text-success"><i className="fas fa-pills"></i> Medicine Management</h4>
+
+                            <div className="add-medicine-section mb-4 p-3 bg-light rounded shadow-sm">
+                                <div className="form-group mb-2">
+                                    <label className="small font-weight-bold">Select Medicine:</label>
+                                    <select
+                                        className="form-control form-control-sm"
+                                        value={selectedMedicineId}
+                                        onChange={(e) => setSelectedMedicineId(e.target.value)}
+                                    >
+                                        <option value="">-- Choose Medicine --</option>
+                                        {availableMedicines.map(med => (
+                                            <option key={med.medicine_id} value={med.medicine_id}>
+                                                {med.name} - ₹{med.price} (Stock: {med.stock}, Exp: {med.expiry_date})
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label className="small font-weight-bold">Quantity:</label>
+                                    <input
+                                        type="number"
+                                        className="form-control form-control-sm"
+                                        min="1"
+                                        value={quantity}
+                                        onChange={(e) => setQuantity(e.target.value)}
+                                        placeholder="Qty"
+                                        required
+                                    />
+                                </div>
+                                <button className="btn btn-success btn-sm btn-block" onClick={handleAddMedicine}>
+                                    <i className="fas fa-plus"></i> Add to List
+                                </button>
+                            </div>
+
+                            <div className="medicine-details-list">
+                                <h5 className="small font-weight-bold mb-2">Dispensing Details:</h5>
+                                {medicine_details.length > 0 ? (
+                                    <div className="table-responsive">
+                                        <table className="table table-sm table-hover border">
+                                            <thead className="thead-light">
+                                                <tr style={{ fontSize: '0.8rem' }}>
+                                                    <th>Medicine</th>
+                                                    <th>Qty</th>
+                                                    <th>Exp Date</th>
+                                                    <th>Price</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {medicine_details.map((item, index) => (
+                                                    <tr key={index} style={{ fontSize: '0.9rem' }}>
+                                                        <td>{item.medicine_name}</td>
+                                                        <td>{item.quantity}</td>
+                                                        <td className="text-muted" style={{ fontSize: '0.75rem' }}>{item.expiry_date}</td>
+                                                        <td>₹{(item.price * item.quantity).toFixed(2)}</td>
+                                                        <td>
+                                                            <button
+                                                                className="btn btn-link btn-sm text-danger p-0"
+                                                                onClick={() => handleRemoveMedicine(index)}
+                                                            >
+                                                                <i className="fas fa-times"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colSpan="3" className="text-right font-weight-bold">Total:</td>
+                                                    <td colSpan="2" className="font-weight-bold">
+                                                        ₹{medicine_details.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <p className="text-muted small italic">No medicines added to dispensing list yet.</p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
-            )}
+
+                <div className="modal-footer-premium justify-content-between">
+                    <button className="btn btn-primary ss-btn" onClick={handleSave} disabled={medicine_details.length === 0}>
+                        <i className="fas fa-save"></i> Save Details
+                    </button>
+                    <button className="btn ss-btn close-action-btn" onClick={handleCloseModal}>
+                        Close
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
 
 export default PrescriptionToggle;
+

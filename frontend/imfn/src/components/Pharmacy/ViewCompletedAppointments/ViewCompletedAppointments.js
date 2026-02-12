@@ -9,6 +9,8 @@ function ViewCompletedAppointments() {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isPrescriptionModalOpen, setIsPrescriptionModalOpen] = useState(false);
+    const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
 
     const pharmacyLoginId = localStorage.getItem("loginId");
 
@@ -32,6 +34,16 @@ function ViewCompletedAppointments() {
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
+    };
+
+    const openPrescriptionModal = (appointmentId) => {
+        setSelectedAppointmentId(appointmentId);
+        setIsPrescriptionModalOpen(true);
+    };
+
+    const closePrescriptionModal = () => {
+        setIsPrescriptionModalOpen(false);
+        setSelectedAppointmentId(null);
     };
 
     const filteredAppointments = appointments.filter(apt =>
@@ -90,7 +102,13 @@ function ViewCompletedAppointments() {
                                             <td>{apt.doctor_name}</td>
                                             <td>{apt.time_slot}</td>
                                             <td>
-                                                <PrescriptionToggle appointmentId={apt.appointment_id} />
+                                                <button
+                                                    className="btn check-prescription-btn"
+                                                    onClick={() => openPrescriptionModal(apt.appointment_id)}
+                                                    title="Check Prescription"
+                                                >
+                                                    <i className="fas fa-file-prescription"></i> Check Prescription
+                                                </button>
                                             </td>
                                         </tr>
                                     ))
@@ -104,6 +122,13 @@ function ViewCompletedAppointments() {
                     </div>
                 </div>
             </main>
+
+            {isPrescriptionModalOpen && (
+                <PrescriptionToggle
+                    appointmentId={selectedAppointmentId}
+                    handleCloseModal={closePrescriptionModal}
+                />
+            )}
 
             <PharmacyFooter />
         </div>
