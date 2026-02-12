@@ -70,13 +70,32 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
 
         const selectedMed = availableMedicines.find(m => m.medicine_id.toString() === selectedMedicineId.toString());
         if (selectedMed) {
+            const qtyToAdd = parseInt(quantity);
+
+            // Stock Validation
+            if (qtyToAdd > selectedMed.stock) {
+                alert(`Insufficient stock! Only ${selectedMed.stock} units available.`);
+                return;
+            }
+
             const newEntry = {
+                medicine_id: selectedMed.medicine_id, // Store ID for restoration
                 medicine_name: selectedMed.name,
-                quantity: parseInt(quantity),
+                quantity: qtyToAdd,
                 price: selectedMed.price,
                 expiry_date: selectedMed.expiry_date
             };
+
+            // Update medicine details list
             setMedicineDetails([...medicine_details, newEntry]);
+
+            // Real-time Stock Management: Decrement locally
+            setAvailableMedicines(availableMedicines.map(med =>
+                med.medicine_id === selectedMed.medicine_id
+                    ? { ...med, stock: med.stock - qtyToAdd }
+                    : med
+            ));
+
             // Reset selection
             setSelectedMedicineId("");
             setQuantity("1");
@@ -84,6 +103,15 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
     };
 
     const handleRemoveMedicine = (index) => {
+        const itemToRemove = medicine_details[index];
+
+        // Real-time Stock Management: Restore stock locally
+        setAvailableMedicines(availableMedicines.map(med =>
+            med.medicine_id === itemToRemove.medicine_id
+                ? { ...med, stock: med.stock + itemToRemove.quantity }
+                : med
+        ));
+
         const updated = medicine_details.filter((_, i) => i !== index);
         setMedicineDetails(updated);
     };
