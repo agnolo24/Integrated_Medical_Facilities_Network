@@ -14,6 +14,8 @@ import '../../../asset/user_assets/css/meanmenu.css';
 import '../../../asset/user_assets/css/style.css';
 import '../../../asset/user_assets/css/responsive.css';
 
+import BillingProfile from '../BillingProfile/BillingProfile';
+
 function BillingHeader() {
     const navigate = useNavigate();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -155,6 +157,14 @@ function BillingHeader() {
             </div>
 
             <div className={`offcanvas-overly ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
+
+            {
+                isProfileOpen && (
+                    <BillingProfile
+                        onClose={handleCloseProfile}
+                    />
+                )
+            }
         </div>
     );
 }
