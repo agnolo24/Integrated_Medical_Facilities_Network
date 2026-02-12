@@ -38,49 +38,24 @@ function AssignDuty({ ambulanceData, onClose }) {
     };
 
     return (
-        <div className="assign-duty-overlay">
-            <div className="assign-duty-card-v2">
-                <div className="assign-header-premium">
+        <div className="assign-duty-wrapper">
+            <div className="assign-duty-card-modern">
+                <div className="assign-duty-header-premium">
                     <i className="fas fa-satellite-dish"></i>
                     <h2>Emergency Dispatch</h2>
-                    <div className="vehicle-info-pill">
+                    <p>
                         <i className="fas fa-truck-medical"></i> {ambulanceData.name} • {ambulanceData.vehicleNumber}
-                    </div>
+                    </p>
                 </div>
 
-                <div className="assign-body-content">
+                <div className="assign-duty-body-content">
                     <form className="modern-assign-form" onSubmit={onSubmit}>
-                        <div className="form-field-group">
-                            <label><i className="fas fa-map-marker-alt"></i> Dispatch Origin (Pickup)</label>
-                            <textarea
-                                name="from_address"
-                                value={formData.from_address}
-                                onChange={handleChange}
-                                placeholder="Enter full street address or facility name..."
-                                className="assign-textarea-premium"
-                                required
-                            />
-                        </div>
-
-                        <div className="form-field-group">
-                            <label><i className="fas fa-map-pin"></i> Target Destination (Drop-off)</label>
-                            <textarea
-                                name="to_address"
-                                value={formData.to_address}
-                                onChange={handleChange}
-                                placeholder="Enter medical facility or patient residence..."
-                                className="assign-textarea-premium"
-                                required
-                            />
-                        </div>
-
-                        <div className="form-field-group">
-                            <label><i className="fas fa-exclamation-triangle"></i> Mission Risk Classification</label>
+                        <div className="modern-input-field">
+                            <label><i className="fas fa-exclamation-triangle"></i> Response Risk Level</label>
                             <select
                                 name="risk_level"
                                 value={formData.risk_level}
                                 onChange={handleChange}
-                                className="assign-select-premium"
                                 required
                             >
                                 <option value="" disabled>Select Response Priority</option>
@@ -90,11 +65,36 @@ function AssignDuty({ ambulanceData, onClose }) {
                             </select>
                         </div>
 
-                        <div className="assign-footer-actions">
+                        <div className="form-row-grid-2">
+                            <div className="modern-input-field">
+                                <label><i className="fas fa-map-marker-alt"></i> Dispatch Origin</label>
+                                <textarea
+                                    name="from_address"
+                                    value={formData.from_address}
+                                    onChange={handleChange}
+                                    placeholder="Pickup location..."
+                                    required
+                                />
+                            </div>
+                            <div className="modern-input-field">
+                                <label><i className="fas fa-map-pin"></i> Target Destination</label>
+                                <textarea
+                                    name="to_address"
+                                    value={formData.to_address}
+                                    onChange={handleChange}
+                                    placeholder="Drop-off location..."
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="assign-actions-modern">
                             <button type="submit" className="dispatch-duty-btn">
-                                <i className="fas fa-paper-plane"></i> Dispatch Emergency Unit
+                                <i className="fas fa-paper-plane"></i> Dispatch Unit
                             </button>
-                            <button type="button" className="cancel-duty-btn" onClick={onClose}>Dismiss</button>
+                            <button type="button" className="discard-duty-btn" onClick={onClose}>
+                                Dismiss
+                            </button>
                         </div>
                     </form>
                 </div>
