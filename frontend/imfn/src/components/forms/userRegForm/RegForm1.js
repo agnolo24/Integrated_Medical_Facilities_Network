@@ -119,9 +119,9 @@ const RegForm1 = ({ hideHeaderFooter = false }) => {
               </button>
             </form>
 
-            <div className="registration-footer">
+            {/* <div className="registration-footer">
               <p>Already have an account? <a href="#">Sign In</a></p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

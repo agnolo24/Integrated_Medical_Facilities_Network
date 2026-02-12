@@ -128,9 +128,9 @@ const HospitalRegForm = ({ hideHeaderFooter = false }) => {
               </button>
             </form>
 
-            <div className="registration-footer">
+            {/* <div className="registration-footer">
               <p>Already registered? <a href="#">Login here</a></p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
