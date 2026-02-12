@@ -50,11 +50,11 @@ function LandingPageHeader() {
                                     <ul>
                                         <li>
                                             <i className="icon dripicons-mail"></i>
-                                            <span>info@example.com</span>
+                                            <span>support@imfn.org</span>
                                         </li>
                                         <li>
                                             <i className="icon dripicons-phone"></i>
-                                            <span>+8 12 3456897</span>
+                                            <span>+1 (800) IMFN-HELP</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -87,30 +87,35 @@ function LandingPageHeader() {
                                                 <li className="has-sub">
                                                     <NavLink to="/"><h6>Home</h6></NavLink>
                                                 </li>
-                                                <li><a href="about.html">About Us</a></li>
-                                                <li className="has-sub">
+                                                <li>
+                                                    <NavLink to="/userReg">Patient Registration</NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink to="/hospitalReg">Hospital Registration</NavLink>
+                                                </li>
+                                                {/* <li className="has-sub">
                                                     <a href="services.html">Services</a>
                                                     <ul>
                                                         <li><a href="services.html">Services</a></li>
                                                         <li><a href="services-detail.html">Services Details</a></li>
                                                     </ul>
-                                                </li>
+                                                </li> */}
 
-                                                <li className="has-sub">
+                                                {/* <li className="has-sub">
                                                     <a href="blog.html">Blog</a>
                                                     <ul>
                                                         <li><a href="blog.html">Blog</a></li>
                                                         <li><a href="blog-details.html">Blog Details</a></li>
                                                     </ul>
-                                                </li>
-                                                <li className="has-sub">
+                                                </li> */}
+                                                {/* <li className="has-sub">
                                                     <h6>Registration</h6>
                                                     <ul>
                                                         <li><NavLink to="/userReg">Patient Registration</NavLink></li>
                                                         <li><NavLink to="/hospitalReg">Hospital Registration</NavLink></li>
                                                         <li><NavLink to="/ambulance">Ambulance Registration</NavLink></li>
                                                     </ul>
-                                                </li>
+                                                </li> */}
                                             </ul>
                                         </nav>
                                     </div>
