@@ -1,49 +1,47 @@
-.assign-duty-wrapper {
+/* Modern Edit Ambulance Profile CSS */
+.edit-ambulance-wrapper {
     width: 100%;
 }
 
-.assign-duty-card-modern {
+.edit-ambulance-card-modern {
     background: #ffffff;
-    width: 100%;
-    max-width: 650px;
     border-radius: 28px;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-.assign-duty-header-premium {
+.edit-ambulance-header-premium {
     background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
     padding: 35px;
     text-align: center;
     color: white;
 }
 
-.assign-duty-header-premium i {
+.edit-ambulance-header-premium i {
     font-size: 2.8rem;
     margin-bottom: 12px;
     display: block;
-    opacity: 0.95;
+    opacity: 0.9;
 }
 
-.assign-duty-header-premium h2 {
+.edit-ambulance-header-premium h2 {
     font-size: 1.8rem;
     font-weight: 800;
     margin: 0;
     letter-spacing: -0.01em;
 }
 
-.assign-duty-header-premium p {
-    margin: 10px 0 0;
-    opacity: 0.9;
-    font-size: 1.05rem;
-    font-weight: 600;
+.edit-ambulance-header-premium p {
+    margin: 8px 0 0;
+    opacity: 0.85;
+    font-size: 1rem;
 }
 
-.assign-duty-body-content {
+.edit-ambulance-body-content {
     padding: 40px;
 }
 
-.modern-assign-form {
+.modern-ambulance-edit-form {
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -75,7 +73,7 @@
     font-size: 1.15rem;
 }
 
-.modern-input-field textarea,
+.modern-input-field input,
 .modern-input-field select {
     padding: 14px 18px;
     border-radius: 14px;
@@ -84,15 +82,9 @@
     color: #1e293b;
     background: #f8fafc;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 100%;
 }
 
-.modern-input-field textarea {
-    min-height: 120px;
-    resize: none;
-}
-
-.modern-input-field textarea:focus,
+.modern-input-field input:focus,
 .modern-input-field select:focus {
     outline: none;
     border-color: #3b82f6;
@@ -100,14 +92,14 @@
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
-.assign-actions-modern {
+.edit-actions-modern {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 16px;
     margin-top: 15px;
 }
 
-.dispatch-duty-btn {
+.sync-profile-btn {
     background: #1e40af;
     color: white;
     padding: 16px;
@@ -121,16 +113,15 @@
     justify-content: center;
     gap: 12px;
     transition: all 0.3s ease;
+}
+
+.sync-profile-btn:hover {
+    background: #1e3a8a;
+    transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(30, 58, 175, 0.2);
 }
 
-.dispatch-duty-btn:hover {
-    background: #1e3a8a;
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(30, 64, 175, 0.3);
-}
-
-.discard-duty-btn {
+.discard-changes-btn {
     background: #f1f5f9;
     color: #64748b;
     padding: 16px;
@@ -141,14 +132,9 @@
     transition: all 0.3s ease;
 }
 
-.discard-duty-btn:hover {
+.discard-changes-btn:hover {
     background: #e2e8f0;
     color: #334155;
-}
-
-@keyframes slideUpFade {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 650px) {

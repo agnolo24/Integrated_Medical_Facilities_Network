@@ -14,6 +14,8 @@ import '../../../asset/user_assets/css/meanmenu.css';
 import '../../../asset/user_assets/css/style.css';
 import '../../../asset/user_assets/css/responsive.css';
 
+import '../HospitalHome/HospitalHome.css';
+
 import HospitalProfile from '../HospitalProfile/HospitalProfile';
 import HospitalEditProfile from '../HospitalEditProfile/HospitalEditProfile';
 
@@ -184,6 +186,25 @@ function HospitalHeader() {
             </div>
 
             <div className={`offcanvas-overly ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
+
+            <div className="hp-management-ribbon">
+                <div className="hp-ribbon-content">
+                    <div className="hp-ribbon-group">
+                        <span className="hp-ribbon-label">Fleet & Staff Management</span>
+                        <div className="hp-action-chips">
+                            <a href="/viewDoctors" className="hp-chip">
+                                <i className="fas fa-user-md"></i> View Doctors
+                            </a>
+                            <a href="/viewAmbulance" className="hp-chip">
+                                <i className="fas fa-truck-medical"></i> Fleet Management
+                            </a>
+                            {/* <a href="/scheduleDoctor" className="hp-chip">
+                                <i className="fas fa-calendar-check"></i> Rosters & Schedules
+                            </a> */}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {/* Models */}
             {isProfileOpen && (

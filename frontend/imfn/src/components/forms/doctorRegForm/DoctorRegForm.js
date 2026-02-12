@@ -70,7 +70,7 @@ const DoctorRegForm = () => {
 
 
     try {
-      const response = await axios.post(doctorRegistrationUrl, {...formData, hospital_login_id})
+      const response = await axios.post(doctorRegistrationUrl, { ...formData, hospital_login_id })
       alert(response.data.message)
 
       setFormData({
@@ -91,27 +91,31 @@ const DoctorRegForm = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow-sm">
-            <div className="card-header bg-primary text-white text-center">
-              <h4>Doctor Registration</h4>
+    <div className="registration-wrapper">
+      <div className="registration-main-content">
+        <div className="registration-container">
+          <div className="registration-card doctor-variant">
+            <div className="registration-header">
+              <div className="registration-logo-circle">
+                <i className="fas fa-user-md"></i>
+              </div>
+              <h2>Doctor Registration</h2>
+              <p>Onboard a new medical professional to your facility</p>
             </div>
-            <div className="card-body">
-              <form onSubmit={handleSubmit}>
 
-                {/* Name */}
-                <div className="mb-3">
-                  <label className="form-label">Full Name</label>
-                  <input type="text" name="name" className="form-control"
+            <form className="registration-form-modern" onSubmit={handleSubmit}>
+              <div className="modern-form-row">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-user-edit"></i> Full Name</label>
+                  <input type="text" name="name" placeholder="Dr. Jane Smith"
                     value={formData.name} onChange={handleChange} required />
                 </div>
+              </div>
 
-                {/* Gender */}
-                <div className="mb-3">
-                  <label className="form-label">Gender</label>
-                  <select name="gender" className="form-select"
+              <div className="modern-form-grid">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-venus-mars"></i> Gender</label>
+                  <select name="gender" className="modern-select"
                     value={formData.gender} onChange={handleChange} required>
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -119,11 +123,17 @@ const DoctorRegForm = () => {
                     <option value="other">Other</option>
                   </select>
                 </div>
+                <div className="modern-form-group">
+                  <label><i className="fas fa-calendar-check"></i> Date of Birth</label>
+                  <input type="date" name="dob"
+                    value={formData.dob} onChange={handleChange} required />
+                </div>
+              </div>
 
-                {/* Specialization */}
-                <div className="mb-3">
-                  <label className="form-label">Specialization</label>
-                  <select name="specialization" className="form-select"
+              <div className="modern-form-grid">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-stethoscope"></i> Specialization</label>
+                  <select name="specialization" className="modern-select"
                     value={formData.specialization} onChange={handleChange} required>
                     <option value="">Select Specialization</option>
                     {specializations.map((spec, index) => (
@@ -131,27 +141,9 @@ const DoctorRegForm = () => {
                     ))}
                   </select>
                 </div>
-
-                <div className="row">
-                  {/* Date of Birth */}
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Date of Birth</label>
-                    <input type="date" name="dob" className="form-control"
-                      value={formData.dob} onChange={handleChange} required />
-                  </div>
-                </div>
-
-                {/* hospital
-                <div className="mb-3">
-                  <label className="form-label">Hospital</label>
-                  <input type="text" name="hospital" className="form-control" 
-                    value={formData.hospital} onChange={handleChange} required />
-                </div> */}
-
-                {/* qualification */}
-                <div className="mb-3">
-                  <label className="form-label">Qualification</label>
-                  <select name="qualification" className="form-select"
+                <div className="modern-form-group">
+                  <label><i className="fas fa-graduation-cap"></i> Qualification</label>
+                  <select name="qualification" className="modern-select"
                     value={formData.qualification} onChange={handleChange} required>
                     <option value="">Select Qualification</option>
                     {qualifications.map((qual, index) => (
@@ -159,38 +151,32 @@ const DoctorRegForm = () => {
                     ))}
                   </select>
                 </div>
+              </div>
 
-                {/* experience */}
-                <div className="mb-3">
-                  <label className="form-label">Experience (In Years)</label>
-                  <input type="number" name="experience" className="form-control"
+              <div className="modern-form-grid">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-briefcase-medical"></i> Experience (Years)</label>
+                  <input type="number" name="experience" placeholder="10"
                     value={formData.experience} onChange={handleChange} required />
                 </div>
-
-                {/* Contact Number */}
-                <div className="mb-3">
-                  <label className="form-label">Contact Number</label>
-                  <input type="tel" name="contactNumber" className="form-control"
+                <div className="modern-form-group">
+                  <label><i className="fas fa-phone-alt"></i> Contact Number</label>
+                  <input type="tel" name="contactNumber" placeholder="+1 234 567 890"
                     value={formData.contactNumber} onChange={handleChange} required />
                 </div>
+              </div>
 
-                {/* Email */}
-                <div className="mb-3">
-                  <label className="form-label">Email Address</label>
-                  <input type="email" name="email" className="form-control"
-                    value={formData.email} onChange={handleChange} required />
-                </div>
+              <div className="modern-form-group">
+                <label><i className="fas fa-envelope"></i> Professional Email</label>
+                <input type="email" name="email" placeholder="dr.jane@hospital.org"
+                  value={formData.email} onChange={handleChange} required />
+              </div>
 
-                {/* Password */}
-                {/* <div className="mb-3">
-                  <label className="form-label">Password</label>
-                  <input type="password" name="password" className="form-control" 
-                    value={formData.password} onChange={handleChange} required />
-                </div> */}
-
-                <button type="submit" className="btn btn-primary w-100 mt-3">Register</button>
-              </form>
-            </div>
+              <button type="submit" className="registration-submit-btn doctor-btn">
+                <span>Register Medical Professional</span>
+                <i className="fas fa-check-double"></i>
+              </button>
+            </form>
           </div>
         </div>
       </div>

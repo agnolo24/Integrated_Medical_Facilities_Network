@@ -1,92 +1,141 @@
-/* Custom styles to complement Bootstrap */
-
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.card {
-    border: none;
-    border-radius: 12px;
-}
-
-.card-header {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-}
-
-.btn-primary {
-    padding: 10px;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-} 
-
-/* Container for the modal content */
+/* Modern Edit Doctor Profile CSS */
 .edit-doctor-container {
     width: 100%;
-    max-width: 600px;
-    margin: auto;
 }
 
-/* Remove background and global font from here as it should be in your main index.css */
-.card {
-    border: none;
-    border-radius: 12px;
-    /* Add a subtle shadow if it's not already on the modal-content */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.edit-doctor-card {
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
 }
 
-.card-header {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
-    padding: 1.5rem;
+.edit-doctor-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    padding: 30px;
+    text-align: center;
+    color: white;
 }
 
-.card-body {
-    padding: 2rem;
-    background-color: #ffffff;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
+.edit-doctor-header i {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    display: block;
 }
 
-.form-label {
-    font-weight: 500;
-    color: #495057;
-    margin-bottom: 0.5rem;
+.edit-doctor-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
 }
 
-.form-control:focus, 
-.form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+.edit-doctor-header p {
+    margin: 5px 0 0;
+    opacity: 0.9;
+    font-size: 1rem;
 }
 
-.btn-primary {
-    padding: 12px;
+.edit-doctor-body {
+    padding: 35px;
+}
+
+.modern-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-input-group label {
+    font-size: 14px;
     font-weight: 600;
-    border-radius: 8px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-input-group label i {
+    color: #3b82f6;
+    font-size: 1.1rem;
+}
+
+.form-input-group input,
+.form-input-group select {
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    font-size: 15px;
+    color: #1e293b;
+    background: #f8fafc;
     transition: all 0.3s ease;
 }
 
-.btn-light {
-    padding: 12px;
+.form-input-group input:focus,
+.form-input-group select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.form-actions-edit {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.update-btn {
+    background: #1e3a8a;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.update-btn:hover {
+    background: #172554;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.2);
+}
+
+.cancel-btn-edit {
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
     font-weight: 600;
-    border-radius: 8px;
-    background-color: #f1f3f5;
-    border: 1px solid #dee2e6;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-/* Custom scrollbar for long forms within the modal */
-.card-body::-webkit-scrollbar {
-    width: 6px;
+.cancel-btn-edit:hover {
+    background: #e2e8f0;
+    color: #334155;
 }
 
-.card-body::-webkit-scrollbar-thumb {
-    background-color: #ced4da;
-    border-radius: 10px;
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
 }

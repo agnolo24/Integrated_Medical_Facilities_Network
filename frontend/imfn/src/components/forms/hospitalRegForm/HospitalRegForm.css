@@ -1,27 +1,205 @@
-/* Custom styles to complement Bootstrap */
-
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Modern Hospital Onboarding CSS */
+:root {
+    --hosp-primary: #1e3a8a;
+    --hosp-secondary: #0ea5e9;
+    --hosp-accent: #38bdf8;
+    --hosp-bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    --hosp-card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
 }
 
-.card {
-    border: none;
-    border-radius: 12px;
+.registration-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.card-header {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
+.registration-main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: var(--hosp-bg-gradient);
 }
 
-.form-control:focus, .form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+.registration-main-content.in-modal {
+    padding: 0;
+    background: transparent;
 }
 
-.btn-primary {
-    padding: 10px;
+.registration-container {
+    width: 100%;
+    max-width: 800px;
+    animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.registration-card.hospital-variant {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(15px);
+    border-radius: 30px;
+    padding: 50px;
+    box-shadow: var(--hosp-card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    position: relative;
+    overflow: hidden;
+}
+
+.registration-card.hospital-variant::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, var(--hosp-primary), var(--hosp-secondary));
+}
+
+.registration-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.registration-logo-circle {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--hosp-primary), var(--hosp-secondary));
+    color: white;
+    border-radius: 22px; /* Smoother squircle look */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin: 40px auto 20px;
+    transform: rotate(-5deg);
+    box-shadow: 0 15px 25px -5px rgba(14, 165, 233, 0.3);
+}
+
+.registration-header h2 {
+    font-size: 34px;
+    color: #0f172a;
+    font-weight: 850;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+}
+
+.registration-header p {
+    color: #475569;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.registration-form-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.modern-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.modern-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modern-form-group label {
+    font-size: 15px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modern-form-group label i {
+    color: var(--hosp-secondary);
+    font-size: 16px;
+}
+
+.modern-form-group input {
+    padding: 16px 20px;
+    border-radius: 15px;
+    border: 1.5px solid #cbd5e1;
+    font-size: 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.modern-form-group input:focus {
+    outline: none;
+    border-color: var(--hosp-secondary);
+    background: white;
+    box-shadow: 0 0 0 5px rgba(14, 165, 233, 0.12);
+    transform: translateY(-1px);
+}
+
+.registration-submit-btn.hospital-btn {
+    background: linear-gradient(90deg, var(--hosp-primary), var(--hosp-secondary));
+    color: white;
+    padding: 18px;
+    border: none;
+    border-radius: 15px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: all 0.4s ease;
+    margin-top: 20px;
+    box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4);
+}
+
+.registration-submit-btn.hospital-btn:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 20px 30px -10px rgba(14, 165, 233, 0.5);
+    filter: brightness(1.1);
+}
+
+.registration-submit-btn.hospital-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.registration-footer {
+    text-align: center;
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.registration-footer p {
+    font-size: 15px;
+    color: #64748b;
+}
+
+.registration-footer a {
+    color: var(--hosp-secondary);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.registration-footer a:hover {
+    color: var(--hosp-primary);
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .modern-form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .registration-card.hospital-variant {
+        padding: 40px 25px;
+    }
 }

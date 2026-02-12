@@ -28,8 +28,7 @@ function LandingPageFooter() {
                                         <a href="#"><img src={require('../../asset/user_assets/img/logo/logo.png')} alt="logo" /></a>
                                     </div>
                                     <div className="footer-text mb-20">
-                                        <p>Sed ut perspiciatis unde om is nerror sit voluptatem accustium dolorem tium totam rem aperam eaque ipsa quae ab illose
-                                            inntore veritatis</p>
+                                        <p>The Integrated Medical Facility Network (IMFN) is a next-generation healthcare coordination platform designed to bridge the gap between hospitals, doctors, and patients through advanced technology and real-time data integration.</p>
                                     </div>
                                     <div className="footer-social">
                                         <a href="#"><i className="fab fa-facebook-f"></i></a>
@@ -41,7 +40,7 @@ function LandingPageFooter() {
                             </div>
 
 
-                            <div className="col-xl-2 col-lg-2 col-sm-6">
+                            {/* <div className="col-xl-2 col-lg-2 col-sm-6">
                                 <div className="footer-widget mb-30">
                                     <div className="f-widget-title">
                                         <h5>Our Links</h5>
@@ -57,8 +56,9 @@ function LandingPageFooter() {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col-xl-2 col-lg-2 col-sm-6">
+                            </div> */}
+
+                            {/* <div className="col-xl-2 col-lg-2 col-sm-6">
                                 <div className="footer-widget mb-30">
                                     <div className="f-widget-title">
                                         <h5>Other Links</h5>
@@ -74,7 +74,8 @@ function LandingPageFooter() {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
+                            
                             <div className="col-xl-3 col-lg-3 col-sm-6">
                                 <div className="footer-widget mb-30">
                                     <div className="f-widget-title">
@@ -85,15 +86,15 @@ function LandingPageFooter() {
                                             <ul>
                                                 <li>
                                                     <i className="icon dripicons-phone"></i>
-                                                    <span>1800-121-3637<br />+91 555 234-8765</span>
+                                                    <span>+1 800-IMFN-911<br />+1 555-0199-HELP</span>
                                                 </li>
                                                 <li>
                                                     <i className="icon dripicons-mail"></i>
-                                                    <span><a href="mailto:info@example.com">info@example.com</a><br /><a href="mailto:sale@example.com">sale@example.com</a></span>
+                                                    <span><a href="mailto:info@imfn.org">info@imfn.org</a><br /><a href="mailto:support@imfn.org">support@imfn.org</a></span>
                                                 </li>
                                                 <li>
                                                     <i className="fal fa-map-marker-alt"></i>
-                                                    <span>380 St Kilda Road, Melbourne<br />VIC 3004, Australia</span>
+                                                    <span>123 Medical Plaza, Health City<br />Integrated Network Hub, NY 10001</span>
                                                 </li>
                                             </ul>
 
@@ -112,7 +113,7 @@ function LandingPageFooter() {
                         <div className="row">
                             <div className="col-12">
                                 <div className="copyright-text text-center">
-                                    <p>&copy; 2020 Mecare  All design Zcube.</p>
+                                    <p>&copy; {new Date().getFullYear()} Integrated Medical Facility Network (IMFN). All Rights Reserved.</p>
                                 </div>
                             </div>
                         </div>
