@@ -262,3 +262,45 @@ def get_prescription(request):
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+def update_medicine_stock(request):
+    pharmacy_login_id = request.data.get('pharmacy_login_id')
+    Medicine_Stock = request.data.get('Medicine_Stock')
+
+    if not pharmacy_login_id or Medicine_Stock is None:
+        return Response({"error": "Required fields are missing"}, status=status.HTTP_400_BAD_REQUEST)
+
+    db = get_db()
+    pharmacy_col = db['pharmacy']
+    
+    try:
+        if not ObjectId.is_valid(pharmacy_login_id):
+            return Response({"error": "Invalid Pharmacy Login ID format"}, status=status.HTTP_400_BAD_REQUEST)
+
+        updated_count = 0
+        for medicine in Medicine_Stock:
+            print("medicine = ",medicine)
+            medicine_id = medicine.get('medicine_id')
+            stock = medicine.get('stock')
+            
+            if medicine_id is not None and stock is not None:
+                result = pharmacy_col.update_one(
+                    {"login_id": ObjectId(pharmacy_login_id), "medicines.medicine_id": medicine_id},
+                    {"$set": {
+                        "medicines.$.stock": stock,
+                    }}
+                )
+                if result.modified_count > 0:
+                    updated_count += 1
+
+        return Response({
+            "message": f"Medicine stock update process completed. {updated_count} records updated.",
+            "total_sent": len(Medicine_Stock)
+        }, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(f"Error in update_medicine_stock: {str(e)}")
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    return Response({},status=status.HTTP_200_OK)

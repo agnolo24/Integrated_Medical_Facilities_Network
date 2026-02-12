@@ -116,10 +116,38 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
         setMedicineDetails(updated);
     };
 
-    const handleSave = () => {
-        // Placeholder for future save logic
-        console.log("Saving details:", medicine_details);
-        alert("Dispensing details saved locally. (Backend integration pending)");
+    const handleSave = async () => {
+        if (medicine_details.length === 0) return;
+
+        console.log("Saving records for:", medicine_details);
+        const url = "http://127.0.0.1:8000/pharmacy/update_medicine_stock/";
+
+        console.log("availableMedicines", availableMedicines);
+
+        // Optimization: Only send essential data (ID and Updated Stock)
+        const Medicine_Stock = availableMedicines.map(item => ({
+            medicine_id: item.medicine_id,
+            stock: item.stock,
+        }));
+
+        console.log("Medicine_Stock", Medicine_Stock);
+
+        try {
+            const response = await axios.post(url, {
+                pharmacy_login_id: pharmacyLoginId,
+                Medicine_Stock: Medicine_Stock,
+            });
+
+            if (response.status === 200) {
+                alert("Dispensing records saved and stock updated successfully!");
+                // Optionally close modal or clear list after save
+                setMedicineDetails([]);
+            }
+        }
+        catch (error) {
+            console.error("Error updating medicine stock:", error);
+            alert("Failed to update stock. Please try again.");
+        }
     };
 
     const renderPrescriptionContent = (data) => {
@@ -234,7 +262,7 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
                                                 <tr style={{ fontSize: '0.8rem' }}>
                                                     <th>Medicine</th>
                                                     <th>Qty</th>
-                                                    <th>Exp Date</th>
+                                                    {/* <th>Exp Date</th> */}
                                                     <th>Price</th>
                                                     <th></th>
                                                 </tr>
@@ -244,7 +272,7 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
                                                     <tr key={index} style={{ fontSize: '0.9rem' }}>
                                                         <td>{item.medicine_name}</td>
                                                         <td>{item.quantity}</td>
-                                                        <td className="text-muted" style={{ fontSize: '0.75rem' }}>{item.expiry_date}</td>
+                                                        {/* <td className="text-muted" style={{ fontSize: '0.75rem' }}>{item.expiry_date}</td> */}
                                                         <td>₹{(item.price * item.quantity).toFixed(2)}</td>
                                                         <td>
                                                             <button
@@ -276,11 +304,11 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
                 </div>
 
                 <div className="modal-footer-premium justify-content-between">
-                    <button className="btn btn-primary ss-btn" onClick={handleSave} disabled={medicine_details.length === 0}>
-                        <i className="fas fa-save"></i> Save Details
-                    </button>
                     <button className="btn ss-btn close-action-btn" onClick={handleCloseModal}>
                         Close
+                    </button>
+                    <button className="btn btn-primary ss-btn" onClick={handleSave} disabled={medicine_details.length === 0}>
+                        <i className="fas fa-save"></i> Save Details
                     </button>
                 </div>
             </div>
