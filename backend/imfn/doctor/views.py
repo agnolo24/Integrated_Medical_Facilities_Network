@@ -258,7 +258,8 @@ def set_appointment_complete(request):
 
     db = get_db()
     appointment_coll = db['appointments']
-
+    bill_coll = db['bills']
+    hospital_coll = db['hospital']
     apt = appointment_coll.find_one({ '_id' : ObjectId(_id) })
     if not apt:
         print("No Data")
@@ -267,7 +268,15 @@ def set_appointment_complete(request):
     try:
        
         appointment_coll.update_one({ '_id' : ObjectId(_id)},{"$set" : {"status" : "completed"}})
+
+        hospital = hospital_coll.find_one({ 'login_id' : apt['hospital_login_id'] })
+        
+        bill = bill_coll.insert_one({
+            "appointmentt_id" : ObjectId(_id),
+            "hospital_id" : ObjectId(hospital['_id']),
+        })
         return Response({"message" : "sucess"},status=status.HTTP_200_OK)
+        
     except Exception as e:
         print(f"Error: {e}")
         return Response(
