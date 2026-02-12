@@ -45,4 +45,7 @@ urlpatterns = [
     ),
     path("register_pharmacy/", views.register_pharmacy, name="register_pharmacy"),
     path("check_pharmacy_exist/", views.check_pharmacy_exist, name="check_pharmacy_exist"),
+    path("register_billing/", views.register_billing, name="register_billing"),
+    path("check_billing_exist/", views.check_billing_exist, name="check_billing_exist"),
 ]
+
