@@ -55,67 +55,84 @@ function LoginPage({ hideHeaderFooter = false }) {
     }
 
     return (
-        <div>
+        <div className="login-wrapper">
             {!hideHeaderFooter && <LandingPageHeader />}
-            <center>
-                <div className='loginPage' style={hideHeaderFooter ? { padding: '20px' } : {}}>
-                    <div className="login-container">
-                        <div className="login-card">
-                            <div className="login-header">
-                                <h2>Sign In</h2>
-                                <p>Enter your credentials to continue</p>
+
+            <div className={`login-main-content ${hideHeaderFooter ? 'in-modal' : ''}`}>
+                <div className="login-container">
+                    <div className="login-card">
+                        <div className="login-header">
+                            <div className="login-logo-circle">
+                                <i className="fas fa-user-shield"></i>
+                            </div>
+                            <h2>Welcome Back</h2>
+                            <p>Integrated Medical Facility Network Portal</p>
+                        </div>
+
+                        <form className="login-form-modern" onSubmit={handleSubmit}>
+                            <div className="modern-form-group">
+                                <label><i className="fas fa-envelope"></i> Email Address</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    required
+                                    value={data.email}
+                                    onChange={handleChange}
+                                />
                             </div>
 
-                            <form className="login-form" id="loginForm" noValidate onSubmit={handleSubmit}>
-                                <div className="form-group">
-                                    <div className="input-wrapper">
-                                        <input type="email" id="email" name="email" required autoComplete="email" value={data.email} onChange={handleChange} />
-                                        <label htmlFor="email">Email</label>
-                                    </div>
-                                    <span className="error-message" id="emailError"></span>
+                            <div className="modern-form-group">
+                                <label><i className="fas fa-lock"></i> Password</label>
+                                <div className="password-input-modern">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        placeholder="••••••••"
+                                        required
+                                        value={data.password}
+                                        onChange={handleChange}
+                                    />
                                 </div>
-
-                                <div className="form-group">
-                                    <div className="input-wrapper">
-                                        <input type="password" id="password" name="password" required autoComplete="current-password" value={data.password} onChange={handleChange} />
-                                        <label htmlFor="password">Password</label>
-                                        <button type="button" className="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
-                                            <span className="toggle-icon"></span>
-                                        </button>
-                                    </div>
-                                    <span className="error-message" id="passwordError"></span>
-                                </div>
-
-                                <div className="form-options">
-                                    <div className="remember-wrapper">
-                                        <input type="checkbox" id="remember" name="remember" />
-                                        <label htmlFor="remember" className="checkbox-label">
-                                            <span className="checkmark"></span>
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    <a href="#" className="forgot-password">Forgot password?</a>
-                                </div>
-
-                                <button type="submit" className="login-btn">
-                                    <span className="btn-text">Sign In</span>
-                                    <span className="btn-loader"></span>
-                                </button>
-                            </form>
-
-                            <div className="signup-link">
-                                <p>Don't have an account? <a href="#">Create one</a></p>
                             </div>
 
-                            <div className="success-message" id="successMessage">
-                                <div className="success-icon">✓</div>
-                                <h3>Welcome back!</h3>
-                                <p>Redirecting to your dashboard...</p>
+                            <div className="form-utilities">
+                                <label className="custom-checkbox">
+                                    <input type="checkbox" />
+                                    <span className="checkmark"></span>
+                                    Remember Me
+                                </label>
+                                <a href="#" className="forgot-link">Forgot Password?</a>
                             </div>
+
+                            <button type="submit" className="login-submit-btn">
+                                <span>Sign In to Portal</span>
+                                <i className="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+
+                        <div className="login-divider">
+                            <span>OR</span>
+                        </div>
+
+                        <div className="social-login-grid">
+                            <button className="social-btn google">
+                                <i className="fab fa-google"></i>
+                            </button>
+                            <button className="social-btn facebook">
+                                <i className="fab fa-facebook-f"></i>
+                            </button>
+                            <button className="social-btn github">
+                                <i className="fab fa-github"></i>
+                            </button>
+                        </div>
+
+                        <div className="login-footer">
+                            <p>New to IMFN? <a href="#">Create an Account</a></p>
                         </div>
                     </div>
                 </div>
-            </center>
+            </div>
 
             {!hideHeaderFooter && <LandingPageFooter />}
         </div>

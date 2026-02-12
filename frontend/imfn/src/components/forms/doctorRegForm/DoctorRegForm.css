@@ -1,27 +1,148 @@
-/* Custom styles to complement Bootstrap */
-
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Modern Doctor Registration CSS */
+:root {
+    --doc-primary: #0d9488; /* Clinical Teal */
+    --doc-secondary: #0f766e;
+    --doc-bg-gradient: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
 }
 
-.card {
+.registration-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.registration-main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: var(--doc-bg-gradient);
+}
+
+.registration-container {
+    width: 100%;
+    max-width: 750px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.registration-card.doctor-variant {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 45px;
+    box-shadow: 0 20px 25px -5px rgba(13, 148, 136, 0.1);
+    border-left: 6px solid var(--doc-primary);
+}
+
+.registration-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.registration-logo-circle {
+    width: 70px;
+    height: 70px;
+    background: var(--doc-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 15px;
+}
+
+.registration-header h2 {
+    font-size: 30px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.registration-header p {
+    color: #64748b;
+    font-size: 16px;
+}
+
+.registration-form-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.modern-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.modern-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modern-form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modern-form-group label i {
+    color: var(--doc-primary);
+}
+
+.modern-form-group input, 
+.modern-form-group select.modern-select {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+    width: 100%;
+}
+
+.modern-form-group input:focus,
+.modern-form-group select.modern-select:focus {
+    outline: none;
+    border-color: var(--doc-primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+}
+
+.registration-submit-btn.doctor-btn {
+    background: var(--doc-primary);
+    color: white;
+    padding: 16px;
     border: none;
     border-radius: 12px;
-}
-
-.card-header {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-}
-
-.btn-primary {
-    padding: 10px;
+    font-size: 17px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.registration-submit-btn.doctor-btn:hover {
+    background: var(--doc-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+    .modern-form-grid {
+        grid-template-columns: 1fr;
+    }
 }

@@ -174,35 +174,41 @@ function LandingPageHeader() {
                     left: 0,
                     width: '100%',
                     height: '100%',
-                    backgroundColor: 'rgba(0,0,0,0.7)',
+                    backgroundColor: 'rgba(15, 23, 42, 0.8)',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     zIndex: 9999,
                     overflowY: 'auto',
-                    padding: '20px'
+                    padding: '10px',
+                    backdropFilter: 'blur(8px)'
                 }}>
                     <div className="custom-modal-content" onClick={(e) => e.stopPropagation()} style={{
-                        backgroundColor: '#fff',
-                        borderRadius: '10px',
                         width: '100%',
-                        maxWidth: modalType === 'login' ? '500px' : '800px',
+                        maxWidth: modalType === 'login' ? '480px' : '750px',
                         position: 'relative',
-                        animation: 'fadeInUp 0.3s ease-out'
+                        animation: 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
                     }}>
                         <button onClick={closeModal} style={{
                             position: 'absolute',
-                            right: '15px',
-                            top: '15px',
+                            right: '25px',
+                            top: '25px',
                             border: 'none',
-                            background: 'none',
+                            background: '#fff',
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '12px',
                             fontSize: '24px',
                             cursor: 'pointer',
                             zIndex: 10001,
-                            color: '#333'
+                            color: '#1e3a8a',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)'
                         }}>&times;</button>
 
-                        <div style={{ maxHeight: '90vh', overflowY: 'auto', paddingBottom: '20px' }}>
+                        <div style={{ maxHeight: '95vh', overflowY: 'auto', borderRadius: '24px' }}>
                             {modalType === 'login' && <LoginPage hideHeaderFooter={true} />}
                             {modalType === 'patient' && <RegForm1 hideHeaderFooter={true} />}
                             {modalType === 'hospital' && <HospitalRegForm hideHeaderFooter={true} />}
