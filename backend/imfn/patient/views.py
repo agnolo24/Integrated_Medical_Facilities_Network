@@ -1012,3 +1012,68 @@ def get_portal_data(request):
             {"error": "Failed to fetch appointment data"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+@api_view(["GET"])
+def get_emergency_details(request):
+    login_id = request.query_params.get("login_id")
+    if not login_id:
+        return Response(
+            {"error": "LoginId missing"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    try:
+        db = get_db()
+        emergency_col = db["emergencies"]
+        hospital_col = db["hospital"]
+        ambulance_col = db["ambulance"]
+
+        # Get most recent emergency
+        emergency_details = (
+            emergency_col.find({"patient_login_id": ObjectId(login_id)})
+            .sort("created_at", -1)
+            .limit(1)
+        )
+        emergency_details = list(emergency_details)
+
+        if not emergency_details:
+            return Response({}, status=status.HTTP_200_OK)
+
+        emer = emergency_details[0]
+
+        # Serialize IDs
+        emer["_id"] = str(emer["_id"])
+        emer["patient_login_id"] = str(emer["patient_login_id"])
+        emer["hospital_login_id"] = str(emer["hospital_login_id"])
+
+        # Enrich Hospital Info
+        hosp = hospital_col.find_one({"login_id": ObjectId(emer["hospital_login_id"])})
+        if hosp:
+            emer["hospital_details"] = {
+                "name": hosp.get("hospitalName"),
+                "address": hosp.get("hospitalAddress"),
+                "contact": hosp.get("contactNumber"),
+            }
+
+        # Enrich Ambulance Info
+        amb_id = emer.get("ambulance_login_id")
+        if amb_id:
+            emer["ambulance_login_id"] = str(amb_id)
+            amb_col = db["ambulance"]
+            amb = amb_col.find_one({"login_id": ObjectId(amb_id)})
+            if amb:
+                emer["ambulance_details"] = {
+                    "name": amb.get("name"),
+                    "vehicle_no": amb.get("vehicleNumber"),
+                    "contact": amb.get("contactNumber"),
+                }
+        else:
+            emer["ambulance_login_id"] = "N/A"
+
+        return Response(emer, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(f"Error fetching emergency details: {e}")
+        return Response(
+            {"error": "Failed to fetch emergency details"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
