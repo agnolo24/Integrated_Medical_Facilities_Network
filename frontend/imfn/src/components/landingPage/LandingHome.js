@@ -18,7 +18,7 @@ import LandingPageFooter from '../LandingPageFooter/LandingPageFooter';
 function LandingHome() {
     return (
         <div>
-            <LandingPageHeader/>
+            <LandingPageHeader />
 
             {/* main-area */}
             <main>
@@ -31,11 +31,11 @@ function LandingHome() {
                                 <div className="row align-items-center">
                                     <div className="col-lg-6">
                                         <div className="slider-content s-slider-content text-left">
-                                            <h2 data-animation="fadeInUp" data-delay=".4s">Get Better Care For Your <span>Health</span></h2>
-                                            <p data-animation="fadeInUp" data-delay=".6s">Quisque leo augue, lobortis ac tellus nec, posuere ultricies nulla. Praesent massa odio, pellentesque in consectetur quis, volutpat sit amet erat.</p>
-                                            <div className="slider-btn mt-25">
-                                                <a href="#" className="btn ss-btn" data-animation="fadeInRight" data-delay=".8s">Learn More <i className="fas fa-chevron-right"></i></a>
-                                            </div>
+                                            <h2 data-animation="fadeInUp" data-delay=".4s">Revolutionizing Healthcare with <span>Integrated Networks</span></h2>
+                                            <p data-animation="fadeInUp" data-delay=".6s">The Integrated Medical Facility Network (IMFN) connects patients, doctors, and hospitals in a seamless ecosystem, ensuring rapid response and superior care through advanced technology.</p>
+                                            {/* <div className="slider-btn mt-25">
+                                                <a href="#about" className="btn ss-btn" data-animation="fadeInRight" data-delay=".8s">Discover More <i className="fas fa-chevron-right"></i></a>
+                                            </div> */}
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
@@ -52,7 +52,7 @@ function LandingHome() {
                 {/* slider-area-end */}
 
                 {/* booking-area */}
-                <section id="booking" className="booking-area p-relative">
+                {/* <section id="booking" className="booking-area p-relative">
                     <div className="container">
                         <form action="#" className="contact-form" >
                             <div className="row">
@@ -65,21 +65,23 @@ function LandingHome() {
                                         </li>
                                         <li>
                                             <div className="contact-field p-relative c-email">
-                                                <select className="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon" defaultValue="Select Doctor...">
-                                                    <option>Select Doctor...</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
+                                                <select className="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon" defaultValue="Select Medical Specialization...">
+                                                    <option>Select Medical Specialization...</option>
+                                                    <option value="1">Cardiology</option>
+                                                    <option value="2">Neurology</option>
+                                                    <option value="3">Pediatrics</option>
+                                                    <option value="4">Trauma Surgery</option>
                                                 </select>
                                             </div>
                                         </li>
                                         <li>
                                             <div className="contact-field p-relative c-subject mb-20">
-                                                <select className="custom-select" id="inputGroupSelect05" aria-label="Example select with button addon" defaultValue="Select Department...">
-                                                    <option>Select Department...</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
+                                                <select className="custom-select" id="inputGroupSelect05" aria-label="Example select with button addon" defaultValue="Select Facility Type...">
+                                                    <option>Select Facility Type...</option>
+                                                    <option value="1">General Hospital</option>
+                                                    <option value="2">Diagnostic Center</option>
+                                                    <option value="3">Pharmacy</option>
+                                                    <option value="4">Ambulance Hub</option>
                                                 </select>
                                             </div>
 
@@ -96,7 +98,7 @@ function LandingHome() {
 
                         </form>
                     </div>
-                </section>
+                </section> */}
                 {/* booking-area-end */}
 
                 {/* services-area */}
@@ -105,9 +107,9 @@ function LandingHome() {
                         <div className="row justify-content-center">
                             <div className="col-xl-8 col-lg-8">
                                 <div className="section-title text-center pl-40 pr-40 mb-80" >
-                                    <span> our services</span>
-                                    <h2>Our Special Services For You</h2>
-                                    <p className="mt-10">Fusce pharetra odio in urna laoreet laoreet. Aliquam erat volutpat. Phasellus nec ligula arcu. Aliquam eu urna pulvinar, iaculis ipsum in, porta massa.</p>
+                                    <span> OUR SERVICES</span>
+                                    <h2>Excellence in Medical Integration</h2>
+                                    <p className="mt-10">We provide a comprehensive suite of digital tools designed to optimize patient outcomes and streamline medical facility operations through real-time data sharing.</p>
                                 </div>
                             </div>
                         </div>
@@ -118,8 +120,8 @@ function LandingHome() {
                                         <img src={require('../../asset/user_assets/img/icon/sr-icon01.png')} alt="img" />
                                     </div>
                                     <div className="second-services-content">
-                                        <h5><a href="services-detail.html">Online Emergency</a></h5>
-                                        <p>Mauris nunc felis, congue eu convallis in, bibendum vitae nisl. Duis vestibulum eget orci maximus pretium.</p>
+                                        <h5><a href="#">Emergency Management</a></h5>
+                                        <p>Smart emergency response system with real-time ambulance tracking and hospital readiness notifications.</p>
                                     </div>
 
                                 </div>
@@ -130,8 +132,8 @@ function LandingHome() {
                                         <img src={require('../../asset/user_assets/img/icon/sr-icon02.png')} alt="img" />
                                     </div>
                                     <div className="second-services-content">
-                                        <h5><a href="services-detail.html">Medication Service</a></h5>
-                                        <p>Mauris nunc felis, congue eu convallis in, bibendum vitae nisl. Duis vestibulum eget orci maximus pretium.</p>
+                                        <h5><a href="#">Unified Health Records</a></h5>
+                                        <p>A secure, centralized platform for patients and doctors to access medical history, prescriptions, and lab results.</p>
                                     </div>
 
                                 </div>
@@ -142,8 +144,8 @@ function LandingHome() {
                                         <img src={require('../../asset/user_assets/img/icon/sr-icon03.png')} alt="img" />
                                     </div>
                                     <div className="second-services-content">
-                                        <h5><a href="services-detail.html">24hr Health Program</a></h5>
-                                        <p>Mauris nunc felis, congue eu convallis in, bibendum vitae nisl. Duis vestibulum eget orci maximus pretium.</p>
+                                        <h5><a href="#">Facility Coordination</a></h5>
+                                        <p>Seamlessly transferring patient data and managing resources across multiple integrated medical facilities.</p>
                                     </div>
 
                                 </div>
@@ -170,32 +172,32 @@ function LandingHome() {
                                 <div className="about-content s-about-content pl-30">
                                     <div className="section-title mb-20">
                                         <span>About Us</span>
-                                        <h2>We Are Specialize in Medical Diagnositics</h2>
+                                        <h2>Bridging the Gap in Modern Healthcare</h2>
                                     </div>
-                                    <p>Nulla lacinia sapien a diam ullamcorper, sed congue leo vulputate. Phasellus et ante ultrices, sagittis purus vitae, sagittis quam. Quisque urna lectus, auctor quis tristique tincidunt, semper vel lectus. Mauris eget eleifend massa. Praesent ex felis, laoreet nec tellus in, laoreet commodo ipsum.</p>
+                                    <p>The Integrated Medical Facility Network (IMFN) is dedicated to transforming how medical services interact. By leveraging cutting-edge cloud technology and real-time data analytics, we ensure that every patient receives precisely what they need, exactly when they need it.</p>
 
                                     <ul>
                                         <li>
                                             <div className="icon"><i className="fas fa-chevron-right"></i></div>
-                                            <div className="text">Pellentesque placerat, nisi congue vehicula efficitur.
+                                            <div className="text">Secure and encrypted patient data management systems.
                                             </div>
                                         </li>
                                         <li>
                                             <div className="icon"><i className="fas fa-chevron-right"></i></div>
-                                            <div className="text">Pellentesque placerat, nisi congue vehicula efficitur.
+                                            <div className="text">Real-time collaboration tools for multidisciplinary medical teams.
                                             </div>
                                         </li>
                                         <li>
                                             <div className="icon"><i className="fas fa-chevron-right"></i></div>
-                                            <div className="text">Phasellus mattis vitae magna in suscipit. Nam tristique posuere sem, mattis molestie est bibendum.
+                                            <div className="text">Integrated billing and resource management for hospitals.
                                             </div>
                                         </li>
                                         <div></div>
                                     </ul>
 
-                                    <div className="slider-btn mt-30">
+                                    {/* <div className="slider-btn mt-30">
                                         <a href="#" className="btn ss-btn" data-animation="fadeInRight" data-delay=".8s">Read More <i className="fas fa-chevron-right"></i></a>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 
@@ -212,36 +214,36 @@ function LandingHome() {
                                 <div className="single-counter text-center" >
                                     <img src={require('../../asset/user_assets/img/icon/cunt-icon01.png')} alt="img" />
                                     <div className="counter p-relative">
-                                        <span className="count">500</span><small>+</small>
+                                        <span className="count">120</span><small>+</small>
                                     </div>
-                                    <p>Doctors At Work</p>
+                                    <p>Integrated Hospitals</p>
                                 </div>
                             </div>
                             <div className="col-lg-3 col-md-6 col-sm-12">
                                 <div className="single-counter text-center" >
                                     <img src={require('../../asset/user_assets/img/icon/cunt-icon02.png')} alt="img" />
                                     <div className="counter p-relative">
-                                        <span className="count">58796</span><small>+</small>
+                                        <span className="count">15</span><small>K+</small>
                                     </div>
-                                    <p>Happy Patients</p>
+                                    <p>Verified Patients</p>
                                 </div>
                             </div>
                             <div className="col-lg-3 col-md-6 col-sm-12">
                                 <div className="single-counter text-center" >
                                     <img src={require('../../asset/user_assets/img/icon/cunt-icon03.png')} alt="img" />
                                     <div className="counter p-relative">
-                                        <span className="count">500</span><small>+</small>
+                                        <span className="count">850</span><small>+</small>
                                     </div>
-                                    <p>Medical Beds</p>
+                                    <p>Active Ambulances</p>
                                 </div>
                             </div>
                             <div className="col-lg-3 col-md-6 col-sm-12">
                                 <div className="single-counter text-center" >
                                     <img src={require('../../asset/user_assets/img/icon/cunt-icon04.png')} alt="img" />
                                     <div className="counter p-relative">
-                                        <span className="count">200</span><small>+</small>
+                                        <span className="count">25</span><small>+</small>
                                     </div>
-                                    <p>Winning Awards</p>
+                                    <p>Specialized Labs</p>
                                 </div>
                             </div>
                         </div>
@@ -262,25 +264,25 @@ function LandingHome() {
                                     <li>
                                         <div className="icon">
                                             <div><img src={require('../../asset/user_assets/img/icon/de-icon01.png')} alt="de-icon" /></div></div>
-                                        <a href="departments-detail.html" className="text">
-                                            <h3>Pedlatric</h3>
-                                            Fusce eget condimentum lectus, sed commodo dui. Suspendisse non vehicula ant aecenas placerat finibus metus, at finibus neque.
+                                        <a href="#" className="text">
+                                            <h3>Emergency Care</h3>
+                                            Integrated protocols for critical trauma management and rapid response coordination across the network.
                                         </a>
                                     </li>
                                     <li>
                                         <div className="icon">
                                             <div><img src={require('../../asset/user_assets/img/icon/de-icon02.png')} alt="de-icon" /></div></div>
-                                        <a href="departments-detail.html" className="text">
-                                            <h3>Dental</h3>
-                                            Fusce eget condimentum lectus, sed commodo dui. Suspendisse non vehicula ant aecenas placerat finibus metus, at finibus neque.
+                                        <a href="#" className="text">
+                                            <h3>Specialized Surgery</h3>
+                                            Connecting top-tier surgeons with advanced diagnostic facilities for complex medical procedures.
                                         </a>
                                     </li>
                                     <li>
                                         <div className="icon">
                                             <div><img src={require('../../asset/user_assets/img/icon/de-icon03.png')} alt="de-icon" /></div></div>
-                                        <a href="departments-detail.html" className="text">
-                                            <h3>Physicians</h3>
-                                            Fusce eget condimentum lectus, sed commodo dui. Suspendisse non vehicula ant aecenas placerat finibus metus, at finibus neque.
+                                        <a href="#" className="text">
+                                            <h3>Diagnostic Labs</h3>
+                                            High-speed laboratory integration for faster results and automated record updates.
                                         </a>
                                     </li>
                                 </ul>
@@ -299,7 +301,7 @@ function LandingHome() {
                 {/* department-area-end */}
 
                 {/* team-area*/}
-                <section id="team" className="pb-20" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg13.png')})`, backgroundSize: 'contain', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}>
+                {/* <section id="team" className="pb-20" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg13.png')})`, backgroundSize: 'contain', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}>
 
                     <div className="container">
                         <div className="row justify-content-center">
@@ -337,9 +339,9 @@ function LandingHome() {
 
                                     </div>
                                     <div className="team-info">
-                                        <h4><a href="team-details.html">Samanta Crane</a></h4>
-                                        <span>Internist, General Practitoner</span>
-                                        <p>Working Since 2004</p>
+                                        <h4><a href="#">Dr. Sarah Johnson</a></h4>
+                                        <span>Chief Medical Officer</span>
+                                        <p>Expert in Healthcare Systems</p>
                                     </div>
                                 </div>
                             </div>
@@ -365,9 +367,9 @@ function LandingHome() {
                                         </div>
                                     </div>
                                     <div className="team-info">
-                                        <h4><a href="team-details.html">Ostin Green</a></h4>
-                                        <span>Internist, General Practitoner</span>
-                                        <p>Working Since 2004</p>
+                                        <h4><a href="#">Dr. Michael Chen</a></h4>
+                                        <span>Lead Trauma Surgeon</span>
+                                        <p>Emergency Response Specialist</p>
                                     </div>
                                 </div>
                             </div>
@@ -393,110 +395,23 @@ function LandingHome() {
                                         </div>
                                     </div>
                                     <div className="team-info">
-                                        <h4><a href="team-details.html">Norman Colins</a></h4>
-                                        <span>SALES MANAGER</span>
-                                        <p>Working Since 2004</p>
+                                        <h4><a href="#">Dr. Emily Davis</a></h4>
+                                        <span>Diagnostic Director</span>
+                                        <p>Radiology & Lab Management</p>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Duplicate items for demo purposes */}
-                            <div className="col-xl-4">
-                                <div className="single-team mb-30" >
-                                    <div className="team-thumb">
-                                        <div className="brd">
-                                            <img src={require('../../asset/user_assets/img/team/team01.png')} alt="img" />
-                                        </div>
 
-                                        <div className="dropdown">
-                                            <a className="xbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                +
-                                            </a>
-                                            <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                <div className="team-social mt-15">
-                                                    <ul>
-                                                        <li><a href="#"><i className="fab fa-facebook-f"></i></a></li>
-                                                        <li> <a href="#"><i className="fab fa-twitter"></i></a></li>
-                                                        <li><a href="#"><i className="fab fa-instagram"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                    <div className="team-info">
-                                        <h4><a href="team-details.html">Samanta Crane</a></h4>
-                                        <span>Internist, General Practitoner</span>
-                                        <p>Working Since 2004</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-xl-4">
-                                <div className="single-team mb-30" >
-                                    <div className="team-thumb">
-                                        <div className="brd">
-                                            <img src={require('../../asset/user_assets/img/team/team02.png')} alt="img" />
-                                        </div>
-                                        <div className="dropdown">
-                                            <a className="xbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                +
-                                            </a>
-                                            <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                <div className="team-social mt-15">
-                                                    <ul>
-                                                        <li><a href="#"><i className="fab fa-facebook-f"></i></a></li>
-                                                        <li> <a href="#"><i className="fab fa-twitter"></i></a></li>
-                                                        <li><a href="#"><i className="fab fa-instagram"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="team-info">
-                                        <h4><a href="team-details.html">Ostin Green</a></h4>
-                                        <span>Internist, General Practitoner</span>
-                                        <p>Working Since 2004</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-xl-4">
-                                <div className="single-team mb-30" >
-                                    <div className="team-thumb">
-                                        <div className="brd">
-                                            <img src={require('../../asset/user_assets/img/team/team03.png')} alt="img" />
-                                        </div>
-                                        <div className="dropdown">
-                                            <a className="xbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                +
-                                            </a>
-                                            <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                <div className="team-social mt-15">
-                                                    <ul>
-                                                        <li><a href="#"><i className="fab fa-facebook-f"></i></a></li>
-                                                        <li> <a href="#"><i className="fab fa-twitter"></i></a></li>
-                                                        <li><a href="#"><i className="fab fa-instagram"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="team-info">
-                                        <h4><a href="team-details.html">Norman Colins</a></h4>
-                                        <span>SALES MANAGER</span>
-                                        <p>Working Since 2004</p>
-                                    </div>
-                                </div>
-                            </div>
 
 
                         </div>
                     </div>
-                </section>
+                </section> */}
                 {/* team-area-end */}
 
                 {/* newslater-area */}
-                <section className="newslater-area pb-50" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg06.png')})`, backgroundPosition: 'center bottom', backgroundRepeat: 'no-repeat' }} >
+                {/* <section className="newslater-area pb-50" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg06.png')})`, backgroundPosition: 'center bottom', backgroundRepeat: 'no-repeat' }} >
                     <div className="container">
                         <div className="row align-items-end">
                             <div className="col-xl-4 col-lg-4 col-lg-4">
@@ -511,7 +426,7 @@ function LandingHome() {
                                         <input className="form-control" id="email2" name="email" type="email" placeholder="Email Address..." value="" required="" />
                                         <button type="submit" className="btn btn-custom" id="send2">Subscribe <i className="fas fa-chevron-right"></i></button>
                                     </div>
-                                    {/* /Form-email */}
+                                    
                                 </form>
                             </div>
                             <div className="col-xl-4 col-lg-4">
@@ -520,11 +435,11 @@ function LandingHome() {
                         </div>
 
                     </div>
-                </section>
+                </section> */}
                 {/* newslater-aread-end */}
 
                 {/* testimonial-area */}
-                <section id="testimonios" className="testimonial-area testimonial-p pt-50 pb-85 fix" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg07.png')})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'contain' }} >
+                {/* <section id="testimonios" className="testimonial-area testimonial-p pt-50 pb-85 fix" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg07.png')})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'contain' }} >
                     <div className="container">
                         <div className="row justify-content-center">
 
@@ -551,12 +466,12 @@ function LandingHome() {
                                             <div className="com-icon"><img src={require('../../asset/user_assets/img/testimonial/qutation.png')} alt="img" /></div>
                                             <div className="testi-author">
                                                 <div className="ta-info">
-                                                    <h6>Adam McWilliams</h6>
-                                                    <span>CEO & Founder</span>
+                                                    <h6>Dr. Sarah Johnson</h6>
+                                                    <span>Head of Cardiology, City Hospital</span>
 
                                                 </div>
                                             </div>
-                                            <p>Nullam metus mi, sollicitudin eu elit non, laoreet consectetur urna. Nullam quis aliquet elit. Cras augue tortor, lacinia et fermentum eget, suscipit id ligula. Donec id mollis sem, nec tincidunt neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                                            <p>"The IMFN system has revolutionized how we coordinate with emergency services. Having real-time access to patient vitals while they are still in the ambulance is a game-changer."</p>
                                         </div>
 
                                     </div>
@@ -568,12 +483,12 @@ function LandingHome() {
                                             <div className="com-icon"><img src={require('../../asset/user_assets/img/testimonial/qutation.png')} alt="img" /></div>
                                             <div className="testi-author">
                                                 <div className="ta-info">
-                                                    <h6>Rose Dose</h6>
-                                                    <span>Sale Executive</span>
+                                                    <h6>Robert Williams</h6>
+                                                    <span>Patient</span>
 
                                                 </div>
                                             </div>
-                                            <p>Nullam metus mi, sollicitudin eu elit non, laoreet consectetur urna. Nullam quis aliquet elit. Cras augue tortor, lacinia et fermentum eget, suscipit id ligula. Donec id mollis sem, nec tincidunt neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                                            <p>"I never have to worry about carrying my medical records anymore. Every doctor in the network knows my history, which makes every visit so much smoother and safer."</p>
                                         </div>
 
                                     </div>
@@ -585,29 +500,12 @@ function LandingHome() {
                                             <div className="com-icon"><img src={require('../../asset/user_assets/img/testimonial/qutation.png')} alt="img" /></div>
                                             <div className="testi-author">
                                                 <div className="ta-info">
-                                                    <h6>Margie R. Robinson</h6>
-                                                    <span>Web Developer</span>
+                                                    <h6>David Chen</h6>
+                                                    <span>Hospital Administrator</span>
 
                                                 </div>
                                             </div>
-                                            <p>Nullam metus mi, sollicitudin eu elit non, laoreet consectetur urna. Nullam quis aliquet elit. Cras augue tortor, lacinia et fermentum eget, suscipit id ligula. Donec id mollis sem, nec tincidunt neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-                                        </div>
-
-                                    </div>
-                                    <div className="single-testimonial">
-                                        <div className="testi-img">
-                                            <img src={require('../../asset/user_assets/img/testimonial/testimonial-img.png')} alt="img" />
-                                        </div>
-                                        <div className="single-testimonial-bg">
-                                            <div className="com-icon"><img src={require('../../asset/user_assets/img/testimonial/qutation.png')} alt="img" /></div>
-                                            <div className="testi-author">
-                                                <div className="ta-info">
-                                                    <h6>Jone Dose</h6>
-                                                    <span>MD & Founder</span>
-
-                                                </div>
-                                            </div>
-                                            <p>Nullam metus mi, sollicitudin eu elit non, laoreet consectetur urna. Nullam quis aliquet elit. Cras augue tortor, lacinia et fermentum eget, suscipit id ligula. Donec id mollis sem, nec tincidunt neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                                            <p>"Resource management across multiple branches has never been easier. IMFN provides us with the data we need to optimize our staff and equipment allocation efficiently."</p>
                                         </div>
 
                                     </div>
@@ -618,99 +516,13 @@ function LandingHome() {
 
                         </div>
                     </div>
-                </section>
+                </section> */}
                 {/* testimonial-area-end */}
 
-                {/* pricing-area */}
-                <section id="pricing" className="pricing-area pb-70" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg08.png')})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} >
-                    <div className="container">
 
-                        <div className="row justify-content-center">
-                            <div className="col-lg-8">
-                                <div className="section-title center-align mb-60 text-center">
-                                    <span>OUR PRICING</span>
-                                    <h2>Afforable Pricing Packages</h2>
-                                    <p>Fusce pharetra odio in urna laoreet laoreet. Aliquam erat volutpat. Phasellus nec ligula arcu. Aliquam eu urna pulvinar, iaculis ipsum in, porta massa.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-lg-4 col-md-12">
-                                <div className="pricing-box text-center mb-60" >
-                                    <div className="pricing-head">
-                                        <h4>Sliver Plan</h4>
-                                        <div className="price-count mb-30">
-                                            <h2>$25.99</h2>
-                                        </div>
-                                        <img src={require('../../asset/user_assets/img/icon/pr-icon01.png')} alt="pricon" />
-                                    </div>
-                                    <div className="pricing-body mb-40 text-left">
-                                        <p>It is a long established fact that a reader will be distracted.</p>
-                                        <ul>
-                                            <li>Update</li>
-                                            <li>File compressed</li>
-                                            <li>Commercial use</li>
-                                            <li>Support</li>
-                                        </ul>
-                                    </div>
-                                    <div className="pricing-btn">
-                                        <a href="#" className="btn">Choose Plan <i className="fas fa-chevron-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-md-12">
-                                <div className="pricing-box active text-center mb-60" >
-                                    <div className="pricing-head">
-                                        <h4>Gold Plan</h4>
-                                        <div className="price-count mb-30">
-                                            <h2>$25.99</h2>
-                                        </div>
-                                        <img src={require('../../asset/user_assets/img/icon/pr-icon02.png')} alt="pricon" />
-                                    </div>
-                                    <div className="pricing-body mb-40 text-left">
-                                        <p>It is a long established fact that a reader will be distracted.</p>
-                                        <ul>
-                                            <li>Update</li>
-                                            <li>File compressed</li>
-                                            <li>Commercial use</li>
-                                            <li>Support</li>
-                                        </ul>
-                                    </div>
-                                    <div className="pricing-btn">
-                                        <a href="#" className="btn">Choose Plan <i className="fas fa-chevron-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-md-12">
-                                <div className="pricing-box text-center mb-60" >
-                                    <div className="pricing-head">
-                                        <h4>Platinum Plan</h4>
-                                        <div className="price-count mb-30">
-                                            <h2>$25.99</h2>
-                                        </div>
-                                        <img src={require('../../asset/user_assets/img/icon/pr-icon03.png')} alt="pricon" />
-                                    </div>
-                                    <div className="pricing-body mb-40 text-left">
-                                        <p>It is a long established fact that a reader will be distracted.</p>
-                                        <ul>
-                                            <li>Update</li>
-                                            <li>File compressed</li>
-                                            <li>Commercial use</li>
-                                            <li>Support</li>
-                                        </ul>
-                                    </div>
-                                    <div className="pricing-btn">
-                                        <a href="#" className="btn">Choose Plan <i className="fas fa-chevron-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                {/* pricing-area-end */}
 
                 {/* call-area */}
-                <div className="call-area pb-50" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg09.png')})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom' }}>
+                {/* <div className="call-area pb-50" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg09.png')})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom' }}>
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col-lg-5 col-md-12 col-sm-12">
@@ -732,18 +544,18 @@ function LandingHome() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {/* call-area-end */}
 
                 {/* blog-area */}
-                <section id="blog" className="blog-area p-relative pt-100 pb-90 fix" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg10.png')})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center' }}>
+                {/* <section id="blog" className="blog-area p-relative pt-100 pb-90 fix" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg10.png')})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center' }}>
                     <div className="container">
                         <div className="row justify-content-center">
                             <div className="col-xl-8 col-lg-10">
                                 <div className="section-title text-center mb-80" >
-                                    <span> OUR LATEST BOLG </span>
-                                    <h2>Stay Updated To Our Blog & News</h2>
-                                    <p >Fusce pharetra odio in urna laoreet laoreet. Aliquam erat volutpat. Phasellus nec ligula arcu. Aliquam eu urna pulvinar, iaculis ipsum in, porta massa.</p>
+                                    <span> OUR LATEST UPDATES </span>
+                                    <h2>Healthcare Insights & Network News</h2>
+                                    <p >Stay informed with the latest advancements in medical technology and updates from our integrated network members.</p>
                                 </div>
                             </div>
                         </div>
@@ -760,15 +572,15 @@ function LandingHome() {
                                         <div className="b-meta mb-20">
                                             <div className="row">
                                                 <div className="col-lg-6 col-md-6">
-                                                    <i className="far fa-calendar-alt"></i>  7 March, 2019
+                                                    <i className="far fa-calendar-alt"></i>  15 Feb, 2024
                                                 </div>
                                                 <div className="col-lg-6 col-md-6">
-                                                    <i className="fas fa-user"></i> By Jhone Doe
+                                                    <i className="fas fa-user"></i> By IMFN Admin
                                                 </div>
                                             </div>
                                         </div>
-                                        <h4><a href="blog-details.html">Praesent justo mauris, tincidunt vitae nisi ultricies.</a></h4>
-                                        <p>Aenean sed velit nulla. Etiam viverra scelerisque porta. Quisque ut dolor aliquam, gravida lacus.</p>
+                                        <h4><a href="#">The Future of Integrated Patient Care Systems</a></h4>
+                                        <p>Discover how data synchronization between facilities is saving lives and reducing medical errors.</p>
                                         <div className="blog-btn"><a href="#">Read More<i className="fas fa-chevron-right"></i></a></div>
 
                                     </div>
@@ -789,14 +601,15 @@ function LandingHome() {
                                         <div className="b-meta mb-20">
                                             <div className="row">
                                                 <div className="col-lg-6 col-md-6">
-                                                    <i className="far fa-calendar-alt"></i>  7 March, 2019
+                                                    <i className="far fa-calendar-alt"></i>  10 Feb, 2024
                                                 </div>
                                                 <div className="col-lg-6 col-md-6">
-                                                    <i className="fas fa-user"></i> By Jhone Doe
+                                                    <i className="fas fa-user"></i> By Dr. Sarah Johnson
                                                 </div>
                                             </div>
                                         </div>
-                                        <h4><a href="blog-details.html">Monthly eraesent justo mauris, vitae nisi ultricies.</a></h4>                       <p>Aenean sed velit nulla. Etiam viverra scelerisque porta. Quisque ut dolor aliquam, gravida lacus.</p>
+                                        <h4><a href="#">Real-time Ambulance Tracking: A Case Study</a></h4>
+                                        <p>A look into how our live tracking system improved emergency response times by 30%.</p>
                                         <div className="blog-btn"><a href="#">Read More<i className="fas fa-chevron-right"></i></a></div>
                                     </div>
 
@@ -814,14 +627,15 @@ function LandingHome() {
                                         <div className="b-meta mb-20">
                                             <div className="row">
                                                 <div className="col-lg-6 col-md-6">
-                                                    <i className="far fa-calendar-alt"></i>  7 March, 2019
+                                                    <i className="far fa-calendar-alt"></i>  05 Feb, 2024
                                                 </div>
                                                 <div className="col-lg-6 col-md-6">
-                                                    <i className="fas fa-user"></i> By Jhone Doe
+                                                    <i className="fas fa-user"></i> By Network Security
                                                 </div>
                                             </div>
                                         </div>
-                                        <h4><a href="blog-details.html">User Experience Psychology And Performance Smashing</a></h4>                          <p>Aenean sed velit nulla. Etiam viverra scelerisque porta. Quisque ut dolor aliquam, gravida lacus.</p>
+                                        <h4><a href="#">Ensuring Data Privacy in Healthcare Networks</a></h4>
+                                        <p>Understanding the layers of encryption and security protocols protecting patient information.</p>
                                         <div className="blog-btn"><a href="#">Read More<i className="fas fa-chevron-right"></i></a></div>
                                     </div>
 
@@ -830,11 +644,11 @@ function LandingHome() {
 
                         </div>
                     </div>
-                </section>
+                </section> */}
                 {/* blog-area-end */}
 
                 {/* contact-area */}
-                <section id="contact" className="contact-area contact-bg pb-70 p-relative fix" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg11.png')})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+                {/* <section id="contact" className="contact-area contact-bg pb-70 p-relative fix" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg11.png')})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
                     <div className="container">
 
                         <div className="row">
@@ -862,7 +676,7 @@ function LandingHome() {
                                         </div>
                                         <div className="col-lg-12">
                                             <div className="contact-field p-relative c-email mb-20">
-                                                <input type="text" placeholder="Write here youremail" />
+                                                <input type="text" placeholder="Your Email Address" />
                                             </div>
                                         </div>
                                         <div className="col-lg-12">
@@ -886,11 +700,11 @@ function LandingHome() {
 
                     </div>
 
-                </section>
+                </section> */}
                 {/* contact-area-end */}
 
                 {/* brand-area */}
-                <div className="brand-area" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg12.png')})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+                {/* <div className="brand-area" style={{ backgroundImage: `url(${require('../../asset/user_assets/img/an-bg/an-bg12.png')})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
                     <div className="container">
                         <div className="row brand-active">
                             <div className="col-xl-2">
@@ -920,12 +734,12 @@ function LandingHome() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {/* brand-area-end */}
             </main>
             {/* main-area-end */}
 
-            <LandingPageFooter/>
+            <LandingPageFooter />
         </div>
     )
 }
