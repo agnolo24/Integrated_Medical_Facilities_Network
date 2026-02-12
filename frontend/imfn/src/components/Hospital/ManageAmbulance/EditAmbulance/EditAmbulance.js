@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import './EditAmbulance.css';
+
 function EditAmbulance({ ambulanceData, onClose }) {
     const editAmbulanceUrl = 'http://127.0.0.1:8000/hospital/edit_ambulance/';
     const hospital_login_id = localStorage.getItem('loginId');
@@ -61,56 +63,37 @@ function EditAmbulance({ ambulanceData, onClose }) {
     };
 
     return (
-        <div className="edit-ambulance-container">
-            <div className="card border-0 shadow-sm">
-                <div className="card-header bg-primary text-white">
-                    <h5 className="mb-0">Edit Ambulance Profile</h5>
+        <div className="edit-ambulance-wrapper">
+            <div className="edit-ambulance-card-modern">
+                <div className="edit-ambulance-header-premium">
+                    <i className="fas fa-truck-medical"></i>
+                    <h2>Update Fleet Asset</h2>
+                    <p>Refine vehicle specifications and classification</p>
                 </div>
-                <div className="card-body">
-                    <form onSubmit={handleSubmit}>
-                        {/* Category */}
-                        <div className="mb-3">
-                            <label htmlFor="category" className="form-label">Emergency Category</label>
-                            <select
-                                name="category"
-                                id="category"
-                                className="form-select"
-                                value={formData.category}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Select Category</option>
+
+                <div className="edit-ambulance-body-content">
+                    <form className="modern-ambulance-edit-form" onSubmit={handleSubmit}>
+                        <div className="modern-input-field">
+                            <label><i className="fas fa-layer-group"></i> Operational Category</label>
+                            <select name="category" value={formData.category} onChange={handleChange} required>
+                                <option value="">Select Level</option>
                                 {category_choice.map((cat, index) => (
                                     <option value={cat} key={index}>{cat}</option>
                                 ))}
                             </select>
                         </div>
 
-                        {/* Name & Ambulance Type */}
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="name" className="form-label">Name</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="name"
-                                    id="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                />
+                        <div className="form-row-grid-2">
+                            <div className="modern-input-field">
+                                <label><i className="fas fa-id-card"></i> Specialist Name</label>
+                                <input type="text" name="name" placeholder="Assigned Specialist"
+                                    value={formData.name} onChange={handleChange} required />
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="ambulanceType" className="form-label">Ambulance Type</label>
-                                <select
-                                    name="ambulanceType"
-                                    id="ambulanceType"
-                                    className="form-select"
-                                    value={formData.ambulanceType}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="">Select Type</option>
+                            <br />
+                            <div className="modern-input-field">
+                                <label><i className="fas fa-briefcase-medical"></i> Unit Type</label>
+                                <select name="ambulanceType" value={formData.ambulanceType} onChange={handleChange} required>
+                                    <option value="">Select Class</option>
                                     {ambulance_choices.map((cho, index) => (
                                         <option key={index} value={cho}>{cho.toUpperCase()}</option>
                                     ))}
@@ -118,37 +101,25 @@ function EditAmbulance({ ambulanceData, onClose }) {
                             </div>
                         </div>
 
-                        {/* Vehicle Number & Contact */}
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="vehicleNumber" className="form-label">Vehicle Number</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="vehicleNumber"
-                                    id="vehicleNumber"
-                                    value={formData.vehicleNumber}
-                                    onChange={handleChange}
-                                    required
-                                />
+                        <div className="form-row-grid-2">
+                            <div className="modern-input-field">
+                                <label><i className="fas fa-hashtag"></i> Registration No</label>
+                                <input type="text" name="vehicleNumber" placeholder="AB-123-CD"
+                                    value={formData.vehicleNumber} onChange={handleChange} required />
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="contactNumber" className="form-label">Contact Number</label>
-                                <input
-                                    type="tel"
-                                    className="form-control"
-                                    name="contactNumber"
-                                    id="contactNumber"
-                                    value={formData.contactNumber}
-                                    onChange={handleChange}
-                                    required
-                                />
+                            <br />
+                            <div className="modern-input-field">
+                                <label><i className="fas fa-phone-alt"></i> Dispatch Line</label>
+                                <input type="tel" name="contactNumber" placeholder="+1 234 567 890"
+                                    value={formData.contactNumber} onChange={handleChange} required />
                             </div>
                         </div>
 
-                        <div className="d-flex gap-2 justify-content-end mt-3">
-                            <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
-                            <button type="submit" className="btn btn-primary">Update Details</button>
+                        <div className="edit-actions-modern">
+                            <button type="submit" className="sync-profile-btn">
+                                <i className="fas fa-sync-alt"></i> Synchronize Fleet Profile
+                            </button>
+                            <button type="button" className="discard-changes-btn" onClick={onClose}>Discard</button>
                         </div>
                     </form>
                 </div>

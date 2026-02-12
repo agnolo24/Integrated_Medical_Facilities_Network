@@ -1,134 +1,190 @@
-/* ===========================
-   Overlay
-=========================== */
+/* Fully Modernized Assign Duty Dashboard CSS */
 .assign-duty-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(15, 23, 42, 0.85); /* Slate 900 with high opacity */
+    backdrop-filter: blur(12px);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px;
-    z-index: 2000; /* higher than navbar */
+    padding: 20px;
+    z-index: 9999;
+    animation: fadeInBackground 0.4s ease;
 }
 
-/* ===========================
-   Card
-=========================== */
-.assign-duty-card {
+.assign-duty-card-v2 {
     background: #ffffff;
     width: 100%;
-    max-width: 520px;
-    max-height: calc(100vh - 32px);
-    border-radius: 10px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    border-radius: 32px;
+    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.4);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    animation: slideUp 0.3s ease;
+    animation: slideInFromBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ===========================
-   Header
-=========================== */
-.assign-duty-header {
-    background: linear-gradient(135deg, #0d6efd, #0a58ca);
-    padding: 18px;
-    color: #ffffff;
-    flex-shrink: 0;
+.assign-header-premium {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    padding: 40px;
+    text-align: center;
+    color: white;
+    position: relative;
 }
 
-.assign-duty-header h2 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.assign-duty-header span {
+.assign-header-premium i {
+    font-size: 3.2rem;
+    margin-bottom: 15px;
     display: block;
-    font-size: 0.85rem;
-    opacity: 0.9;
-    margin-top: 4px;
+    opacity: 0.95;
 }
 
-/* ===========================
-   Form (Scrollable)
-=========================== */
-.assign-duty-form {
-    padding: 20px;
+.assign-header-premium h2 {
+    font-size: 2.2rem;
+    font-weight: 850;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.assign-header-premium .vehicle-info-pill {
+    display: inline-block;
+    margin-top: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 18px;
+    border-radius: 99px;
+    font-size: 1rem;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.assign-body-content {
+    padding: 45px;
+    max-height: 70vh;
     overflow-y: auto;
 }
 
-/* ===========================
-   Form Fields
-=========================== */
-.form-group {
-    margin-bottom: 16px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 6px;
-    color: #333;
-}
-
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    min-height: 44px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 10px 12px;
-    font-size: 0.95rem;
-}
-
-.form-group textarea {
-    min-height: 80px;
-}
-
-.form-group textarea:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
-}
-
-/* ===========================
-   Actions
-=========================== */
-.form-actions {
+.modern-assign-form {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.form-field-group {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
-    margin-top: 24px;
-    flex-wrap: wrap;
 }
 
-/* ===========================
-   Animations
-=========================== */
-@keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+.form-field-group label {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* ===========================
-   Mobile
-=========================== */
-@media (max-width: 480px) {
-    .form-actions {
-        flex-direction: column;
-    }
+.form-field-group label i {
+    color: #3b82f6;
+    font-size: 1.25rem;
+}
 
-    .form-actions button {
-        width: 100%;
+.assign-textarea-premium {
+    width: 100%;
+    min-height: 100px;
+    padding: 18px;
+    border-radius: 18px;
+    border: 2px solid #f1f5f9;
+    background: #f8fafc;
+    font-size: 1rem;
+    color: #0f172a;
+    transition: all 0.3s;
+    resize: none;
+}
+
+.assign-select-premium {
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: 18px;
+    border: 2px solid #f1f5f9;
+    background: #f8fafc;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f172a;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.assign-textarea-premium:focus,
+.assign-select-premium:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.1);
+}
+
+.assign-footer-actions {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.dispatch-duty-btn {
+    background: #1e40af;
+    color: white;
+    padding: 20px;
+    border: none;
+    border-radius: 18px;
+    font-size: 1.15rem;
+    font-weight: 850;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 25px rgba(30, 64, 175, 0.25);
+}
+
+.dispatch-duty-btn:hover {
+    background: #1e3a8a;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(30, 64, 175, 0.4);
+}
+
+.cancel-duty-btn {
+    background: #f1f5f9;
+    color: #64748b;
+    border: none;
+    padding: 20px;
+    border-radius: 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cancel-duty-btn:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+@keyframes fadeInBackground {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 600px) {
+    .assign-footer-actions {
+        grid-template-columns: 1fr;
     }
+    .assign-header-premium h2 { font-size: 1.8rem; }
+    .assign-body-content { padding: 30px; }
 }
