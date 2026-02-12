@@ -307,3 +307,11 @@ def update_medicine_stock(request):
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     return Response({},status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def add_medicine_to_bill(request):
+    appointment_Id = request.data.get('appointment_Id')
+    Medicine_Details = request.data.get('Medicine_Details')
+    print("appointment_Id = ",appointment_Id)
+    print("Medicine_Details = ",Medicine_Details)
+    return Response({"message": "Medicine added to bill successfully"}, status=status.HTTP_200_OK)
