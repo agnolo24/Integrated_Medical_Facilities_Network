@@ -44,6 +44,7 @@ function ViewCompletedAppointments() {
     const closePrescriptionModal = () => {
         setIsPrescriptionModalOpen(false);
         setSelectedAppointmentId(null);
+        fetchAppointments();
     };
 
     const filteredAppointments = appointments.filter(apt =>

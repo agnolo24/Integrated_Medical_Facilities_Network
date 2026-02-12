@@ -196,6 +196,7 @@ def get_completed_appointments(request):
     pharmacy_col = db['pharmacy']
     appointment_col = db['appointments']
     hospital_col = db['hospital']
+    bill_col = db['bills']
 
     try:
         pharmacy = pharmacy_col.find_one({"login_id": ObjectId(pharmacy_login_id)})
@@ -229,14 +230,20 @@ def get_completed_appointments(request):
         appointments_list = []
         
         for apt in appointments_cursor:
-            appointments_list.append({
-                "appointment_id": str(apt["_id"]),
-                "patient_name": apt.get("patient_name", "N/A"),
-                "doctor_name": apt.get("doctor_name", "N/A"),
-                "appointment_date": apt.get("appointment_date").strftime("%Y-%m-%d") if apt.get("appointment_date") else "N/A",
-                "time_slot": apt.get("time_slot", "N/A"),
-                "prescription": apt.get("prescription", "N/A"),
-            })
+            bill = bill_col.find_one({"appointment_id": apt["_id"]})
+            if bill:
+                # print("bill : ",bill.get("pharmacy_medicine.status"))
+                if not bill.get("pharmacy_medicine"):
+                    print("hi apt without medicine : ",str(apt["_id"]))
+                    appointments_list.append({
+                        "appointment_id": str(apt["_id"]),
+                        "patient_name": apt.get("patient_name", "N/A"),
+                        "doctor_name": apt.get("doctor_name", "N/A"),                    "appointment_date": apt.get("appointment_date").strftime("%Y-%m-%d") if apt.get("appointment_date") else "N/A",
+                        "time_slot": apt.get("time_slot", "N/A"),
+                        "prescription": apt.get("prescription", "N/A"),
+                    })
+                else:
+                    print("apt with medicine : ",apt['_id'])
 
         return Response({"appointments": appointments_list}, status=status.HTTP_200_OK)
 
