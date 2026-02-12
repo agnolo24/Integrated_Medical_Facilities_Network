@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from bson import ObjectId
 
 # Create your views here.
@@ -181,3 +181,81 @@ def delete_medicine(request):
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["GET"])
+def get_completed_appointments(request):
+    pharmacy_login_id = request.query_params.get("pharmacy_login_id")
+    if not pharmacy_login_id:
+        return Response({"error": "Pharmacy Login ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    db = get_db()
+    pharmacy_col = db['pharmacy']
+    appointment_col = db['appointments']
+    hospital_col = db['hospital']
+
+    try:
+        pharmacy = pharmacy_col.find_one({"login_id": ObjectId(pharmacy_login_id)})
+        if not pharmacy:
+            return Response({"error": "Pharmacy record not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        hospital_id = pharmacy.get('hospital_id')
+        if not hospital_id:
+            return Response({"error": "No hospital associated with this pharmacy"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Get today's date at midnight
+        today = datetime.combine(datetime.today(), datetime.min.time())
+        tomorrow = today + timedelta(days=1)
+
+        print("hospital_id : ",str(hospital_id))
+        hospital_login_id = hospital_col.find_one({"_id": ObjectId(hospital_id)})['login_id']
+
+        query = {
+            "hospital_login_id": ObjectId(hospital_login_id) if isinstance(hospital_login_id, (str, ObjectId)) else hospital_login_id,
+            "status": "completed",
+            "appointment_date": {"$gte": today, "$lt": tomorrow}
+        }
+
+        appointments_cursor = appointment_col.find(query).sort("appointment_date", -1)
+        appointments_list = []
+        
+        for apt in appointments_cursor:
+            appointments_list.append({
+                "appointment_id": str(apt["_id"]),
+                "patient_name": apt.get("patient_name", "N/A"),
+                "doctor_name": apt.get("doctor_name", "N/A"),
+                "appointment_date": apt.get("appointment_date").strftime("%Y-%m-%d") if apt.get("appointment_date") else "N/A",
+                "time_slot": apt.get("time_slot", "N/A"),
+                "prescription": apt.get("prescription", "N/A"),
+            })
+
+        return Response({"appointments": appointments_list}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(["GET"])
+def get_prescription(request):
+    appointment_id = request.query_params.get("appointment_id")
+    if not appointment_id:
+        return Response({"error": "Appointment ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    db = get_db()
+    appointment_col = db['appointments']
+
+    try:
+        if not ObjectId.is_valid(appointment_id):
+            return Response({"error": "Invalid Appointment ID format"}, status=status.HTTP_400_BAD_REQUEST)
+
+        appointment = appointment_col.find_one({"_id": ObjectId(appointment_id)})
+        if not appointment:
+            return Response({"error": "Appointment record not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        prescription = appointment.get("prescription", "N/A")
+        return Response({"prescription": prescription}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # print("appointment_id : ",appointment_id)
+    # return Response({"message":"success"},status=status.HTTP_200_OK)

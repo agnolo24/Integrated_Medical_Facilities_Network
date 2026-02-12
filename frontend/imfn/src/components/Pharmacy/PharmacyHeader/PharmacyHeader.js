@@ -114,6 +114,9 @@ function PharmacyHeader() {
                                                 <li className="has-sub">
                                                     <NavLink to="/manageMedicine"><h6>Manage Medicine</h6></NavLink>
                                                 </li>
+                                                <li className="has-sub">
+                                                    <NavLink to="/viewCompletedAppointments"><h6>Completed Appointments</h6></NavLink>
+                                                </li>
                                                 {/* Add more pharmacy specific links here */}
                                             </ul>
                                         </nav>
