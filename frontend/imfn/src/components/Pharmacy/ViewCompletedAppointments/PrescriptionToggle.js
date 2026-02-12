@@ -219,7 +219,7 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
         <div className="prescription-modal-overlay" onClick={handleCloseModal}>
             <div className="prescription-modal-card" style={{ maxWidth: '800px' }} onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header-premium">
-                    <h3><i className="fas fa-prescription"></i> Prescription & Billing Management</h3>
+                    <h3 style={{color:"white"}}><i className="fas fa-prescription"></i> Prescription & Billing Management</h3>
                     <button className="close-btn-minimal" onClick={handleCloseModal}>
                         <i className="fas fa-times"></i>
                     </button>
@@ -332,7 +332,7 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
                     </div>
                 </div>
 
-                <div className="modal-footer-premium justify-content-between">
+                <div className="modal-footer-premium justify-content">
                     <button className="btn ss-btn close-action-btn" onClick={handleCloseModal}>
                         Close
                     </button>
