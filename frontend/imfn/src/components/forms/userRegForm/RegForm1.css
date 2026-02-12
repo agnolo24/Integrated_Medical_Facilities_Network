@@ -1,27 +1,182 @@
-/* Custom styles to complement Bootstrap */
-
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Modern Registration CSS */
+:root {
+    --reg-primary: #1e3a8a;
+    --reg-secondary: #3b82f6;
+    --reg-bg-gradient: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    --reg-card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.card {
+.registration-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.registration-main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: var(--reg-bg-gradient);
+}
+
+.registration-main-content.in-modal {
+    padding: 0;
+    background: transparent;
+}
+
+.registration-container {
+    width: 100%;
+    max-width: 700px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.registration-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 45px;
+    box-shadow: var(--reg-card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.registration-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.registration-logo-circle {
+    width: 70px;
+    height: 70px;
+    background: var(--reg-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin: 40px auto 15px; /* Added margin-top to separate from 'X' button in modal */
+}
+
+.registration-header h2 {
+    font-size: 32px;
+    color: #111827;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.registration-header p {
+    color: #6b7280;
+    font-size: 16px;
+}
+
+.registration-form-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.modern-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.modern-form-row {
+    width: 100%;
+}
+
+.modern-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modern-form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modern-form-group label i {
+    color: var(--reg-secondary);
+}
+
+.modern-form-group input, 
+.modern-form-group select.modern-select {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #e5e7eb;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+    width: 100%;
+}
+
+.modern-form-group input:focus,
+.modern-form-group select.modern-select:focus {
+    outline: none;
+    border-color: var(--reg-secondary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.registration-submit-btn {
+    background: var(--reg-primary);
+    color: white;
+    padding: 16px;
     border: none;
     border-radius: 12px;
-}
-
-.card-header {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-}
-
-.btn-primary {
-    padding: 10px;
+    font-size: 18px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.registration-submit-btn:hover {
+    background: #172554;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.2);
+}
+
+.registration-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 15px;
+    color: #6b7280;
+}
+
+.registration-footer a {
+    color: var(--reg-secondary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+    .modern-form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .registration-card {
+        padding: 30px 20px;
+    }
+    
+    .registration-header h2 {
+        font-size: 26px;
+    }
 }

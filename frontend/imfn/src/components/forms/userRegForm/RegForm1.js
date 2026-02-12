@@ -9,7 +9,7 @@ import LandingPageFooter from '../../LandingPageFooter/LandingPageFooter';
 
 const patient_register = "http://127.0.0.1:8000/api/patient_register/"
 
-const RegForm1 = () => {
+const RegForm1 = ({ hideHeaderFooter = false }) => {
   const [formData, setFormData] = useState({
     name: '',
     age: '',
@@ -28,9 +28,9 @@ const RegForm1 = () => {
     e.preventDefault();
 
     try {
-      const payload = {...formData, age: Number(formData.age)}
+      const payload = { ...formData, age: Number(formData.age) }
       const response = await axios.post(patient_register, payload)
-      alert(response.data.message + "\nPatient Id: "+ response.data.patient_id)
+      alert(response.data.message + "\nPatient Id: " + response.data.patient_id)
       setFormData({
         name: '',
         age: '',
@@ -47,81 +47,86 @@ const RegForm1 = () => {
   };
 
   return (
-    <div>
-      <LandingPageHeader />
-      <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <div className="card shadow-sm">
-              <div className="card-header bg-primary text-white text-center">
-                <h4>Register Account</h4>
+    <div className="registration-wrapper">
+      {!hideHeaderFooter && <LandingPageHeader />}
+
+      <div className={`registration-main-content ${hideHeaderFooter ? 'in-modal' : ''}`}>
+        <div className="registration-container">
+          <div className="registration-card">
+            <div className="registration-header">
+              <div className="registration-logo-circle">
+                <i className="fas fa-user-plus"></i>
               </div>
-              <div className="card-body">
-                <form onSubmit={handleSubmit}>
-
-                  {/* Name */}
-                  <div className="mb-3">
-                    <label className="form-label">Full Name</label>
-                    <input type="text" name="name" className="form-control"
-                      value={formData.name} onChange={handleChange} required />
-                  </div>
-
-                  <div className="row">
-                    {/* Age */}
-                    <div className="col-md-6 mb-3">
-                      <label className="form-label">Age</label>
-                      <input type="number" name="age" className="form-control"
-                        value={formData.age} onChange={handleChange} required />
-                    </div>
-                    {/* Date of Birth */}
-                    <div className="col-md-6 mb-3">
-                      <label className="form-label">Date of Birth</label>
-                      <input type="date" name="dob" className="form-control"
-                        value={formData.dob} onChange={handleChange} required />
-                    </div>
-                  </div>
-
-                  {/* Gender */}
-                  <div className="mb-3">
-                    <label className="form-label">Gender</label>
-                    <select name="gender" className="form-select"
-                      value={formData.gender} onChange={handleChange} required>
-                      <option value="">Select Gender</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-
-                  {/* Contact Number */}
-                  <div className="mb-3">
-                    <label className="form-label">Contact Number</label>
-                    <input type="tel" name="contact" className="form-control"
-                      value={formData.contact} onChange={handleChange} required />
-                  </div>
-
-                  {/* Email */}
-                  <div className="mb-3">
-                    <label className="form-label">Email Address</label>
-                    <input type="email" name="email" className="form-control"
-                      value={formData.email} onChange={handleChange} required />
-                  </div>
-
-                  {/* Password */}
-                  <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <input type="password" name="password" className="form-control"
-                      value={formData.password} onChange={handleChange} required />
-                  </div>
-
-                  <button type="submit" className="btn btn-primary w-100 mt-3">Register</button>
-                </form>
-              </div>
+              <h2>Patient Registration</h2>
+              <p>Join the Integrated Medical Facility Network</p>
             </div>
+
+            <form className="registration-form-modern" onSubmit={handleSubmit}>
+              <div className="modern-form-row">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-user"></i> Full Name</label>
+                  <input type="text" name="name" placeholder="John Doe"
+                    value={formData.name} onChange={handleChange} required />
+                </div>
+              </div>
+
+              <div className="modern-form-grid">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-birthday-cake"></i> Age</label>
+                  <input type="number" name="age" placeholder="25"
+                    value={formData.age} onChange={handleChange} required />
+                </div>
+                <div className="modern-form-group">
+                  <label><i className="fas fa-calendar-alt"></i> Date of Birth</label>
+                  <input type="date" name="dob"
+                    value={formData.dob} onChange={handleChange} required />
+                </div>
+              </div>
+
+              <div className="modern-form-grid">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-venus-mars"></i> Gender</label>
+                  <select name="gender" className="modern-select"
+                    value={formData.gender} onChange={handleChange} required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div className="modern-form-group">
+                  <label><i className="fas fa-phone-alt"></i> Contact Number</label>
+                  <input type="tel" name="contact" placeholder="+1 234 567 890"
+                    value={formData.contact} onChange={handleChange} required />
+                </div>
+              </div>
+
+              <div className="modern-form-group">
+                <label><i className="fas fa-envelope"></i> Email Address</label>
+                <input type="email" name="email" placeholder="john@example.com"
+                  value={formData.email} onChange={handleChange} required />
+              </div>
+
+              <div className="modern-form-group">
+                <label><i className="fas fa-lock"></i> Create Password</label>
+                <input type="password" name="password" placeholder="••••••••"
+                  value={formData.password} onChange={handleChange} required />
+              </div>
+
+              <button type="submit" className="registration-submit-btn">
+                <span>Create My Account</span>
+                <i className="fas fa-check-circle"></i>
+              </button>
+            </form>
+
+            {/* <div className="registration-footer">
+              <p>Already have an account? <a href="#">Sign In</a></p>
+            </div> */}
           </div>
         </div>
       </div>
-      <LandingPageFooter />
+
+      {!hideHeaderFooter && <LandingPageFooter />}
     </div>
   );
 };

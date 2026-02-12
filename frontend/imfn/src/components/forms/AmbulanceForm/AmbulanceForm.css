@@ -1,27 +1,148 @@
-/* Custom styles to complement Bootstrap */
-
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Modern Ambulance Management CSS */
+:root {
+    --amb-primary: #1e3a8a; /* Deep Blue */
+    --amb-secondary: #3b82f6;
+    --amb-bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
 }
 
-.card {
+.registration-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.registration-main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: var(--amb-bg-gradient);
+}
+
+.registration-container {
+    width: 100%;
+    max-width: 650px;
+    animation: slideIn 0.5s ease-out;
+}
+
+.registration-card.ambulance-variant {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(30, 58, 138, 0.1);
+    border-top: 5px solid var(--amb-primary);
+}
+
+.registration-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.registration-logo-circle {
+    width: 70px;
+    height: 70px;
+    background: var(--amb-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin: 0 auto 15px;
+}
+
+.registration-header h2 {
+    font-size: 28px;
+    color: #111827;
+    font-weight: 700;
+}
+
+.registration-header p {
+    color: #6b7280;
+    font-size: 15px;
+}
+
+.registration-form-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modern-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.modern-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modern-form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modern-form-group label i {
+    color: var(--amb-primary);
+}
+
+.modern-form-group input, 
+.modern-form-group select.modern-select {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #e5e7eb;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+    width: 100%;
+}
+
+.modern-form-group input:focus,
+.modern-form-group select.modern-select:focus {
+    outline: none;
+    border-color: var(--amb-primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
+}
+
+.registration-submit-btn.ambulance-btn {
+    background: var(--amb-primary);
+    color: white;
+    padding: 16px;
     border: none;
     border-radius: 12px;
-}
-
-.card-header {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-}
-
-.btn-primary {
-    padding: 10px;
+    font-size: 17px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.registration-submit-btn.ambulance-btn:hover {
+    background: #172554;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.2);
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 600px) {
+    .modern-form-grid {
+        grid-template-columns: 1fr;
+    }
 }

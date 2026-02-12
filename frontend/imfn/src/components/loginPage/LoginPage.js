@@ -5,7 +5,7 @@ import LandingPageFooter from '../LandingPageFooter/LandingPageFooter'
 import axios from 'axios'
 import { useNavigate } from 'react-router'
 
-function LoginPage() {
+function LoginPage({ hideHeaderFooter = false }) {
     const login_url = "http://127.0.0.1:8000/api/login_function/"
     const navigate = useNavigate()
 
@@ -55,69 +55,86 @@ function LoginPage() {
     }
 
     return (
-        <div>
-            <LandingPageHeader />
-            <center>
-                <div className='loginPage'>
-                    <div class="login-container">
-                        <div class="login-card">
-                            <div class="login-header">
-                                <h2>Sign In</h2>
-                                <p>Enter your credentials to continue</p>
+        <div className="login-wrapper">
+            {!hideHeaderFooter && <LandingPageHeader />}
+
+            <div className={`login-main-content ${hideHeaderFooter ? 'in-modal' : ''}`}>
+                <div className="login-container">
+                    <div className="login-card">
+                        <div className="login-header">
+                            <div className="login-logo-circle">
+                                <i className="fas fa-user-shield"></i>
                             </div>
-
-                            <form class="login-form" id="loginForm" novalidate onSubmit={handleSubmit}>
-                                <div class="form-group">
-                                    <div class="input-wrapper">
-                                        <input type="email" id="email" name="email" required autocomplete="email" value={data.email} onChange={handleChange} />
-                                        <label for="email">Email</label>
-                                    </div>
-                                    <span class="error-message" id="emailError"></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="input-wrapper">
-                                        <input type="password" id="password" name="password" required autocomplete="current-password" value={data.password} onChange={handleChange} />
-                                        <label for="password">Password</label>
-                                        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
-                                            <span class="toggle-icon"></span>
-                                        </button>
-                                    </div>
-                                    <span class="error-message" id="passwordError"></span>
-                                </div>
-
-                                <div class="form-options">
-                                    <div class="remember-wrapper">
-                                        <input type="checkbox" id="remember" name="remember" />
-                                        <label for="remember" class="checkbox-label">
-                                            <span class="checkmark"></span>
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    <a href="#" class="forgot-password">Forgot password?</a>
-                                </div>
-
-                                <button type="submit" class="login-btn">
-                                    <span class="btn-text">Sign In</span>
-                                    <span class="btn-loader"></span>
-                                </button>
-                            </form>
-
-                            <div class="signup-link">
-                                <p>Don't have an account? <a href="#">Create one</a></p>
-                            </div>
-
-                            <div class="success-message" id="successMessage">
-                                <div class="success-icon">✓</div>
-                                <h3>Welcome back!</h3>
-                                <p>Redirecting to your dashboard...</p>
-                            </div>
+                            <h2>Welcome Back</h2>
+                            <p>Integrated Medical Facility Network Portal</p>
                         </div>
+
+                        <form className="login-form-modern" onSubmit={handleSubmit}>
+                            <div className="modern-form-group">
+                                <label><i className="fas fa-envelope"></i> Email Address</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    required
+                                    value={data.email}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className="modern-form-group">
+                                <label><i className="fas fa-lock"></i> Password</label>
+                                <div className="password-input-modern">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        placeholder="••••••••"
+                                        required
+                                        value={data.password}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-utilities">
+                                <label className="custom-checkbox">
+                                    <input type="checkbox" />
+                                    <span className="checkmark"></span>
+                                    Remember Me
+                                </label>
+                                <a href="#" className="forgot-link">Forgot Password?</a>
+                            </div>
+
+                            <button type="submit" className="login-submit-btn">
+                                <span>Sign In to Portal</span>
+                                <i className="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+
+                        {/* <div className="login-divider">
+                            <span>OR</span>
+                        </div>
+
+                        <div className="social-login-grid">
+                            <button className="social-btn google">
+                                <i className="fab fa-google"></i>
+                            </button>
+                            <button className="social-btn facebook">
+                                <i className="fab fa-facebook-f"></i>
+                            </button>
+                            <button className="social-btn github">
+                                <i className="fab fa-github"></i>
+                            </button>
+                        </div>
+
+                        <div className="login-footer">
+                            <p>New to IMFN? <a href="#">Create an Account</a></p>
+                        </div> */}
                     </div>
                 </div>
-            </center>
+            </div>
 
-            <LandingPageFooter />
+            {!hideHeaderFooter && <LandingPageFooter />}
         </div>
     )
 }
