@@ -53,79 +53,88 @@ const HospitalRegForm = ({ hideHeaderFooter = false }) => {
   };
 
   return (
-    <div>
+    <div className="registration-wrapper">
       {!hideHeaderFooter && <LandingPageHeader />}
-      <div className="container mt-5" style={hideHeaderFooter ? { marginTop: '0px' } : {}}>
-        <div className="row justify-content-center">
-          <div className={hideHeaderFooter ? "col-md-12" : "col-md-6"}>
-            <div className="card shadow-sm">
-              <div className="card-header bg-primary text-white text-center">
-                <h4>Register Hospital</h4>
+
+      <div className={`registration-main-content ${hideHeaderFooter ? 'in-modal' : ''}`}>
+        <div className="registration-container">
+          <div className="registration-card hospital-variant">
+            <div className="registration-header">
+              <div className="registration-logo-circle">
+                <i className="fas fa-hospital"></i>
               </div>
-              <div className="card-body">
-                <form onSubmit={handleSubmit}>
+              <h2>Hospital Onboarding</h2>
+              <p>Register your facility in the National Network</p>
+            </div>
 
-                  {/* Name */}
-                  <div className="mb-3">
-                    <label className="form-label">Hospital Name</label>
-                    <input type="text" name="hospitalName" className="form-control"
-                      value={formData.hospitalName} onChange={handleChange} required />
-                  </div>
-
-                  <div className="row">
-
-                    <div className="col-md-6 mb-3">
-                      <label className="form-label">Registration ID</label>
-                      <input type="number" name="registrationId" className="form-control"
-                        value={formData.registrationId} onChange={handleChange} required />
-                    </div>
-
-                    <div className="col-md-6 mb-3">
-                      <label className="form-label">Hospital Address</label>
-                      <input type="text" name="hospitalAddress" className="form-control"
-                        value={formData.hospitalAddress} onChange={handleChange} required />
-                    </div>
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Contact Number</label>
-                    <input type="tel" name="contactNumber" className="form-control"
-                      value={formData.contactNumber} onChange={handleChange} required />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Latitude</label>
-                    <input type="text" name="lat" className="form-control"
-                      value={formData.lat} onChange={handleChange} required />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Longitude</label>
-                    <input type="text" name="lon" className="form-control"
-                      value={formData.lon} onChange={handleChange} required />
-                  </div>
-
-
-                  <div className="mb-3">
-                    <label className="form-label">Email Address</label>
-                    <input type="email" name="email" className="form-control"
-                      value={formData.email} onChange={handleChange} required />
-                  </div>
-
-
-                  <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <input type="password" name="password" className="form-control"
-                      value={formData.password} onChange={handleChange} required />
-                  </div>
-
-                  <button type="submit" className="btn btn-primary w-100 mt-3">Register</button>
-                </form>
+            <form className="registration-form-modern" onSubmit={handleSubmit}>
+              <div className="modern-form-row">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-h-square"></i> Hospital Name</label>
+                  <input type="text" name="hospitalName" placeholder="City General Hospital"
+                    value={formData.hospitalName} onChange={handleChange} required />
+                </div>
               </div>
+
+              <div className="modern-form-grid">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-id-card"></i> Registration ID</label>
+                  <input type="number" name="registrationId" placeholder="REG-123456"
+                    value={formData.registrationId} onChange={handleChange} required />
+                </div>
+                <div className="modern-form-group">
+                  <label><i className="fas fa-map-marker-alt"></i> Facility Address</label>
+                  <input type="text" name="hospitalAddress" placeholder="123 Medical Way"
+                    value={formData.hospitalAddress} onChange={handleChange} required />
+                </div>
+              </div>
+
+              <div className="modern-form-row">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-phone-square-alt"></i> Emergency Contact</label>
+                  <input type="tel" name="contactNumber" placeholder="+1 800 555 0199"
+                    value={formData.contactNumber} onChange={handleChange} required />
+                </div>
+              </div>
+
+              <div className="modern-form-grid">
+                <div className="modern-form-group">
+                  <label><i className="fas fa-location-arrow"></i> Latitude</label>
+                  <input type="text" name="lat" placeholder="40.7128"
+                    value={formData.lat} onChange={handleChange} required />
+                </div>
+                <div className="modern-form-group">
+                  <label><i className="fas fa-compass"></i> Longitude</label>
+                  <input type="text" name="lon" placeholder="-74.0060"
+                    value={formData.lon} onChange={handleChange} required />
+                </div>
+              </div>
+
+              <div className="modern-form-group">
+                <label><i className="fas fa-envelope-open-text"></i> Official Email</label>
+                <input type="email" name="email" placeholder="admin@hospital.org"
+                  value={formData.email} onChange={handleChange} required />
+              </div>
+
+              <div className="modern-form-group">
+                <label><i className="fas fa-shield-alt"></i> Administrative Password</label>
+                <input type="password" name="password" placeholder="••••••••"
+                  value={formData.password} onChange={handleChange} required />
+              </div>
+
+              <button type="submit" className="registration-submit-btn hospital-btn">
+                <span>Register Facility</span>
+                <i className="fas fa-building"></i>
+              </button>
+            </form>
+
+            <div className="registration-footer">
+              <p>Already registered? <a href="#">Login here</a></p>
             </div>
           </div>
         </div>
       </div>
+
       {!hideHeaderFooter && <LandingPageFooter />}
     </div>
   );
