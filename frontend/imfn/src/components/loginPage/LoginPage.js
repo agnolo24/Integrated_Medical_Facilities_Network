@@ -5,7 +5,7 @@ import LandingPageFooter from '../LandingPageFooter/LandingPageFooter'
 import axios from 'axios'
 import { useNavigate } from 'react-router'
 
-function LoginPage() {
+function LoginPage({ hideHeaderFooter = false }) {
     const login_url = "http://127.0.0.1:8000/api/login_function/"
     const navigate = useNavigate()
 
@@ -56,59 +56,59 @@ function LoginPage() {
 
     return (
         <div>
-            <LandingPageHeader />
+            {!hideHeaderFooter && <LandingPageHeader />}
             <center>
-                <div className='loginPage'>
-                    <div class="login-container">
-                        <div class="login-card">
-                            <div class="login-header">
+                <div className='loginPage' style={hideHeaderFooter ? { padding: '20px' } : {}}>
+                    <div className="login-container">
+                        <div className="login-card">
+                            <div className="login-header">
                                 <h2>Sign In</h2>
                                 <p>Enter your credentials to continue</p>
                             </div>
 
-                            <form class="login-form" id="loginForm" novalidate onSubmit={handleSubmit}>
-                                <div class="form-group">
-                                    <div class="input-wrapper">
-                                        <input type="email" id="email" name="email" required autocomplete="email" value={data.email} onChange={handleChange} />
-                                        <label for="email">Email</label>
+                            <form className="login-form" id="loginForm" noValidate onSubmit={handleSubmit}>
+                                <div className="form-group">
+                                    <div className="input-wrapper">
+                                        <input type="email" id="email" name="email" required autoComplete="email" value={data.email} onChange={handleChange} />
+                                        <label htmlFor="email">Email</label>
                                     </div>
-                                    <span class="error-message" id="emailError"></span>
+                                    <span className="error-message" id="emailError"></span>
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="input-wrapper">
-                                        <input type="password" id="password" name="password" required autocomplete="current-password" value={data.password} onChange={handleChange} />
-                                        <label for="password">Password</label>
-                                        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
-                                            <span class="toggle-icon"></span>
+                                <div className="form-group">
+                                    <div className="input-wrapper">
+                                        <input type="password" id="password" name="password" required autoComplete="current-password" value={data.password} onChange={handleChange} />
+                                        <label htmlFor="password">Password</label>
+                                        <button type="button" className="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                                            <span className="toggle-icon"></span>
                                         </button>
                                     </div>
-                                    <span class="error-message" id="passwordError"></span>
+                                    <span className="error-message" id="passwordError"></span>
                                 </div>
 
-                                <div class="form-options">
-                                    <div class="remember-wrapper">
+                                <div className="form-options">
+                                    <div className="remember-wrapper">
                                         <input type="checkbox" id="remember" name="remember" />
-                                        <label for="remember" class="checkbox-label">
-                                            <span class="checkmark"></span>
+                                        <label htmlFor="remember" className="checkbox-label">
+                                            <span className="checkmark"></span>
                                             Remember me
                                         </label>
                                     </div>
-                                    <a href="#" class="forgot-password">Forgot password?</a>
+                                    <a href="#" className="forgot-password">Forgot password?</a>
                                 </div>
 
-                                <button type="submit" class="login-btn">
-                                    <span class="btn-text">Sign In</span>
-                                    <span class="btn-loader"></span>
+                                <button type="submit" className="login-btn">
+                                    <span className="btn-text">Sign In</span>
+                                    <span className="btn-loader"></span>
                                 </button>
                             </form>
 
-                            <div class="signup-link">
+                            <div className="signup-link">
                                 <p>Don't have an account? <a href="#">Create one</a></p>
                             </div>
 
-                            <div class="success-message" id="successMessage">
-                                <div class="success-icon">✓</div>
+                            <div className="success-message" id="successMessage">
+                                <div className="success-icon">✓</div>
                                 <h3>Welcome back!</h3>
                                 <p>Redirecting to your dashboard...</p>
                             </div>
@@ -117,7 +117,7 @@ function LoginPage() {
                 </div>
             </center>
 
-            <LandingPageFooter />
+            {!hideHeaderFooter && <LandingPageFooter />}
         </div>
     )
 }

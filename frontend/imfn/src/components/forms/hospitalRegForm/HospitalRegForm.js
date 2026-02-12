@@ -7,7 +7,7 @@ import './HospitalRegForm.css';
 import LandingPageHeader from '../../LandingPageHeader/LandingPageHeader';
 import LandingPageFooter from '../../LandingPageFooter/LandingPageFooter';
 
-const HospitalRegForm = () => {
+const HospitalRegForm = ({ hideHeaderFooter = false }) => {
   const hospital_registration = 'http://127.0.0.1:8000/api/hospital_registration/'
   const [formData, setFormData] = useState({
     hospitalName: '',
@@ -54,10 +54,10 @@ const HospitalRegForm = () => {
 
   return (
     <div>
-      <LandingPageHeader />
-      <div className="container mt-5">
+      {!hideHeaderFooter && <LandingPageHeader />}
+      <div className="container mt-5" style={hideHeaderFooter ? { marginTop: '0px' } : {}}>
         <div className="row justify-content-center">
-          <div className="col-md-6">
+          <div className={hideHeaderFooter ? "col-md-12" : "col-md-6"}>
             <div className="card shadow-sm">
               <div className="card-header bg-primary text-white text-center">
                 <h4>Register Hospital</h4>
@@ -126,7 +126,7 @@ const HospitalRegForm = () => {
           </div>
         </div>
       </div>
-      <LandingPageFooter />
+      {!hideHeaderFooter && <LandingPageFooter />}
     </div>
   );
 };

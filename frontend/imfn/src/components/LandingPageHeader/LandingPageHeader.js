@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router';
+import LoginPage from '../loginPage/LoginPage';
+import RegForm1 from '../forms/userRegForm/RegForm1';
+import HospitalRegForm from '../forms/hospitalRegForm/HospitalRegForm';
 
 // CSS Imports
 import '../../asset/user_assets/css/bootstrap.min.css';
@@ -16,9 +19,19 @@ import '../../asset/user_assets/css/responsive.css';
 function LandingPageHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
+    const [modalType, setModalType] = useState(null); // 'login', 'patient', 'hospital'
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const openModal = (type) => {
+        setModalType(type);
+        setIsMobileMenuOpen(false);
+    };
+
+    const closeModal = () => {
+        setModalType(null);
     };
 
     useEffect(() => {
@@ -84,44 +97,30 @@ function LandingPageHeader() {
                                     <div className="main-menu text-right pr-15">
                                         <nav id="mobile-menu-desktop">
                                             <ul>
-                                                <li className="has-sub">
-                                                    <NavLink to="/"><h6>Home</h6></NavLink>
+                                                <li>
+                                                    <NavLink to="/">Home</NavLink>
+                                                </li>
+                                                {/* <li>
+                                                    <a href="#about">About Us</a>
                                                 </li>
                                                 <li>
-                                                    <NavLink to="/userReg">Patient Registration</NavLink>
+                                                    <a href="#services">Services</a>
                                                 </li>
                                                 <li>
-                                                    <NavLink to="/hospitalReg">Hospital Registration</NavLink>
+                                                    <a href="#blog">Blog</a>
+                                                </li> */}
+                                                <li>
+                                                    <a href="#" onClick={(e) => { e.preventDefault(); openModal('patient'); }}>Patient Registration</a>
                                                 </li>
-                                                {/* <li className="has-sub">
-                                                    <a href="services.html">Services</a>
-                                                    <ul>
-                                                        <li><a href="services.html">Services</a></li>
-                                                        <li><a href="services-detail.html">Services Details</a></li>
-                                                    </ul>
-                                                </li> */}
-
-                                                {/* <li className="has-sub">
-                                                    <a href="blog.html">Blog</a>
-                                                    <ul>
-                                                        <li><a href="blog.html">Blog</a></li>
-                                                        <li><a href="blog-details.html">Blog Details</a></li>
-                                                    </ul>
-                                                </li> */}
-                                                {/* <li className="has-sub">
-                                                    <h6>Registration</h6>
-                                                    <ul>
-                                                        <li><NavLink to="/userReg">Patient Registration</NavLink></li>
-                                                        <li><NavLink to="/hospitalReg">Hospital Registration</NavLink></li>
-                                                        <li><NavLink to="/ambulance">Ambulance Registration</NavLink></li>
-                                                    </ul>
-                                                </li> */}
+                                                <li>
+                                                    <a href="#" onClick={(e) => { e.preventDefault(); openModal('hospital'); }}>Hospital Registration</a>
+                                                </li>
                                             </ul>
                                         </nav>
                                     </div>
                                 </div>
                                 <div className="col-xl-2 col-lg-2 d-none d-lg-block">
-                                    <NavLink to="/login"><button className="top-btn">Login</button></NavLink>
+                                    <button className="top-btn" onClick={() => openModal('login')}>Login</button>
                                 </div>
                                 <div className="col-md-6 col-6 d-block d-lg-none">
                                     <div className="mobile-menu-toggle d-flex justify-content-end align-items-center">
@@ -145,30 +144,16 @@ function LandingPageHeader() {
 
                 <ul className="d-block" style={{ marginTop: '40px' }}>
                     <li><NavLink to="/" onClick={toggleMobileMenu}>Home</NavLink></li>
-                    <li><a href="about.html" onClick={toggleMobileMenu}>About Us</a></li>
+                    <li><a href="#about" onClick={toggleMobileMenu}>About Us</a></li>
+                    <li><a href="#services" onClick={toggleMobileMenu}>Services</a></li>
+                    <li><a href="#blog" onClick={toggleMobileMenu}>Blog</a></li>
                     <li>
-                        <a href="#" onClick={(e) => e.preventDefault()}>Services</a>
-                        <ul className="sub-menu pl-3" style={{ display: 'block' }}>
-                            <li><a href="services.html" onClick={toggleMobileMenu}>Services</a></li>
-                            <li><a href="services-detail.html" onClick={toggleMobileMenu}>Services Details</a></li>
-                        </ul>
+                        <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); openModal('patient'); }}>Patient Registration</a>
                     </li>
                     <li>
-                        <a href="#" onClick={(e) => e.preventDefault()}>Blog</a>
-                        <ul className="sub-menu pl-3" style={{ display: 'block' }}>
-                            <li><a href="blog.html" onClick={toggleMobileMenu}>Blog</a></li>
-                            <li><a href="blog-details.html" onClick={toggleMobileMenu}>Blog Details</a></li>
-                        </ul>
+                        <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); openModal('hospital'); }}>Hospital Registration</a>
                     </li>
-                    <li>
-                        <a href="#" onClick={(e) => e.preventDefault()}>Registration</a>
-                        <ul className="sub-menu pl-3" style={{ display: 'block' }}>
-                            <li><NavLink to="/userReg" onClick={toggleMobileMenu}>Patient Registration</NavLink></li>
-                            <li><NavLink to="/hospitalReg" onClick={toggleMobileMenu}>Hospital Registration</NavLink></li>
-                            <li><NavLink to="/ambulance" onClick={toggleMobileMenu}>Ambulance Registration</NavLink></li>
-                        </ul>
-                    </li>
-                    <li><NavLink to="/login" onClick={toggleMobileMenu}>Login</NavLink></li>
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); openModal('login'); }}>Login</a></li>
                 </ul>
 
                 <div className="side-social" style={{ marginTop: '20px' }}>
@@ -180,6 +165,51 @@ function LandingPageHeader() {
             </div>
 
             <div className={`offcanvas-overly ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
+
+            {/* Modal Implementation */}
+            {modalType && (
+                <div className="custom-modal-overlay" onClick={closeModal} style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0,0,0,0.7)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 9999,
+                    overflowY: 'auto',
+                    padding: '20px'
+                }}>
+                    <div className="custom-modal-content" onClick={(e) => e.stopPropagation()} style={{
+                        backgroundColor: '#fff',
+                        borderRadius: '10px',
+                        width: '100%',
+                        maxWidth: modalType === 'login' ? '500px' : '800px',
+                        position: 'relative',
+                        animation: 'fadeInUp 0.3s ease-out'
+                    }}>
+                        <button onClick={closeModal} style={{
+                            position: 'absolute',
+                            right: '15px',
+                            top: '15px',
+                            border: 'none',
+                            background: 'none',
+                            fontSize: '24px',
+                            cursor: 'pointer',
+                            zIndex: 10001,
+                            color: '#333'
+                        }}>&times;</button>
+
+                        <div style={{ maxHeight: '90vh', overflowY: 'auto', paddingBottom: '20px' }}>
+                            {modalType === 'login' && <LoginPage hideHeaderFooter={true} />}
+                            {modalType === 'patient' && <RegForm1 hideHeaderFooter={true} />}
+                            {modalType === 'hospital' && <HospitalRegForm hideHeaderFooter={true} />}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

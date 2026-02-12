@@ -9,7 +9,7 @@ import LandingPageFooter from '../../LandingPageFooter/LandingPageFooter';
 
 const patient_register = "http://127.0.0.1:8000/api/patient_register/"
 
-const RegForm1 = () => {
+const RegForm1 = ({ hideHeaderFooter = false }) => {
   const [formData, setFormData] = useState({
     name: '',
     age: '',
@@ -28,9 +28,9 @@ const RegForm1 = () => {
     e.preventDefault();
 
     try {
-      const payload = {...formData, age: Number(formData.age)}
+      const payload = { ...formData, age: Number(formData.age) }
       const response = await axios.post(patient_register, payload)
-      alert(response.data.message + "\nPatient Id: "+ response.data.patient_id)
+      alert(response.data.message + "\nPatient Id: " + response.data.patient_id)
       setFormData({
         name: '',
         age: '',
@@ -48,10 +48,10 @@ const RegForm1 = () => {
 
   return (
     <div>
-      <LandingPageHeader />
-      <div className="container mt-5">
+      {!hideHeaderFooter && <LandingPageHeader />}
+      <div className="container mt-5" style={hideHeaderFooter ? { marginTop: '0px' } : {}}>
         <div className="row justify-content-center">
-          <div className="col-md-6">
+          <div className={hideHeaderFooter ? "col-md-12" : "col-md-6"}>
             <div className="card shadow-sm">
               <div className="card-header bg-primary text-white text-center">
                 <h4>Register Account</h4>
@@ -121,7 +121,7 @@ const RegForm1 = () => {
           </div>
         </div>
       </div>
-      <LandingPageFooter />
+      {!hideHeaderFooter && <LandingPageFooter />}
     </div>
   );
 };
