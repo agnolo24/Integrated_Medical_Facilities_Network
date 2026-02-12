@@ -111,7 +111,7 @@ function LoginPage({ hideHeaderFooter = false }) {
                             </button>
                         </form>
 
-                        <div className="login-divider">
+                        {/* <div className="login-divider">
                             <span>OR</span>
                         </div>
 
@@ -129,7 +129,7 @@ function LoginPage({ hideHeaderFooter = false }) {
 
                         <div className="login-footer">
                             <p>New to IMFN? <a href="#">Create an Account</a></p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
