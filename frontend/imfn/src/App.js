@@ -23,6 +23,7 @@ import ViewAmbulance from './components/Hospital/ManageAmbulance/ViewAmbulance/V
 import DoctorProfile from './components/Doctor/DoctorProfile/DoctorProfile'
 import SheduleDoctors from './components/Hospital/ManageDoctor/SheduleDoctors/SheduleDoctors'
 import RegisterPharmacy from './components/Hospital/ManagePharmacy/RegisterPharmacy/RegisterPharmacy'
+import RegisterBilling from './components/Hospital/ManageBilling/RegisterBilling/RegisterBilling'
 import PharmacyHome from './components/Pharmacy/PharmacyHome/PharmacyHome'
 import ManageMedicine from './components/Pharmacy/ManageMedicine/ManageMedicine'
 import ViewCompletedAppointments from './components/Pharmacy/ViewCompletedAppointments/ViewCompletedAppointments'
@@ -67,6 +68,7 @@ function App() {
           <Route path='/AmbulanceEditProfile' element={<AmbulanceEditProfile />} />
           <Route path='/scheduleDoctor' element={<SheduleDoctors />} />
           <Route path='/registerPharmacy' element={<RegisterPharmacy />} />
+          <Route path='/registerBilling' element={<RegisterBilling />} />
 
           {/* Patient Module Routes */}
           <Route path='/findDoctors' element={<FindDoctors />} />

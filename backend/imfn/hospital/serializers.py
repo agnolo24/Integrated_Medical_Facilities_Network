@@ -215,3 +215,9 @@ class PharmacyRegisterSerializer(serializers.Serializer):
     hospital_login_id = serializers.CharField(max_length=50)
     email = serializers.EmailField()
     password = serializers.CharField(min_length = 4, write_only = True)
+
+
+class BillingRegisterSerializer(serializers.Serializer):
+    hospital_login_id = serializers.CharField(max_length=50)
+    email = serializers.EmailField()
+    password = serializers.CharField(min_length=4, write_only=True)
