@@ -211,7 +211,6 @@ def get_completed_appointments(request):
         today = datetime.combine(datetime.today(), datetime.min.time())
         tomorrow = today + timedelta(days=1)
 
-        print("hospital_id : ",str(hospital_id))
         hospital = hospital_col.find_one({"_id": ObjectId(hospital_id) if isinstance(hospital_id, str) else hospital_id})
         if not hospital:
             return Response({"error": "Hospital record not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -232,9 +231,7 @@ def get_completed_appointments(request):
         for apt in appointments_cursor:
             bill = bill_col.find_one({"appointment_id": apt["_id"]})
             if bill:
-                # print("bill : ",bill.get("pharmacy_medicine.status"))
                 if not bill.get("pharmacy_medicine"):
-                    print("hi apt without medicine : ",str(apt["_id"]))
                     appointments_list.append({
                         "appointment_id": str(apt["_id"]),
                         "patient_name": apt.get("patient_name", "N/A"),
@@ -242,9 +239,6 @@ def get_completed_appointments(request):
                         "time_slot": apt.get("time_slot", "N/A"),
                         "prescription": apt.get("prescription", "N/A"),
                     })
-                else:
-                    print("apt with medicine : ",apt['_id'])
-
         return Response({"appointments": appointments_list}, status=status.HTTP_200_OK)
 
     except Exception as e:
@@ -290,7 +284,6 @@ def update_medicine_stock(request):
 
         updated_count = 0
         for medicine in Medicine_Stock:
-            print("medicine = ",medicine)
             medicine_id = medicine.get('medicine_id')
             stock = medicine.get('stock')
             
@@ -319,8 +312,6 @@ def update_medicine_stock(request):
 def add_medicine_to_bill(request):
     appointment_id = request.data.get('appointment_Id')
     Medicine_Details = request.data.get('Medicine_Details')
-    print("appointment_id = ",appointment_id)
-    print("Medicine_Details = ",Medicine_Details)
 
     db = get_db()
     bill_coll = db['bills']
