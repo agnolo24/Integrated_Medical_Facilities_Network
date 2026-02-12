@@ -1,10 +1,16 @@
 import React from 'react';
 import PharmacyHeader from '../PharmacyHeader/PharmacyHeader';
 import PharmacyFooter from '../PharmacyFooter/PharmacyFooter';
+import CardView from '../../Hospital/HospitalComponents/CardView';
 
 export default function PharmacyHome() {
+    const card = [
+        { id: 1, name: "Manage Medicine", link: "/manageMedicine" },
+        { id: 2, name: "Completed Appointments", link: "/viewCompletedAppointments" },
+    ];
+
     return (
-        <div>
+        <div style={{ backgroundColor: "#f4f7f6", minHeight: "100vh" }}>
             <PharmacyHeader />
             <main>
                 <section className="breadcrumb-area d-flex align-items-center" style={{ backgroundImage: `url(${require('../../../asset/user_assets/img/testimonial/test-bg.jpg')})` }}>
@@ -38,6 +44,15 @@ export default function PharmacyHome() {
                                     <h2>Manage your pharmacy efficiently</h2>
                                 </div>
                             </div>
+                        </div>
+                        <div className="row">
+                            {card.map((data) => (
+                                <div key={data.id} className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                    <CardView
+                                        name={data.name}
+                                        link={data.link} />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
