@@ -272,8 +272,9 @@ def set_appointment_complete(request):
         hospital = hospital_coll.find_one({ 'login_id' : apt['hospital_login_id'] })
         
         bill = bill_coll.insert_one({
-            "appointmentt_id" : ObjectId(_id),
+            "appointment_id" : ObjectId(_id),
             "hospital_id" : ObjectId(hospital['_id']),
+            "status" : "unpaid",
         })
         return Response({"message" : "sucess"},status=status.HTTP_200_OK)
         

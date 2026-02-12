@@ -310,8 +310,42 @@ def update_medicine_stock(request):
 
 @api_view(['POST'])
 def add_medicine_to_bill(request):
-    appointment_Id = request.data.get('appointment_Id')
+    appointment_id = request.data.get('appointment_Id')
     Medicine_Details = request.data.get('Medicine_Details')
-    print("appointment_Id = ",appointment_Id)
+    print("appointment_id = ",appointment_id)
     print("Medicine_Details = ",Medicine_Details)
+
+    db = get_db()
+    bill_coll = db['bills']
+
+    medicine_list = []
+
+    if Medicine_Details:
+        for medicine in Medicine_Details:
+                med = {
+                    "medicine_name" : medicine['medicine_name'],
+                    "quantity" : medicine['quantity'],
+                    "price_per_unit" : medicine['price'],
+                    "price" : int(medicine['price']) * int(medicine['quantity']),
+                }
+                medicine_list.append(med)
+    else:
+        return Response({},status=status.HTTP_404_NOT_FOUND)
+    pharmacy_medicine = {
+        'pharmacy_medicine' : {
+            'medicine_deatils': medicine_list,
+            'status' : 'unpaid',
+            }
+        }
+    try:
+        result = bill_coll.update_one({'appointment_id' : ObjectId(appointment_id)},{'$set' : pharmacy_medicine})
+        if result.modified_count > 0:
+            return Response({"message": "Medicine successfully added to bill"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Medicine is not added to bill"}, status=status.HTTP_404_NOT_FOUND)
+
+    except Exception as e:
+        print(f"Error in update_medicine_stock: {str(e)}")
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     return Response({"message": "Medicine added to bill successfully"}, status=status.HTTP_200_OK)
