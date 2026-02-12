@@ -75,7 +75,7 @@ def add_medicine(request):
 
     try:
         medicine_obj = {
-            "medicine_id": str(ObjectId()),
+            "medicine_id": ObjectId(),
             "name": name,
             "description": description,
             "price": price,
@@ -89,6 +89,7 @@ def add_medicine(request):
             {"$push": {"medicines": medicine_obj}}
         )
 
+        medicine_obj['medicine_id'] = str(medicine_obj['medicine_id'])
         if result.modified_count > 0:
             return Response({"message": "Medicine added successfully", "medicine": medicine_obj}, status=status.HTTP_200_OK)
         else:
@@ -113,6 +114,8 @@ def view_medicines(request):
             return Response({"error": "Pharmacy record not found"}, status=status.HTTP_404_NOT_FOUND)
         
         medicines = pharmacy.get("medicines", [])
+        for med in medicines:
+            med['medicine_id'] = str(med['medicine_id'])
         return Response({"medicines": medicines}, status=status.HTTP_200_OK)
 
     except Exception as e:
@@ -137,7 +140,7 @@ def edit_medicine(request):
 
     try:
         result = pharmacy_col.update_one(
-            {"login_id": ObjectId(pharmacy_login_id), "medicines.medicine_id": medicine_id},
+            {"login_id": ObjectId(pharmacy_login_id), "medicines.medicine_id": ObjectId(medicine_id)},
             {"$set": {
                 "medicines.$.name": name,
                 "medicines.$.description": description,
@@ -171,7 +174,7 @@ def delete_medicine(request):
     try:
         result = pharmacy_col.update_one(
             {"login_id": ObjectId(pharmacy_login_id)},
-            {"$pull": {"medicines": {"medicine_id": medicine_id}}}
+            {"$pull": {"medicines": {"medicine_id": ObjectId(medicine_id)}}}
         )
 
         if result.modified_count > 0:
@@ -193,6 +196,7 @@ def get_completed_appointments(request):
     pharmacy_col = db['pharmacy']
     appointment_col = db['appointments']
     hospital_col = db['hospital']
+    bill_col = db['bills']
 
     try:
         pharmacy = pharmacy_col.find_one({"login_id": ObjectId(pharmacy_login_id)})
@@ -207,8 +211,13 @@ def get_completed_appointments(request):
         today = datetime.combine(datetime.today(), datetime.min.time())
         tomorrow = today + timedelta(days=1)
 
-        print("hospital_id : ",str(hospital_id))
-        hospital_login_id = hospital_col.find_one({"_id": ObjectId(hospital_id)})['login_id']
+        hospital = hospital_col.find_one({"_id": ObjectId(hospital_id) if isinstance(hospital_id, str) else hospital_id})
+        if not hospital:
+            return Response({"error": "Hospital record not found"}, status=status.HTTP_404_NOT_FOUND)
+            
+        hospital_login_id = hospital.get('login_id')
+        if not hospital_login_id:
+            return Response({"error": "Hospital login ID not found"}, status=status.HTTP_404_NOT_FOUND)
 
         query = {
             "hospital_login_id": ObjectId(hospital_login_id) if isinstance(hospital_login_id, (str, ObjectId)) else hospital_login_id,
@@ -220,15 +229,16 @@ def get_completed_appointments(request):
         appointments_list = []
         
         for apt in appointments_cursor:
-            appointments_list.append({
-                "appointment_id": str(apt["_id"]),
-                "patient_name": apt.get("patient_name", "N/A"),
-                "doctor_name": apt.get("doctor_name", "N/A"),
-                "appointment_date": apt.get("appointment_date").strftime("%Y-%m-%d") if apt.get("appointment_date") else "N/A",
-                "time_slot": apt.get("time_slot", "N/A"),
-                "prescription": apt.get("prescription", "N/A"),
-            })
-
+            bill = bill_col.find_one({"appointment_id": apt["_id"]})
+            if bill:
+                if not bill.get("pharmacy_medicine"):
+                    appointments_list.append({
+                        "appointment_id": str(apt["_id"]),
+                        "patient_name": apt.get("patient_name", "N/A"),
+                        "doctor_name": apt.get("doctor_name", "N/A"),                    "appointment_date": apt.get("appointment_date").strftime("%Y-%m-%d") if apt.get("appointment_date") else "N/A",
+                        "time_slot": apt.get("time_slot", "N/A"),
+                        "prescription": apt.get("prescription", "N/A"),
+                    })
         return Response({"appointments": appointments_list}, status=status.HTTP_200_OK)
 
     except Exception as e:
@@ -257,5 +267,83 @@ def get_prescription(request):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    # print("appointment_id : ",appointment_id)
-    # return Response({"message":"success"},status=status.HTTP_200_OK)
+@api_view(['POST'])
+def update_medicine_stock(request):
+    pharmacy_login_id = request.data.get('pharmacy_login_id')
+    Medicine_Stock = request.data.get('Medicine_Stock')
+
+    if not pharmacy_login_id or Medicine_Stock is None:
+        return Response({"error": "Required fields are missing"}, status=status.HTTP_400_BAD_REQUEST)
+
+    db = get_db()
+    pharmacy_col = db['pharmacy']
+    
+    try:
+        if not ObjectId.is_valid(pharmacy_login_id):
+            return Response({"error": "Invalid Pharmacy Login ID format"}, status=status.HTTP_400_BAD_REQUEST)
+
+        updated_count = 0
+        for medicine in Medicine_Stock:
+            medicine_id = medicine.get('medicine_id')
+            stock = medicine.get('stock')
+            
+            if medicine_id is not None and stock is not None:
+                result = pharmacy_col.update_one(
+                    {"login_id": ObjectId(pharmacy_login_id), "medicines.medicine_id": ObjectId(medicine_id)},
+                    {"$set": {
+                        "medicines.$.stock": stock,
+                    }}
+                )
+                if result.modified_count > 0:
+                    updated_count += 1
+
+        return Response({
+            "message": f"Medicine stock update process completed. {updated_count} records updated.",
+            "total_sent": len(Medicine_Stock)
+        }, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(f"Error in update_medicine_stock: {str(e)}")
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    return Response({},status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def add_medicine_to_bill(request):
+    appointment_id = request.data.get('appointment_Id')
+    Medicine_Details = request.data.get('Medicine_Details')
+
+    db = get_db()
+    bill_coll = db['bills']
+
+    medicine_list = []
+
+    if Medicine_Details:
+        for medicine in Medicine_Details:
+                med = {
+                    "medicine_name" : medicine['medicine_name'],
+                    "quantity" : medicine['quantity'],
+                    "price_per_unit" : medicine['price'],
+                    "price" : int(medicine['price']) * int(medicine['quantity']),
+                }
+                medicine_list.append(med)
+    else:
+        return Response({},status=status.HTTP_404_NOT_FOUND)
+    pharmacy_medicine = {
+        'pharmacy_medicine' : {
+            'medicine_deatils': medicine_list,
+            'status' : 'unpaid',
+            }
+        }
+    try:
+        result = bill_coll.update_one({'appointment_id' : ObjectId(appointment_id)},{'$set' : pharmacy_medicine})
+        if result.modified_count > 0:
+            return Response({"message": "Medicine successfully added to bill"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Medicine is not added to bill"}, status=status.HTTP_404_NOT_FOUND)
+
+    except Exception as e:
+        print(f"Error in update_medicine_stock: {str(e)}")
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    return Response({"message": "Medicine added to bill successfully"}, status=status.HTTP_200_OK)
