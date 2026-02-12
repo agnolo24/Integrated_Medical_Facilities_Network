@@ -120,7 +120,7 @@ function LandingHome() {
                                         <img src={require('../../asset/user_assets/img/icon/sr-icon01.png')} alt="img" />
                                     </div>
                                     <div className="second-services-content">
-                                        <h5><a href="#">Emergency Management</a></h5>
+                                        <h5>Emergency Management</h5>
                                         <p>Smart emergency response system with real-time ambulance tracking and hospital readiness notifications.</p>
                                     </div>
 
@@ -132,7 +132,7 @@ function LandingHome() {
                                         <img src={require('../../asset/user_assets/img/icon/sr-icon02.png')} alt="img" />
                                     </div>
                                     <div className="second-services-content">
-                                        <h5><a href="#">Unified Health Records</a></h5>
+                                        <h5>Unified Health Records</h5>
                                         <p>A secure, centralized platform for patients and doctors to access medical history, prescriptions, and lab results.</p>
                                     </div>
 
@@ -144,7 +144,7 @@ function LandingHome() {
                                         <img src={require('../../asset/user_assets/img/icon/sr-icon03.png')} alt="img" />
                                     </div>
                                     <div className="second-services-content">
-                                        <h5><a href="#">Facility Coordination</a></h5>
+                                        <h5>Facility Coordination</h5>
                                         <p>Seamlessly transferring patient data and managing resources across multiple integrated medical facilities.</p>
                                     </div>
 
@@ -264,26 +264,20 @@ function LandingHome() {
                                     <li>
                                         <div className="icon">
                                             <div><img src={require('../../asset/user_assets/img/icon/de-icon01.png')} alt="de-icon" /></div></div>
-                                        <a href="#" className="text">
-                                            <h3>Emergency Care</h3>
-                                            Integrated protocols for critical trauma management and rapid response coordination across the network.
-                                        </a>
+                                        <h3>Emergency Care</h3>
+                                        Integrated protocols for critical trauma management and rapid response coordination across the network.
                                     </li>
                                     <li>
                                         <div className="icon">
                                             <div><img src={require('../../asset/user_assets/img/icon/de-icon02.png')} alt="de-icon" /></div></div>
-                                        <a href="#" className="text">
-                                            <h3>Specialized Surgery</h3>
-                                            Connecting top-tier surgeons with advanced diagnostic facilities for complex medical procedures.
-                                        </a>
+                                        <h3>Specialized Surgery</h3>
+                                        Connecting top-tier surgeons with advanced diagnostic facilities for complex medical procedures.
                                     </li>
                                     <li>
                                         <div className="icon">
                                             <div><img src={require('../../asset/user_assets/img/icon/de-icon03.png')} alt="de-icon" /></div></div>
-                                        <a href="#" className="text">
-                                            <h3>Diagnostic Labs</h3>
-                                            High-speed laboratory integration for faster results and automated record updates.
-                                        </a>
+                                        <h3>Diagnostic Labs</h3>
+                                        High-speed laboratory integration for faster results and automated record updates.
                                     </li>
                                 </ul>
 
