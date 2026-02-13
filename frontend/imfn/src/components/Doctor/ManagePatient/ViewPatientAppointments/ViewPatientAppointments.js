@@ -20,6 +20,7 @@ export default function ViewPatientAppointments() {
   const [isViewPrescriptionOpen, setIsViewPrescriptionOpen] = useState(false)
   const [isHistoyOpen, setIsHistoryOpen] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [stats, setStats] = useState({ total: 0, today: 0, pending: 0, completed: 0 })
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 30000)
@@ -66,8 +67,43 @@ export default function ViewPatientAppointments() {
     const response = await axios.get(URL, { params: { login_id: login_id, time_filter: filterStatus } });
     if (response.data && response.data.appointments) {
       setAppointments(response.data.appointments);
+
+      // If we are fetching 'all', we can update the stats cards
+      if (filterStatus === 'all') {
+        const todayStr = new Date().toISOString().split('T')[0];
+        const todayCount = response.data.appointments.filter(a => a.appointment_date === todayStr).length;
+        const pendingCount = response.data.appointments.filter(a => a.status === 'scheduled').length;
+        const completedCount = response.data.appointments.filter(a => a.status === 'completed').length;
+        setStats({
+          total: response.data.appointments.length,
+          today: todayCount,
+          pending: pendingCount,
+          completed: completedCount
+        });
+      }
     }
   }
+
+  // Effect to fetch stats initially
+  useEffect(() => {
+    const fetchStats = async () => {
+      const login_id = localStorage.getItem("loginId")
+      const response = await axios.get("http://127.0.0.1:8000/doctor/get_patient_appointment/", {
+        params: { login_id: login_id, time_filter: 'all' }
+      });
+      if (response.data && response.data.appointments) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        const allApts = response.data.appointments;
+        setStats({
+          total: allApts.length,
+          today: allApts.filter(a => a.appointment_date === todayStr).length,
+          pending: allApts.filter(a => a.status === 'scheduled').length,
+          completed: allApts.filter(a => a.status === 'completed').length
+        });
+      }
+    }
+    fetchStats();
+  }, []);
 
   const handleJoinClick = async (appointmentId) => {
     const login_id = localStorage.getItem("loginId")
@@ -122,8 +158,47 @@ export default function ViewPatientAppointments() {
 
       <div className="vpa-container">
         <div className="vpa-header">
-          <h1 className="vpa-title">My Appointments</h1>
-          <p className="vpa-subtitle">Manage and view your upcoming patient schedules</p>
+          <h1 className="vpa-title">Doctor Dashboard</h1>
+          <p className="vpa-subtitle">Welcome back! Here's an overview of your patient schedules.</p>
+        </div>
+
+        <div className="vpa-stats-container">
+          <div className="vpa-stat-card">
+            <div className="vpa-stat-icon vpa-icon-blue">
+              <i className="fas fa-calendar-check"></i>
+            </div>
+            <div className="vpa-stat-info">
+              <h3>{stats.total}</h3>
+              <p>Total Appointments</p>
+            </div>
+          </div>
+          <div className="vpa-stat-card">
+            <div className="vpa-stat-icon vpa-icon-orange">
+              <i className="fas fa-clock"></i>
+            </div>
+            <div className="vpa-stat-info">
+              <h3>{stats.today}</h3>
+              <p>Today's Schedule</p>
+            </div>
+          </div>
+          <div className="vpa-stat-card">
+            <div className="vpa-stat-icon vpa-icon-purple">
+              <i className="fas fa-spinner"></i>
+            </div>
+            <div className="vpa-stat-info">
+              <h3>{stats.pending}</h3>
+              <p>Pending</p>
+            </div>
+          </div>
+          <div className="vpa-stat-card">
+            <div className="vpa-stat-icon vpa-icon-green">
+              <i className="fas fa-check-circle"></i>
+            </div>
+            <div className="vpa-stat-info">
+              <h3>{stats.completed}</h3>
+              <p>Completed</p>
+            </div>
+          </div>
         </div>
 
         <div className="vpa-content">
