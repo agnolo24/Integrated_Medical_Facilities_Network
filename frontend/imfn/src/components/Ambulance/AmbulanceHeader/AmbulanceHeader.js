@@ -149,9 +149,9 @@ function AmbulanceHeader() {
                                     <div className="main-menu text-right pr-15">
                                         <nav id="mobile-menu-desktop">
                                             <ul>
-                                                <li className="has-sub">
+                                                {/* <li className="has-sub">
                                                     <NavLink to="/Ambulancehome"><h6>Home</h6></NavLink>
-                                                </li>
+                                                </li> */}
                                                 {/* <li><a href="about.html">About Us</a></li> */}
                                                 {/* <li className="has-sub">
                                                         <a href="services.html">Services</a>
@@ -168,13 +168,13 @@ function AmbulanceHeader() {
                                                             <li><a href="blog-details.html">Blog Details</a></li>
                                                         </ul>
                                                     </li> */}
-                                                <li className="has-sub">
+                                                {/* <li className="has-sub">
                                                     <h6>Registration</h6>
                                                     <ul>
                                                         <li><NavLink to="/registerDoctor">Doctor Registration</NavLink></li>
                                                         <li><NavLink to="/RegAmbulance">Ambulance Registration</NavLink></li>
                                                     </ul>
-                                                </li>
+                                                </li> */}
                                                 <li>
 
                                                     <button onClick={handleOpenProfile} style={{ background: 'none', border: 'none', padding: 0 }}>
@@ -247,25 +247,18 @@ function AmbulanceHeader() {
             <div className={`offcanvas-overly ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
             {
                 isProfileOpen && (
-                    <div className="modal-overlay">
-                        <div className="modal-content">
-                            <button className="close-button" onClick={handleCloseProfile} style={{ color: 'black' }}>&times;</button>
-                            {/* <DoctorEditProfile doctorData={doctorData} onClose={handleCloseProfile} /> */}
-                            <AmbulanceProfile AmbulanceData={AmbulanceData} handleOpenEditProfile={handleOpenEditProfile} handleOpenChangePassword={handleOpenChangePassword} />
-                        </div>
-                    </div>
+                    <AmbulanceProfile
+                        AmbulanceData={AmbulanceData}
+                        handleOpenEditProfile={handleOpenEditProfile}
+                        handleOpenChangePassword={handleOpenChangePassword}
+                        onClose={handleCloseProfile}
+                    />
                 )
             }
 
             {
                 isEditProfileOpen && (
-                    <div className="modal-overlay">
-                        <div className="modal-content">
-                            <button className="close-button" onClick={handleCloseEditProfile} style={{ color: 'black' }}>&times;</button>
-                            <AmbulanceEditProfile ambulanceData={AmbulanceData} onClose={handleCloseEditProfile} />
-                            {/* <DoctorProfile doctorData={doctorData}/> */}
-                        </div>
-                    </div>
+                    <AmbulanceEditProfile ambulanceData={AmbulanceData} onClose={handleCloseEditProfile} />
                 )
             }
             {
