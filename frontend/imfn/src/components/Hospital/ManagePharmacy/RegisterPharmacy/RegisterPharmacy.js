@@ -4,7 +4,7 @@ import HospitalFooter from '../../HospitalFooter/HospitalFooter';
 import './RegisterPharmacy.css';
 import axios from 'axios';
 
-export default function RegisterPharmacy() {
+export default function RegisterPharmacy({ hideHeaderFooter = false }) {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -59,8 +59,8 @@ export default function RegisterPharmacy() {
     };
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <HospitalHeader />
+        <div style={{ minHeight: hideHeaderFooter ? 'auto' : '100vh', display: 'flex', flexDirection: 'column' }}>
+            {!hideHeaderFooter && <HospitalHeader />}
 
             <main className="rp-container">
                 <div className="rp-form-card">
@@ -129,7 +129,7 @@ export default function RegisterPharmacy() {
                 </div>
             </main>
 
-            <HospitalFooter />
+            {!hideHeaderFooter && <HospitalFooter />}
         </div>
     );
 }
