@@ -16,6 +16,7 @@ import '../../../asset/user_assets/css/responsive.css';
 
 import PatientProfile from '../PatientProfile/PatientProfile';
 import PatientEditProfile from '../PatientEditProfile/PatientEditProfile';
+import ChangePassword from '../../forms/ChangePassword/ChangePassword';
 
 function PatientHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,6 +26,7 @@ function PatientHeader() {
 
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+    const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
 
 
     const handleCloseProfile = () => {
@@ -44,6 +46,15 @@ function PatientHeader() {
         setIsEditProfileOpen(false)
         getPatientData();
     }
+
+    const handleOpenChangePassword = () => {
+        setIsProfileOpen(false);
+        setIsChangePasswordOpen(true);
+    };
+
+    const handleCloseChangePassword = () => {
+        setIsChangePasswordOpen(false);
+    };
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -187,7 +198,11 @@ function PatientHeader() {
                     <div className="modal-overlay">
                         <div className="modal-content">
                             <button className="close-button" onClick={handleCloseProfile} style={{ color: 'black' }}>&times;</button>
-                            <PatientProfile patientData={patientData} handleOpenEditProfile={handleOpenEditProfile} />
+                            <PatientProfile
+                                patientData={patientData}
+                                handleOpenEditProfile={handleOpenEditProfile}
+                                handleOpenChangePassword={handleOpenChangePassword}
+                            />
                         </div>
                     </div>
                 )
@@ -198,6 +213,16 @@ function PatientHeader() {
                         <div className="modal-content">
                             <button className="close-button" onClick={handleCloseEditProfile} style={{ color: 'black' }}>&times;</button>
                             <PatientEditProfile patientData={patientData} onClose={handleCloseEditProfile} />
+                        </div>
+                    </div>
+                )
+            }
+            {
+                isChangePasswordOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <button className="close-button" onClick={handleCloseChangePassword} style={{ color: 'black' }}>&times;</button>
+                            <ChangePassword onClose={handleCloseChangePassword} />
                         </div>
                     </div>
                 )
