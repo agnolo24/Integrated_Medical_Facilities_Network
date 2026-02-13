@@ -100,7 +100,7 @@ def get_all_invoices(request):
                     total_amount += charge.get('price', 0)
                 
                 invoices.append({
-                    "id": str(bill['_id']),
+                    "invoice_id": str(bill['_id']),
                     "appointment_id": str(apt_id),
                     "patient_name": patient.get('name', 'N/A') if patient else 'N/A',
                     "doctor_name": appointment.get('doctor_name', 'N/A'),
