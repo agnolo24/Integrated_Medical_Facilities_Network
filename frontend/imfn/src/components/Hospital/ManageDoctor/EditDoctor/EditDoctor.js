@@ -140,6 +140,7 @@ const EditDoctor = ({ doctorData, onClose }) => {
                                     ))}
                                 </select>
                             </div>
+                            <br />
                             <div className="form-input-group">
                                 <label><i className="fas fa-award"></i> Exp (Years)</label>
                                 <input type="number" name="experience" placeholder="10"
