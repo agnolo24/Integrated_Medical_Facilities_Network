@@ -125,11 +125,11 @@ function DoctorHeader() {
                             </div>
                             <div className="col-lg-5 col-md-3 d-none d-lg-block">
                                 <div className="header-social text-right">
-                                    <span>
+                                    {/* <span>
                                         <a href="#" title="Facebook"><i className="fab fa-facebook"></i></a>
                                         <a href="#" title="Twitter"><i className="fab fa-twitter"></i></a>
                                         <a href="#" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                                    </span>
+                                    </span> */}
                                 </div>
                             </div>
                         </div>
@@ -245,10 +245,10 @@ function DoctorHeader() {
                 </ul>
 
                 <div className="side-social" style={{ marginTop: '20px' }}>
-                    <a href="#"><i className="fab fa-facebook-f"></i></a>
+                    {/* <a href="#"><i className="fab fa-facebook-f"></i></a>
                     <a href="#"><i className="fab fa-twitter"></i></a>
                     <a href="#"><i className="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i className="fab fa-google-plus-g"></i></a>
+                    <a href="#"><i className="fab fa-google-plus-g"></i></a> */}
                 </div>
             </div>
 
