@@ -59,26 +59,24 @@ function LandingPageHeader() {
                             <div className="col-lg-3 col-md-3 d-none d-lg-block">
                             </div>
                             <div className="col-lg-4 col-md-8 d-none d-md-block">
-                                <div className="header-cta">
-                                    <ul>
-                                        <li>
-                                            <i className="icon dripicons-mail"></i>
-                                            <span>support@imfn.org</span>
-                                        </li>
-                                        <li>
-                                            <i className="icon dripicons-phone"></i>
-                                            <span>+1 (800) IMFN-HELP</span>
-                                        </li>
-                                    </ul>
+                                <div className="header-cta d-flex align-items-center gap-4">
+                                    <div className="d-flex align-items-center mr-4">
+                                        <i className="icon dripicons-mail mr-2"></i>
+                                        <span>support@imfn.org</span>
+                                    </div>
+                                    <div className="d-flex align-items-center">
+                                        <i className="icon dripicons-phone mr-2"></i>
+                                        <span>+91 9876543210</span>
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-lg-5 col-md-3 d-none d-lg-block">
                                 <div className="header-social text-right">
-                                    <span>
+                                    {/* <span>
                                         <a href="#" title="Facebook"><i className="fab fa-facebook"></i></a>
                                         <a href="#" title="Twitter"><i className="fab fa-twitter"></i></a>
                                         <a href="#" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                                    </span>
+                                    </span> */}
                                 </div>
                             </div>
                         </div>
@@ -156,12 +154,12 @@ function LandingPageHeader() {
                     <li><a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); openModal('login'); }}>Login</a></li>
                 </ul>
 
-                <div className="side-social" style={{ marginTop: '20px' }}>
+                {/* <div className="side-social" style={{ marginTop: '20px' }}>
                     <a href="#"><i className="fab fa-facebook-f"></i></a>
                     <a href="#"><i className="fab fa-twitter"></i></a>
                     <a href="#"><i className="fab fa-linkedin-in"></i></a>
                     <a href="#"><i className="fab fa-google-plus-g"></i></a>
-                </div>
+                </div> */}
             </div>
 
             <div className={`offcanvas-overly ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
