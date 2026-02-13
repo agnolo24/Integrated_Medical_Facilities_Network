@@ -333,7 +333,8 @@ def add_medicine_to_bill(request):
         'pharmacy_medicine' : {
             'medicine_deatils': medicine_list,
             'status' : 'unpaid',
-            }
+            },
+        'status' : 'unpaid',
         }
     try:
         result = bill_coll.update_one({'appointment_id' : ObjectId(appointment_id)},{'$set' : pharmacy_medicine})
