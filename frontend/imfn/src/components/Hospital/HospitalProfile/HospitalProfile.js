@@ -2,25 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './HospitalProfile.css'; // You can copy this css or make a new one
 
-const HospitalProfile = ({ hospitalData, handleOpenEditProfile, onClose }) => {
+const HospitalProfile = ({ hospitalData, handleOpenEditProfile, handleOpenChangePassword, onClose }) => {
 
     if (!hospitalData) return null;
-
-    const handleChangePassword = async () => {
-        const newPassword = prompt("Enter new password:");
-        if (newPassword) {
-            try {
-                await axios.post("http://127.0.0.1:8000/hospital/change_hospital_password/", {
-                    login_id: hospitalData.login_id,
-                    new_password: newPassword
-                });
-                alert("Password Updated Successfully");
-            } catch (error) {
-                console.error("Error changing password", error);
-                alert("Failed to update password");
-            }
-        }
-    };
 
     return (
         <div className="profile-overlay" onClick={onClose}>
@@ -53,7 +37,7 @@ const HospitalProfile = ({ hospitalData, handleOpenEditProfile, onClose }) => {
                 </div>
                 <div className="profile-footer">
                     <button className="edit-btn" onClick={handleOpenEditProfile}>Edit Profile</button>
-                    <button className="password-btn" onClick={handleChangePassword}>Change Password</button>
+                    <button className="password-btn" onClick={handleOpenChangePassword}>Change Password</button>
                 </div>
             </div>
         </div>

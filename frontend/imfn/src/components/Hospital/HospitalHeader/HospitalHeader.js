@@ -18,6 +18,7 @@ import '../HospitalHome/HospitalHome.css';
 
 import HospitalProfile from '../HospitalProfile/HospitalProfile';
 import HospitalEditProfile from '../HospitalEditProfile/HospitalEditProfile';
+import ChangePassword from '../../forms/ChangePassword/ChangePassword';
 
 // Import Registration Forms
 import DoctorRegForm from '../../forms/doctorRegForm/DoctorRegForm';
@@ -37,6 +38,7 @@ function HospitalHeader() {
     const [hospitalData, setHospitalData] = useState(null);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+    const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -78,6 +80,11 @@ function HospitalHeader() {
     const handleOpenEditProfile = () => {
         setIsProfileOpen(false);
         setIsEditProfileOpen(true);
+    };
+
+    const handleOpenChangePassword = () => {
+        setIsProfileOpen(false);
+        setIsChangePasswordOpen(true);
     };
 
     const openRegistration = (type) => {
@@ -232,6 +239,7 @@ function HospitalHeader() {
                 <HospitalProfile
                     hospitalData={hospitalData}
                     handleOpenEditProfile={handleOpenEditProfile}
+                    handleOpenChangePassword={handleOpenChangePassword}
                     onClose={() => setIsProfileOpen(false)}
                 />
             )}
@@ -241,6 +249,10 @@ function HospitalHeader() {
                     hospitalData={hospitalData}
                     onClose={() => setIsEditProfileOpen(false)}
                 />
+            )}
+
+            {isChangePasswordOpen && (
+                <ChangePassword onClose={() => setIsChangePasswordOpen(false)} />
             )}
 
             {/* Registration Modals */}
