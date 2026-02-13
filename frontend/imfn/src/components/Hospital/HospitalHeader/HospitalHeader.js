@@ -19,10 +19,19 @@ import '../HospitalHome/HospitalHome.css';
 import HospitalProfile from '../HospitalProfile/HospitalProfile';
 import HospitalEditProfile from '../HospitalEditProfile/HospitalEditProfile';
 
+// Import Registration Forms
+import DoctorRegForm from '../../forms/doctorRegForm/DoctorRegForm';
+import AmbulanceForm from '../../forms/AmbulanceForm/AmbulanceForm';
+import RegisterPharmacy from '../ManagePharmacy/RegisterPharmacy/RegisterPharmacy';
+import RegisterBilling from '../ManageBilling/RegisterBilling/RegisterBilling';
+
 function HospitalHeader() {
     const navigate = useNavigate();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
+
+    // Registration Modal State
+    const [registrationType, setRegistrationType] = useState(null); // 'doctor', 'ambulance', 'pharmacy', 'billing'
 
     // Profile State
     const [hospitalData, setHospitalData] = useState(null);
@@ -71,6 +80,15 @@ function HospitalHeader() {
         setIsEditProfileOpen(true);
     };
 
+    const openRegistration = (type) => {
+        setRegistrationType(type);
+        setIsMobileMenuOpen(false);
+    };
+
+    const closeRegistration = () => {
+        setRegistrationType(null);
+    };
+
     return (
         <div>
             {/* header */}
@@ -96,11 +114,11 @@ function HospitalHeader() {
                             </div>
                             <div className="col-lg-5 col-md-3 d-none d-lg-block">
                                 <div className="header-social text-right">
-                                    <span>
+                                    {/* <span>
                                         <a href="#" title="Facebook"><i className="fab fa-facebook"></i></a>
                                         <a href="#" title="Twitter"><i className="fab fa-twitter"></i></a>
                                         <a href="#" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                                    </span>
+                                    </span> */}
                                 </div>
                             </div>
                         </div>
@@ -125,10 +143,10 @@ function HospitalHeader() {
                                                 <li className="has-sub">
                                                     <h6>Registration</h6>
                                                     <ul>
-                                                        <li><NavLink to="/registerDoctor">Doctor Registration</NavLink></li>
-                                                        <li><NavLink to="/RegAmbulance">Ambulance Registration</NavLink></li>
-                                                        <li><NavLink to="/registerPharmacy">Pharmacy Registration</NavLink></li>
-                                                        <li><NavLink to="/registerBilling">Billing Registration</NavLink></li>
+                                                        <li><a href="#" onClick={(e) => { e.preventDefault(); openRegistration('doctor'); }}>Doctor Registration</a></li>
+                                                        <li><a href="#" onClick={(e) => { e.preventDefault(); openRegistration('ambulance'); }}>Ambulance Registration</a></li>
+                                                        <li><a href="#" onClick={(e) => { e.preventDefault(); openRegistration('pharmacy'); }}>Pharmacy Registration</a></li>
+                                                        <li><a href="#" onClick={(e) => { e.preventDefault(); openRegistration('billing'); }}>Billing Registration</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>
@@ -171,18 +189,20 @@ function HospitalHeader() {
                     <li>
                         Registration
                         <ul className="sub-menu pl-3" style={{ display: 'block' }}>
-                            <li><NavLink to="/doctorReg" onClick={toggleMobileMenu}>Doctor Registration</NavLink></li>
-                            <li><NavLink to="/ambulance" onClick={toggleMobileMenu}>Ambulance Registration</NavLink></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); openRegistration('doctor'); }}>Doctor Registration</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); openRegistration('ambulance'); }}>Ambulance Registration</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); openRegistration('pharmacy'); }}>Pharmacy Registration</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); openRegistration('billing'); }}>Billing Registration</a></li>
                         </ul>
                     </li>
                     <li><span onClick={handleLogout} style={{ cursor: 'pointer', color: '#333', fontWeight: '500' }}>Logout</span></li>
                 </ul>
 
                 <div className="side-social" style={{ marginTop: '20px' }}>
-                    <a href="#"><i className="fab fa-facebook-f"></i></a>
+                    {/* <a href="#"><i className="fab fa-facebook-f"></i></a>
                     <a href="#"><i className="fab fa-twitter"></i></a>
                     <a href="#"><i className="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i className="fab fa-google-plus-g"></i></a>
+                    <a href="#"><i className="fab fa-google-plus-g"></i></a> */}
                 </div>
             </div>
 
@@ -221,6 +241,62 @@ function HospitalHeader() {
                     hospitalData={hospitalData}
                     onClose={() => setIsEditProfileOpen(false)}
                 />
+            )}
+
+            {/* Registration Modals */}
+            {registrationType && (
+                <div className="custom-modal-overlay registration-modal-overlay" onClick={closeRegistration} style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(15, 23, 42, 0.4)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
+                    zIndex: 9999,
+                    overflowY: 'auto',
+                    padding: '60px 20px',
+                    backdropFilter: 'blur(12px)'
+                }}>
+                    <div className="custom-modal-content" onClick={(e) => e.stopPropagation()} style={{
+                        width: '100%',
+                        maxWidth: registrationType === 'billing' ? '600px' : '900px',
+                        position: 'relative',
+                        animation: 'fadeInDown 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                        background: '#fff',
+                        borderRadius: '24px',
+                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                        overflow: 'hidden'
+                    }}>
+                        <button onClick={closeRegistration} style={{
+                            position: 'absolute',
+                            right: '25px',
+                            top: '25px',
+                            border: 'none',
+                            background: '#f1f5f9',
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '12px',
+                            fontSize: '24px',
+                            cursor: 'pointer',
+                            zIndex: 10001,
+                            color: '#1e3a8a',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'all 0.2s'
+                        }}>&times;</button>
+
+                        <div style={{ maxHeight: '85vh', overflowY: 'auto' }}>
+                            {registrationType === 'doctor' && <DoctorRegForm />}
+                            {registrationType === 'ambulance' && <AmbulanceForm />}
+                            {registrationType === 'pharmacy' && <RegisterPharmacy hideHeaderFooter={true} />}
+                            {registrationType === 'billing' && <RegisterBilling hideHeaderFooter={true} />}
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
