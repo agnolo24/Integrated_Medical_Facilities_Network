@@ -1,8 +1,8 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import './AmbulanceEditProfile.css'
 
-
-function AmbulanceEditProfile({ambulanceData,onClose}){
+function AmbulanceEditProfile({ ambulanceData, onClose }) {
 
     const editAmbulanceUrl = 'http://127.0.0.1:8000/hospital/edit_ambulance/';
 
@@ -62,98 +62,101 @@ function AmbulanceEditProfile({ambulanceData,onClose}){
     };
 
     return (
-        <div className="edit-ambulance-container">
-            <div className="card border-0 shadow-sm">
-                <div className="card-header bg-primary text-white">
-                    <h5 className="mb-0">Edit Ambulance Profile</h5>
-                </div>
-                <div className="card-body">
-                    <form onSubmit={handleSubmit}>
-                        {/* Name & Ambulance Type */}
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="name" className="form-label">Name</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="name"
-                                    id="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                />
+        <div className="ambulance-edit-overlay" onClick={onClose}>
+            <div className="ambulance-edit-modal" onClick={(e) => e.stopPropagation()}>
+                <button className="edit-close-btn" onClick={onClose}>&times;</button>
+                <div className="card border-0">
+                    <div className="card-header bg-primary text-white">
+                        <h5 className="mb-0">Edit Ambulance Profile</h5>
+                    </div>
+                    <div className="card-body">
+                        <form onSubmit={handleSubmit}>
+                            {/* Name & Ambulance Type */}
+                            <div className="row">
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="name" className="form-label">Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="name"
+                                        id="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="ambulanceType" className="form-label">Ambulance Type</label>
+                                    <select
+                                        name="ambulanceType"
+                                        id="ambulanceType"
+                                        className="form-select"
+                                        value={formData.ambulanceType}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Select Type</option>
+                                        {ambulance_choices.map((cho, index) => (
+                                            <option key={index} value={cho}>{cho.toUpperCase()}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="ambulanceType" className="form-label">Ambulance Type</label>
-                                <select
-                                    name="ambulanceType"
-                                    id="ambulanceType"
-                                    className="form-select"
-                                    value={formData.ambulanceType}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="">Select Type</option>
-                                    {ambulance_choices.map((cho, index) => (
-                                        <option key={index} value={cho}>{cho.toUpperCase()}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
 
-                        {/* Vehicle Number & Category */}
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="vehicleNumber" className="form-label">Vehicle Number</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="vehicleNumber"
-                                    id="vehicleNumber"
-                                    value={formData.vehicleNumber}
-                                    onChange={handleChange}
-                                    required
-                                />
+                            {/* Vehicle Number & Category */}
+                            <div className="row">
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="vehicleNumber" className="form-label">Vehicle Number</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="vehicleNumber"
+                                        id="vehicleNumber"
+                                        value={formData.vehicleNumber}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="category" className="form-label">Category</label>
+                                    <select
+                                        name="category"
+                                        id="category"
+                                        className="form-select"
+                                        value={formData.category}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Select Category</option>
+                                        {category_choice.map((cat, index) => (
+                                            <option value={cat} key={index}>{cat}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="category" className="form-label">Category</label>
-                                <select
-                                    name="category"
-                                    id="category"
-                                    className="form-select"
-                                    value={formData.category}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="">Select Category</option>
-                                    {category_choice.map((cat, index) => (
-                                        <option value={cat} key={index}>{cat}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
 
-                        {/* Contact & Email */}
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="contactNumber" className="form-label">Contact Number</label>
-                                <input
-                                    type="tel"
-                                    className="form-control"
-                                    name="contactNumber"
-                                    id="contactNumber"
-                                    value={formData.contactNumber}
-                                    onChange={handleChange}
-                                    required
-                                />
+                            {/* Contact & Email */}
+                            <div className="row">
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="contactNumber" className="form-label">Contact Number</label>
+                                    <input
+                                        type="tel"
+                                        className="form-control"
+                                        name="contactNumber"
+                                        id="contactNumber"
+                                        value={formData.contactNumber}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="d-flex gap-2 justify-content-end mt-3">
-                            <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
-                            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Update Details</button>
-                        </div>
-                    </form>
+                            <div className="d-flex gap-2 justify-content-end mt-3">
+                                <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
+                                <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Update Details</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
