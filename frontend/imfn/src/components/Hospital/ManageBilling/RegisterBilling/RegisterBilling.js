@@ -4,7 +4,7 @@ import HospitalFooter from '../../HospitalFooter/HospitalFooter';
 import './RegisterBilling.css';
 import axios from 'axios';
 
-export default function RegisterBilling() {
+export default function RegisterBilling({ hideHeaderFooter = false }) {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -58,8 +58,8 @@ export default function RegisterBilling() {
     };
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <HospitalHeader />
+        <div style={{ minHeight: hideHeaderFooter ? 'auto' : '100vh', display: 'flex', flexDirection: 'column' }}>
+            {!hideHeaderFooter && <HospitalHeader />}
 
             <main className="rb-container">
                 <div className="rb-form-card">
@@ -128,7 +128,7 @@ export default function RegisterBilling() {
                 </div>
             </main>
 
-            <HospitalFooter />
+            {!hideHeaderFooter && <HospitalFooter />}
         </div>
     );
 }
