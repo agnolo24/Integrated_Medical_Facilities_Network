@@ -228,14 +228,24 @@ def update_invoice_status(request):
         if not ObjectId.is_valid(invoice_id):
             return Response({"error": "Invalid Invoice ID format"}, status=status.HTTP_400_BAD_REQUEST)
             
+        bill = bill_col.find_one({"_id": ObjectId(invoice_id)})
+        if not bill:
+            return Response({"error": "Invoice not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        update_data = {"status": new_status}
+        if 'pharmacy_medicine' in bill:
+            update_data["pharmacy_medicine.status"] = new_status
+        if 'other_charges' in bill:
+            update_data["other_charges.status"] = new_status
+
         result = bill_col.update_one(
             {"_id": ObjectId(invoice_id)},
-            {"$set": {"status": new_status}}
+            {"$set": update_data}
         )
         
-        if result.modified_count > 0:
+        if result.matched_count > 0:
             return Response({"message": "Invoice status updated successfully"}, status=status.HTTP_200_OK)
         else:
-            return Response({"error": "Invoice not found or status already set"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Invoice not found"}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
