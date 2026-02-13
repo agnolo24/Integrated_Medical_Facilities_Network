@@ -15,8 +15,8 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  z-index: 10005;
-  padding: 60px 20px;
+  z-index: 2147483647 !important;
+  padding: 100px 20px;
 }
 
 /* Main Modal Container */
