@@ -50,7 +50,7 @@ export default function ChangePassword({ onClose }) {
         }
 
         if (data.newPassword !== data.confirmPassword) {
-            setMsg("New Password and Confirm Password do not match")
+            setMsg("Passwords do not match")
             setIsMsg(true)
             return
         }
@@ -60,16 +60,14 @@ export default function ChangePassword({ onClose }) {
                 currentPassword: data.currentPassword,
                 newPassword: data.newPassword,
                 confirmPassword: data.confirmPassword,
-
                 loginId: login_id,
             })
-            console.log(response.data)
-            alert("Password changed successfully!")
+            alert("Password updated successfully!")
             setIsMsg(false)
             onClose()
         } catch (error) {
             console.log(error)
-            setMsg(error?.response?.data?.error || "An Error Occurred while Changing Password")
+            setMsg(error?.response?.data?.error || "Failed to update password")
             setIsMsg(true)
         }
     }
@@ -79,61 +77,69 @@ export default function ChangePassword({ onClose }) {
             <div className="change-password-container">
                 <div className="change-password-card" onClick={(e) => e.stopPropagation()}>
                     <button className="change-password-close-btn" onClick={onClose}>&times;</button>
-                    <div className="change-password-header">
-                        <h2>Change Password</h2>
-                        <p>Enter your new password details</p>
+
+                    <div className="cp-header-banner">
+                        <h2>Security Protocol</h2>
+                        <p>Protect your account with a strong password</p>
                     </div>
-                    {isMsg && <p className="change-password-error">{msg}</p>}
-                    <form className="change-password-form" onSubmit={handlePasswordChange}>
-                        <div className="form-group">
-                            <div className="change-password-input-wrapper">
-                                <label htmlFor="currentPassword">Current Password</label>
+
+                    <div className="cp-form-body">
+                        {isMsg && (
+                            <div className="change-password-error">
+                                <i className="fas fa-exclamation-circle"></i> {msg}
+                            </div>
+                        )}
+
+                        <form className="change-password-form" onSubmit={handlePasswordChange}>
+                            <div className="cp-input-group">
+                                <label><i className="fas fa-lock-open"></i> Current Password</label>
                                 <input
                                     type="password"
-                                    id="currentPassword"
+                                    className="cp-input"
                                     name="currentPassword"
+                                    placeholder="••••••••"
                                     required
                                     value={data.currentPassword}
                                     onChange={handleChange}
                                 />
                             </div>
-                        </div>
 
-                        <div className="form-group">
-                            <div className="change-password-input-wrapper">
-                                <label htmlFor="newPassword">New Password</label>
+                            <div className="cp-input-group">
+                                <label><i className="fas fa-shield-alt"></i> New Password</label>
                                 <input
                                     type="password"
-                                    id="newPassword"
+                                    className="cp-input"
                                     name="newPassword"
+                                    placeholder="At least 8 characters"
                                     required
                                     value={data.newPassword}
                                     onChange={handleChange}
                                 />
                             </div>
-                        </div>
 
-                        <div className="form-group">
-                            <div className="change-password-input-wrapper">
-                                <label htmlFor="confirmPassword">Confirm Password</label>
+                            <div className="cp-input-group">
+                                <label><i className="fas fa-check-double"></i> Confirm New Password</label>
                                 <input
                                     type="password"
-                                    id="confirmPassword"
+                                    className="cp-input"
                                     name="confirmPassword"
+                                    placeholder="Re-type new password"
                                     required
                                     value={data.confirmPassword}
                                     onChange={handleChange}
                                 />
                             </div>
-                        </div>
 
-                        <button type="submit" className="change-password-btn">
-                            Update Password
-                        </button>
-                        <button type="button" className="change-password-cancel-btn" onClick={onClose}>
-                            Cancel
-                        </button>
-                    </form>
+                            <div className="cp-actions">
+                                <button type="submit" className="btn-cp change-password-btn">
+                                    <i className="fas fa-key"></i> Update Security Key
+                                </button>
+                                <button type="button" className="btn-cp change-password-cancel-btn" onClick={onClose}>
+                                    Discard Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

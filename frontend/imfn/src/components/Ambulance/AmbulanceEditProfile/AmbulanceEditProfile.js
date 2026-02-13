@@ -1,9 +1,8 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import './AmbulanceEditProfile.css'
 
-
-function AmbulanceEditProfile({ambulanceData,onClose}){
-
+function AmbulanceEditProfile({ ambulanceData, onClose }) {
     const editAmbulanceUrl = 'http://127.0.0.1:8000/hospital/edit_ambulance/';
 
     const ambulance_choices = [
@@ -47,10 +46,8 @@ function AmbulanceEditProfile({ambulanceData,onClose}){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const response = await axios.put(editAmbulanceUrl, formData);
-
             if (response.status === 200) {
                 alert("Ambulance details updated successfully!");
                 onClose();
@@ -62,38 +59,40 @@ function AmbulanceEditProfile({ambulanceData,onClose}){
     };
 
     return (
-        <div className="edit-ambulance-container">
-            <div className="card border-0 shadow-sm">
-                <div className="card-header bg-primary text-white">
-                    <h5 className="mb-0">Edit Ambulance Profile</h5>
+        <div className="ambulance-edit-overlay" onClick={onClose}>
+            <div className="ambulance-edit-modal" onClick={(e) => e.stopPropagation()}>
+                <button className="edit-close-btn" onClick={onClose}>&times;</button>
+
+                <div className="edit-header-banner">
+                    <h2>Edit Vehicle Profile</h2>
+                    <p>Update your ambulance unit details and classification</p>
                 </div>
-                <div className="card-body">
+
+                <div className="edit-form-body">
                     <form onSubmit={handleSubmit}>
-                        {/* Name & Ambulance Type */}
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="name" className="form-label">Name</label>
+                        <div className="row-grid">
+                            <div className="premium-input-group">
+                                <label><i className="fas fa-truck-medical"></i> Unit Name</label>
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="premium-input"
                                     name="name"
-                                    id="name"
                                     value={formData.name}
                                     onChange={handleChange}
+                                    placeholder="Emergency Unit X"
                                     required
                                 />
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="ambulanceType" className="form-label">Ambulance Type</label>
+                            <div className="premium-input-group">
+                                <label><i className="fas fa-tag"></i> Service Type</label>
                                 <select
                                     name="ambulanceType"
-                                    id="ambulanceType"
-                                    className="form-select"
+                                    className="premium-select"
                                     value={formData.ambulanceType}
                                     onChange={handleChange}
                                     required
                                 >
-                                    <option value="">Select Type</option>
+                                    <option value="">Select ML Type</option>
                                     {ambulance_choices.map((cho, index) => (
                                         <option key={index} value={cho}>{cho.toUpperCase()}</option>
                                     ))}
@@ -101,26 +100,24 @@ function AmbulanceEditProfile({ambulanceData,onClose}){
                             </div>
                         </div>
 
-                        {/* Vehicle Number & Category */}
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="vehicleNumber" className="form-label">Vehicle Number</label>
+                        <div className="row-grid">
+                            <div className="premium-input-group">
+                                <label><i className="fas fa-id-card"></i> Vehicle Number</label>
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="premium-input"
                                     name="vehicleNumber"
-                                    id="vehicleNumber"
                                     value={formData.vehicleNumber}
                                     onChange={handleChange}
+                                    placeholder="KL-XX-XXXX"
                                     required
                                 />
                             </div>
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="category" className="form-label">Category</label>
+                            <div className="premium-input-group">
+                                <label><i className="fas fa-layer-group"></i> Unit Category</label>
                                 <select
                                     name="category"
-                                    id="category"
-                                    className="form-select"
+                                    className="premium-select"
                                     value={formData.category}
                                     onChange={handleChange}
                                     required
@@ -133,32 +130,32 @@ function AmbulanceEditProfile({ambulanceData,onClose}){
                             </div>
                         </div>
 
-                        {/* Contact & Email */}
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label htmlFor="contactNumber" className="form-label">Contact Number</label>
-                                <input
-                                    type="tel"
-                                    className="form-control"
-                                    name="contactNumber"
-                                    id="contactNumber"
-                                    value={formData.contactNumber}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
+                        <div className="premium-input-group">
+                            <label><i className="fas fa-phone"></i> Emergency Contact</label>
+                            <input
+                                type="tel"
+                                className="premium-input"
+                                name="contactNumber"
+                                value={formData.contactNumber}
+                                onChange={handleChange}
+                                placeholder="+91 XXXXX XXXXX"
+                                required
+                            />
                         </div>
 
-                        <div className="d-flex gap-2 justify-content-end mt-3">
-                            <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
-                            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Update Details</button>
+                        <div className="edit-actions">
+                            <button type="button" className="btn-premium btn-secondary-premium" onClick={onClose}>
+                                Discard
+                            </button>
+                            <button type="submit" className="btn-premium btn-primary-premium">
+                                <i className="fas fa-cloud-upload-alt"></i> Save Changes
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     );
-
 }
 
-export default AmbulanceEditProfile
+export default AmbulanceEditProfile;

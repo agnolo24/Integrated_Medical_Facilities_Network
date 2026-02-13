@@ -30,12 +30,12 @@ function LandingPageFooter() {
                                     <div className="footer-text mb-20">
                                         <p>The Integrated Medical Facility Network (IMFN) is a next-generation healthcare coordination platform designed to bridge the gap between hospitals, doctors, and patients through advanced technology and real-time data integration.</p>
                                     </div>
-                                    <div className="footer-social">
+                                    {/* <div className="footer-social">
                                         <a href="#"><i className="fab fa-facebook-f"></i></a>
                                         <a href="#"><i className="fab fa-twitter"></i></a>
                                         <a href="#"><i className="fab fa-instagram"></i></a>
                                         <a href="#"><i className="fab fa-google-plus-g"></i></a>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 
