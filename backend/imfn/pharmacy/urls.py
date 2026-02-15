@@ -11,4 +11,6 @@ urlpatterns = [
     path('get_prescription/', views.get_prescription, name="get_prescription"),
     path('update_medicine_stock/',views.update_medicine_stock,name="update_medicine_stock"),
     path('add_medicine_to_bill/',views.add_medicine_to_bill,name="add_medicine_to_bill"),
+    path('get_billing_history/', views.get_billing_history, name="get_billing_history"),
+    path('get_bill_history_details/', views.get_bill_history_details, name="get_bill_history_details"),
 ]
