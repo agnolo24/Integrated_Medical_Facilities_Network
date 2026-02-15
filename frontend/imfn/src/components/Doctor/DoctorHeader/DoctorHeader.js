@@ -149,7 +149,7 @@ function DoctorHeader() {
                                         <nav id="mobile-menu-desktop">
                                             <ul>
                                                 <li className="has-sub">
-                                                    <NavLink to="/doctorhome"><h6>Home</h6></NavLink>
+                                                    {/* <NavLink to="/doctorhome"><h6>Home</h6></NavLink> */}
                                                 </li>
                                                 {/* <li><a href="about.html">About Us</a></li> */}
                                                 {/* <li className="has-sub">
