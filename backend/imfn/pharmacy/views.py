@@ -329,10 +329,17 @@ def add_medicine_to_bill(request):
                 medicine_list.append(med)
     else:
         return Response({},status=status.HTTP_404_NOT_FOUND)
+    
+    # Enforce server-side date and time
+    billing_date = datetime.now().strftime("%Y-%m-%d")
+    billing_time = datetime.now().strftime("%H:%M:%S")
+
     pharmacy_medicine = {
         'pharmacy_medicine' : {
             'medicine_deatils': medicine_list,
             'status' : 'unpaid',
+            'billing_date': billing_date,
+            'billing_time': billing_time,
             },
         'status' : 'unpaid',
         }
@@ -344,7 +351,113 @@ def add_medicine_to_bill(request):
             return Response({"error": "Medicine is not added to bill"}, status=status.HTTP_404_NOT_FOUND)
 
     except Exception as e:
-        print(f"Error in update_medicine_stock: {str(e)}")
+        print(f"Error in add_medicine_to_bill: {str(e)}")
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     return Response({"message": "Medicine added to bill successfully"}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_billing_history(request):
+    pharmacy_login_id = request.query_params.get("pharmacy_login_id")
+    if not pharmacy_login_id:
+        return Response({"error": "Pharmacy Login ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    db = get_db()
+    pharmacy_col = db['pharmacy']
+    bill_col = db['bills']
+    appointment_col = db['appointments']
+    patient_col = db['patient']
+
+    try:
+        pharmacy = pharmacy_col.find_one({"login_id": ObjectId(pharmacy_login_id)})
+        if not pharmacy:
+            return Response({"error": "Pharmacy record not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        hospital_id = pharmacy.get('hospital_id')
+        if not hospital_id:
+            return Response({"error": "No hospital associated with this pharmacy"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Query bills that have pharmacy_medicine for this hospital
+        query = {
+            "hospital_id": ObjectId(hospital_id),
+            "pharmacy_medicine": {"$exists": True}
+        }
+
+        # Sort by billing date and time descending
+        bills_cursor = bill_col.find(query).sort([
+            ("pharmacy_medicine.billing_date", -1), 
+            ("pharmacy_medicine.billing_time", -1)
+        ])
+        
+        history = []
+        for bill in bills_cursor:
+            apt_id = bill.get('appointment_id')
+            appointment = appointment_col.find_one({"_id": ObjectId(apt_id)})
+            
+            if appointment:
+                patient = patient_col.find_one({"_id": ObjectId(appointment.get('patient_id'))})
+                
+                pharm_data = bill.get('pharmacy_medicine', {})
+                med_details = pharm_data.get('medicine_deatils', [])
+                total_amount = sum(med.get('price', 0) for med in med_details)
+                
+                history.append({
+                    "bill_id": str(bill['_id']),
+                    "patient_name": patient.get('name', 'N/A') if patient else 'N/A',
+                    "doctor_name": appointment.get('doctor_name', 'N/A'),
+                    "billing_date": pharm_data.get('billing_date', 'N/A'),
+                    "billing_time": pharm_data.get('billing_time', 'N/A'),
+                    "total_amount": total_amount,
+                    "status": pharm_data.get('status', 'N/A')
+                })
+        
+        return Response({"history": history}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+def get_bill_history_details(request):
+    bill_id = request.query_params.get("bill_id")
+    if not bill_id:
+        return Response({"error": "Bill ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    db = get_db()
+    bill_col = db['bills']
+    appointment_col = db['appointments']
+    patient_col = db['patient']
+
+    try:
+        if not ObjectId.is_valid(bill_id):
+            return Response({"error": "Invalid Bill ID format"}, status=status.HTTP_400_BAD_REQUEST)
+
+        bill = bill_col.find_one({"_id": ObjectId(bill_id)})
+        if not bill:
+            return Response({"error": "Bill not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        appointment = appointment_col.find_one({"_id": ObjectId(bill.get('appointment_id'))})
+        if not appointment:
+            return Response({"error": "Associated appointment not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        patient = patient_col.find_one({"_id": ObjectId(appointment.get('patient_id'))})
+
+        pharm_data = bill.get('pharmacy_medicine', {})
+        med_details = pharm_data.get('medicine_deatils', [])
+        
+        data = {
+            "bill_id": str(bill['_id']),
+            "patient_name": patient.get('name', 'N/A') if patient else 'N/A',
+            "patient_contact": patient.get('contact', 'N/A') if patient else 'N/A',
+            "doctor_name": appointment.get('doctor_name', 'N/A'),
+            "prescription": appointment.get('prescription', "No prescription available"),
+            "medicines": med_details,
+            "billing_date": pharm_data.get('billing_date', 'N/A'),
+            "billing_time": pharm_data.get('billing_time', 'N/A'),
+            "status": pharm_data.get('status', 'unpaid'),
+            "total_amount": sum(med.get('price', 0) for med in med_details)
+        }
+
+        return Response(data, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

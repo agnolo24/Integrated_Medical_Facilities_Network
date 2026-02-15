@@ -169,7 +169,9 @@ def get_invoice_details(request):
             "date": appointment.get('appointment_date').strftime("%Y-%m-%d") if appointment and appointment.get('appointment_date') else 'N/A',
             "status": bill.get('status', 'unpaid'),
             "items": items,
-            "total_amount": total_amount
+            "total_amount": total_amount,
+            "pharmacy_billing_date": pharmacy_data.get('billing_date'),
+            "pharmacy_billing_time": pharmacy_data.get('billing_time'),
         }
         
         return Response(data, status=status.HTTP_200_OK)
