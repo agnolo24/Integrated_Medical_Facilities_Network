@@ -146,9 +146,9 @@ function BookAppointment() {
             <PatientHeader />
 
             <div className="book-appointment-container">
-                <button className="back-btn" onClick={() => navigate(-1)}>
+                {/* <button className="back-btn" onClick={() => navigate(-1)}>
                     ← Back
-                </button>
+                </button> */}
 
                 <div className="booking-content">
                     {/* Doctor Info Card */}

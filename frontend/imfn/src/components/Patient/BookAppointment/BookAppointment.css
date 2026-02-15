@@ -55,8 +55,9 @@
 
 .booking-content {
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 380px 1fr;
   gap: 30px;
+  align-items: start;
 }
 
 /* Doctor Info Card */
@@ -65,8 +66,11 @@
   border-radius: 24px;
   padding: 40px 30px;
   color: white;
-  position: sticky;
-  top: 100px;
+  position: relative;
+  padding-bottom: 100px;
+  height: 100%;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .doctor-avatar {
@@ -140,6 +144,8 @@
   border-radius: 24px;
   padding: 40px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .booking-form-card h2 {
@@ -300,10 +306,12 @@
 /* Schedule Preview Card */
 .schedule-preview-card {
   grid-column: 1 / -1;
+  grid-row: 2;
   background: white;
   border-radius: 24px;
   padding: 30px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  margin-top: 10px;
 }
 
 .schedule-preview-card h3 {
@@ -341,13 +349,25 @@
 }
 
 /* Responsive */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .booking-content {
     grid-template-columns: 1fr;
   }
 
   .doctor-info-card {
     position: static;
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .booking-form-card {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .schedule-preview-card {
+    grid-column: 1;
+    grid-row: auto;
   }
 
   .schedule-grid {
