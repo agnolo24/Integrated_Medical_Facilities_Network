@@ -153,7 +153,7 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
                 // Optionally close modal or clear list after save
                 setMedicineDetails([]);
             }
-            
+
         }
         catch (error) {
             console.error("Error updating medicine stock:", error);
@@ -162,8 +162,8 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
 
         try {
             const response = await axios.post(url2, {
-                appointment_Id : appointmentId,
-                Medicine_Details : Medicine_Details,
+                appointment_Id: appointmentId,
+                Medicine_Details: Medicine_Details,
             });
 
             if (response.status === 200) {
@@ -219,7 +219,7 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
         <div className="prescription-modal-overlay" onClick={handleCloseModal}>
             <div className="prescription-modal-card" style={{ maxWidth: '800px' }} onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header-premium">
-                    <h3 style={{color:"white"}}><i className="fas fa-prescription"></i> Prescription & Billing Management</h3>
+                    <h3 style={{ color: "white" }}><i className="fas fa-prescription"></i> Prescription & Billing Management</h3>
                     <button className="close-btn-minimal" onClick={handleCloseModal}>
                         <i className="fas fa-times"></i>
                     </button>
@@ -277,6 +277,7 @@ const PrescriptionToggle = ({ appointmentId, handleCloseModal }) => {
                                         required
                                     />
                                 </div>
+
                                 <button className="btn btn-success btn-sm btn-block" onClick={handleAddMedicine}>
                                     <i className="fas fa-plus"></i> Add to List
                                 </button>
