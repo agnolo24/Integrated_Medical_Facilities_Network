@@ -34,10 +34,10 @@
     top: 15px;
     right: 20px;
     font-size: 28px;
-    background: none;
+    background: blue;
     border: none;
     cursor: pointer;
-    color: #666;
+    color: rgb(209, 40, 40);
     transition: color 0.2s;
 }
 
@@ -116,7 +116,7 @@
     width: 100%;
     padding: 12px;
     background: #4361ee;
-    color: white;
+    color: rgb(0, 145, 255);
     border: none;
     border-radius: 8px;
     font-weight: 600;

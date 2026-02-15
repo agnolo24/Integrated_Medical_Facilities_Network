@@ -47,7 +47,7 @@ const HospitalEditProfile = ({ hospitalData, onClose }) => {
     return (
         <div className="profile-overlay" onClick={onClose}>
             <div className="profile-modal" onClick={e => e.stopPropagation()}>
-                <button className="close-btn" onClick={onClose}>&times;</button>
+                <button style={{'color':'blue'}} className="close-btn" onClick={onClose}>&times;</button>
                 <div className="profile-header">
                     <h2>Edit Hospital Profile</h2>
                 </div>
