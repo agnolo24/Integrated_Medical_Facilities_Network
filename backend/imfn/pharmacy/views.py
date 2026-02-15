@@ -329,10 +329,17 @@ def add_medicine_to_bill(request):
                 medicine_list.append(med)
     else:
         return Response({},status=status.HTTP_404_NOT_FOUND)
+    
+    # Enforce server-side date and time
+    billing_date = datetime.now().strftime("%Y-%m-%d")
+    billing_time = datetime.now().strftime("%H:%M:%S")
+
     pharmacy_medicine = {
         'pharmacy_medicine' : {
             'medicine_deatils': medicine_list,
             'status' : 'unpaid',
+            'billing_date': billing_date,
+            'billing_time': billing_time,
             },
         'status' : 'unpaid',
         }
@@ -344,7 +351,7 @@ def add_medicine_to_bill(request):
             return Response({"error": "Medicine is not added to bill"}, status=status.HTTP_404_NOT_FOUND)
 
     except Exception as e:
-        print(f"Error in update_medicine_stock: {str(e)}")
+        print(f"Error in add_medicine_to_bill: {str(e)}")
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     return Response({"message": "Medicine added to bill successfully"}, status=status.HTTP_200_OK)

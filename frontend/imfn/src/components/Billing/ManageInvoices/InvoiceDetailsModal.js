@@ -90,6 +90,9 @@ const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
                                 <label>Invoice Details</label>
                                 <p>Date: <strong>{invoice.date}</strong></p>
                                 <p>Doctor: <strong>Dr. {invoice.doctor_name}</strong></p>
+                                {invoice.pharmacy_billing_date && (
+                                    <p>Pharmacy Bill: <strong>{invoice.pharmacy_billing_date} {invoice.pharmacy_billing_time}</strong></p>
+                                )}
                                 <div style={{ marginTop: '10px' }}>
                                     <span className={`mi-status-pill ${invoice.status}`}>{invoice.status}</span>
                                 </div>
