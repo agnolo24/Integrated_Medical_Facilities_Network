@@ -81,9 +81,9 @@ function HospitalDetails() {
             <PatientHeader />
 
             <div className="hospital-details-container">
-                <button className="back-btn" onClick={() => navigate(-1)}>
+                {/* <button className="back-btn" onClick={() => navigate(-1)}>
                     ← Back to Search
-                </button>
+                </button> */}
 
                 {/* Hospital Header */}
                 <div className="hospital-header-card">
