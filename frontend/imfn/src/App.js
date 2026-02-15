@@ -29,6 +29,7 @@ import BillingHome from './components/Billing/BillingHome/BillingHome'
 import ManageMedicine from './components/Pharmacy/ManageMedicine/ManageMedicine'
 import ViewCompletedAppointments from './components/Pharmacy/ViewCompletedAppointments/ViewCompletedAppointments'
 import ManageInvoices from './components/Billing/ManageInvoices/ManageInvoices'
+import PharmacyHistory from './components/Pharmacy/PharmacyHistory/PharmacyHistory'
 
 // Patient Module Components
 import FindDoctors from './components/Patient/FindDoctors/FindDoctors'
@@ -82,6 +83,7 @@ function App() {
           <Route path='/pharmacyHome' element={<PharmacyHome />} />
           <Route path='/manageMedicine' element={<ManageMedicine />} />
           <Route path='/viewCompletedAppointments' element={<ViewCompletedAppointments />} />
+          <Route path='/pharmacyHistory' element={<PharmacyHistory />} />
           <Route path='/billinghome' element={<BillingHome />} />
           <Route path='/manageInvoices' element={<ManageInvoices />} />
 
