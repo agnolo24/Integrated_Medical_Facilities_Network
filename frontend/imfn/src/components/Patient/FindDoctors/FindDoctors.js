@@ -15,16 +15,8 @@ function FindDoctors() {
     const [isLoading, setIsLoading] = useState(false)
     const [showSuggestions, setShowSuggestions] = useState(false)
 
-    // Debounce search
-    const debounce = (func, delay) => {
-        let timeoutId
-        return (...args) => {
-            clearTimeout(timeoutId)
-            timeoutId = setTimeout(() => func(...args), delay)
-        }
-    }
-
-    const performSearch = async (query) => {
+    // Unified search function
+    const performSearch = useCallback(async (query, type) => {
         if (!query || query.length < 1) {
             setResults([])
             return
@@ -32,7 +24,7 @@ function FindDoctors() {
 
         setIsLoading(true)
         try {
-            const response = await axios.get(`${searchUrl}?q=${encodeURIComponent(query)}&type=${searchType}`)
+            const response = await axios.get(`${searchUrl}?q=${encodeURIComponent(query)}&type=${type}`)
             setResults(response.data.results || [])
             setShowSuggestions(true)
         } catch (error) {
@@ -41,14 +33,16 @@ function FindDoctors() {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [searchUrl])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const debouncedSearch = useCallback(debounce(performSearch, 300), [searchType])
-
+    // Debounce search effect
     useEffect(() => {
-        debouncedSearch(searchQuery)
-    }, [searchQuery, debouncedSearch])
+        const timer = setTimeout(() => {
+            performSearch(searchQuery, searchType)
+        }, 300)
+
+        return () => clearTimeout(timer)
+    }, [searchQuery, searchType, performSearch])
 
     const handleResultClick = (result) => {
         setShowSuggestions(false)
@@ -153,8 +147,14 @@ function FindDoctors() {
                 </div>
 
                 {/* Quick Actions */}
+                <div style={{ 'marginTop': '50px' }}>
+                    <center>
+                        <h2 style={{ 'color': 'white' }}>Search Doctor by specialization</h2>
+                    </center>
+                </div>
                 <div className="quick-actions">
-                    <h2>Quick Search by Specialization</h2>
+                    {/* <h2>Quick Search by Specialization</h2> */}
+
                     <div className="specialization-grid">
                         {[
                             { name: 'Cardiology', icon: '❤️' },
