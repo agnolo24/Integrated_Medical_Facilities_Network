@@ -183,7 +183,7 @@ def add_other_charges(request):
     invoice_id = request.data.get("invoice_id")
     charge_details = request.data.get("charge_details") # Expected as array of {name, price}
     
-    if not invoice_id or charge_details is None:
+    if not invoice_id or not charge_details:
         return Response({"error": "Invoice ID and charge details are required"}, status=status.HTTP_400_BAD_REQUEST)
         
     db = get_db()
@@ -193,17 +193,13 @@ def add_other_charges(request):
         if not ObjectId.is_valid(invoice_id):
             return Response({"error": "Invalid Invoice ID format"}, status=status.HTTP_400_BAD_REQUEST)
             
-        other_charges = {
-            "charge_details": charge_details,
-            "status": "unpaid"
-        }
-        
+        # Sync charges: Replace the entire array to support Add/Edit/Delete from UI
         result = bill_col.update_one(
             {"_id": ObjectId(invoice_id)},
             {
                 "$set": {
-                    "other_charges": other_charges,
-                    "status": "unpaid" # Reset main status to unpaid when charges are added
+                    "other_charges.charge_details": charge_details,
+                    "status": "unpaid" # Ensure it remains or becomes unpaid
                 }
             }
         )
