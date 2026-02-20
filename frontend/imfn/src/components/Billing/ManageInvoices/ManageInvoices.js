@@ -168,11 +168,6 @@ const ManageInvoices = () => {
                                                     <button className="mi-action-icon view" title="View Details" onClick={() => handleViewDetails(invoice.invoice_id)}>
                                                         <i className="fas fa-eye"></i>
                                                     </button>
-                                                    {/* {invoice.status === 'unpaid' && (
-                                                        <button className="mi-action-icon pay" title="Mark Settled" onClick={() => handleUpdateStatus(invoice.invoice_id, 'paid')}>
-                                                            <i className="fas fa-check"></i>
-                                                        </button>
-                                                    )} */}
                                                 </td>
                                             </tr>
                                         ))}

@@ -1,42 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 
 const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
     const [updating, setUpdating] = useState(false);
-    const [newCharges, setNewCharges] = useState([]);
-    const [chargeName, setChargeName] = useState('');
-    const [chargePrice, setChargePrice] = useState('');
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [editableCharges, setEditableCharges] = useState([]);
+
+    useEffect(() => {
+        if (invoice && invoice.items) {
+            const initialOtherCharges = invoice.items
+                .filter(item => item.type === 'other')
+                .map(item => ({ name: item.name, price: item.price }));
+            setEditableCharges(initialOtherCharges);
+        }
+    }, [invoice]);
 
     if (!isOpen || !invoice) return null;
-
-    const handleAddChargeLine = () => {
-        if (!chargeName || !chargePrice) return;
-        setNewCharges([...newCharges, { name: chargeName, price: parseInt(chargePrice) }]);
-        setChargeName('');
-        setChargePrice('');
-    };
-
-    const handleRemoveChargeLine = (index) => {
-        setNewCharges(newCharges.filter((_, i) => i !== index));
-    };
-
-    const handleSaveCharges = async () => {
-        if (newCharges.length === 0) return;
-        try {
-            setUpdating(true);
-            await axios.post(`http://127.0.0.1:8000/billing/add_other_charges/`, {
-                invoice_id: invoice.invoice_id,
-                charge_details: newCharges
-            });
-            alert("Additional charges added");
-            onUpdate();
-            onClose();
-        } catch (error) {
-            alert("Failed to save charges");
-        } finally {
-            setUpdating(false);
-        }
-    };
 
     const handleUpdateStatus = async (invoiceId, newStatus) => {
         if (!window.confirm("Confirm payment status update?")) return;
@@ -56,14 +35,59 @@ const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
         }
     };
 
+    const handleAddCharge = () => {
+        setEditableCharges([...editableCharges, { name: '', price: '' }]);
+    };
+
+    const handleRemoveCharge = (index) => {
+        setEditableCharges(editableCharges.filter((_, i) => i !== index));
+    };
+
+    const handleChargeChange = (index, field, value) => {
+        const updated = [...editableCharges];
+        updated[index][field] = value;
+        setEditableCharges(updated);
+    };
+
+    const handleSaveCharges = async () => {
+        const validCharges = editableCharges.filter(c => c.name && c.price);
+        try {
+            setUpdating(true);
+            await axios.post(`http://127.0.0.1:8000/billing/add_other_charges/`, {
+                invoice_id: invoice.invoice_id,
+                charge_details: validCharges.map(c => ({
+                    name: c.name,
+                    price: parseFloat(c.price)
+                }))
+            });
+            alert("Charges synchronized successfully!");
+            setIsEditMode(false);
+            onUpdate();
+        } catch (error) {
+            alert("Failed to sync charges");
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const pharmacyItems = invoice.items.filter(i => i.type === 'pharmacy');
+    const otherItems = invoice.items.filter(i => i.type === 'other');
+
     return (
-        <div className="mi-modal-backdrop">
-            <div className="mi-modal-content bill-view">
+        <div className="mi-modal-backdrop" style={{ zIndex: 1100 }}>
+            <div className="mi-modal-content bill-view" style={{ maxWidth: '750px' }}>
                 <div className="mi-modal-top">
                     <h3>Invoice Statement</h3>
-                    <button className="mi-action-icon" onClick={onClose}>
-                        <i className="fas fa-times"></i>
-                    </button>
+                    <div className="d-flex align-items-center">
+                        {invoice.status === 'unpaid' && !isEditMode && (
+                            <button className="btn btn-sm btn-outline-primary mr-3 rounded-pill" onClick={() => setIsEditMode(true)}>
+                                <i className="fas fa-edit mr-1"></i> Manage Charges
+                            </button>
+                        )}
+                        <button className="mi-action-icon" onClick={onClose}>
+                            <i className="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div className="mi-bill-scroll">
@@ -107,32 +131,94 @@ const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {invoice.items.map((item, idx) => (
-                                    <tr key={idx}>
+                                {/* Pharmacy Items - Read Only */}
+                                {pharmacyItems.map((item, idx) => (
+                                    <tr key={`ph-${idx}`}>
                                         <td>
                                             <span style={{ fontWeight: '600' }}>{item.name}</span>
-                                            <span className="type-tag">{item.type}</span>
+                                            {item.quantity > 1 && <span className="small text-muted ml-2">(x{item.quantity})</span>}
+                                            <span className="type-tag pharmacy">pharmacy</span>
                                         </td>
-                                        <td className="price-col">₹{item.price}</td>
+                                        <td className="price-col">₹{item.price.toFixed(2)}</td>
                                     </tr>
                                 ))}
+
+                                {/* Other Charges - View/Edit */}
+                                {!isEditMode ? (
+                                    otherItems.map((item, idx) => (
+                                        <tr key={`ot-${idx}`}>
+                                            <td>
+                                                <span style={{ fontWeight: '600' }}>{item.name}</span>
+                                                <span className="type-tag other">other</span>
+                                            </td>
+                                            <td className="price-col">₹{item.price.toFixed(2)}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <>
+                                        {editableCharges.map((charge, idx) => (
+                                            <tr key={`edit-${idx}`} className="edit-mode-row">
+                                                <td>
+                                                    <div className="d-flex align-items-center">
+                                                        <input
+                                                            className="mi-field form-control-sm mr-2"
+                                                            value={charge.name}
+                                                            onChange={(e) => handleChargeChange(idx, 'name', e.target.value)}
+                                                            placeholder="Charge description..."
+                                                        />
+                                                        <span className="type-tag other">other</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="d-flex align-items-center justify-content-end">
+                                                        <input
+                                                            type="number"
+                                                            className="mi-field form-control-sm text-right mr-2"
+                                                            style={{ width: '100px' }}
+                                                            value={charge.price}
+                                                            onChange={(e) => handleChargeChange(idx, 'price', e.target.value)}
+                                                            placeholder="Amount"
+                                                        />
+                                                        <button className="btn btn-link text-danger p-0" onClick={() => handleRemoveCharge(idx)}>
+                                                            <i className="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        <tr>
+                                            <td colSpan="2" className="text-center p-0">
+                                                <button className="btn btn-link btn-sm text-primary" onClick={handleAddCharge}>
+                                                    <i className="fas fa-plus-circle mr-1"></i> Add New Charge Row
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </>
+                                )}
                             </tbody>
                         </table>
 
                         <div className="mi-bill-summary">
                             <div className="mi-summary-row">
                                 <span>Subtotal</span>
-                                <strong>₹{invoice.total_amount}</strong>
+                                <strong>₹{invoice.total_amount.toFixed(2)}</strong>
                             </div>
                             <div className="mi-summary-row">
                                 <span>Tax (0%)</span>
-                                <strong>₹0</strong>
+                                <strong>₹0.00</strong>
                             </div>
                             <div className="mi-summary-row grand-total">
                                 <span>Total Payable</span>
-                                <strong>₹{invoice.total_amount}</strong>
+                                <strong>₹{invoice.total_amount.toFixed(2)}</strong>
                             </div>
                         </div>
+
+                        {isEditMode && (
+                            <div className="alert alert-info mt-3 small">
+                                <i className="fas fa-info-circle mr-2"></i>
+                                You are in <strong>Charge Management Mode</strong>. Changes will not be applied to the total above until you click <strong>Save Changes</strong>.
+                            </div>
+                        )}
 
                         <footer className="mi-bill-footer-note">
                             <p><strong>Note:</strong> This is a computer-generated document and does not require a physical signature. Please keep this for your medical and insurance records.</p>
@@ -142,49 +228,22 @@ const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
                 </div>
 
                 <div className="mi-bill-actions-sticky">
-                    <div className="mi-modal-left-actions">
-                        {invoice.status === 'unpaid' && (
-                            <div className="mi-inline-add" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                                <input
-                                    className="mi-field"
-                                    placeholder="Add service..."
-                                    value={chargeName}
-                                    onChange={(e) => setChargeName(e.target.value)}
-                                    style={{ width: '180px' }}
-                                />
-                                <input
-                                    className="mi-field"
-                                    type="number"
-                                    placeholder="Amount"
-                                    value={chargePrice}
-                                    onChange={(e) => setChargePrice(e.target.value)}
-                                    style={{ width: '100px' }}
-                                />
-                                <button className="mi-add-circle" onClick={handleAddChargeLine}>
-                                    <i className="fas fa-plus"></i>
-                                </button>
-                                <div style={{ display: 'flex', gap: '5px' }}>
-                                    {newCharges.map((c, i) => (
-                                        <div key={i} className="mi-temp-item" style={{ margin: 0 }}>
-                                            {c.price} <i className="fas fa-times" onClick={() => handleRemoveChargeLine(i)}></i>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="mi-modal-right-actions" style={{ display: 'flex', gap: '12px' }}>
-                        <button className="mi-outline-btn" onClick={onClose}>Close</button>
-                        {invoice.status === 'unpaid' && (
+                    <div className="mi-modal-right-actions" style={{ display: 'flex', gap: '12px', width: '100%', justifyContent: 'flex-end' }}>
+                        {isEditMode ? (
                             <>
-                                {newCharges.length > 0 && (
-                                    <button className="mi-primary-btn" onClick={handleSaveCharges} disabled={updating}>
-                                        Save Charges
+                                <button className="mi-outline-btn" onClick={() => setIsEditMode(false)} disabled={updating}>Cancel</button>
+                                <button className="mi-primary-btn" onClick={handleSaveCharges} disabled={updating}>
+                                    {updating ? 'Saving...' : 'Save Changes'}
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <button className="mi-outline-btn" onClick={onClose}>Close</button>
+                                {invoice.status === 'unpaid' && (
+                                    <button className="mi-primary-btn" style={{ background: '#16a34a' }} onClick={() => handleUpdateStatus(invoice.invoice_id, 'paid')} disabled={updating}>
+                                        <i className="fas fa-check-double mr-1"></i> Mark as Paid
                                     </button>
                                 )}
-                                <button className="mi-primary-btn" style={{ background: '#16a34a' }} onClick={() => handleUpdateStatus(invoice.invoice_id, 'paid')} disabled={updating}>
-                                    Mark as Paid
-                                </button>
                             </>
                         )}
                     </div>
