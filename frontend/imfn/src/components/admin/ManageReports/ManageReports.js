@@ -144,8 +144,18 @@ function ManageReports() {
                 {selectedReport ? (
                     <div className="admin-chat-sidebar">
                         <div className="sidebar-header">
-                            <h3>Case Resolution</h3>
-                            <div className={`status-pill ${selectedReport.status}`}>{selectedReport.status}</div>
+                            <div className="header-labels">
+                                <h3>Case Resolution</h3>
+                                <div className={`status-pill ${selectedReport.status}`}>{selectedReport.status}</div>
+                            </div>
+                            <div className="header-actions">
+                                <button onClick={() => updateStatus(selectedReport._id, 'investigating')} className="btn-action investigate">
+                                    Investigate
+                                </button>
+                                <button onClick={() => updateStatus(selectedReport._id, 'resolved')} className="btn-action resolve">
+                                    Resolve
+                                </button>
+                            </div>
                         </div>
 
                         <div className="report-brief-top">
@@ -161,15 +171,8 @@ function ManageReports() {
                                 <label>Complaint</label>
                                 <p className="complaint-text-box">{selectedReport.report_text}</p>
                             </div>
-                            <div className="status-actions-sidebar">
-                                <button onClick={() => updateStatus(selectedReport._id, 'investigating')} className="btn-investigate mini">
-                                    <i className="fas fa-search"></i>
-                                </button>
-                                <button onClick={() => updateStatus(selectedReport._id, 'resolved')} className="btn-resolve mini">
-                                    <i className="fas fa-check"></i>
-                                </button>
-                            </div>
                         </div>
+
 
                         <div className="chat-viewport">
                             {chats.map((chat, idx) => (
