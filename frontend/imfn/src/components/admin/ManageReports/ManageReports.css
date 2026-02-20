@@ -193,14 +193,63 @@
 }
 
 .sidebar-header {
-    padding: 24px;
+    padding: 20px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #f1f5f9;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-.sidebar-header h3 { margin: 0; font-size: 1rem; font-weight: 700; }
+.header-labels {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-action {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-action.investigate {
+    background: #eff6ff;
+    color: #3b82f6;
+    border: 1px solid #dbeafe;
+}
+
+.btn-action.investigate:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-action.resolve {
+    background: #ecfdf5;
+    color: #10b981;
+    border: 1px solid #d1fae5;
+}
+
+.btn-action.resolve:hover {
+    background: #10b981;
+    color: white;
+}
 
 .report-brief-top {
     padding: 20px 24px;
@@ -274,6 +323,102 @@
     flex-direction: column;
     gap: 16px;
 }
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .reports-list-panel {
+        width: 320px;
+        min-width: 320px;
+    }
+}
+
+@media (max-width: 992px) {
+    .manage-reports-container {
+        margin: 10px;
+        height: calc(100vh - 100px);
+        border-radius: 16px;
+    }
+    
+    .reports-list-panel {
+        width: 280px;
+        min-width: 280px;
+    }
+    
+    .report-brief-top {
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .brief-item p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .manage-reports-container {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 80px);
+        margin: 0;
+        border-radius: 0;
+        border: none;
+    }
+
+    .reports-list-panel {
+        width: 100%;
+        min-width: 100%;
+        height: 350px; /* Fixed height for list on mobile */
+        border-right: none;
+        border-bottom: 1px solid #f1f5f9;
+        flex: none;
+    }
+
+    .report-details-panel {
+        height: 600px;
+        flex: none;
+    }
+
+    .admin-chat-sidebar {
+        height: 100%;
+    }
+
+    .report-brief-top {
+        grid-template-columns: 1fr; /* Stack brief info on mobile */
+    }
+
+    .status-actions-sidebar {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .chat-viewport {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .panel-header {
+        padding: 15px;
+    }
+    
+    .report-card {
+        padding: 12px;
+    }
+    
+    .sidebar-header {
+        padding: 15px;
+    }
+    
+    .chat-form {
+        padding: 15px;
+        gap: 8px;
+    }
+    
+    .chat-form button {
+        padding: 0 15px;
+    }
+}
+
 
 
 .message-wrapper {
