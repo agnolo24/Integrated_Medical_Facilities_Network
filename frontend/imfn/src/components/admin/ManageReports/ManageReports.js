@@ -98,6 +98,7 @@ function ManageReports() {
                     <h2>Patient Complaints</h2>
                 </div>
                 <div className="reports-scroll">
+                    <div className="sidebar-section-label">Active Reports</div>
                     {reports.map(report => (
                         <div
                             key={report._id}
@@ -113,76 +114,82 @@ function ManageReports() {
                             <h3>{report.hospital_name}</h3>
                         </div>
                     ))}
+
+                    {selectedReport && (
+                        <div className="interactions-sidebar-section">
+                            <div className="sidebar-section-label">Recent Interaction History</div>
+                            <div className="interactions-list-mini">
+                                {interactions.length === 0 ? <p className="no-interactions-mini">No previous interactions found.</p> :
+                                    interactions.map((item, idx) => (
+                                        <div key={idx} className={`interaction-item-mini ${item.type}`}>
+                                            <div className="mini-type-icon">{item.type === 'appointment' ? '📅' : '🚨'}</div>
+                                            <div className="mini-item-info">
+                                                <div className="mini-item-header">
+                                                    <strong>{item.type.toUpperCase()}</strong>
+                                                    <span className="mini-date">{new Date(item.appointment_date || item.created_at).toLocaleDateString()}</span>
+                                                </div>
+                                                <p>{item.reason || item.emergency_type || 'No details'}</p>
+                                                <span className={`mini-status ${item.status}`}>{item.status}</span>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
             <div className="report-details-panel">
                 {selectedReport ? (
-                    <div className="details-layout">
-                        <div className="main-content">
-                            <div className="report-info">
-                                <h2>Report Details</h2>
-                                <div className="info-grid">
-                                    <div className="info-item">
-                                        <label>Patient</label>
-                                        <p>{selectedReport.patient_name}</p>
-                                    </div>
-                                    <div className="info-item">
-                                        <label>Hospital</label>
-                                        <p>{selectedReport.hospital_name}</p>
-                                    </div>
-                                    <div className="info-item full">
-                                        <label>Complaint</label>
-                                        <p className="complaint-text">{selectedReport.report_text}</p>
-                                    </div>
-                                </div>
-                                <div className="status-actions">
-                                    <button onClick={() => updateStatus(selectedReport._id, 'investigating')} className="btn-investigate">Mark Investigating</button>
-                                    <button onClick={() => updateStatus(selectedReport._id, 'resolved')} className="btn-resolve">Mark Resolved</button>
-                                </div>
-                            </div>
+                    <div className="admin-chat-sidebar">
+                        <div className="sidebar-header">
+                            <h3>Case Resolution</h3>
+                            <div className={`status-pill ${selectedReport.status}`}>{selectedReport.status}</div>
+                        </div>
 
-                            <div className="interactions-section">
-                                <h2>Recent Interactions</h2>
-                                <div className="interactions-list">
-                                    {interactions.length === 0 ? <p>No previous interactions found.</p> :
-                                        interactions.map((item, idx) => (
-                                            <div key={idx} className={`interaction-item ${item.type}`}>
-                                                <div className="type-icon">{item.type === 'appointment' ? '📅' : '🚨'}</div>
-                                                <div className="item-info">
-                                                    <strong>{item.type.toUpperCase()}</strong>
-                                                    <span>{new Date(item.appointment_date || item.created_at).toLocaleDateString()}</span>
-                                                    <p>{item.reason || item.emergency_type || 'No details provided'}</p>
-                                                    <span className={`item-status ${item.status}`}>{item.status}</span>
-                                                </div>
-                                            </div>
-                                        ))
-                                    }
-                                </div>
+                        <div className="report-brief-top">
+                            <div className="brief-item">
+                                <label>Patient</label>
+                                <p>{selectedReport.patient_name}</p>
+                            </div>
+                            <div className="brief-item">
+                                <label>Hospital</label>
+                                <p>{selectedReport.hospital_name}</p>
+                            </div>
+                            <div className="brief-item full">
+                                <label>Complaint</label>
+                                <p className="complaint-text-box">{selectedReport.report_text}</p>
+                            </div>
+                            <div className="status-actions-sidebar">
+                                <button onClick={() => updateStatus(selectedReport._id, 'investigating')} className="btn-investigate mini">
+                                    <i className="fas fa-search"></i>
+                                </button>
+                                <button onClick={() => updateStatus(selectedReport._id, 'resolved')} className="btn-resolve mini">
+                                    <i className="fas fa-check"></i>
+                                </button>
                             </div>
                         </div>
 
-                        <div className="admin-chat-sidebar">
-                            <h3>Response Chat</h3>
-                            <div className="chat-viewport">
-                                {chats.map((chat, idx) => (
-                                    <div key={idx} className={`message-wrapper ${chat.sender_type}`}>
-                                        <div className="msg-bubble">
-                                            <p>{chat.message}</p>
-                                            <small>{new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
-                                        </div>
+                        <div className="chat-viewport">
+                            {chats.map((chat, idx) => (
+                                <div key={idx} className={`message-wrapper ${chat.sender_type}`}>
+                                    <div className="msg-bubble">
+                                        <p>{chat.message}</p>
+                                        <small>{new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
                                     </div>
-                                ))}
-                            </div>
-                            <form className="chat-form" onSubmit={handleSendMessage}>
-                                <input
-                                    value={newMessage}
-                                    onChange={(e) => setNewMessage(e.target.value)}
-                                    placeholder="Type reply to patient..."
-                                />
-                                <button type="submit">Send</button>
-                            </form>
+                                </div>
+                            ))}
                         </div>
+                        <form className="chat-form" onSubmit={handleSendMessage}>
+                            <input
+                                value={newMessage}
+                                onChange={(e) => setNewMessage(e.target.value)}
+                                placeholder="Type message to patient..."
+                                required
+                            />
+                            <button type="submit">Send</button>
+                        </form>
                     </div>
                 ) : (
                     <div className="empty-state">
@@ -191,6 +198,7 @@ function ManageReports() {
                     </div>
                 )}
             </div>
+
         </div>
     );
 }
