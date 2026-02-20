@@ -10,15 +10,8 @@
   --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
 }
 
-.hospital-details-page {
-  min-height: 100vh;
-  background-color: var(--background);
-  padding: 2rem;
-  font-family: 'Inter', sans-serif;
-}
-
-.page-container {
-  max-width: 1200px;
+.hospital-details-content {
+  max-width: 1300px;
   margin: 0 auto;
 }
 

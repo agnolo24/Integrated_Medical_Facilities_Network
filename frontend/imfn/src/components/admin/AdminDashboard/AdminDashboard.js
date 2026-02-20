@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import axios from 'axios';
 import './AdminDashboard.css';
 
@@ -13,6 +13,14 @@ export default function AdminDashboard() {
 
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state?.activeTab) {
+            setActiveTab(location.state.activeTab);
+        }
+    }, [location.state]);
+
     const [pendingHospitals, setPendingHospitals] = useState([]);
     const [verifiedHospitals, setVerifiedHospitals] = useState([]);
 
