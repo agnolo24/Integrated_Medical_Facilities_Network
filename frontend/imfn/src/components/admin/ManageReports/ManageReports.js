@@ -115,7 +115,7 @@ function ManageReports() {
                         </div>
                     ))}
 
-                    {selectedReport && (
+                    {/* {selectedReport && (
                         <div className="interactions-sidebar-section">
                             <div className="sidebar-section-label">Recent Interaction History</div>
                             <div className="interactions-list-mini">
@@ -136,7 +136,7 @@ function ManageReports() {
                                 }
                             </div>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
 
