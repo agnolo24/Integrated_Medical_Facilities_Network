@@ -25,14 +25,14 @@ const AdminSidebar = ({ activeTab, setActiveTab, onLogout }) => {
                         <span>Hospitals</span>
                     </a>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <a href="#"
                         className={`nav-link ${activeTab === 'users' ? 'active' : ''}`}
                         onClick={() => setActiveTab('users')}>
                         <i className="fas fa-user-friends"></i>
                         <span>Users</span>
                     </a>
-                </li>
+                </li> */}
                 <li className="nav-item">
                     <a href="#"
                         className={`nav-link ${activeTab === 'reports' ? 'active' : ''}`}
