@@ -4,6 +4,26 @@
     min-height: 100vh;
 }
 
+.btn-back-medical {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 10px 20px;
+    border-radius: 12px;
+    color: #0f172a;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-back-medical:hover {
+    background: #f1f5f9;
+    transform: translateX(-4px);
+}
+
 .pmh-header {
     background: #ffffff;
     padding: 2rem 3rem;

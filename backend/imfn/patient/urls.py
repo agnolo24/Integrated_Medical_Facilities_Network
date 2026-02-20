@@ -18,7 +18,20 @@ urlpatterns = [
     path("cancel_appointment/", views.cancel_appointment, name="cancel_appointment"),
     # Emergency functionality
     path("getNearestHospital/", views.getNearestHospital, name="getNearestHospital"),
-    path("get_patient_med_history/", views.get_patient_med_history, name='get_patient_med_history'),
-    path('get_portal_data/', views.get_portal_data, name='get_portal_data'),
-    path('get_emergency_details/', views.get_emergency_details, name='get_emergency_details'),
+    path(
+        "get_patient_med_history/",
+        views.get_patient_med_history,
+        name="get_patient_med_history",
+    ),
+    path("get_portal_data/", views.get_portal_data, name="get_portal_data"),
+    path(
+        "get_emergency_details/",
+        views.get_emergency_details,
+        name="get_emergency_details",
+    ),
+    # Report and Chat
+    path("submit_report/", views.submit_report, name="submit_report"),
+    path("my_reports/", views.get_my_reports, name="get_my_reports"),
+    path("report_chat/", views.get_report_chat, name="get_report_chat"),
+    path("send_report_message/", views.send_report_message, name="send_report_message"),
 ]

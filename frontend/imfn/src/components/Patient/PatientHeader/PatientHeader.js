@@ -115,7 +115,7 @@ function PatientHeader() {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="col-lg-5 col-md-3 d-none d-lg-block">
+                            {/* <div className="col-lg-5 col-md-3 d-none d-lg-block">
                                 <div className="header-social text-right">
                                     <span>
                                         <a href="#" title="Facebook"><i className="fab fa-facebook"></i></a>
@@ -123,7 +123,7 @@ function PatientHeader() {
                                         <a href="#" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
                                     </span>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,11 @@ function PatientHeader() {
                                                 <li className="has-sub">
                                                     <NavLink to="/patienthome"><h6>Home</h6></NavLink>
                                                 </li>
+                                                <li className="has-sub">
+                                                    <NavLink to="/myReports"><h6>My Reports</h6></NavLink>
+                                                </li>
                                                 {/* Add more patient links here */}
+
 
                                             </ul>
                                         </nav>
