@@ -246,8 +246,14 @@
     border: 1px solid #d1fae5;
 }
 
-.btn-action.resolve:hover {
-    background: #10b981;
+.btn-action.history {
+    background: #fdf2f8;
+    color: #db2777;
+    border: 1px solid #fbcfe8;
+}
+
+.btn-action.history:hover {
+    background: #db2777;
     color: white;
 }
 
