@@ -116,7 +116,7 @@ const DoctorAppointmentHistory = () => {
                     </button> */}
                 </header>
 
-                <section className="stats-grid">
+                {/* <section className="stats-grid">
                     <div className={`stat-card total ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>
                         <div className="icon-box"><i className="fas fa-calendar-alt"></i></div>
                         <div className="stat-info"><h3>{stats.total}</h3><p>Total</p></div>
@@ -133,17 +133,17 @@ const DoctorAppointmentHistory = () => {
                         <div className="icon-box"><i className="fas fa-times-circle"></i></div>
                         <div className="stat-info"><h3>{stats.cancelled}</h3><p>Cancelled</p></div>
                     </div>
-                </section>
+                </section> */}
 
                 <div className="content-card">
                     <div className="filter-bar">
-                        <div className="tabs">
+                        {/* <div className="tabs">
                             {['all', 'completed', 'confirmed', 'pending', 'cancelled'].map(f => (
                                 <button key={f} className={`tab-btn ${filter === f ? 'active' : ''}`} onClick={() => setFilter(f)}>
                                     {f.charAt(0).toUpperCase() + f.slice(1)}
                                 </button>
                             ))}
-                        </div>
+                        </div> */}
                         <div className="results-info">Showing {filteredAppointments.length} records</div>
                     </div>
 
