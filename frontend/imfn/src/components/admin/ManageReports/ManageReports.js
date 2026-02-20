@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 import './ManageReports.css';
 
@@ -9,6 +10,7 @@ function ManageReports() {
     const [interactions, setInteractions] = useState([]);
     const [chats, setChats] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const navigate = useNavigate();
     const adminLoginId = localStorage.getItem('loginId');
     const baseUrl = "http://127.0.0.1:8000/webAdmin/";
     const patientBaseUrl = "http://127.0.0.1:8000/patient/";
@@ -91,6 +93,16 @@ function ManageReports() {
         }
     };
 
+    const handleViewHistory = () => {
+        if (!selectedReport) return;
+        navigate('/PatientMedicalHistory', {
+            state: {
+                patient_login_id: selectedReport.patient_login_id,
+                fromAdmin: true
+            }
+        });
+    };
+
     return (
         <div className="manage-reports-container">
             <div className="reports-list-panel">
@@ -149,6 +161,9 @@ function ManageReports() {
                                 <div className={`status-pill ${selectedReport.status}`}>{selectedReport.status}</div>
                             </div>
                             <div className="header-actions">
+                                <button onClick={handleViewHistory} className="btn-action history">
+                                    Medical History
+                                </button>
                                 <button onClick={() => updateStatus(selectedReport._id, 'investigating')} className="btn-action investigate">
                                     Investigate
                                 </button>
