@@ -85,11 +85,11 @@ const HospitalDetailsPage = () => {
 
             <main className="admin-main">
                 <div className="hospital-details-content">
-                    <nav className="back-nav">
+                    {/* <nav className="back-nav">
                         <button className="btn-back" onClick={() => navigate('/admin')}>
                             <i className="fas fa-arrow-left"></i> Back to Dashboard
                         </button>
-                    </nav>
+                    </nav> */}
 
                     <header className="hospital-hero">
                         <div className="hero-main">
