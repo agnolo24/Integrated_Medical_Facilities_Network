@@ -452,11 +452,12 @@ color: #FFF;
     border-radius: 50%;
     text-align: center;
 }
-.top-btn:hover {
+/* .top-btn:hover {
     background: transparent linear-gradient(90deg, #07CCEC 0%, #1E0B9B 100%) 0% 0% no-repeat padding-box;
     box-shadow: none;
      color: #fff;
-}
+	transition: all 0.3s ease 0s;
+} */
 
 .product-details-action .btn {
     background: transparent linear-gradient(90deg, #1E0B9B 0%, #07CCEC 100%) 0% 0% no-repeat padding-box;
