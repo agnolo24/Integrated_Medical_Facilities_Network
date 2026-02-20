@@ -169,3 +169,124 @@ def view_doctor_history(request):
             {"error": "Internal Server Error"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+@api_view(["GET"])
+def get_all_reports(request):
+    db = get_db()
+    report_col = db["reports"]
+    hospital_col = db["hospital"]
+    patient_col = db["patient"]
+
+    try:
+        reports = list(report_col.find().sort("created_at", -1))
+        for report in reports:
+            report["_id"] = str(report["_id"])
+            report["patient_login_id"] = str(report["patient_login_id"])
+            report["hospital_login_id"] = str(report["hospital_login_id"])
+
+            # Get hospital info
+            hosp = hospital_col.find_one(
+                {"login_id": ObjectId(report["hospital_login_id"])}
+            )
+            report["hospital_name"] = hosp.get("hospitalName") if hosp else "Unknown"
+
+            # Get patient info
+            patient = patient_col.find_one(
+                {"login_id": ObjectId(report["patient_login_id"])}
+            )
+            report["patient_name"] = patient.get("name") if patient else "Unknown"
+
+        return Response(reports, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(
+            {"error": "Failed to fetch reports"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+
+@api_view(["GET"])
+def get_patient_hospital_interactions(request):
+    patient_login_id = request.query_params.get("patient_login_id")
+    hospital_login_id = request.query_params.get("hospital_login_id")
+
+    if not patient_login_id or not hospital_login_id:
+        return Response(
+            {"error": "Missing parameters"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    db = get_db()
+    appointment_col = db["appointments"]
+    emergency_col = db["emergencies"]
+
+    try:
+        # Fetch appointments between patient and hospital
+        appointments = list(
+            appointment_col.find(
+                {
+                    "patient_login_id": ObjectId(patient_login_id),
+                    "hospital_login_id": ObjectId(hospital_login_id),
+                }
+            )
+        )
+        for apt in appointments:
+            apt["_id"] = str(apt["_id"])
+            apt["patient_login_id"] = str(apt["patient_login_id"])
+            apt["hospital_login_id"] = str(apt["hospital_login_id"])
+            apt["type"] = "appointment"
+
+        # Fetch emergencies between patient and hospital
+        emergencies = list(
+            emergency_col.find(
+                {
+                    "patient_login_id": ObjectId(patient_login_id),
+                    "hospital_login_id": ObjectId(hospital_login_id),
+                }
+            )
+        )
+        for emg in emergencies:
+            emg["_id"] = str(emg["_id"])
+            emg["patient_login_id"] = str(emg["patient_login_id"])
+            emg["hospital_login_id"] = str(emg["hospital_login_id"])
+            emg["type"] = "emergency"
+
+        interactions = appointments + emergencies
+        # Sort by date/created_at if possible
+        interactions.sort(
+            key=lambda x: x.get("appointment_date") or x.get("created_at"), reverse=True
+        )
+
+        return Response(interactions, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(
+            {"error": "Failed to fetch interactions"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+
+@api_view(["POST"])
+def update_report_status(request):
+    report_id = request.data.get("report_id")
+    new_status = request.data.get("status")
+
+    if not report_id or not new_status:
+        return Response(
+            {"error": "Missing parameters"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    db = get_db()
+    report_col = db["reports"]
+
+    try:
+        report_col.update_one(
+            {"_id": ObjectId(report_id)}, {"$set": {"status": new_status}}
+        )
+        return Response({"message": "Status updated"}, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(
+            {"error": "Failed to update status"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )

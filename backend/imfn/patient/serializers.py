@@ -40,3 +40,10 @@ class CancelAppointmentSerializer(serializers.Serializer):
 
     appointment_id = serializers.CharField(max_length=100)
     patient_login_id = serializers.CharField(max_length=100)
+
+
+class ReportSerializer(serializers.Serializer):
+    patient_login_id = serializers.CharField(max_length=100)
+    hospital_login_id = serializers.CharField(max_length=100)
+    report_text = serializers.CharField(max_length=1000)
+

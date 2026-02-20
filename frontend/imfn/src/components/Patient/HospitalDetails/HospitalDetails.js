@@ -18,6 +18,9 @@ function HospitalDetails() {
     const [filteredDoctors, setFilteredDoctors] = useState([])
     const [selectedDepartment, setSelectedDepartment] = useState('all')
     const [isLoading, setIsLoading] = useState(true)
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false)
+    const [reportText, setReportText] = useState('')
+    const [isSubmittingReport, setIsSubmittingReport] = useState(false)
 
     useEffect(() => {
         if (!hospitalLoginId) {
@@ -63,6 +66,30 @@ function HospitalDetails() {
         })
     }
 
+    const handleSubmitReport = async (e) => {
+        e.preventDefault()
+        if (!reportText.trim()) return alert("Please enter a reason for reporting")
+
+        setIsSubmittingReport(true)
+        const loginId = localStorage.getItem('loginId')
+
+        try {
+            await axios.post(`${baseUrl}submit_report/`, {
+                patient_login_id: loginId,
+                hospital_login_id: hospitalLoginId,
+                report_text: reportText
+            })
+            alert("Report submitted successfully to the admin. You can track its status in 'My Reports'")
+            setIsReportModalOpen(false)
+            setReportText('')
+        } catch (error) {
+            console.error("Error submitting report:", error)
+            alert("Failed to submit report. Please try again.")
+        } finally {
+            setIsSubmittingReport(false)
+        }
+    }
+
     if (isLoading) {
         return (
             <div className="hospital-details-page">
@@ -102,6 +129,11 @@ function HospitalDetails() {
                             <span className="stat-number">{departments.length}</span>
                             <span className="stat-label">Departments</span>
                         </div>
+                    </div>
+                    <div className="hospital-actions-top">
+                        <button className="report-hosp-btn" onClick={() => setIsReportModalOpen(true)}>
+                            🚩 Report Hospital
+                        </button>
                     </div>
                 </div>
 
@@ -174,9 +206,37 @@ function HospitalDetails() {
                 </div>
             </div>
 
+            {/* Report Modal */}
+            {isReportModalOpen && (
+                <div className="report-modal-overlay">
+                    <div className="report-modal">
+                        <div className="report-modal-header">
+                            <h2>Report {hospital?.name}</h2>
+                            <button className="close-modal-btn" onClick={() => setIsReportModalOpen(false)}>&times;</button>
+                        </div>
+                        <form onSubmit={handleSubmitReport}>
+                            <p>Please provide a detailed reason for reporting this hospital to the administrator.</p>
+                            <textarea
+                                value={reportText}
+                                onChange={(e) => setReportText(e.target.value)}
+                                placeholder="Describe your issue or concern here..."
+                                required
+                            ></textarea>
+                            <div className="modal-footer">
+                                <button type="button" className="cancel-btn" onClick={() => setIsReportModalOpen(false)}>Cancel</button>
+                                <button type="submit" className="submit-report-btn" disabled={isSubmittingReport}>
+                                    {isSubmittingReport ? 'Submitting...' : 'Submit Report'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
             <PatientFooter />
         </div>
     )
 }
+
 
 export default HospitalDetails
