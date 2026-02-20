@@ -194,7 +194,7 @@ function ManageReports() {
                                 <div key={idx} className={`message-wrapper ${chat.sender_type}`}>
                                     <div className="msg-bubble">
                                         <p>{chat.message}</p>
-                                        <small>{new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+                                        {/* <small>{new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small> */}
                                     </div>
                                 </div>
                             ))}
