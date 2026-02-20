@@ -33,7 +33,16 @@ const AdminSidebar = ({ activeTab, setActiveTab, onLogout }) => {
                         <span>Users</span>
                     </a>
                 </li>
+                <li className="nav-item">
+                    <a href="#"
+                        className={`nav-link ${activeTab === 'reports' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('reports')}>
+                        <i className="fas fa-flag"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
                 {/* Add more links as needed */}
+
             </ul>
 
             <button className="logout-btn" onClick={onLogout}>

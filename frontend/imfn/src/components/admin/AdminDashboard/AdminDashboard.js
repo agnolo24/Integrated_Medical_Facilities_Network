@@ -8,8 +8,10 @@ import AdminSidebar from './AdminSidebar';
 import StatsCard from './StatsCard';
 import HospitalTable from './HospitalTable';
 import HospitalDetailsModal from './HospitalDetailsModal';
+import ManageReports from '../ManageReports/ManageReports';
 
 export default function AdminDashboard() {
+
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
     const [pendingHospitals, setPendingHospitals] = useState([]);
@@ -138,6 +140,11 @@ export default function AdminDashboard() {
                         <p>Coming Soon</p>
                     </div>
                 )}
+
+                {activeTab === 'reports' && (
+                    <ManageReports />
+                )}
+
 
             </main>
 

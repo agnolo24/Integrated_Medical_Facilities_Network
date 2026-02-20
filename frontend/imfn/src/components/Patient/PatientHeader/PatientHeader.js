@@ -143,7 +143,11 @@ function PatientHeader() {
                                                 <li className="has-sub">
                                                     <NavLink to="/patienthome"><h6>Home</h6></NavLink>
                                                 </li>
+                                                <li className="has-sub">
+                                                    <NavLink to="/myReports"><h6>My Reports</h6></NavLink>
+                                                </li>
                                                 {/* Add more patient links here */}
+
 
                                             </ul>
                                         </nav>
