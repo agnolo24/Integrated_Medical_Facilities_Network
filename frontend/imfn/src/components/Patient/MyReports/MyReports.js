@@ -100,9 +100,9 @@ function MyReports() {
                                     <div key={index} className={`chat-message ${chat.sender_type}`}>
                                         <div className="message-content">
                                             <p>{chat.message}</p>
-                                            <span className="message-time">
+                                            {/* <span className="message-time">
                                                 {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </span>
+                                            </span> */}
                                         </div>
                                     </div>
                                 ))}
