@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import axios from 'axios';
 import './AdminDashboard.css';
 
@@ -7,15 +7,22 @@ import './AdminDashboard.css';
 import AdminSidebar from './AdminSidebar';
 import StatsCard from './StatsCard';
 import HospitalTable from './HospitalTable';
-import HospitalDetailsModal from './HospitalDetailsModal';
+import ManageReports from '../ManageReports/ManageReports';
 
 export default function AdminDashboard() {
+
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state?.activeTab) {
+            setActiveTab(location.state.activeTab);
+        }
+    }, [location.state]);
+
     const [pendingHospitals, setPendingHospitals] = useState([]);
     const [verifiedHospitals, setVerifiedHospitals] = useState([]);
-    const [selectedHospital, setSelectedHospital] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Fetch Hospitals Data
     const fetchHospitals = async () => {
@@ -50,17 +57,10 @@ export default function AdminDashboard() {
         }
     };
 
-    const handleViewDetails = async (hospitalLoginId) => {
-        try {
-            const response = await axios.get(`http://127.0.0.1:8000/webAdmin/get_hospital_details/`, {
-                params: { hospital_login_id: hospitalLoginId }
-            });
-            setSelectedHospital(response.data);
-            setIsModalOpen(true);
-        } catch (error) {
-            console.error("Error fetching details:", error);
-            alert("Failed to load details");
-        }
+    const handleViewDetails = (hospitalLoginId) => {
+        navigate(`/admin/hospital/${hospitalLoginId}`, {
+            state: { hospitalLoginId: hospitalLoginId }
+        });
     };
 
     return (
@@ -139,14 +139,13 @@ export default function AdminDashboard() {
                     </div>
                 )}
 
+                {activeTab === 'reports' && (
+                    <ManageReports />
+                )}
+
+
             </main>
 
-            {isModalOpen && (
-                <HospitalDetailsModal
-                    data={selectedHospital}
-                    onClose={() => setIsModalOpen(false)}
-                />
-            )}
-        </div>
+        </div >
     );
 }

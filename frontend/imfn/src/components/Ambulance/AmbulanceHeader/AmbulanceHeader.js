@@ -124,7 +124,7 @@ function AmbulanceHeader() {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="col-lg-5 col-md-3 d-none d-lg-block">
+                            {/* <div className="col-lg-5 col-md-3 d-none d-lg-block">
                                 <div className="header-social text-right">
                                     <span>
                                         <a href="#" title="Facebook"><i className="fab fa-facebook"></i></a>
@@ -132,7 +132,7 @@ function AmbulanceHeader() {
                                         <a href="#" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
                                     </span>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

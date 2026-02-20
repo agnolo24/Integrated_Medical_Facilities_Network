@@ -40,8 +40,11 @@ import ViewAppointments from './components/Patient/ViewAppointments/ViewAppointm
 //Doctor Module Components
 import ViewPatientAppointments from './components/Doctor/ManagePatient/ViewPatientAppointments/ViewPatientAppointments'
 import DoctorAppointmentHistory from './components/admin/AdminDashboard/DoctorAppointmentHistory'
+import HospitalDetailsPage from './components/admin/AdminDashboard/HospitalDetailsPage'
 import PatientMedicalHistory from './components/Patient/PatientMedicalHistory/PatientMedicalHistory'
 import MeetingRoom from './components/MeetingRoom/MeetingRoom'
+import MyReports from './components/Patient/MyReports/MyReports'
+import ManageReports from './components/admin/ManageReports/ManageReports'
 
 function App() {
   return (
@@ -51,6 +54,8 @@ function App() {
           <Route path="/" element={<LandingHome />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminHomePage />} />
+          <Route path="/admin/hospital/:id" element={<HospitalDetailsPage />} />
+          <Route path="/manageReports" element={<ManageReports />} />
           <Route path="/doctorAppointmentHistory" element={<DoctorAppointmentHistory />} />
           <Route path="/hospitalTable" element={<HospitalTable />} />
           <Route path="/hospitalReg" element={<HospitalRegForm />} />
@@ -59,6 +64,7 @@ function App() {
           <Route path="/pharmacy" element={<PharmacyForm />} />
           <Route path="/userReg" element={<RegForm1 />} />
           <Route path="/patienthome" element={<PatientHome />} />
+          <Route path="/myReports" element={<MyReports />} />
           <Route path="/hospitalhome" element={<HospitalHome />} />
           <Route path='/registerDoctor' element={<RegisterDoctor />} />
           <Route path='/viewDoctors' element={<ViewDoctor />} />
@@ -72,8 +78,6 @@ function App() {
           <Route path='/scheduleDoctor' element={<SheduleDoctors />} />
           <Route path='/registerPharmacy' element={<RegisterPharmacy />} />
           <Route path='/registerBilling' element={<RegisterBilling />} />
-
-          {/* Patient Module Routes */}
           <Route path='/findDoctors' element={<FindDoctors />} />
           <Route path='/bookAppointment' element={<BookAppointment />} />
           <Route path='/hospitalDetails' element={<HospitalDetails />} />
@@ -86,7 +90,6 @@ function App() {
           <Route path='/pharmacyHistory' element={<PharmacyHistory />} />
           <Route path='/billinghome' element={<BillingHome />} />
           <Route path='/manageInvoices' element={<ManageInvoices />} />
-
           <Route path='/PatientMedicalHistory' element={<PatientMedicalHistory />} />
           <Route path='/meeting/:appointmentId' element={<MeetingRoom />} />
         </Routes>
@@ -94,5 +97,6 @@ function App() {
     </div>
   )
 }
+
 
 export default App

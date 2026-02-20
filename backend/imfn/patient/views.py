@@ -1077,3 +1077,138 @@ def get_emergency_details(request):
             {"error": "Failed to fetch emergency details"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+@api_view(["POST"])
+def submit_report(request):
+    serializer = ReportSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.validated_data
+
+    db = get_db()
+    report_col = db["reports"]
+
+    report_doc = {
+        "patient_login_id": ObjectId(data["patient_login_id"]),
+        "hospital_login_id": ObjectId(data["hospital_login_id"]),
+        "report_text": data["report_text"],
+        "status": "pending",
+        "created_at": datetime.utcnow(),
+    }
+
+    try:
+        result = report_col.insert_one(report_doc)
+        return Response(
+            {
+                "message": "Report submitted successfully",
+                "report_id": str(result.inserted_id),
+            },
+            status=status.HTTP_201_CREATED,
+        )
+    except Exception as e:
+        print(e)
+        return Response(
+            {"error": "Failed to submit report"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+
+@api_view(["GET"])
+def get_my_reports(request):
+    login_id = request.query_params.get("login_id")
+    if not login_id:
+        return Response(
+            {"error": "login_id is required"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    db = get_db()
+    report_col = db["reports"]
+    hospital_col = db["hospital"]
+
+    try:
+        reports = list(
+            report_col.find({"patient_login_id": ObjectId(login_id)}).sort(
+                "created_at", -1
+            )
+        )
+        for report in reports:
+            report["_id"] = str(report["_id"])
+            report["patient_login_id"] = str(report["patient_login_id"])
+            report["hospital_login_id"] = str(report["hospital_login_id"])
+
+            # Get hospital name
+            hosp = hospital_col.find_one(
+                {"login_id": ObjectId(report["hospital_login_id"])}
+            )
+            report["hospital_name"] = hosp.get("hospitalName") if hosp else "Unknown"
+
+        return Response(reports, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(
+            {"error": "Failed to fetch reports"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+
+@api_view(["GET"])
+def get_report_chat(request):
+    report_id = request.query_params.get("report_id")
+    if not report_id:
+        return Response(
+            {"error": "report_id is required"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    db = get_db()
+    chat_col = db["report_chats"]
+
+    try:
+        chats = list(
+            chat_col.find({"report_id": ObjectId(report_id)}).sort("timestamp", 1)
+        )
+        for chat in chats:
+            chat["_id"] = str(chat["_id"])
+            chat["report_id"] = str(chat["report_id"])
+            chat["sender_id"] = str(chat["sender_id"])
+
+        return Response(chats, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(
+            {"error": "Failed to fetch chat"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+
+@api_view(["POST"])
+def send_report_message(request):
+    report_id = request.data.get("report_id")
+    sender_id = request.data.get("sender_id")
+    sender_type = request.data.get("sender_type")
+    message = request.data.get("message")
+
+    if not all([report_id, sender_id, sender_type, message]):
+        return Response(
+            {"error": "All fields are required"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    db = get_db()
+    chat_col = db["report_chats"]
+
+    chat_doc = {
+        "report_id": ObjectId(report_id),
+        "sender_id": ObjectId(sender_id),
+        "sender_type": sender_type,
+        "message": message,
+        "timestamp": datetime.utcnow(),
+    }
+
+    try:
+        chat_col.insert_one(chat_doc)
+        return Response({"message": "Message sent"}, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        print(e)
+        return Response(
+            {"error": "Failed to send message"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
