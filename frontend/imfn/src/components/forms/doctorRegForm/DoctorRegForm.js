@@ -1,4 +1,4 @@
-// Doctor registration form
+// This is doctor registration form
 
 import React, { useState } from 'react';
 import axios from 'axios'
