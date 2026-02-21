@@ -10,8 +10,17 @@ export default function RegisterBilling({ hideHeaderFooter = false }) {
         password: ''
     });
 
+    const [errors, setErrors] = useState({});
+
     const [isBillingExist, setIsBillingExist] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    const validateForm = () => {
+        let newErrors = {};
+        if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,6 +28,9 @@ export default function RegisterBilling({ hideHeaderFooter = false }) {
             ...prev,
             [name]: value
         }));
+        if (errors[name]) {
+            setErrors({ ...errors, [name]: '' });
+        }
     };
 
     const checkBillingExist = async () => {
@@ -41,6 +53,9 @@ export default function RegisterBilling({ hideHeaderFooter = false }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
         const url = "http://127.0.0.1:8000/hospital/register_billing/"
         const hospital_login_id = localStorage.getItem("loginId")
 
@@ -51,6 +66,7 @@ export default function RegisterBilling({ hideHeaderFooter = false }) {
                 email: '',
                 password: ''
             })
+            setErrors({});
             checkBillingExist(); // Re-check after successful registration
         } catch (error) {
             alert(error?.response?.data?.error || "An Error Occur while Registering")
@@ -110,13 +126,14 @@ export default function RegisterBilling({ hideHeaderFooter = false }) {
                                         <input
                                             type="password"
                                             name="password"
-                                            className="rb-input"
+                                            className={`rb-input ${errors.password ? 'input-error' : ''}`}
                                             placeholder="••••••••"
                                             value={formData.password}
                                             onChange={handleChange}
                                             required
                                         />
                                     </div>
+                                    {errors.password && <span className="error-text">{errors.password}</span>}
                                 </div>
 
                                 <button type="submit" className="rb-submit-btn">

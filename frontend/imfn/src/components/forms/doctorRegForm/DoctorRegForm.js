@@ -1,4 +1,4 @@
-// Doctor registration form
+// This is doctor registration form
 
 import React, { useState } from 'react';
 import axios from 'axios'
@@ -59,12 +59,29 @@ const DoctorRegForm = () => {
     // password : ''
   });
 
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    let newErrors = {};
+    if (formData.name.trim().length < 3) newErrors.name = "Doctor name must be at least 3 characters";
+    if (formData.experience < 0) newErrors.experience = "Experience cannot be negative";
+    if (!/^\d{10}$/.test(formData.contactNumber)) newErrors.contactNumber = "Contact must be exactly 10 digits";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: '' });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     const hospital_login_id = localStorage.getItem("loginId")
 
@@ -85,6 +102,7 @@ const DoctorRegForm = () => {
         email: ''
         // password : ''
       })
+      setErrors({});
     } catch (error) {
       alert(error?.response?.data?.error || "An Error Occur while Registering")
     }
@@ -108,7 +126,9 @@ const DoctorRegForm = () => {
                 <div className="modern-form-group">
                   <label><i className="fas fa-user-edit"></i> Full Name</label>
                   <input type="text" name="name" placeholder="Dr. Jane Smith"
+                    className={errors.name ? 'input-error' : ''}
                     value={formData.name} onChange={handleChange} required />
+                  {errors.name && <span className="error-text">{errors.name}</span>}
                 </div>
               </div>
 
@@ -157,12 +177,16 @@ const DoctorRegForm = () => {
                 <div className="modern-form-group">
                   <label><i className="fas fa-briefcase-medical"></i> Experience (Years)</label>
                   <input type="number" name="experience" placeholder="10"
+                    className={errors.experience ? 'input-error' : ''}
                     value={formData.experience} onChange={handleChange} required />
+                  {errors.experience && <span className="error-text">{errors.experience}</span>}
                 </div>
                 <div className="modern-form-group">
                   <label><i className="fas fa-phone-alt"></i> Contact Number</label>
-                  <input type="tel" name="contactNumber" placeholder="+1 234 567 890"
+                  <input type="tel" name="contactNumber" placeholder="10-digit number"
+                    className={errors.contactNumber ? 'input-error' : ''}
                     value={formData.contactNumber} onChange={handleChange} required />
+                  {errors.contactNumber && <span className="error-text">{errors.contactNumber}</span>}
                 </div>
               </div>
 
