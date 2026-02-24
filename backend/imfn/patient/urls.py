@@ -34,4 +34,5 @@ urlpatterns = [
     path("my_reports/", views.get_my_reports, name="get_my_reports"),
     path("report_chat/", views.get_report_chat, name="get_report_chat"),
     path("send_report_message/", views.send_report_message, name="send_report_message"),
+    path("analyze_xray/", views.analyze_xray, name="analyze_xray"),
 ]

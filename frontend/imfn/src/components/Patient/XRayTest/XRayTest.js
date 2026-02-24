@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import PatientHeader from '../PatientHeader/PatientHeader';
 import PatientFooter from '../PatientFooter/PatientFooter';
 import './XRayTest.css';
@@ -31,20 +32,31 @@ const XRayTest = () => {
         setResult(null);
     };
 
-    const handlePredict = () => {
+    const handlePredict = async () => {
         if (!image) return;
 
         setLoading(true);
-        // Mock prediction delay
-        setTimeout(() => {
-            const mockResults = {
-                covid: { status: 'Negative', confidence: '98.5%' },
-                tuberculosis: { status: 'Normal', confidence: '96.2%' },
-                pneumonia: { status: 'Positive', confidence: '92.1%' }
-            };
-            setResult(mockResults[selectedTest]);
+        setResult(null);
+
+        const login_id = localStorage.getItem("loginId");
+        const formData = new FormData();
+        formData.append('xray_image', image);
+        formData.append('test_type', selectedTest);
+        formData.append('patient_login_id', login_id);
+
+        try {
+            const response = await axios.post("http://127.0.0.1:8000/patient/analyze_xray/", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            setResult(response.data);
+        } catch (error) {
+            console.error("Error analyzing X-ray:", error);
+            alert("Failed to analyze X-ray. Please try again.");
+        } finally {
             setLoading(false);
-        }, 2000);
+        }
     };
 
     return (
@@ -126,6 +138,11 @@ const XRayTest = () => {
                                         <div className="confidence">
                                             Confidence: {result.confidence}
                                         </div>
+                                        {result.details && (
+                                            <div className="result-details mt-2">
+                                                <strong>AI Observation:</strong> {result.details}
+                                            </div>
+                                        )}
                                         <p className="mt-3 text-muted">* This is an AI-generated result for informational purposes only. Please consult a doctor for a professional diagnosis.</p>
                                     </div>
                                 )}
