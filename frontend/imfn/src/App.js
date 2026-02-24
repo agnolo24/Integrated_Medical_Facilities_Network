@@ -36,6 +36,7 @@ import FindDoctors from './components/Patient/FindDoctors/FindDoctors'
 import BookAppointment from './components/Patient/BookAppointment/BookAppointment'
 import HospitalDetails from './components/Patient/HospitalDetails/HospitalDetails'
 import ViewAppointments from './components/Patient/ViewAppointments/ViewAppointments'
+import XRayTest from './components/Patient/XRayTest/XRayTest'
 
 //Doctor Module Components
 import ViewPatientAppointments from './components/Doctor/ManagePatient/ViewPatientAppointments/ViewPatientAppointments'
@@ -65,6 +66,7 @@ function App() {
           <Route path="/userReg" element={<RegForm1 />} />
           <Route path="/patienthome" element={<PatientHome />} />
           <Route path="/myReports" element={<MyReports />} />
+          <Route path="/xray-test" element={<XRayTest />} />
           <Route path="/hospitalhome" element={<HospitalHome />} />
           <Route path='/registerDoctor' element={<RegisterDoctor />} />
           <Route path='/viewDoctors' element={<ViewDoctor />} />
