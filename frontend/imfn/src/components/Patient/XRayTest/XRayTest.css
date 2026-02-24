@@ -68,6 +68,34 @@
     margin-bottom: 15px;
 }
 
+.preview-container {
+    position: relative;
+    display: inline-block;
+}
+
+.clear-btn-overlay {
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.clear-btn-overlay:hover {
+    background: #c82333;
+    transform: scale(1.1);
+}
+
 .preview-image {
     max-width: 100%;
     max-height: 400px;
