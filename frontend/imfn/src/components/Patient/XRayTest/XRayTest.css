@@ -123,6 +123,15 @@
     font-weight: 600;
 }
 
+.result-details {
+    font-size: 15px;
+    color: #444;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
 .loading-spinner {
     margin: 20px auto;
 }
