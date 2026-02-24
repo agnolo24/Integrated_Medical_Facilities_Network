@@ -19,6 +19,8 @@ import openrouteservice  # it is used for distance calculation(to find the close
 import base64
 import json
 
+from ML_models.test_functions import xray_testing
+
 # Create your views here.
 
 
@@ -1262,14 +1264,14 @@ def analyze_xray(request):
         # 2. Testing using test_functions
         if test_type == "covid":
             pass
-        elif test_type == "tb":
-            pass
-        elif test_type == "pnemonia" : 
-            pass
+        elif test_type == "tuberculosis":
+            xray_testing.tuberculosis(file_url)
+        elif test_type == "pneumonia" : 
+            print(xray_testing.hello("pneumonia"))
         else:
-            pass
+            print("unknow")
 
-        print(f'loginid : {patient_login_id}\n test : {test_type},\n file url : {file_url}')
+        # print(f'loginid : {patient_login_id}\n test : {test_type},\n file url : {file_url}')
         # 3. Store in MongoDB 'x-rays' collectio
         # patient = patient_col.find_one({"login_id" : ObjectId(patient_login_id)})
         # if not patient:
