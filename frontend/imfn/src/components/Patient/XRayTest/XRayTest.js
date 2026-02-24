@@ -24,6 +24,13 @@ const XRayTest = () => {
         }
     };
 
+    const handleClear = (e) => {
+        if (e) e.stopPropagation();
+        setImage(null);
+        setPreview(null);
+        setResult(null);
+    };
+
     const handlePredict = () => {
         if (!image) return;
 
@@ -81,7 +88,12 @@ const XRayTest = () => {
                                         onChange={handleImageChange}
                                     />
                                     {preview ? (
-                                        <img src={preview} alt="X-Ray Preview" className="preview-image" />
+                                        <div className="preview-container">
+                                            <img src={preview} alt="X-Ray Preview" className="preview-image" />
+                                            <button className="clear-btn-overlay" onClick={handleClear} title="Clear Image">
+                                                <i className="fas fa-times"></i>
+                                            </button>
+                                        </div>
                                     ) : (
                                         <>
                                             <i className="fas fa-cloud-upload-alt upload-icon"></i>
