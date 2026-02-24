@@ -68,7 +68,6 @@ function DoctorHeader() {
 
     const getDoctorData = async () => {
         const dr_id = localStorage.getItem("loginId");
-        const DoctorDataUrl = "";
 
         try {
             const response = await axios.get("http://127.0.0.1:8000/doctor/getDoctorData/", { params: { dr_id: dr_id } });

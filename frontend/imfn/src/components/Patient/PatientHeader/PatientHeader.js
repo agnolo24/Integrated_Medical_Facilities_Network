@@ -146,6 +146,9 @@ function PatientHeader() {
                                                 <li className="has-sub">
                                                     <NavLink to="/myReports"><h6>My Reports</h6></NavLink>
                                                 </li>
+                                                <li className="has-sub">
+                                                    <NavLink to="/xray-test"><h6>X-Ray Test</h6></NavLink>
+                                                </li>
                                                 {/* Add more patient links here */}
 
 
@@ -184,6 +187,7 @@ function PatientHeader() {
 
                 <ul className="d-block" style={{ marginTop: '40px' }}>
                     <li><NavLink to="/patienthome" onClick={toggleMobileMenu}>Home</NavLink></li>
+                    <li><NavLink to="/xray-test" onClick={toggleMobileMenu}>X-Ray Test</NavLink></li>
 
                     <li><NavLink to="/" onClick={toggleMobileMenu}>Logout</NavLink></li>
                 </ul>
