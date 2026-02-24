@@ -1267,7 +1267,7 @@ def analyze_xray(request):
         elif test_type == "tuberculosis":
             xray_testing.tuberculosis(file_url)
         elif test_type == "pneumonia" : 
-            print(xray_testing.hello("pneumonia"))
+            xray_testing.pneumonia(file_url)
         else:
             print("unknow")
 
