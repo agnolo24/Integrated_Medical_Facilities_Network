@@ -1256,15 +1256,20 @@ def analyze_xray(request):
         if not patient:
             return Response({"error": "Patient not found"},status=status.HTTP_404_NOT_FOUND)
 
-        xray_record = {
-            "patient_id": patient['_id'],
-            "test_type": test_type.capitalize(),
-            "image_url": file_url,
-            "tested_at": datetime.utcnow(),
-            "test_result" : "",
-        }
+        if not result_data:
+            return Response({"error": "Failed to process X-ray"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        xray_col.insert_one(xray_record)
+        if result_data.get('confidence'):
+            xray_record = {
+                "patient_id": patient['_id'],
+                "test_type": test_type.capitalize(),
+                "image_url": file_url,
+                "tested_at": datetime.utcnow(),
+                "test_result" : result_data['status'],
+                "confidence" : result_data['confidence'],
+            }
+
+            xray_col.insert_one(xray_record)
 
         return Response(result_data, status=status.HTTP_200_OK)
 
