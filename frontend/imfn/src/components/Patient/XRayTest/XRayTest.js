@@ -135,9 +135,11 @@ const XRayTest = () => {
                                         <div className="result-status">
                                             Status: <span style={{ color: result.status === 'Positive' ? '#dc3545' : '#28a745' }}>{result.status}</span>
                                         </div>
-                                        <div className="confidence">
-                                            Confidence: {result.confidence}
-                                        </div>
+                                        {result.confidence && (
+                                            <div className="confidence">
+                                                Confidence: {result.confidence}
+                                            </div>
+                                        )}
                                         {result.details && (
                                             <div className="result-details mt-2">
                                                 <strong>AI Observation:</strong> {result.details}

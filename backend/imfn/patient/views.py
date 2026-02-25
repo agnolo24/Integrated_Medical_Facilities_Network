@@ -1232,26 +1232,6 @@ def analyze_xray(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    # Dummy AI results
-    mock_results = {
-        "covid": {
-            "status": "Negative",
-            "confidence": "98.5%",
-            "details": "No signs of viral pneumonia or ground-glass opacities associated with COVID-19 detected.",
-        },
-        "tuberculosis": {
-            "status": "Normal",
-            "confidence": "96.2%",
-            "details": "Lung fields appear clear. No evidence of active TB or pleural effusion.",
-        },
-        "pneumonia": {
-            "status": "Positive",
-            "confidence": "92.1%",
-            "details": "Consolidation detected in the lower right lobe, consistent with bacterial pneumonia.",
-        },
-    }
-
-    result_data = mock_results.get(test_type, mock_results["covid"])
 
     try:
         # 1. Save File to FileSystemStorage
@@ -1265,27 +1245,26 @@ def analyze_xray(request):
         if test_type == "covid":
             pass
         elif test_type == "tuberculosis":
-            xray_testing.tuberculosis(file_url)
+            result_data = xray_testing.tuberculosis(file_url)
         elif test_type == "pneumonia" : 
-            xray_testing.pneumonia(file_url)
+            result_data = xray_testing.pneumonia(file_url)
         else:
             print("unknow")
 
-        # print(f'loginid : {patient_login_id}\n test : {test_type},\n file url : {file_url}')
         # 3. Store in MongoDB 'x-rays' collectio
-        # patient = patient_col.find_one({"login_id" : ObjectId(patient_login_id)})
-        # if not patient:
-        #     return Response({"error": "Patient not found"},status=status.HTTP_404_NOT_FOUND)
+        patient = patient_col.find_one({"login_id" : ObjectId(patient_login_id)})
+        if not patient:
+            return Response({"error": "Patient not found"},status=status.HTTP_404_NOT_FOUND)
 
-        # xray_record = {
-        #     "patient_id": patient['_id'],
-        #     "test_type": test_type.capitalize(),
-        #     "image_url": file_url,
-        #     "tested_at": datetime.utcnow(),
-        #     "test_result" : "",
-        # }
+        xray_record = {
+            "patient_id": patient['_id'],
+            "test_type": test_type.capitalize(),
+            "image_url": file_url,
+            "tested_at": datetime.utcnow(),
+            "test_result" : "",
+        }
 
-        # xray_col.insert_one(xray_record)
+        xray_col.insert_one(xray_record)
 
         return Response(result_data, status=status.HTTP_200_OK)
 

@@ -40,14 +40,30 @@ def tuberculosis(file_url, threshold=0.85):
 
     # Reject low-confidence images
     if confidence < threshold:
-        print("❌ Invalid image. Please upload a valid chest X-ray image.")
-        return
+        # print("❌ Invalid image. Please upload a valid chest X-ray image.")
+        result = {
+            "status": "❌ Invalid image. Please upload a valid chest X-ray image.",
+            # "confidence": confidence*100,
+            # "details": "No signs of viral pneumonia or ground-glass opacities associated with COVID-19 detected.",
+        }
+        return result
 
     # Map prediction to class
     if pred_prob > 0.5:
-        print(f"🩺 Prediction: Tuberculosis ({confidence*100:.2f}% confidence)")
+        # print(f"🩺 Prediction: Tuberculosis ({confidence*100:.2f}% confidence)")
+        result = {
+            "status": "Tuberculosis",
+            "confidence": f"{confidence * 100:.2f}%",
+            # "details": "No signs of viral pneumonia or ground-glass opacities associated with COVID-19 detected.",
+        }
     else:
-        print(f"🩺 Prediction: Normal ({confidence*100:.2f}% confidence)")
+        # print(f"🩺 Prediction: Normal ({confidence*100:.2f}% confidence)")
+        result = {
+            "status": "Normal",
+            "confidence": f"{confidence * 100:.2f}%",
+            # "details": "No signs of viral pneumonia or ground-glass opacities associated with COVID-19 detected.",
+        }
+    return result
 
 def pneumonia(file_url, threshold=0.85):
 
@@ -74,12 +90,28 @@ def pneumonia(file_url, threshold=0.85):
 
     # Reject low-confidence images
     if confidence < threshold:
-        print("❌ Invalid image. Please upload a valid chest X-ray image.")
-        return
+        # print("❌ Invalid image. Please upload a valid chest X-ray image.")
+        result = {
+            "status": "❌ Invalid image. Please upload a valid chest X-ray image.",
+            # "confidence": confidence*100,
+            # "details": "No signs of viral pneumonia or ground-glass opacities associated with COVID-19 detected.",
+        }
+        return result
 
     # Map prediction to class
     # print("pred_prob",pred_prob)
     if pred_prob > 0.5:
-        print(f"🩺 Prediction: Pneumonia ({confidence*100:.2f}% confidence)")
+        # print(f"🩺 Prediction: Pneumonia ({confidence*100:.2f}% confidence)")
+        result = {
+            "status": "Pneumonia",
+            "confidence": f"{confidence * 100:.2f}%",
+            # "details": "No signs of viral pneumonia or ground-glass opacities associated with COVID-19 detected.",
+        }
     else:
-        print(f"🩺 Prediction: Normal ({confidence*100:.2f}% confidence)")
+        # print(f"🩺 Prediction: Normal ({confidence*100:.2f}% confidence)")
+        result = {
+            "status": "Normal",
+            "confidence": f"{confidence * 100:.2f}%",
+            # "details": "No signs of viral pneumonia or ground-glass opacities associated with COVID-19 detected.",
+        }
+    return result
