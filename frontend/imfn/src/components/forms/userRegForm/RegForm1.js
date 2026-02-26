@@ -20,12 +20,31 @@ const RegForm1 = ({ hideHeaderFooter = false }) => {
     password: ''
   });
 
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    let newErrors = {};
+    if (formData.name.trim().length < 3) newErrors.name = "Name must be at least 3 characters";
+    if (formData.age < 1 || formData.age > 120) newErrors.age = "Please enter a valid age (1-120)";
+    if (!/^\d{10}$/.test(formData.contact)) newErrors.contact = "Contact must be exactly 10 digits";
+    if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear error for specific field when user starts typing
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: '' });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     try {
       const payload = { ...formData, age: Number(formData.age) }
@@ -40,7 +59,7 @@ const RegForm1 = ({ hideHeaderFooter = false }) => {
         email: '',
         password: ''
       })
-      console.log('Form Submitted:', formData);
+      setErrors({});
     } catch (error) {
       alert(error?.response?.data?.error || "Error")
     }
@@ -66,7 +85,9 @@ const RegForm1 = ({ hideHeaderFooter = false }) => {
                 <div className="modern-form-group">
                   <label><i className="fas fa-user"></i> Full Name</label>
                   <input type="text" name="name" placeholder="John Doe"
+                    className={errors.name ? 'input-error' : ''}
                     value={formData.name} onChange={handleChange} required />
+                  {errors.name && <span className="error-text">{errors.name}</span>}
                 </div>
               </div>
 
@@ -74,7 +95,9 @@ const RegForm1 = ({ hideHeaderFooter = false }) => {
                 <div className="modern-form-group">
                   <label><i className="fas fa-birthday-cake"></i> Age</label>
                   <input type="number" name="age" placeholder="25"
+                    className={errors.age ? 'input-error' : ''}
                     value={formData.age} onChange={handleChange} required />
+                  {errors.age && <span className="error-text">{errors.age}</span>}
                 </div>
                 <div className="modern-form-group">
                   <label><i className="fas fa-calendar-alt"></i> Date of Birth</label>
@@ -96,8 +119,10 @@ const RegForm1 = ({ hideHeaderFooter = false }) => {
                 </div>
                 <div className="modern-form-group">
                   <label><i className="fas fa-phone-alt"></i> Contact Number</label>
-                  <input type="tel" name="contact" placeholder="+1 234 567 890"
+                  <input type="tel" name="contact" placeholder="10-digit number"
+                    className={errors.contact ? 'input-error' : ''}
                     value={formData.contact} onChange={handleChange} required />
+                  {errors.contact && <span className="error-text">{errors.contact}</span>}
                 </div>
               </div>
 
@@ -110,7 +135,9 @@ const RegForm1 = ({ hideHeaderFooter = false }) => {
               <div className="modern-form-group">
                 <label><i className="fas fa-lock"></i> Create Password</label>
                 <input type="password" name="password" placeholder="••••••••"
+                  className={errors.password ? 'input-error' : ''}
                   value={formData.password} onChange={handleChange} required />
+                {errors.password && <span className="error-text">{errors.password}</span>}
               </div>
 
               <button type="submit" className="registration-submit-btn">

@@ -21,12 +21,29 @@ const AmbulanceForm = () => {
         // password: ''
     });
 
+    const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        let newErrors = {};
+        if (formData.name.trim().length < 3) newErrors.name = "In-charge name must be at least 3 characters";
+        if (formData.vehicleNumber.trim().length < 5) newErrors.vehicleNumber = "Vehicle number must be at least 5 characters";
+        if (!/^\d{10}$/.test(formData.contactNumber)) newErrors.contactNumber = "Contact must be exactly 10 digits";
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        if (errors[e.target.name]) {
+            setErrors({ ...errors, [e.target.name]: '' });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
 
         try {
             const hospital_login_id = localStorage.getItem("loginId")
@@ -44,6 +61,7 @@ const AmbulanceForm = () => {
                 email: ''
                 // password: ''
             })
+            setErrors({});
         } catch (error) {
             alert(error?.response?.data?.error || "An error occur while registering the ambulance")
         }
@@ -67,7 +85,9 @@ const AmbulanceForm = () => {
                                 <div className="modern-form-group">
                                     <label><i className="fas fa-user-tie"></i> Full Name (In-Charge)</label>
                                     <input type="text" name="name" placeholder="John Doe"
+                                        className={errors.name ? 'input-error' : ''}
                                         value={formData.name} onChange={handleChange} required />
+                                    {errors.name && <span className="error-text">{errors.name}</span>}
                                 </div>
                             </div>
 
@@ -99,15 +119,19 @@ const AmbulanceForm = () => {
                                 <div className="modern-form-group">
                                     <label><i className="fas fa-id-badge"></i> Vehicle Number</label>
                                     <input type="text" name="vehicleNumber" placeholder="AB-123-CD"
+                                        className={errors.vehicleNumber ? 'input-error' : ''}
                                         value={formData.vehicleNumber} onChange={handleChange} required />
+                                    {errors.vehicleNumber && <span className="error-text">{errors.vehicleNumber}</span>}
                                 </div>
                             </div>
 
                             <div className="modern-form-grid">
                                 <div className="modern-form-group">
                                     <label><i className="fas fa-phone-alt"></i> Contact Number</label>
-                                    <input type="tel" name="contactNumber" placeholder="+1 234 567 890"
+                                    <input type="tel" name="contactNumber" placeholder="10-digit number"
+                                        className={errors.contactNumber ? 'input-error' : ''}
                                         value={formData.contactNumber} onChange={handleChange} required />
+                                    {errors.contactNumber && <span className="error-text">{errors.contactNumber}</span>}
                                 </div>
 
                                 <div className="modern-form-group">
