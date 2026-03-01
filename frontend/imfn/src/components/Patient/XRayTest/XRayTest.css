@@ -156,3 +156,109 @@
     background: #ccc;
     cursor: not-allowed;
 }
+
+/* History Styles */
+.history-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+.history-title {
+    color: #1E0B9B;
+    font-weight: 700;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.history-table thead th {
+    border-bottom: 2px solid #f0f0f0;
+    color: #666;
+    font-weight: 600;
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.history-table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.history-table tbody td {
+    padding: 20px 15px;
+    vertical-align: middle;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.history-table tbody td:first-child {
+    border-left: 1px solid #f0f0f0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.history-table tbody td:last-child {
+    border-right: 1px solid #f0f0f0;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.history-table tbody tr:hover td {
+    background: #f8f9ff;
+    border-color: #d0d7ff;
+}
+
+.status-badge {
+    padding: 6px 15px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-badge.negative, .status-badge.normal {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-badge.positive, .status-badge.tuberculosis, .status-badge.pneumonia {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.view-link {
+    color: #1E0B9B;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.view-link:hover {
+    color: #3f2bd4;
+    text-decoration: underline;
+}
+
+.no-history {
+    color: #999;
+}
+
+.no-history i {
+    font-size: 3rem;
+    display: block;
+    color: #eee;
+}
+
+.color-primary {
+    color: #1E0B9B;
+}

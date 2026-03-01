@@ -1242,23 +1242,25 @@ def analyze_xray(request):
         file_url = fs.url(saved_filename)
 
         # 2. Testing using test_functions
+        result_data = None
         if test_type == "covid":
-            pass
+            result_data = xray_testing.covid(file_url)
         elif test_type == "tuberculosis":
             result_data = xray_testing.tuberculosis(file_url)
         elif test_type == "pneumonia" : 
             result_data = xray_testing.pneumonia(file_url)
         else:
-            print("unknow")
+            return Response({"error": "Unknown test type"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 3. Store in MongoDB 'x-rays' collectio
+        # 3. Store in MongoDB 'x-rays' collection
         patient = patient_col.find_one({"login_id" : ObjectId(patient_login_id)})
         if not patient:
-            return Response({"error": "Patient not found"},status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Patient not found"}, status=status.HTTP_404_NOT_FOUND)
 
         if not result_data:
-            return Response({"error": "Failed to process X-ray"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": "Failed to process X-ray"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+        # Save to history if it's a valid prediction (not an error message)
         if result_data.get('confidence'):
             xray_record = {
                 "patient_id": patient['_id'],
@@ -1268,7 +1270,6 @@ def analyze_xray(request):
                 "test_result" : result_data['status'],
                 "confidence" : result_data['confidence'],
             }
-
             xray_col.insert_one(xray_record)
 
         return Response(result_data, status=status.HTTP_200_OK)
@@ -1277,5 +1278,59 @@ def analyze_xray(request):
         print(f"Error in analyze_xray: {e}")
         return Response(
             {"error": "Failed to process X-ray"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+@api_view(["GET"])
+def get_xray_history(request):
+    """
+    Get X-ray testing history for a patient.
+    """
+    patient_login_id = request.query_params.get("patient_login_id")
+
+    if not patient_login_id:
+        return Response(
+            {"error": "Patient LoginId missing"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        db = get_db()
+        xray_col = db["x-rays"]
+        patient_col = db["patient"]
+
+        patient = patient_col.find_one({"login_id" : ObjectId(patient_login_id)})
+        if not patient:
+            return Response({"error": "Patient not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Fetch history for the patient
+        history = list(
+            xray_col.find({"patient_id": patient['_id']}).sort(
+                "tested_at", -1
+            )
+        )
+
+        # Format history
+        history_list = []
+        for record in history:
+            history_list.append(
+                {
+                    "_id": str(record["_id"]),
+                    "test_type": record.get("test_type", ""),
+                    "test_result": record.get("test_result", ""),
+                    "confidence": record.get("confidence", ""),
+                    "image_url": record.get("image_url", ""),
+                    "tested_at": (
+                        record.get("tested_at").strftime("%Y-%m-%d %H:%M")
+                        if record.get("tested_at")
+                        else ""
+                    ),
+                }
+            )
+
+        return Response(history_list, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(f"Error fetching X-ray history: {e}")
+        return Response(
+            {"error": "Failed to fetch X-ray history"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
