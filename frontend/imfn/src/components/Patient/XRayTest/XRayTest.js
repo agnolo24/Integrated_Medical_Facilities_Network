@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PatientHeader from '../PatientHeader/PatientHeader';
 import PatientFooter from '../PatientFooter/PatientFooter';
@@ -10,6 +10,28 @@ const XRayTest = () => {
     const [preview, setPreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
+    const [history, setHistory] = useState([]);
+    const [historyLoading, setHistoryLoading] = useState(false);
+
+    const login_id = localStorage.getItem("loginId");
+
+    const fetchHistory = async () => {
+        if (!login_id) return;
+        setHistoryLoading(true);
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/patient/get_xray_history/?patient_login_id=${login_id}`);
+            setHistory(response.data);
+        } catch (error) {
+            console.error("Error fetching X-ray history:", error);
+        } finally {
+            setHistoryLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchHistory();
+    }, []);
+
 
     const handleTestChange = (test) => {
         setSelectedTest(test);
@@ -38,7 +60,6 @@ const XRayTest = () => {
         setLoading(true);
         setResult(null);
 
-        const login_id = localStorage.getItem("loginId");
         const formData = new FormData();
         formData.append('xray_image', image);
         formData.append('test_type', selectedTest);
@@ -51,6 +72,7 @@ const XRayTest = () => {
                 }
             });
             setResult(response.data);
+            fetchHistory(); // Refresh history after successful prediction
         } catch (error) {
             console.error("Error analyzing X-ray:", error);
             alert("Failed to analyze X-ray. Please try again.");
@@ -133,7 +155,7 @@ const XRayTest = () => {
                                     <div className="result-area animate__animated animate__fadeIn">
                                         <h3 className="result-title">Analysis Result</h3>
                                         <div className="result-status">
-                                            Status: <span style={{ color: result.status === 'Positive' ? '#dc3545' : '#28a745' }}>{result.status}</span>
+                                            Status: <span style={{ color: result.status === 'Positive' || result.status === 'Tuberculosis' || result.status === 'Pneumonia' ? '#dc3545' : '#28a745' }}>{result.status}</span>
                                         </div>
                                         {result.confidence && (
                                             <div className="confidence">
@@ -146,6 +168,57 @@ const XRayTest = () => {
                                             </div>
                                         )}
                                         <p className="mt-3 text-muted">* This is an AI-generated result for informational purposes only. Please consult a doctor for a professional diagnosis.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row justify-content-center mt-5">
+                        <div className="col-lg-10">
+                            <div className="history-card">
+                                <h3 className="history-title">Testing History</h3>
+                                {historyLoading ? (
+                                    <div className="text-center py-4">
+                                        <i className="fas fa-spinner fa-spin fa-2x color-primary"></i>
+                                    </div>
+                                ) : history.length > 0 ? (
+                                    <div className="table-responsive">
+                                        <table className="table history-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date & Time</th>
+                                                    <th>Test Type</th>
+                                                    <th>Result</th>
+                                                    <th>Confidence</th>
+                                                    <th>Image</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {history.map((record) => (
+                                                    <tr key={record._id}>
+                                                        <td>{record.tested_at}</td>
+                                                        <td>{record.test_type}</td>
+                                                        <td>
+                                                            <span className={`status-badge ${record.test_result.toLowerCase()}`}>
+                                                                {record.test_result}
+                                                            </span>
+                                                        </td>
+                                                        <td>{record.confidence}</td>
+                                                        <td>
+                                                            <a href={`http://127.0.0.1:8000${record.image_url}`} target="_blank" rel="noopener noreferrer" className="view-link">
+                                                                View X-Ray
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-5 no-history">
+                                        <i className="fas fa-history mb-3"></i>
+                                        <p>No testing history found.</p>
                                     </div>
                                 )}
                             </div>

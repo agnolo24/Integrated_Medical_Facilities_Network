@@ -61,7 +61,48 @@ def tuberculosis(file_url, threshold=0.85):
         result = {
             "status": "Normal",
             "confidence": f"{confidence * 100:.2f}%",
-            # "details": "No signs of viral pneumonia or ground-glass opacities associated with COVID-19 detected.",
+        }
+    return result
+
+def covid(file_url, threshold=0.80):
+    model_path = os.path.join(BASE_DIR, "COVID_classification_model.h5")
+
+    model = load_model(model_path) 
+    IMG_SIZE = 224  # same as training
+    
+    img_path = process_url(file_url)
+    print("img : ",img_path)
+
+    if not os.path.exists(img_path):
+        print("❌ Error: Image path does not exist.")
+        return
+
+    # Load and preprocess image
+    img = image.load_img(img_path, target_size=(IMG_SIZE, IMG_SIZE))
+    img_array = image.img_to_array(img) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
+
+    # Predict
+    pred_prob = model.predict(img_array)[0][0]
+    confidence = max(pred_prob, 1 - pred_prob)
+
+    # Reject low-confidence images
+    if confidence < threshold:
+        result = {
+            "status": "❌ Invalid image. Please upload a valid chest X-ray image.",
+        }
+        return result
+
+    # Map prediction to class
+    if pred_prob > 0.5:
+        result = {
+            "status": "Positive",
+            "confidence": f"{confidence * 100:.2f}%",
+        }
+    else:
+        result = {
+            "status": "Negative",
+            "confidence": f"{confidence * 100:.2f}%",
         }
     return result
 
