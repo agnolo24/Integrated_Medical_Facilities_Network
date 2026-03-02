@@ -1,6 +1,7 @@
 /* Modern Ambulance Management CSS */
 :root {
-    --amb-primary: #1e3a8a; /* Deep Blue */
+    --amb-primary: #1e3a8a;
+    /* Deep Blue */
     --amb-secondary: #3b82f6;
     --amb-bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
 }
@@ -94,7 +95,7 @@
     color: var(--amb-primary);
 }
 
-.modern-form-group input, 
+.modern-form-group input,
 .modern-form-group select.modern-select {
     padding: 14px 16px;
     border-radius: 12px;
@@ -137,12 +138,54 @@
 }
 
 @keyframes slideIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @media (max-width: 600px) {
     .modern-form-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Validation Styles */
+.error-text {
+    color: #dc2626;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: slideDownFade 0.2s ease-out;
+}
+
+.modern-form-group input.input-error,
+.modern-form-group select.modern-select.input-error {
+    border-color: #dc2626;
+    background-color: #fef2f2;
+}
+
+.modern-form-group input.input-error:focus,
+.modern-form-group select.modern-select.input-error:focus {
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
