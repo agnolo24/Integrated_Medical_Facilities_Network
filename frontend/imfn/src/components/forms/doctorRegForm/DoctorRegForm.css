@@ -1,6 +1,7 @@
 /* Modern Doctor Registration CSS */
 :root {
-    --doc-primary: #0d9488; /* Clinical Teal */
+    --doc-primary: #0d9488;
+    /* Clinical Teal */
     --doc-secondary: #0f766e;
     --doc-bg-gradient: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
 }
@@ -94,7 +95,7 @@
     color: var(--doc-primary);
 }
 
-.modern-form-group input, 
+.modern-form-group input,
 .modern-form-group select.modern-select {
     padding: 14px 16px;
     border-radius: 12px;
@@ -137,12 +138,55 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 640px) {
     .modern-form-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Validation Styles */
+.error-text {
+    color: #b91c1c;
+    /* Slightly muted red for clinical look */
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: slideDownFade 0.2s ease-out;
+}
+
+.modern-form-group input.input-error,
+.modern-form-group select.modern-select.input-error {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+.modern-form-group input.input-error:focus,
+.modern-form-group select.modern-select.input-error:focus {
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
