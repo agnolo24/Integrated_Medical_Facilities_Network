@@ -196,3 +196,37 @@
         padding: 1.5rem;
     }
 }
+
+/* Validation Styles */
+.error-text {
+    color: #e74c3c;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.rb-input.input-error {
+    border-color: #e74c3c;
+    background-color: #fdf2f2;
+}
+
+.rb-input.input-error:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
