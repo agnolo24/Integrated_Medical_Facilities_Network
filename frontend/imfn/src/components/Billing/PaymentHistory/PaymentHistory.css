@@ -50,16 +50,39 @@
 
 .ph-search-input-group {
     position: relative;
-    flex-grow: 1;
+    flex: 2;
     max-width: 400px;
 }
 
-.ph-search-input-group i {
+.ph-date-input-group {
+    position: relative;
+    flex: 1;
+    max-width: 200px;
+}
+
+.ph-date-input-group i {
     position: absolute;
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
     color: #94a3b8;
+    pointer-events: none;
+}
+
+.ph-date-input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: #334155;
+    transition: all 0.3s ease;
+}
+
+.ph-date-input:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
 }
 
 .ph-main-input {
@@ -79,50 +102,91 @@
 
 .ph-table-scroller {
     overflow-x: auto;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: none;
 }
 
 .ph-master-history-table {
     width: 100%;
-    border-collapse: collapse;
-    background: white;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    background: transparent;
+}
+
+.ph-date-group-header {
+    background-color: transparent !important;
+}
+
+.ph-date-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #e2e8f0;
+    color: #475569;
+    padding: 8px 20px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ph-date-badge i {
+    margin-right: 10px;
+    color: #10b981;
 }
 
 .ph-master-history-table th {
-    background-color: #f8fafc;
-    padding: 18px 20px;
+    background-color: transparent;
+    padding: 12px 20px;
     text-align: left;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: #475569;
+    color: #94a3b8;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 2px solid #e2e8f0;
+    letter-spacing: 0.1em;
+    border-bottom: none;
 }
 
 .ph-table-row-data {
-    border-bottom: 1px solid #f1f5f9;
-    transition: background-color 0.2s;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ph-table-row-data:hover {
-    background-color: #f1f5f9;
+    background-color: #f8fafc;
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .ph-table-row-data td {
-    padding: 18px 20px;
+    padding: 20px;
     color: #334155;
     font-size: 0.95rem;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.ph-table-row-data td:first-child {
+    border-left: 1px solid #f1f5f9;
+    border-radius: 16px 0 0 16px;
+}
+
+.ph-table-row-data td:last-child {
+    border-right: 1px solid #f1f5f9;
+    border-radius: 0 16px 16px 0;
 }
 
 .ph-status-pill {
-    padding: 6px 12px;
-    border-radius: 9999px;
+    padding: 6px 16px;
+    border-radius: 12px;
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .ph-status-pill.paid {

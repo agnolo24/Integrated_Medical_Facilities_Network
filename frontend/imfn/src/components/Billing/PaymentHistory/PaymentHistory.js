@@ -10,6 +10,7 @@ const PaymentHistory = () => {
     const [invoices, setInvoices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [dateFilter, setDateFilter] = useState('');
     const [selectedInvoice, setSelectedInvoice] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,11 +50,26 @@ const PaymentHistory = () => {
     };
 
     const filteredInvoices = invoices.filter(inv => {
-        const ptName = inv.patient_name || "";
-        const drName = inv.doctor_name || "";
-        return ptName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            drName.toLowerCase().includes(searchTerm.toLowerCase());
+        const ptName = (inv.patient_name || "").toLowerCase();
+        const drName = (inv.doctor_name || "").toLowerCase();
+        const search = searchTerm.toLowerCase();
+
+        const matchesSearch = ptName.includes(search) || drName.includes(search);
+        const matchesDate = !dateFilter || inv.date === dateFilter;
+
+        return matchesSearch && matchesDate;
     });
+
+    const groupedInvoices = filteredInvoices.reduce((groups, invoice) => {
+        const date = invoice.date || 'Unknown Date';
+        if (!groups[date]) {
+            groups[date] = [];
+        }
+        groups[date].push(invoice);
+        return groups;
+    }, {});
+
+    const sortedDates = Object.keys(groupedInvoices).sort((a, b) => new Date(b) - new Date(a));
 
     return (
         <div className="ph-outer-wrapper">
@@ -78,6 +94,15 @@ const PaymentHistory = () => {
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
+                            <div className="ph-date-input-group">
+                                <i className="fas fa-calendar-alt"></i>
+                                <input
+                                    className="ph-date-input"
+                                    type="date"
+                                    value={dateFilter}
+                                    onChange={(e) => setDateFilter(e.target.value)}
+                                />
+                            </div>
                         </div>
 
                         {loading ? (
@@ -99,28 +124,41 @@ const PaymentHistory = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredInvoices.map(invoice => (
-                                            <tr key={invoice.invoice_id || invoice.id} className="ph-table-row-data">
-                                                <td>
-                                                    <div style={{ fontWeight: '600' }}>{invoice.patient_name}</div>
-                                                    <small className="text-muted">ID: {invoice.invoice_id.slice(-8).toUpperCase()}</small>
-                                                </td>
-                                                <td>{invoice.doctor_name}</td>
-                                                <td>{invoice.date}</td>
-                                                <td style={{ fontWeight: '800', color: '#166534' }}>₹{invoice.total_amount}</td>
-                                                <td>
-                                                    <span className="ph-status-pill paid">
-                                                        <i className="fas fa-check-circle mr-1"></i> Paid
-                                                    </span>
-                                                </td>
-                                                <td style={{ textAlign: 'center' }}>
-                                                    <button className="ph-action-icon view" title="View Bill" onClick={() => handleViewDetails(invoice.invoice_id)}>
-                                                        <i className="fas fa-file-invoice"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        {filteredInvoices.length === 0 && (
+                                        {sortedDates.length > 0 ? (
+                                            sortedDates.map(date => (
+                                                <React.Fragment key={date}>
+                                                    <tr className="ph-date-group-header">
+                                                        <td colSpan="6">
+                                                            <div className="ph-date-badge">
+                                                                <i className="fas fa-calendar-day"></i>
+                                                                {date}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {groupedInvoices[date].map(invoice => (
+                                                        <tr key={invoice.invoice_id || invoice.id} className="ph-table-row-data">
+                                                            <td>
+                                                                <div style={{ fontWeight: '600' }}>{invoice.patient_name}</div>
+                                                                <small className="text-muted">ID: {invoice.invoice_id.slice(-8).toUpperCase()}</small>
+                                                            </td>
+                                                            <td>{invoice.doctor_name}</td>
+                                                            <td>{invoice.date}</td>
+                                                            <td style={{ fontWeight: '800', color: '#166534' }}>₹{invoice.total_amount}</td>
+                                                            <td>
+                                                                <span className="ph-status-pill paid">
+                                                                    <i className="fas fa-check-circle mr-1"></i> Paid
+                                                                </span>
+                                                            </td>
+                                                            <td style={{ textAlign: 'center' }}>
+                                                                <button className="ph-action-icon view" title="View Bill" onClick={() => handleViewDetails(invoice.invoice_id)}>
+                                                                    <i className="fas fa-file-invoice"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </React.Fragment>
+                                            ))
+                                        ) : (
                                             <tr className="ph-table-row-data">
                                                 <td colSpan="6" style={{ textAlign: 'center', padding: '100px', color: '#64748b' }}>
                                                     <div className="mb-3">
