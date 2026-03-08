@@ -1,0 +1,226 @@
+.bh-root {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.bh-main {
+    padding-bottom: 80px;
+}
+
+/* Hero Section Style */
+.bh-hero {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 120px 0 100px;
+    color: white;
+    margin-bottom: 60px;
+    overflow: hidden;
+}
+
+.bh-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(30, 11, 155, 0.95) 0%, rgba(7, 204, 236, 0.8) 100%);
+    z-index: 1;
+}
+
+.bh-hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.bh-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    color: white;
+}
+
+.bh-hero p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.bh-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Section Header */
+.bh-section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.bh-section-header h5 {
+    color: #1a237e;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+.bh-section-header h2 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 20px;
+}
+
+.bh-divider {
+    height: 4px;
+    width: 60px;
+    background: linear-gradient(90deg, #1E0B9B, #07CCEC);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+/* Card Styles */
+.bh-card-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.bh-card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none !important;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.bh-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e1;
+}
+
+.bh-card-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    transition: all 0.4s ease;
+}
+
+.bh-card:hover .bh-card-icon-wrapper {
+    transform: rotate(5deg) scale(1.1);
+}
+
+.bh-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+    transition: color 0.3s ease;
+}
+
+.bh-card p {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+.bh-card-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 1rem;
+    transition: gap 0.3s ease;
+}
+
+.bh-card:hover .bh-card-action {
+    gap: 12px;
+    color: #1a237e;
+}
+
+/* Help Section */
+.bh-help-card {
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    margin-top: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.bh-help-content h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.bh-help-content p {
+    color: #64748b;
+    margin-bottom: 0;
+}
+
+.bh-help-btn {
+    background: #1a237e;
+    color: white;
+    padding: 14px 32px;
+    border-radius: 14px;
+    font-weight: 700;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.bh-help-btn:hover {
+    background: #283593;
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px -3px rgba(26, 35, 126, 0.3);
+}
+
+@media (max-width: 991px) {
+    .bh-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .bh-card {
+        max-width: 100%;
+    }
+}
