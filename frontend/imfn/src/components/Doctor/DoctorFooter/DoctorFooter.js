@@ -112,7 +112,7 @@ function DoctorFooter() {
                         <div className="row">
                             <div className="col-12">
                                 <div className="copyright-text text-center">
-                                    <p>&copy; 2020 Mecare  All design Zcube.</p>
+                                    <p>&copy; 2026 Integrated Medical Facilities Network. All rights reserved.</p>
                                 </div>
                             </div>
                         </div>

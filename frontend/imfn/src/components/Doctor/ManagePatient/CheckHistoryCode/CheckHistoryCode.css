@@ -12,8 +12,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    /* Ensure it stays on top */
+    z-index: 10001;
+    /* Ensure it stays on top of vpad-overlay (9999) */
     animation: fadeIn 0.3s ease-out;
 }
 
