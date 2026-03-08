@@ -197,15 +197,15 @@ const XRayTest = () => {
                                             <tbody>
                                                 {history.map((record) => (
                                                     <tr key={record._id}>
-                                                        <td>{record.tested_at}</td>
-                                                        <td>{record.test_type}</td>
-                                                        <td>
+                                                        <td data-label="Date & Time">{record.tested_at}</td>
+                                                        <td data-label="Test Type">{record.test_type}</td>
+                                                        <td data-label="Result">
                                                             <span className={`status-badge ${record.test_result.toLowerCase()}`}>
                                                                 {record.test_result}
                                                             </span>
                                                         </td>
-                                                        <td>{record.confidence}</td>
-                                                        <td>
+                                                        <td data-label="Confidence">{record.confidence}</td>
+                                                        <td data-label="Image">
                                                             <a href={`http://127.0.0.1:8000${record.image_url}`} target="_blank" rel="noopener noreferrer" className="view-link">
                                                                 View X-Ray
                                                             </a>

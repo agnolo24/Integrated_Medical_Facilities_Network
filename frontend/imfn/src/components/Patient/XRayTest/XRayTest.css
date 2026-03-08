@@ -225,12 +225,15 @@
     display: inline-block;
 }
 
-.status-badge.negative, .status-badge.normal {
+.status-badge.negative,
+.status-badge.normal {
     background: #e8f5e9;
     color: #2e7d32;
 }
 
-.status-badge.positive, .status-badge.tuberculosis, .status-badge.pneumonia {
+.status-badge.positive,
+.status-badge.tuberculosis,
+.status-badge.pneumonia {
     background: #ffebee;
     color: #c62828;
 }
@@ -261,4 +264,109 @@
 
 .color-primary {
     color: #1E0B9B;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    .xray-container {
+        padding: 40px 0;
+    }
+
+    .xray-card {
+        padding: 30px 20px;
+    }
+
+    .test-selection {
+        gap: 10px;
+    }
+
+    .test-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .xray-title {
+        font-size: 1.8rem;
+    }
+
+    .upload-area {
+        padding: 40px 20px;
+    }
+
+    .preview-image {
+        max-height: 300px;
+    }
+
+    /* Table Mobile Transformation */
+    .history-table thead {
+        display: none;
+    }
+
+    .history-table,
+    .history-table tbody,
+    .history-table tr,
+    .history-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .history-table tr {
+        margin-bottom: 1.5rem;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .history-table td {
+        border: none !important;
+        border-bottom: 1px solid #f8f8f8 !important;
+        padding: 12px 15px !important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+    }
+
+    .history-table td:last-child {
+        border-bottom: none !important;
+        background: #f8f9ff;
+        justify-content: center;
+    }
+
+    .history-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: #999;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        margin-right: 15px;
+        text-align: left;
+    }
+
+    .history-table td:last-child::before {
+        display: none;
+    }
+
+    .history-card {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .test-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .xray-title {
+        font-size: 1.5rem;
+    }
+
+    .btn-predict {
+        width: 100%;
+        padding: 12px 20px;
+    }
 }
