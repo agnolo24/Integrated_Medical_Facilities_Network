@@ -72,11 +72,11 @@ function PharmacyHeader() {
                                     <ul>
                                         <li>
                                             <i className="icon dripicons-mail"></i>
-                                            <span>pharmacy@example.com</span>
+                                            <span>support@imfn.com</span>
                                         </li>
                                         <li>
                                             <i className="icon dripicons-phone"></i>
-                                            <span>+8 12 3456897</span>
+                                            <span>+91 9876543210</span>
                                         </li>
                                     </ul>
                                 </div>
