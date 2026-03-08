@@ -137,14 +137,14 @@ const PaymentHistory = () => {
                                                     </tr>
                                                     {groupedInvoices[date].map(invoice => (
                                                         <tr key={invoice.invoice_id || invoice.id} className="ph-table-row-data">
-                                                            <td>
+                                                            <td data-label="Patient">
                                                                 <div style={{ fontWeight: '600' }}>{invoice.patient_name}</div>
                                                                 <small className="text-muted">ID: {invoice.invoice_id.slice(-8).toUpperCase()}</small>
                                                             </td>
-                                                            <td>{invoice.doctor_name}</td>
-                                                            <td>{invoice.date}</td>
-                                                            <td style={{ fontWeight: '800', color: '#166534' }}>₹{invoice.total_amount}</td>
-                                                            <td>
+                                                            <td data-label="Physician">{invoice.doctor_name}</td>
+                                                            <td data-label="Date">{invoice.date}</td>
+                                                            <td data-label="Amount" style={{ fontWeight: '800', color: '#166534' }}>₹{invoice.total_amount}</td>
+                                                            <td data-label="Status">
                                                                 <span className="ph-status-pill paid">
                                                                     <i className="fas fa-check-circle mr-1"></i> Paid
                                                                 </span>
