@@ -243,55 +243,58 @@ export default function ViewPatientAppointments() {
                 {filteredAppointments.length > 0 ? (
                   filteredAppointments.map(apt => (
                     <tr key={apt._id}>
-                      <td>
+                      <td data-label="Patient">
                         <div style={{ fontWeight: '600', color: '#2c3e50' }}>{apt.patientName}</div>
-                        {/* <div style={{ fontSize: '0.8rem', color: '#95a5a6' }}>ID: {apt.id} • {apt.age}y/{apt.gender}</div> */}
                       </td>
-                      <td>
-                        <div style={{ color: '#34495e' }}>{apt.appointment_date}</div>
-                        <div style={{ fontSize: '0.85rem', color: '#7f8c8d' }}>{apt.time_slot}</div>
+                      <td data-label="Date & Time">
+                        <div className="vpa-datetime-value">
+                          <div style={{ color: '#34495e', fontWeight: '700' }}>{apt.appointment_date}</div>
+                          <div style={{ fontSize: '0.85rem', color: '#7f8c8d' }}>{apt.time_slot}</div>
+                        </div>
                       </td>
-                      <td>{apt.appointment_type}</td>
-                      <td>
+                      <td data-label="Type">{apt.appointment_type}</td>
+                      <td data-label="Reason">
                         <div style={{ maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: '#7f8c8d' }}>
                           {apt.reason}
                         </div>
                       </td>
-                      <td>
+                      <td data-label="Status">
                         <span className={`vpa-status-badge ${getStatusBadgeClass(apt.status)}`}>
                           {apt.status}
                         </span>
                       </td>
-                      <td>
+                      <td data-label="Action">
+                        <div className="vpa-actions" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
 
-                        {/*  View Details */}
-                        <button className="vpa-action-btn vpa-btn-view" title="View Details" onClick={() => openAppointmentDetails(apt._id)} >
-                          <i className="fas fa-eye"></i>
-                        </button>
+                          {/*  View Details */}
+                          <button className="vpa-action-btn vpa-btn-view" title="View Details" onClick={() => openAppointmentDetails(apt._id)} >
+                            <i className="fas fa-eye"></i>
+                          </button>
 
-                        {/* View Prescription */}
-                        <button className="vpa-action-btn vpa-btn-prescription" title="View Prescription" onClick={() => openViewPrescription(apt._id)}>
-                          <i className="fas fa-file-medical"></i>
-                        </button>
+                          {/* View Prescription */}
+                          <button className="vpa-action-btn vpa-btn-prescription" title="View Prescription" onClick={() => openViewPrescription(apt._id)}>
+                            <i className="fas fa-file-medical"></i>
+                          </button>
 
-                        {/* Join Online Meeting */}
-                        {apt.appointment_type === 'online' && apt.status === 'scheduled' && (
-                          isMeetingActive(apt.appointment_date, apt.time_slot) ? (
-                            <button
-                              className="vpa-action-btn vpa-btn-join"
-                              title="Join Meeting"
-                              onClick={() => handleJoinClick(apt._id)}
-                              style={{ background: '#10b981', color: 'white' }}
-                            >
-                              <i className="fas fa-video"></i> Join
-                            </button>
-                          ) : (
-                            <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontStyle: 'italic' }}>
-                              Starts soon
-                            </span>
-                          )
-                        )}
+                          {/* Join Online Meeting */}
+                          {apt.appointment_type === 'online' && apt.status === 'scheduled' && (
+                            isMeetingActive(apt.appointment_date, apt.time_slot) ? (
+                              <button
+                                className="vpa-action-btn vpa-btn-join"
+                                title="Join Meeting"
+                                onClick={() => handleJoinClick(apt._id)}
+                                style={{ background: '#10b981', color: 'white' }}
+                              >
+                                <i className="fas fa-video"></i> Join
+                              </button>
+                            ) : (
+                              <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontStyle: 'italic' }}>
+                                Starts soon
+                              </span>
+                            )
+                          )}
 
+                        </div>
                       </td>
                     </tr>
                   ))
