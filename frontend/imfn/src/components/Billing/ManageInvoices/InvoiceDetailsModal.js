@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
@@ -26,7 +26,7 @@ const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
                 status: newStatus
             });
             alert("Invoice updated successfully!");
-            onUpdate();
+            onUpdate(invoiceId);
             onClose();
         } catch (error) {
             alert("Update failed");
@@ -62,7 +62,7 @@ const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
             });
             alert("Charges synchronized successfully!");
             setIsEditMode(false);
-            onUpdate();
+            onUpdate(invoice.invoice_id);
         } catch (error) {
             alert("Failed to sync charges");
         } finally {
@@ -74,8 +74,8 @@ const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
     const otherItems = invoice.items.filter(i => i.type === 'other');
 
     return (
-        <div className="mi-modal-backdrop" style={{ zIndex: 1100 }}>
-            <div className="mi-modal-content bill-view" style={{ maxWidth: '750px' }}>
+        <div className="mi-modal-backdrop" style={{ zIndex: 10001 }} onClick={onClose}>
+            <div className="mi-modal-content bill-view" style={{ maxWidth: '750px' }} onClick={(e) => e.stopPropagation()}>
                 <div className="mi-modal-top">
                     <h3>Invoice Statement</h3>
                     <div className="d-flex align-items-center">
@@ -96,7 +96,7 @@ const InvoiceDetailsModal = ({ isOpen, onClose, invoice, onUpdate }) => {
                             <div className="mi-hospital-brand">
                                 <h1>MECARE</h1>
                                 <p>Integrated Medical Facilities Network</p>
-                                <p>123 Healthcare Blvd, Medical City</p>
+                                {/* <p>123 Healthcare Blvd, Medical City</p> */}
                             </div>
                             <div className="mi-bill-type">
                                 <h2>INVOICE</h2>

@@ -33,6 +33,17 @@ const ManageInvoices = () => {
         if (loginId) fetchInvoices();
     }, [loginId]);
 
+    const fetchSingleInvoice = async (invoiceId) => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/billing/get_invoice_details/`, {
+                params: { invoice_id: invoiceId }
+            });
+            setSelectedInvoice(response.data);
+        } catch (error) {
+            console.error("Error refreshing details:", error);
+        }
+    };
+
     const handleViewDetails = async (invoiceId) => {
         try {
             const response = await axios.get(`http://127.0.0.1:8000/billing/get_invoice_details/`, {
@@ -190,7 +201,11 @@ const ManageInvoices = () => {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 invoice={selectedInvoice}
-                onUpdate={fetchInvoices}
+                onUpdate={(invoiceId) => {
+                    fetchInvoices();
+                    const idToRefresh = invoiceId || (selectedInvoice ? selectedInvoice.invoice_id : null);
+                    if (idToRefresh) fetchSingleInvoice(idToRefresh);
+                }}
             />
 
             <BillingFooter />
