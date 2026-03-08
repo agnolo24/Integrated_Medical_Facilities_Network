@@ -59,8 +59,8 @@ const HistoryDetailsModal = ({ isOpen, onClose, billId }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="mi-modal-backdrop" style={{ zIndex: 1100 }}>
-            <div className="mi-modal-content bill-view" style={{ maxWidth: '700px' }}>
+        <div className="mi-modal-backdrop" style={{ zIndex: 10001 }} onClick={onClose}>
+            <div className="mi-modal-content bill-view" style={{ maxWidth: '700px' }} onClick={(e) => e.stopPropagation()}>
                 <div className="mi-modal-top">
                     <h3>Medicine Record Details</h3>
                     <button className="mi-action-icon" onClick={onClose}>
@@ -68,7 +68,7 @@ const HistoryDetailsModal = ({ isOpen, onClose, billId }) => {
                     </button>
                 </div>
 
-                <div className="mi-bill-scroll" style={{ padding: '20px' }}>
+                <div className="mi-bill-scroll">
                     {loading ? (
                         <div className="text-center py-5">
                             <div className="spinner-border text-primary" role="status"></div>
