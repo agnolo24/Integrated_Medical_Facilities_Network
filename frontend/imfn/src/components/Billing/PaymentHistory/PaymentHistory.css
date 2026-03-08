@@ -220,26 +220,117 @@
     color: #166534;
 }
 
-.col-pt {
-    width: 25%;
+@media (max-width: 1024px) {
+
+    .ph-master-history-table th:nth-child(2),
+    .ph-master-history-table td:nth-child(2) {
+        display: none !important;
+    }
+
+    .col-pt {
+        width: 40%;
+    }
+
+    .col-dt {
+        width: 25%;
+    }
+
+    .col-am {
+        width: 20%;
+    }
 }
 
-.col-dr {
-    width: 20%;
+@media (max-width: 768px) {
+    .ph-dashboard-wrapper {
+        padding: 30px 0;
+    }
+
+    .ph-title-section h2 {
+        font-size: 1.8rem;
+    }
+
+    .ph-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ph-search-input-group,
+    .ph-date-input-group {
+        max-width: 100%;
+    }
+
+    .ph-card-box {
+        padding: 15px;
+    }
 }
 
-.col-dt {
-    width: 15%;
-}
+@media (max-width: 480px) {
+    .ph-master-history-table thead {
+        display: none !important;
+    }
 
-.col-am {
-    width: 15%;
-}
+    .ph-date-badge {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
 
-.col-st {
-    width: 15%;
-}
+    .ph-master-history-table,
+    .ph-master-history-table tbody,
+    .ph-master-history-table tr,
+    .ph-master-history-table td {
+        display: block !important;
+        width: 100%;
+    }
 
-.col-ac {
-    width: 10%;
+    .ph-table-row-data {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px !important;
+        position: relative;
+    }
+
+    .ph-table-row-data td {
+        border: none !important;
+        padding: 6px 0 !important;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+    }
+
+    .ph-table-row-data td:first-child {
+        display: block !important;
+        text-align: left;
+        border-bottom: 2px solid #f8fafb !important;
+        padding-bottom: 12px !important;
+        margin-bottom: 10px;
+    }
+
+    .ph-table-row-data td:first-child div {
+        font-size: 1.1rem;
+    }
+
+    .ph-table-row-data td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: #94a3b8;
+        font-size: 11px;
+        text-transform: uppercase;
+        margin-right: 15px;
+    }
+
+    .ph-table-row-data td:first-child::before,
+    .ph-table-row-data td:last-child::before {
+        display: none;
+    }
+
+    .ph-action-icon.view {
+        width: 100%;
+        height: 48px;
+        margin-top: 15px;
+        border-radius: 12px;
+        font-size: 16px;
+    }
 }

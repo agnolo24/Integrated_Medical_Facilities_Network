@@ -584,25 +584,182 @@
     cursor: pointer;
 }
 
+@media (max-width: 991px) {
+    .mi-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mi-master-invoice-table th:nth-child(2),
+    .mi-master-invoice-table td:nth-child(2),
+    .mi-master-invoice-table th:nth-child(3),
+    .mi-master-invoice-table td:nth-child(3) {
+        display: none !important;
+    }
+
+    .col-pt {
+        width: 40%;
+    }
+
+    .col-am {
+        width: 25%;
+    }
+
+    .col-st {
+        width: 20%;
+    }
+
+    .col-ac {
+        width: 15%;
+    }
+}
+
+@media (max-width: 768px) {
+    .mi-dashboard-wrapper {
+        padding: 20px 10px;
+    }
+
+    .mi-title-section h2 {
+        font-size: 24px;
+    }
+
+    .mi-card-box {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .mi-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .mi-search-input-group {
+        max-width: 100%;
+    }
+
+    .mi-status-toggle {
+        justify-content: space-between;
+    }
+
+    .mi-toggle-btn {
+        flex: 1;
+        padding: 10px 5px;
+        font-size: 12px;
+    }
+
+    .mi-master-invoice-table th,
+    .mi-master-invoice-table td {
+        padding: 12px 10px;
+    }
+
+    .mi-status-pill {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+}
+
 @media (max-width: 700px) {
+    .mi-modal-content.bill-view {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+    }
+
     .mi-bill-document {
-        padding: 30px;
+        padding: 24px;
+    }
+
+    .mi-bill-header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .mi-bill-type {
+        text-align: center;
     }
 
     .mi-bill-meta {
         grid-template-columns: 1fr;
         gap: 20px;
+        text-align: left !important;
+    }
+
+    .mi-meta-box {
+        text-align: left !important;
+    }
+
+    .mi-bill-summary {
+        align-items: stretch;
+    }
+
+    .mi-summary-row {
+        width: 100%;
     }
 
     .mi-bill-actions-sticky {
+        padding: 20px;
         flex-direction: column;
-        gap: 20px;
+        gap: 12px;
+    }
+
+    .mi-modal-right-actions {
+        flex-direction: column;
+    }
+
+    .mi-modal-right-actions button {
+        width: 100%;
     }
 }
 
-@media (max-width: 600px) {
-    .mi-filter-row {
-        flex-direction: column;
-        align-items: stretch;
+@media (max-width: 480px) {
+    .mi-master-invoice-table thead {
+        display: none !important;
+    }
+
+    .mi-master-invoice-table,
+    .mi-master-invoice-table tbody,
+    .mi-master-invoice-table tr,
+    .mi-master-invoice-table td {
+        display: block !important;
+        width: 100%;
+    }
+
+    .mi-table-row-data {
+        margin-bottom: 15px;
+        border: 1px solid #f1f5f9;
+        border-radius: 16px !important;
+        padding: 15px;
+    }
+
+    .mi-table-row-data td {
+        border: none !important;
+        padding: 8px 0 !important;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mi-table-row-data td:first-child {
+        font-size: 18px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #f8fafb !important;
+    }
+
+    .mi-table-row-data td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: #94a3b8;
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+
+    .mi-table-row-data td:first-child::before,
+    .mi-table-row-data td:last-child::before {
+        display: none;
+    }
+
+    .mi-action-icon.view {
+        width: 100%;
+        margin: 10px 0 0;
     }
 }

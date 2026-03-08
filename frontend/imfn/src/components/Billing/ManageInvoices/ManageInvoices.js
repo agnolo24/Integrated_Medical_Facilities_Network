@@ -166,11 +166,11 @@ const ManageInvoices = () => {
                                     <tbody>
                                         {filteredInvoices.map(invoice => (
                                             <tr key={invoice.invoice_id || invoice.id} className="mi-table-row-data">
-                                                <td>{invoice.patient_name}</td>
-                                                <td>{invoice.doctor_name}</td>
-                                                <td>{invoice.date}</td>
-                                                <td style={{ fontWeight: '900', color: '#1a237e' }}>₹{invoice.total_amount}</td>
-                                                <td>
+                                                <td data-label="Patient">{invoice.patient_name}</td>
+                                                <td data-label="Physician">{invoice.doctor_name}</td>
+                                                <td data-label="Date">{invoice.date}</td>
+                                                <td data-label="Amount" style={{ fontWeight: '900', color: '#1a237e' }}>₹{invoice.total_amount}</td>
+                                                <td data-label="Status">
                                                     <span className={`mi-status-pill ${invoice.status}`}>
                                                         {invoice.status}
                                                     </span>
