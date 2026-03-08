@@ -515,12 +515,19 @@
 }
 
 .mi-modal-top {
-    padding: 20px 32px;
+    padding: 24px 32px;
     border-bottom: 1px solid #f1f5f9;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: white;
+}
+
+.mi-modal-top h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #1a237e;
+    font-weight: 800;
 }
 
 .mi-bill-scroll {
