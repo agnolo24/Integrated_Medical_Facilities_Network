@@ -1,63 +1,117 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PharmacyHeader from '../PharmacyHeader/PharmacyHeader';
 import PharmacyFooter from '../PharmacyFooter/PharmacyFooter';
-import CardView from '../../Hospital/HospitalComponents/CardView';
+import './PharmacyHome.css';
+import {
+    Pill,
+    CalendarCheck,
+    Package,
+    LayoutDashboard,
+    ArrowRight,
+    TrendingUp,
+    AlertCircle
+} from 'lucide-react';
 
-export default function PharmacyHome() {
-    const card = [
-        { id: 1, name: "Manage Medicine", link: "/manageMedicine" },
-        { id: 2, name: "Completed Appointments", link: "/viewCompletedAppointments" },
+const PharmacyHome = () => {
+    // Scroll to top on mount
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    const features = [
+        {
+            id: 1,
+            name: "Manage Medicine",
+            description: "Update inventory, add new medicines, and track expiration dates for your stock.",
+            link: "/manageMedicine",
+            icon: <Pill className="ph-action-icon" />,
+            color: "#0d9488"
+        },
+        {
+            id: 2,
+            name: "Today's Prescriptions",
+            description: "Access today's completed doctor consultations with active prescriptions ready for dispensing.",
+            link: "/viewCompletedAppointments",
+            icon: <CalendarCheck className="ph-action-icon" />,
+            color: "#0ea5e9"
+        },
     ];
 
+
     return (
-        <div style={{ backgroundColor: "#f4f7f6", minHeight: "100vh" }}>
+        <div className="ph-container">
             <PharmacyHeader />
+
             <main>
-                <section className="breadcrumb-area d-flex align-items-center" style={{ backgroundImage: `url(${require('../../../asset/user_assets/img/testimonial/test-bg.jpg')})` }}>
+                {/* Hero Section */}
+                <section
+                    className="ph-hero"
+                    style={{ backgroundImage: `url(${require('../../../asset/user_assets/img/bg/ph-hero.png')})` }}
+                >
                     <div className="container">
                         <div className="row align-items-center">
-                            <div className="col-xl-12 col-lg-12">
-                                <div className="breadcrumb-wrap text-left">
-                                    <div className="breadcrumb-title">
-                                        <h2>Pharmacy Dashboard</h2>
-                                        <div className="breadcrumb-menu">
-                                            <nav aria-label="breadcrumb">
-                                                <ol className="breadcrumb">
-                                                    <li className="breadcrumb-item"><a href="/pharmacyhome">Home</a></li>
-                                                    <li className="breadcrumb-item active" aria-current="page">Dashboard</li>
-                                                </ol>
-                                            </nav>
-                                        </div>
+                            <div className="col-lg-8">
+                                <div className="ph-hero-content">
+                                    <div className="d-flex align-items-center gap-2 mb-3">
+                                        <LayoutDashboard size={20} className="text-white opacity-75" />
+                                        <span className="text-uppercase tracking-wider fw-bold small opacity-75">Pharmacy Management System</span>
                                     </div>
+                                    <h1>Pharmacy Central <br />Dashboard</h1>
+                                    <p>Comprehensive tools for medical inventory management, prescription tracking, and facility operations in one unified workspace.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section className="about-area pt-120 pb-90">
+
+                {/* Features Section */}
+                <section className="ph-main-section">
                     <div className="container">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <div className="section-title text-center mb-50">
-                                    <h5>Welcome to Pharmacy Portal</h5>
-                                    <h2>Manage your pharmacy efficiently</h2>
-                                </div>
-                            </div>
+                        <div className="ph-section-header">
+                            <h5>Core Operations</h5>
+                            <h2>Manage your facility with precision</h2>
+                            <div className="divider"></div>
                         </div>
-                        <div className="row">
-                            {card.map((data) => (
-                                <div key={data.id} className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                    <CardView
-                                        name={data.name}
-                                        link={data.link} />
+
+                        <div className="row justify-content-center g-4">
+                            {features.map((item) => (
+                                <div key={item.id} className="col-xl-5 col-lg-6">
+                                    <a href={item.link} className="ph-action-card ph-glass">
+                                        <div className="ph-action-icon-wrapper" style={{ color: item.color }}>
+                                            {item.icon}
+                                        </div>
+                                        <h3>{item.name}</h3>
+                                        <p>{item.description}</p>
+                                        <div className="ph-card-footer">
+                                            Manage Now <ArrowRight size={18} />
+                                        </div>
+                                    </a>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </section>
+
+                {/* Quick Help / Info Section */}
+                <section className="pb-100">
+                    <div className="container">
+                        <div className="p-5 ph-glass rounded-4 border-0 shadow-sm d-flex align-items-center justify-content-between flex-wrap gap-4">
+                            <div>
+                                <h4 className="fw-bold mb-1">Need technical assistance?</h4>
+                                <p className="text-muted mb-0">Our support team is available 24/7 for emergency inventory system issues.</p>
+                            </div>
+                            <button className="btn px-4 py-2 rounded-pill fw-bold" style={{ backgroundColor: '#0d9488', color: 'white' }}>
+                                Contact Support
+                            </button>
+                        </div>
+                    </div>
+                </section>
             </main>
+
             <PharmacyFooter />
         </div>
     );
-}
+};
+
+export default PharmacyHome;

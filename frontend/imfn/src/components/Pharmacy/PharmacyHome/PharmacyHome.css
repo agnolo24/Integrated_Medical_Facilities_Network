@@ -1,0 +1,227 @@
+/* PharmacyHome.css */
+
+:root {
+    --ph-primary: #0d9488;
+    --ph-primary-light: #14b8a6;
+    --ph-secondary: #0ea5e9;
+    --ph-accent: #f59e0b;
+    --ph-bg: #f8fafc;
+    --ph-card-bg: rgba(255, 255, 255, 0.8);
+    --ph-text-dark: #1e293b;
+    --ph-text-muted: #64748b;
+    --ph-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --ph-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ph-container {
+    background-color: var(--ph-bg);
+    min-height: 100vh;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--ph-text-dark);
+}
+
+/* Hero Section */
+.ph-hero {
+    position: relative;
+    padding: 100px 0;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    margin-bottom: -50px;
+}
+
+.ph-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.85) 0%, rgba(14, 165, 233, 0.7) 100%);
+    z-index: 1;
+}
+
+.ph-hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.ph-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
+}
+
+.ph-hero p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 600px;
+}
+
+/* Stats Section */
+.ph-stats-row {
+    position: relative;
+    z-index: 10;
+    margin-top: -60px;
+}
+
+.ph-stat-card {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: var(--ph-shadow);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: var(--ph-transition);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ph-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.ph-stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.ph-stat-info h3 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ph-text-dark);
+}
+
+.ph-stat-info p {
+    font-size: 0.875rem;
+    color: var(--ph-text-muted);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Main Content Tiles */
+.ph-main-section {
+    padding: 100px 0 120px;
+}
+
+.ph-section-header {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.ph-section-header h2 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--ph-text-dark);
+    margin-bottom: 15px;
+}
+
+.ph-section-header .divider {
+    width: 60px;
+    height: 4px;
+    background: var(--ph-primary);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.ph-action-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+    transition: var(--ph-transition);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 40px;
+    text-decoration: none !important;
+    display: block;
+}
+
+.ph-action-card:hover {
+    transform: scale(1.02);
+    border-color: var(--ph-primary);
+}
+
+.ph-action-icon {
+    font-size: 3rem;
+    color: var(--ph-primary);
+    margin-bottom: 25px;
+    transition: var(--ph-transition);
+}
+
+.ph-action-card:hover .ph-action-icon {
+    transform: scale(1.1) rotate(-5deg);
+    color: var(--ph-secondary);
+}
+
+.ph-action-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ph-text-dark);
+    margin-bottom: 15px;
+}
+
+.ph-action-card p {
+    color: var(--ph-text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.ph-card-footer {
+    display: flex;
+    align-items: center;
+    color: var(--ph-primary);
+    font-weight: 600;
+    gap: 8px;
+    transition: var(--ph-transition);
+}
+
+.ph-action-card:hover .ph-card-footer {
+    gap: 12px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ph-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ph-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .ph-stats-row {
+        margin-top: -30px;
+    }
+
+    .ph-stat-card {
+        margin-bottom: 15px;
+    }
+}
