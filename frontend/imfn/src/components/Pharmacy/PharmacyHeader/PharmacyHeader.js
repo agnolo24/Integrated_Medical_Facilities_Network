@@ -115,10 +115,10 @@ function PharmacyHeader() {
                                                     <NavLink to="/manageMedicine"><h6>Manage Medicine</h6></NavLink>
                                                 </li>
                                                 <li className="has-sub">
-                                                    <NavLink to="/viewCompletedAppointments"><h6>Completed Appointments</h6></NavLink>
+                                                    <NavLink to="/viewCompletedAppointments"><h6>Today's Prescriptions</h6></NavLink>
                                                 </li>
                                                 <li className="has-sub">
-                                                    <NavLink to="/pharmacyHistory"><h6>Billing History</h6></NavLink>
+                                                    <NavLink to="/pharmacyHistory"><h6>Medicine Records</h6></NavLink>
                                                 </li>
                                                 {/* Add more pharmacy specific links here */}
                                             </ul>
@@ -156,6 +156,8 @@ function PharmacyHeader() {
                 <ul className="d-block" style={{ marginTop: '40px' }}>
                     <li><NavLink to="/pharmacyhome" onClick={toggleMobileMenu}>Home</NavLink></li>
                     <li><NavLink to="/manageMedicine" onClick={toggleMobileMenu}>Manage Medicine</NavLink></li>
+                    <li><NavLink to="/viewCompletedAppointments" onClick={toggleMobileMenu}>Today's Prescriptions</NavLink></li>
+                    <li><NavLink to="/pharmacyHistory" onClick={toggleMobileMenu}>Medicine Records</NavLink></li>
                     <li><span onClick={handleLogout} style={{ cursor: 'pointer', color: '#333', fontWeight: '500' }}>Logout</span></li>
                 </ul>
 

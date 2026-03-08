@@ -62,7 +62,7 @@ const HistoryDetailsModal = ({ isOpen, onClose, billId }) => {
         <div className="mi-modal-backdrop" style={{ zIndex: 1100 }}>
             <div className="mi-modal-content bill-view" style={{ maxWidth: '700px' }}>
                 <div className="mi-modal-top">
-                    <h3>Billing Record Details</h3>
+                    <h3>Medicine Record Details</h3>
                     <button className="mi-action-icon" onClick={onClose}>
                         <i className="fas fa-times"></i>
                     </button>
@@ -83,7 +83,7 @@ const HistoryDetailsModal = ({ isOpen, onClose, billId }) => {
                                     <p className="text-muted mb-0">{details.patient_contact}</p>
                                 </div>
                                 <div className="col-md-6 text-right">
-                                    <label className="text-muted small text-uppercase font-weight-bold">Billing ID</label>
+                                    <label className="text-muted small text-uppercase font-weight-bold">Record ID</label>
                                     <h5 className="mb-0 text-primary">#{details.bill_id.slice(-8).toUpperCase()}</h5>
                                     <p className="text-muted mb-0">{details.billing_date} {details.billing_time}</p>
                                 </div>

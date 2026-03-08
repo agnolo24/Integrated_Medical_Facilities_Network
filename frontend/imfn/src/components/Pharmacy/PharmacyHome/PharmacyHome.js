@@ -9,7 +9,8 @@ import {
     LayoutDashboard,
     ArrowRight,
     TrendingUp,
-    AlertCircle
+    AlertCircle,
+    History
 } from 'lucide-react';
 
 const PharmacyHome = () => {
@@ -34,6 +35,14 @@ const PharmacyHome = () => {
             link: "/viewCompletedAppointments",
             icon: <CalendarCheck className="ph-action-icon" />,
             color: "#0ea5e9"
+        },
+        {
+            id: 3,
+            name: "Medicine Records",
+            description: "View history of all medicines dispensed to patients through doctor prescriptions.",
+            link: "/pharmacyHistory",
+            icon: <History className="ph-action-icon" />,
+            color: "#6366f1"
         },
     ];
 
