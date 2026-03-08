@@ -100,7 +100,7 @@ export default function ViewPrescriptionByDoctor({ selectedAppointmentId, closeV
                                 <tbody>
                                     {prescription.map((med, index) => (
                                         <tr key={index}>
-                                            <td>
+                                            <td data-label="Medicine Name">
                                                 <input
                                                     type="text"
                                                     className="vpbd-input"
@@ -110,7 +110,7 @@ export default function ViewPrescriptionByDoctor({ selectedAppointmentId, closeV
                                                     required
                                                 />
                                             </td>
-                                            <td>
+                                            <td data-label="Quantity">
                                                 <input
                                                     type="text"
                                                     className="vpbd-input"
@@ -120,7 +120,7 @@ export default function ViewPrescriptionByDoctor({ selectedAppointmentId, closeV
                                                     required
                                                 />
                                             </td>
-                                            <td>
+                                            <td data-label="Dose Age">
                                                 <input
                                                     type="text"
                                                     className="vpbd-input"
@@ -130,7 +130,7 @@ export default function ViewPrescriptionByDoctor({ selectedAppointmentId, closeV
                                                     required
                                                 />
                                             </td>
-                                            <td>
+                                            <td data-label="Days">
                                                 <input
                                                     type="text"
                                                     className="vpbd-input"
