@@ -222,7 +222,7 @@ def get_completed_appointments(request):
         query = {
             "hospital_login_id": ObjectId(hospital_login_id) if isinstance(hospital_login_id, (str, ObjectId)) else hospital_login_id,
             "status": "completed",
-            "appointment_date": {"$gte": today, "$lt": tomorrow}
+            "appointment_date": {"$gte": today}
         }
 
         appointments_cursor = appointment_col.find(query).sort("appointment_date", -1)
