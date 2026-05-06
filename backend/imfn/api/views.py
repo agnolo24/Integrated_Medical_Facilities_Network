@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password, check_password
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
+
+from django.core.mail import send_mail
+from django.conf import settings
 
 from .serializers import *
 from .mongo import get_db
@@ -245,3 +248,94 @@ def change_password(request):
     except Exception as e:
         print(e)
         return Response({"error": "Something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["POST"])
+def forgot_password_request(request):
+    serializer = ForgotPasswordRequestSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    
+    email = serializer.validated_data["email"]
+    db = get_db()
+    login_col = db["login"]
+    otp_col = db["password_reset_otp"]
+    
+    user = login_col.find_one({"email": email})
+    if not user:
+        return Response({"error": "No user found with this email."}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Generate 6-digit OTP
+    otp = str(random.randint(100000, 999999))
+    
+    # Store OTP with 10-minute expiry
+    expires_at = datetime.utcnow() + timedelta(minutes=10)
+    
+    try:
+        # Remove any existing OTPs for this email to avoid confusion
+        otp_col.delete_many({"email": email})
+        
+        otp_col.insert_one({
+            "email": email,
+            "otp": otp,
+            "expires_at": expires_at,
+            "created_at": datetime.utcnow()
+        })
+        
+        # Send Email
+        subject = "Your Password Reset OTP"
+        message = f"Your OTP for password reset is: {otp}. It is valid for 10 minutes."
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [email]
+        
+        send_mail(subject, message, from_email, recipient_list)
+        
+        return Response({"message": "OTP sent to your email."}, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        print(f"Error in forgot_password_request: {e}")
+        return Response({"error": "Failed to send OTP. Please try again later."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(["POST"])
+def reset_password_with_otp(request):
+    serializer = ResetPasswordSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    
+    data = serializer.validated_data
+    db = get_db()
+    login_col = db["login"]
+    otp_col = db["password_reset_otp"]
+    
+    # Check OTP
+    otp_record = otp_col.find_one({
+        "email": data["email"],
+        "otp": data["otp"]
+    })
+    
+    if not otp_record:
+        return Response({"error": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Check Expiry
+    if datetime.utcnow() > otp_record["expires_at"]:
+        otp_col.delete_one({"_id": otp_record["_id"]})
+        return Response({"error": "OTP has expired."}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Update Password
+    try:
+        user = login_col.find_one({"email": data["email"]})
+        if not user:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        new_hashed_password = make_password(data["newPassword"])
+        login_col.update_one(
+            {"email": data["email"]},
+            {"$set": {"password": new_hashed_password}}
+        )
+        
+        # Clean up OTP
+        otp_col.delete_one({"_id": otp_record["_id"]})
+        
+        return Response({"message": "Password reset successful."}, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        print(f"Error in reset_password_with_otp: {e}")
+        return Response({"error": "Something went wrong."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

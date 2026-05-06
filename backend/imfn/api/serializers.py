@@ -27,3 +27,11 @@ class ChangePasswordSerializer(serializers.Serializer):
     newPassword = serializers.CharField(min_length = 4)
     confirmPassword = serializers.CharField(min_length = 4)
     loginId = serializers.CharField()
+
+class ForgotPasswordRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+class ResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    otp = serializers.CharField(min_length=6, max_length=6)
+    newPassword = serializers.CharField(min_length=4)
