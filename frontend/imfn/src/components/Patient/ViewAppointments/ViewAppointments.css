@@ -266,6 +266,100 @@
     margin-top: 8px;
 }
 
+/* Meeting Portal Section */
+.appointment-portal-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.appointment-portal-section strong {
+    font-size: 0.85rem;
+    color: #475569;
+    white-space: nowrap;
+}
+
+/* Join Meeting Button */
+.join-meeting-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+/* Live-indicator dot */
+.join-meeting-btn::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #ffffff;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse-dot 1.4s ease-in-out infinite;
+}
+
+/* Shimmer sweep */
+.join-meeting-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.25),
+        transparent
+    );
+    animation: shimmer 2.4s ease-in-out infinite;
+}
+
+.join-meeting-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.45);
+}
+
+.join-meeting-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.75); }
+}
+
+@keyframes shimmer {
+    0%   { left: -60%; }
+    60%  { left: 130%; }
+    100% { left: 130%; }
+}
+
+/* Waiting text */
+.portal-waiting-text {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    font-style: italic;
+}
+
 /* Appointment Actions */
 .appointment-actions {
     display: flex;
