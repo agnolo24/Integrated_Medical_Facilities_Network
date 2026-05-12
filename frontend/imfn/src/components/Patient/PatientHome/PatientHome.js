@@ -85,15 +85,15 @@ export default function PatientHome() {
         setLoading(true);
         setShowEmergencyModal(false);
 
-        // Ensure we have current location
-        getLocation();
-
         try {
+            // Wait for real GPS coords before making the API call
+            const coords = await getLocation();
+
             const login_id = localStorage.getItem("loginId");
             const response = await axios.get("http://127.0.0.1:8000/patient/getNearestHospital/", {
                 params: {
-                    lat: location.lat,
-                    lon: location.lon,
+                    lat: coords.lat,
+                    lon: coords.lon,
                     type: type.label,
                     patient_login_id: login_id
                 }
@@ -110,35 +110,42 @@ export default function PatientHome() {
     };
 
     const getLocation = () => {
-        if (!navigator.geolocation) {
-            setError("Geolocation is not supported by your browser.");
-            return;
-        }
-
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setLocation({
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
-                });
-                setError(null);
-            },
-            (err) => {
-                switch (err.code) {
-                    case err.PERMISSION_DENIED:
-                        setError("Permission denied. Please allow location access.");
-                        break;
-                    case err.POSITION_UNAVAILABLE:
-                        setError("Location information is unavailable.");
-                        break;
-                    case err.TIMEOUT:
-                        setError("Location request timed out.");
-                        break;
-                    default:
-                        setError("An unknown error occurred.");
-                }
+        return new Promise((resolve, reject) => {
+            if (!navigator.geolocation) {
+                const msg = "Geolocation is not supported by your browser.";
+                setError(msg);
+                reject(new Error(msg));
+                return;
             }
-        );
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const coords = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                    };
+                    setLocation(coords);
+                    setError(null);
+                    resolve(coords);
+                },
+                (err) => {
+                    switch (err.code) {
+                        case err.PERMISSION_DENIED:
+                            setError("Permission denied. Please allow location access.");
+                            break;
+                        case err.POSITION_UNAVAILABLE:
+                            setError("Location information is unavailable.");
+                            break;
+                        case err.TIMEOUT:
+                            setError("Location request timed out.");
+                            break;
+                        default:
+                            setError("An unknown error occurred.");
+                    }
+                    reject(err);
+                }
+            )
+        });
     };
 
     return (
