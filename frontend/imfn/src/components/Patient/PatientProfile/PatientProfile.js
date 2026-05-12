@@ -22,6 +22,7 @@ export default function PatientProfile({ patientData, handleOpenEditProfile, han
             <p>DOB: {patientData.dob}</p>
             <p>Email: <a href={`mailto:${patientData.email}`}>{patientData.email}</a></p>
             <p>Phone: <a href={`tel:${patientData.contact}`}>{patientData.contact}</a></p>
+            <p>History code: {patientData.history_code}</p>
             <div className="profile-actions">
                 <button className="edit-button"
                     onClick={handleOpenEditProfile}
