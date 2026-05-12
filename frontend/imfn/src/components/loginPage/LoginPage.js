@@ -137,11 +137,11 @@ function LoginPage({ hideHeaderFooter = false }) {
                                 </div>
 
                                 <div className="form-utilities">
-                                    <label className="custom-checkbox">
+                                    {/* <label className="custom-checkbox">
                                         <input type="checkbox" />
                                         <span className="checkmark"></span>
                                         Remember Me
-                                    </label>
+                                    </label> */}
                                     <span onClick={() => setView('forgot')} className="forgot-link" style={{ cursor: 'pointer' }}>Forgot Password?</span>
                                 </div>
 
