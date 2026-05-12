@@ -115,10 +115,12 @@ export default function RegisterBilling({ hideHeaderFooter = false }) {
                                 <i className="fas fa-check-circle"></i>
                             </div>
                             <h2>Billing Department Registered</h2>
-                            <p>Your hospital already has a registered billing department. You can manage invoices and payments through the billing dashboard.</p>
-                            <a href="/viewBilling" className="rb-btn-view">
+                            <p>Your hospital already has a registered billing department. 
+                                {/* You can manage invoices and payments through the billing dashboard. */}
+                                </p>
+                            {/* <a href="/viewBilling" className="rb-btn-view">
                                 Manage Billing
-                            </a>
+                            </a> */}
                         </div>
                     ) : (
                         <>

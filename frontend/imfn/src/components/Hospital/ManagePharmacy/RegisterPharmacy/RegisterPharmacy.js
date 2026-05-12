@@ -115,10 +115,12 @@ export default function RegisterPharmacy({ hideHeaderFooter = false }) {
                                 <i className="fas fa-check-circle"></i>
                             </div>
                             <h2>Pharmacy Already Registered</h2>
-                            <p>Your hospital already has a registered pharmacy. You can manage medications and prescriptions through the pharmacy dashboard.</p>
-                            <a href="/viewPharmacy" className="rp-btn-view">
+                            <p>Your hospital already has a registered pharmacy. 
+                                {/* You can manage medications and prescriptions through the pharmacy dashboard. */}
+                                </p>
+                            {/* <a href="/viewPharmacy" className="rp-btn-view">
                                 Manage Pharmacy
-                            </a>
+                            </a> */}
                         </div>
                     ) : (
                         <>
