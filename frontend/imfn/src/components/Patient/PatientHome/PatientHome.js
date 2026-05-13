@@ -143,6 +143,11 @@ export default function PatientHome() {
                             setError("An unknown error occurred.");
                     }
                     reject(err);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
                 }
             )
         });
